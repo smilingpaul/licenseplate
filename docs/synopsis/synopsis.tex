@@ -2,26 +2,26 @@
 \usepackage[utf8]{inputenc}
 \usepackage{ucs}
 \usepackage[danish]{babel}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{verbatim}
-\usepackage{listings} % Better source code listings
-\usepackage{graphicx}
-\author{Tobias Balle-Petersen og Esben Paul Bugge}
-\title{Synopsis for Bachelorprojekt 2008}
+%\usepackage{amsmath}
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
+%\usepackage{verbatim}
+%\usepackage{listings} % Better source code listings
+%\usepackage{graphicx}
+\author{Tobias Svend Balle-Petersen og Esben Paul Bugge}
+\title{Synopsis for bachelorprojekt 2008\\\large{Computer vision: identifikation og læsning af nummerplader}}
 
 \parindent=0pt
 \parskip=8pt
  \usepackage[top=3cm, bottom=3cm, left=4cm, right=4cm]{geometry} 
 
-\lstset{language=python}
-\lstset{inputencoding=latin1}
-\lstset{extendedchars=true}
-\lstset{breaklines=true}
-\lstset{commentstyle=\textit}
-\lstset{showstringspaces=false}
-\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,tabsize=3,basicstyle=\small}
+%\lstset{language=python}
+%\lstset{inputencoding=latin1}
+%\lstset{extendedchars=true}
+%\lstset{breaklines=true}
+%\lstset{commentstyle=\textit}
+%\lstset{showstringspaces=false}
+%\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,tabsize=3,basicstyle=\small}
 %\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,stringstyle=\ttfamily, showstringspaces=false, basicstyle=\small, language={python}}
 
 
@@ -29,41 +29,86 @@
 \maketitle
 
 \subsection*{Titel}
-Projektets titel: Computer vision: Genkendelse/identifikation/læsning/ af nummerplader
-På billeder
+Projektets titel: \textbf{Computer vision: identifikation og læsning af nummerplader}.
 \subsection*{Problemformulering}
-I diverse sammenhænge er der behov for at kunne identificere/læse nummerplader. Eksempelvis bruges det i politiets arbejde
+Hvordan kan nummerplader på farvefotografier identificeres og læses af et computersystem? Hvilke kendte metoder findes og hvor høj genkendelsesprocent kan et system vi selv laver opnå?
+
+
 \subsection*{Afgrænsning}
-Billedetype, nummerpladetype herunder form på nummerplade, kun biler
-Danske nummerplader, reglerne for danske nummerplader skal undersøges
-Ingen personlig nummerplader
+Systemet skal kunne analysere farvefotografier taget ved højlys dag uden brug af kunstigt lys. Fotografierne skal tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 2 - 6 meter fra bilen. Det er ikke nødvendigt at nummerpladen skal befinde sig i midten af billedet.
+
+Alle billeder skal indeholde en enkelt nummerplade og bilerne på billederne skal være parkerede. Nummerpladerne skal alle være danske privatplader som de udstedes i foråret 2008\footnote{Rød kant, hvid baggrund og sort tekst} og af typen med en enkelt linie tekst. Formatet på nummerpladerne skal være AA XX XXX, hvor A er bogstaver i mængden A-Z og X er heltal i mængden 0-9. Som eksemplet viser skal der være mellemrum mellem de to bogstaver og de to første tal samt mellem de to første tal og de tre sidste. Nummerpladerne må ikke indeholde andre tegn end de nævnte bogstaver og tal.
+
+Der er intet krav til den tid det tager for systemet at analysere et fotografi.
+
+%Evt. begrænsning i hvilke tegn vi ønsker at genkende? Man kunne evt. begrgnse sig til tallene 0-9 og udelade A-Z.
+
+%Systemet skal ikke kunne genkende såkaldte ønskenummerplader hvor teksten er bestemt af ejeren af bilen. 
+
+
+%Billedetype og -kvalitet, farvebilleder, nummerpladetype herunder form på nummerplade, kun biler Danske nummerplader, reglerne for danske nummerplader skal undersøges. Ingen ønskenummerplader, billeder taget af biler som ikke er i bevægelse, billeder kan være taget med skæv vinkel, evt. 45 grader. Der er nummerplader i alle billeder. Belysningen på billederne skal være fuld dagslys, uden kunstig belysning som eksempelvis blitz.
+
+%Ingen real-time, brug af Matlab, programmet får et billede som inddata og returnerer en tekststreng med systemet læsning af nummerpladens tekst.
+
+%Nummerpladerne indeholder alfanumeriske tegn, ingen bindestreg, punktum osv.
+
+%Mønstergenkendelse
+
+%Softwaren skal fungere ved slutningen af projektet, men det er ikke planen at den skal implementeres i et miljø hvor den faktisk kan anvendes.
+
 
 \subsection*{Begrundelse}
+I mange sammenhænge er der behov for automatisk at kunne læse nummerplader. Det er f.eks. identifikation af en bil der ankommer til et parkeringsanlæg, identifikation af køretøjer der overtræder færdselsloven og lignende. Det system vi ønsker at udvikle, egner sig bedst til en situation som i det første eksempel hvor bilen står stille eller bevæger sig meget langsomt.
+
+Systemet laves som et bachelorprojekt. Vores forventning er ikke at systemet kan opnå en effektivitet svarende til etablerede systemer til genkendelse af nummerplader. Projektets formål er hovedsageligt at kunne lære os grundlæggende mønstergenkendelse og billedbehandling.
+
+	
 \subsection*{Arbejdsopgaver}
-\subsection*{Evt. metoder, information og informationskilder}
+Et bachelorprojekt er beregnet til syv ugers fuldtidsarbejde, hvilket svarer til 250-300 timer pr. mand. I dette afsnit har vi afsat tid til de enkelte opgaver i forhold til denne tidsmængde. Følgende overordnede arbejdsopgaver skal udføres i projektforløbet (rækkefølgen af opgaverne skal ikke anses som den rækkefølge opgaverne skal udføres i; de skal i større eller mindre grad udføres parallelt):
 
-Hvad skal der tages stilling til?
+\begin{enumerate}
+\item Research: Læs artikler omkring nummerpladegenkendelse samt materiale omkring mønstergenkendelse og billedbehandling. Denne opgave er estimeret til ca. 45 timer pr. mand.
 
-- Nummerpladetype
-- Matlab vs. hurtigere sprog
-- Billeder der skal bruges og kvalitet af disse
+\item Fotografering: Der skal tages 100 fotografier af biler med nummerplader. Denne opgave er estimeret til ca. 5 timer pr. mand.
 
-Synopsisforsvar
+\item Design af system: Bestem et overordnet systemdesign. Denne opgave er estimeret til ca. 15 timer pr. mand.
 
-Det er en god ide at afholde forsvar af synopsis, da det kan give jer mulighed for at diskutere projektet med andre, så I kan få et bedre overblik over dets stærke og svage sider.
+\item Implementering af system, herunder:
 
-Tal med jeres vejleder om synposisforsvar. Det kan enten ske overfor en af de andre grupper som han eller hun vejleder, eller jeres vejleder kan arrangere et synopsisforsvar overfor en anden gruppe i hans eller hendes forskningsgruppe.
+\begin{itemize}
+\item[-] Billedbehandling: Lav et program der tager et fotografi indeholdende en nummerplade som inddata og leverer 7 billeder indeholdende de enkelte tegn på nummerpladen som uddata. Programmet implementeres i MatLab som tilgås på DIKUs maskiner via SSH samt på vores egne computere. Denne opgave er estimeret til ca. 90 timer pr. mand.
 
-I kan godt være tre grupper sammen til forsvar af synopsis. I stedet for at en gruppe kommenterer en anden, vil det så være to grupper som giver kommentarer på hver af projekterne.
+%- Find nummerpladen i billedet
+%- Afin transformation
+%- Opdeling af tegn
+\item[-] Mønstergenkendelse: Lav et program der tager 7 billeder som hver indeholder et individuelt tegn som inddata og leverer en tegnfølge på 7 karakterer svarende til analysen som uddata. Programmet skal som ovenfor implementeres i MatLab. Denne opgave er estimeret til ca. 90 timer pr. mand.
 
-Formålet med synopsisforsvar er ikke at overbevise de andre om at man har lavet et godt projekt. Formålet er at få kommentarer så kan kan finde de svage punkter i ens projektplan og få gennemført et godt projekt.
+% - Syntax analyse
+\end{itemize}
+\item Rapportskrivning: Skriv en rapport som beskriver forløbet omkring projektet, implementering af systemet, evaluering af systemet m.m. Denne opgave er estimeret til ca. 50 timer pr. mand.
 
-Derfor er følgende det bedste forløb i gennemgangen af en synopsis:
 
-- Grupper introducerer kort deres projekt.
-- Opponentgruppen fortæller hvordan de har forstået emnet. Det er for at sikre at de ikke har misforstået det.
-- Opponentgruppen fortæller hvad de synes er specielt godt i synopsis. Det er vigtigt, da gruppen så ved hvad de kan bygge videre på og helst ikke skal pille ud af projektet.
-- Opponentgruppen fortæller hvad de synes er svage punkter og mulige problemer, og kommer gerne med ideer til hvordan de kan løses.
-- Derefter diskuterer man hvordan projektet kan gøres bedre.
+\end{enumerate}
+%\subsection*{Evt. metoder, information og informationskilder}
+
+%De fire pdf'er henviser til etablerede metoder og vi vil bruge nogle af dem. Hvilke noteres her.
+
+%Synopsisforsvar
+
+%Det er en god ide at afholde forsvar af synopsis, da det kan give jer mulighed for at diskutere projektet med andre, så I kan få et bedre overblik over dets stærke og svage sider.
+
+%Tal med jeres vejleder om synposisforsvar. Det kan enten ske overfor en af de andre grupper som han eller hun vejleder, eller jeres vejleder kan arrangere et synopsisforsvar overfor en anden gruppe i hans eller hendes forskningsgruppe.
+
+%I kan godt være tre grupper sammen til forsvar af synopsis. I stedet for at en gruppe kommenterer en anden, vil det så være to grupper som giver kommentarer på hver af projekterne.
+
+%Formålet med synopsisforsvar er ikke at overbevise de andre om at man har lavet et godt projekt. Formålet er at få kommentarer så kan kan finde de svage punkter i ens projektplan og få gennemført et godt projekt.
+
+%Derfor er følgende det bedste forløb i gennemgangen af en synopsis:
+
+%- Grupper introducerer kort deres projekt.
+%- Opponentgruppen fortæller hvordan de har forstået emnet. Det er for at sikre at de ikke har misforstået det.
+%- Opponentgruppen fortæller hvad de synes er specielt godt i synopsis. Det er vigtigt, da gruppen så ved hvad de kan bygge videre på og helst ikke skal pille ud af projektet.
+%- Opponentgruppen fortæller hvad de synes er svage punkter og mulige problemer, og kommer gerne med ideer til hvordan de kan løses.
+%- Derefter diskuterer man hvordan projektet kan gøres bedre.
 
 \end{document}
