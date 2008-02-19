@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
-<project name="" company="" manager="" phase="" project-start="20080219T000000Z" mrproject-version="2" calendar="1">
+<project name="Bachelorprojekt" company="" manager="" phase="" project-start="20080219T000000Z" mrproject-version="2" calendar="1">
   <properties/>
-  <phases/>
+  <phases>
+    <phase name="Billedbehandling"/>
+    <phase name="M&#xF8;nstergenkendelse"/>
+  </phases>
   <calendars>
     <day-types>
       <day-type id="0" name="Working" description="A default working day"/>
@@ -9,22 +12,128 @@
       <day-type id="2" name="Use base" description="Use day from base calendar"/>
     </day-types>
     <calendar id="1" name="Default">
-      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="0" sun="0"/>
       <overridden-day-types>
         <overridden-day-type id="0">
           <interval start="0800" end="1200"/>
           <interval start="1300" end="1700"/>
         </overridden-day-type>
       </overridden-day-types>
-      <days/>
+      <days>
+        <day date="20080224" type="day-type" id="0"/>
+        <day date="20080223" type="day-type" id="0"/>
+      </days>
     </calendar>
   </calendars>
   <tasks>
-    <task id="1" name="Billedbehandling" note="" work="28800" start="20080219T000000Z" end="20080219T170000Z" work-start="20080219T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    <task id="2" name="M&#xF8;nstergenkendelse" note="" work="28800" start="20080219T000000Z" end="20080219T170000Z" work-start="20080219T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    <task id="3" name="Rapport" note="" work="28800" start="20080219T000000Z" end="20080219T170000Z" work-start="20080219T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="1" name="Billedbehandling" note="" work="1872000" start="20080227T170000Z" end="20080328T170000Z" work-start="20080228T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="8" type="FS"/>
+      </predecessors>
+      <task id="2" name="Hvordan bestemmer man hvor nummerpladen er?" note="" work="864000" start="20080227T170000Z" end="20080328T170000Z" work-start="20080228T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="3" name="Hvordan separeres de enkelte karakterer?" note="" work="864000" start="20080227T170000Z" end="20080328T170000Z" work-start="20080228T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="4" name="Research" note="" work="144000" duration="144000" start="20080227T170000Z" end="20080303T120000Z" work-start="20080228T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-duration"/>
+    </task>
+    <task id="5" name="M&#xF8;nstergenkendelse" note="" work="864000" start="20080407T170000Z" end="20080514T100000Z" work-start="20080408T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="12" type="FS"/>
+      </predecessors>
+      <task id="6" name="Research" note="" work="0" duration="201600" start="20080407T170000Z" end="20080414T100000Z" work-start="20080408T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-duration"/>
+      <task id="7" name="Implementer m&#xF8;nstergenkendelse" note="" work="864000" start="20080414T100000Z" end="20080514T100000Z" work-start="20080414T100000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="6" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="8" name="Tag 300 fotografier" note="" work="144000" start="20080223T000000Z" end="20080227T170000Z" work-start="20080223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="must-start-on" time="20080223T000000Z"/>
+    </task>
+    <task id="9" name="Rapport" note="" work="3196800" start="20080303T120000Z" end="20080607T140000Z" work-start="20080303T120000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="10" name="Beskriv valgt metode til lokalisering af nummerplade i et billede" note="" work="288000" start="20080319T080000Z" end="20080328T170000Z" work-start="20080319T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="2" type="FF"/>
+        </predecessors>
+      </task>
+      <task id="11" name="Beskriv valgt metode til separation af tegn i nummerplade" note="" work="288000" start="20080319T080000Z" end="20080328T170000Z" work-start="20080319T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="3" type="FF"/>
+        </predecessors>
+      </task>
+      <task id="12" name="Sammenskriv afsnit om billedbehandling" note="" work="288000" start="20080328T170000Z" end="20080407T170000Z" work-start="20080329T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="1" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="13" name="F&#xE5; l&#xE6;st korrektur p&#xE5; rapport" note="" work="201600" start="20080407T170000Z" end="20080414T170000Z" work-start="20080408T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="12" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="14" name="Beskriv overvejelser om hvordan nummerplader findes i et billede" note="" work="288000" start="20080303T120000Z" end="20080313T120000Z" work-start="20080303T120000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="4" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="15" name="Beskriv overvejelser omkring hvordan tegn kan separeres" note="" work="288000" start="20080303T120000Z" end="20080313T120000Z" work-start="20080303T120000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="4" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="16" name="Beskriv overvejelser omkring m&#xF8;nstergenkendelse" note="" work="403200" start="20080414T100000Z" end="20080428T100000Z" work-start="20080414T100000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="6" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="17" name="Beskriv implementation af m&#xF8;nstergenkendelse" note="" work="403200" start="20080430T100000Z" end="20080514T100000Z" work-start="20080430T100000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="7" type="FF"/>
+        </predecessors>
+      </task>
+      <task id="18" name="Udf&#xF8;r og beskriv afpr&#xF8;vning af systemet" note="" work="403200" duration="403200" start="20080514T100000Z" end="20080526T140000Z" work-start="20080514T100000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-duration">
+        <predecessors>
+          <predecessor id="1" predecessor-id="5" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="19" name="Genneml&#xE6;s rapport og lav &#xE6;ndringer" note="" work="201600" start="20080526T140000Z" end="20080602T140000Z" work-start="20080526T140000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="18" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="20" name="L&#xE6;s endelig korrektur" note="" work="144000" start="20080602T140000Z" end="20080607T140000Z" work-start="20080602T140000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="19" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="21" name="Vi kan finde nummerplader og sk&#xE6;re tallene ud" note="" work="0" start="20080328T170000Z" end="20080328T170000Z" work-start="20080328T170000Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="1" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="22" name="Aflevering af bachelorprojekt" note="" work="0" start="20080612T000000Z" end="20080612T000000Z" work-start="20080612T080000Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
+      <constraint type="must-start-on" time="20080612T000000Z"/>
+    </task>
+    <task id="23" name="Vi kan genkende tegn fra nummerplader" note="" work="0" start="20080514T100000Z" end="20080514T100000Z" work-start="20080514T100000Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="5" type="FS"/>
+      </predecessors>
+    </task>
   </tasks>
   <resource-groups/>
-  <resources/>
-  <allocations/>
+  <resources>
+    <resource id="1" name="Esben Bugge" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+    <resource id="2" name="Tobias Balle-Petersen" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+  </resources>
+  <allocations>
+    <allocation task-id="15" resource-id="1" units="100"/>
+    <allocation task-id="12" resource-id="1" units="50"/>
+    <allocation task-id="11" resource-id="1" units="100"/>
+    <allocation task-id="8" resource-id="1" units="50"/>
+    <allocation task-id="3" resource-id="1" units="100"/>
+    <allocation task-id="14" resource-id="2" units="100"/>
+    <allocation task-id="12" resource-id="2" units="50"/>
+    <allocation task-id="10" resource-id="2" units="100"/>
+    <allocation task-id="8" resource-id="2" units="50"/>
+    <allocation task-id="2" resource-id="2" units="100"/>
+  </allocations>
 </project>
