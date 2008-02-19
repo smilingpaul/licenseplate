@@ -31,15 +31,21 @@
 \subsection*{Titel}
 Projektets titel: \textbf{Computer vision: identifikation og læsning af nummerplader}.
 \subsection*{Problemformulering}
+I mange sammenhænge er der behov for automatisk at kunne læse nummerplader. Det er f.eks. identifikation af en bil der ankommer til et parkeringsanlæg, identifikation af køretøjer der overtræder færdselsloven og lignende. Det system vi ønsker at udvikle, egner sig bedst til en situation som i det første eksempel hvor bilen står stille eller bevæger sig meget langsomt.
+
+Systemet laves som et bachelorprojekt. Vores forventning er ikke at systemet kan opnå en effektivitet svarende til etablerede systemer til genkendelse af nummerplader. Projektets formål er hovedsageligt at kunne lære os grundlæggende mønstergenkendelse og billedbehandling.
+
 Hvordan kan nummerplader på farvefotografier identificeres og læses af et computersystem? Hvilke kendte metoder findes og hvor høj genkendelsesprocent kan et system vi selv laver opnå?
 
-
 \subsection*{Afgrænsning}
-Systemet skal kunne analysere farvefotografier taget ved højlys dag uden brug af kunstigt lys. Fotografierne skal tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 2 - 6 meter fra bilen. Det er ikke nødvendigt at nummerpladen skal befinde sig i midten af billedet.
+Systemet skal kunne analysere farvefotografier taget ved højlys dag uden brug af kunstigt lys med en opløsning på minimum 800 x 600 pixels. Fotografierne skal tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 2 - 6 meter fra bilen. Det er ikke nødvendigt at nummerpladen skal befinde sig i midten af billedet. Nummerpladen skal være vandret på billedet og skal desuden være fri for urenheder der gør pladen sværere at læse. Ligeledes må der heller ikke være objekter såsom anhængertræk der hindrer frit udsyn til nummerpladen.
 
 Alle billeder skal indeholde en enkelt nummerplade og bilerne på billederne skal være parkerede. Nummerpladerne skal alle være danske privatplader som de udstedes i foråret 2008\footnote{Rød kant, hvid baggrund og sort tekst} og af typen med en enkelt linie tekst. Formatet på nummerpladerne skal være AA XX XXX, hvor A er bogstaver i mængden A-Z og X er heltal i mængden 0-9. Som eksemplet viser skal der være mellemrum mellem de to bogstaver og de to første tal samt mellem de to første tal og de tre sidste. Nummerpladerne må ikke indeholde andre tegn end de nævnte bogstaver og tal.
 
+Der skal tages 150 fotografier med to forskellige kameraer dvs. samlet 300 billeder. 
+
 Der er intet krav til den tid det tager for systemet at analysere et fotografi.
+
 
 %Evt. begrænsning i hvilke tegn vi ønsker at genkende? Man kunne evt. begrgnse sig til tallene 0-9 og udelade A-Z.
 
@@ -57,10 +63,7 @@ Der er intet krav til den tid det tager for systemet at analysere et fotografi.
 %Softwaren skal fungere ved slutningen af projektet, men det er ikke planen at den skal implementeres i et miljø hvor den faktisk kan anvendes.
 
 
-\subsection*{Begrundelse}
-I mange sammenhænge er der behov for automatisk at kunne læse nummerplader. Det er f.eks. identifikation af en bil der ankommer til et parkeringsanlæg, identifikation af køretøjer der overtræder færdselsloven og lignende. Det system vi ønsker at udvikle, egner sig bedst til en situation som i det første eksempel hvor bilen står stille eller bevæger sig meget langsomt.
-
-Systemet laves som et bachelorprojekt. Vores forventning er ikke at systemet kan opnå en effektivitet svarende til etablerede systemer til genkendelse af nummerplader. Projektets formål er hovedsageligt at kunne lære os grundlæggende mønstergenkendelse og billedbehandling.
+%\subsection*{Begrundelse}
 
 	
 \subsection*{Arbejdsopgaver}
@@ -69,22 +72,28 @@ Et bachelorprojekt er beregnet til syv ugers fuldtidsarbejde, hvilket svarer til
 \begin{enumerate}
 \item Research: Læs artikler omkring nummerpladegenkendelse samt materiale omkring mønstergenkendelse og billedbehandling. Denne opgave er estimeret til ca. 45 timer pr. mand.
 
-\item Fotografering: Der skal tages 100 fotografier af biler med nummerplader. Denne opgave er estimeret til ca. 5 timer pr. mand.
+\item Fotografering: Der skal tages 300 fotografier af biler med nummerplader. Denne opgave er estimeret til ca. 10 timer pr. mand.
 
 \item Design af system: Bestem et overordnet systemdesign. Denne opgave er estimeret til ca. 15 timer pr. mand.
 
 \item Implementering af system, herunder:
 
 \begin{itemize}
-\item[-] Billedbehandling: Lav et program der tager et fotografi indeholdende en nummerplade som inddata og leverer 7 billeder indeholdende de enkelte tegn på nummerpladen som uddata. Programmet implementeres i MatLab som tilgås på DIKUs maskiner via SSH samt på vores egne computere. Denne opgave er estimeret til ca. 90 timer pr. mand.
+\item[A:] Billedbehandling: Konstruktion af et program der tager et fotografi indeholdende en nummerplade som inddata og leverer 7 billeder indeholdende de enkelte tegn på nummerpladen som uddata. Programmet implementeres i MatLab som tilgås på DIKUs maskiner via SSH samt på vores egne computere. Denne opgave er estimeret til ca. 90 timer pr. mand.
 
 %- Find nummerpladen i billedet
 %- Afin transformation
 %- Opdeling af tegn
-\item[-] Mønstergenkendelse: Lav et program der tager 7 billeder som hver indeholder et individuelt tegn som inddata og leverer en tegnfølge på 7 karakterer svarende til analysen som uddata. Programmet skal som ovenfor implementeres i MatLab. Denne opgave er estimeret til ca. 90 timer pr. mand.
+\item[B:] Mønstergenkendelse: Konstruktion af et program der tager 7 billeder som hver indeholder et individuelt tegn som inddata og leverer en tegnfølge på 7 karakterer svarende til analysen som uddata. Programmet skal som ovenfor implementeres i MatLab. Denne opgave er estimeret til ca. 90 timer pr. mand.
 
 % - Syntax analyse
 \end{itemize}
+
+Søren skriver: Tilføj ovevejelse om vægtning af de to delopgaver under punkt 4. Skal der eksperimenteres med flere delmetoder, skal de sammenlignes, lægges der mere vægt på A) and på B) ????
+
+Søren: Altså, vi ved jo ikke noget om mønstergenkendelse, derfor er det jo oplagt at lægge mest vægt på billedbehandlingen. Dog mener vi at vi skal have et system der kan udskrive et gæt på hvad der står på en nummerplade på et fotografi. Derfor SKAL vi jo have noget mønstergenkendelse. Vi har svært ved at afgøre hvornår vi lægger et for stort brød op. Du skriver at vi skal skrive om vi vil eksperimentere med delmetoder. Vil det sige at du allerede nu vil have at vi skal have et kendskab til området der gør at vi fravælger visse netoder og tilvælger andre før vi rigtigt er begyndt på projektet?
+
+
 \item Rapportskrivning: Skriv en rapport som beskriver forløbet omkring projektet, implementering af systemet, evaluering af systemet m.m. Denne opgave er estimeret til ca. 50 timer pr. mand.
 
 
