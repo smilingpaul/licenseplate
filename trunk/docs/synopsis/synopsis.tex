@@ -7,13 +7,13 @@
 %\usepackage{amssymb}
 %\usepackage{verbatim}
 %\usepackage{listings} % Better source code listings
-%\usepackage{graphicx}
+\usepackage{graphicx}
 \author{Tobias Svend Balle-Petersen og Esben Paul Bugge}
-\title{Synopsis for bachelorprojekt 2008\\\large{Automatisk identifikation og læsning af nummerplader}}
+\title{Synopsis for bachelorprojekt\\\large{Automatisk identifikation og læsning af nummerplader}}
 
 \parindent=0pt
 \parskip=8pt
- \usepackage[top=3cm, bottom=3cm, left=4cm, right=4cm]{geometry} 
+\usepackage[top=3cm, bottom=3cm, left=4cm, right=4cm]{geometry}
 
 %\lstset{language=python}
 %\lstset{inputencoding=latin1}
@@ -24,24 +24,27 @@
 %\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,tabsize=3,basicstyle=\small}
 %\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,stringstyle=\ttfamily, showstringspaces=false, basicstyle=\small, language={python}}
 
+\hyphenation{ar-bej-de psy-ko-lo-gi-ske over-blik brug-en skit-se-re com-pu-ter reg-ning ud-ar-bej-de des-ud-en mu-lig-hed-en fjern-be-tje-ning ved-kom-men-de vur-de-ring ar-bejds-op-ga-ve knap bru-ger-e-va-lu-e-ring-en be-skre-vet vand-ret-te or-ga-ni-se-res hin-an-den pla-ce-ret han-dels-ud-dan-nel-se per-so-nen mang-len-de punkt-er-nes valg-mu-lig-he-der klas-sisk bru-ger-e-va-lu-e-ring op-ret-te ka-te-go-ri-en op-le-ve ge-stalt-psy-ko-lo-gi-ens af-snit knap-pen pro-blem-stil-ling-er pro-ble-mer fi-gu-ren eks-pe-ri-men-talt del-tag-el-se na-tur-vid-en-ska-be-lig med-ar-bej-de-re num-mer-plad-er par-ke-rings-an-læg kend-te sy-ste-met gen-kend-el-se bil-led-er-ne fo-to-gra-fi ma-te-ri-a-le le-ve-rer U-ni-ver-si-tet Der-i-mod mi-ni-mum num-mer-plad-er-ne lang-somt svar-en-de e-le-men-tæ-re a-na-ly-se-re bil-led-be-hand-ling pixels tids-plan}
+
 
 \begin{document}
 \maketitle
+\newpage
 
 \subsection*{Titel}
 Projektets titel: \textbf{Automatisk identifikation og læsning af nummerplader}.
 \subsection*{Problemformulering}
-I mange sammenhænge er der behov for automatisk at kunne læse nummerplader. Det er f.eks. identifikation af en bil der ankommer til et parkeringsanlæg, identifikation af køretøjer der overtræder færdselsloven og lignende. Det system vi ønsker at udvikle, egner sig bedst til en situation som i det første eksempel hvor bilen står stille eller bevæger sig meget langsomt.
+I mange sammenhænge er der behov for automatisk at kunne læse nummerplader. Det er f.eks. identifikation af en bil der ankommer til et parkeringsanlæg, identifikation af køretøjer der overtræder færdselsloven og lignende.
 
-Vi ønsker at arbejde med spørgsmålene: Hvordan kan nummerplader på farvefotografier identificeres og læses af et computersystem? Hvilke kendte metoder findes der og hvor høj genkendelsesprocent kan et system vi selv laver opnå?
+Vi ønsker derfor at arbejde med spørgsmålene: Hvordan kan nummerplader på farvefotografier identificeres og læses af et computersystem? Hvilke kendte metoder findes der, og hvor høj genkendelsesprocent kan et system vi selv laver opnå?
 
-Systemet laves som et bachelorprojekt. Vores forventning er ikke at systemet kan opnå en effektivitet svarende til etablerede systemer til genkendelse af nummerplader. Derimod ønsker vi via arbejdet at få erfaring med praktisk anvendelse af elementære teknikker indenfor billedbehandling og mønstergenkendelse. 
+Det system, vi ønsker at udvikle, egner sig bedst til en situation som i det første eksempel, hvor bilen står stille eller bevæger sig meget langsomt. Systemet laves som et bachelorprojekt. Vores forventning er ikke at systemet kan opnå en effektivitet svarende til etablerede systemer til genkendelse af nummerplader. Derimod ønsker vi via arbejdet at få erfaring med praktisk anvendelse af elementære teknikker indenfor billedbehandling og mønstergenkendelse.
 
 
 \subsection*{Afgrænsning}
-Systemet skal kunne analysere farvefotografier taget ved højlys dag uden brug af kunstigt lys med en opløsning på minimum 1024 x 768 pixels. Fotografierne skal tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 3 - 6 meter fra bilen uden zoom. Det er ikke nødvendigt at nummerpladen skal befinde sig i midten af billedet. Nummerpladen skal være vandret på billedet og skal desuden være fri for urenheder der gør pladen sværere at læse. Ligeledes må der heller ikke være objekter såsom anhængertræk der hindrer frit udsyn til nummerpladen.
+Systemet udvikles som et computerprogram. Systemet skal kunne analysere farvefotografier med en opløsning på minimum 1024 x 768 pixels taget ved højlys dag uden brug af kunstigt lys. Hvert fotografi skal forestille en bil med synlig nummerplade. Fotografierne skal tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 3 - 6 meter fra bilen uden zoom. Det er ikke nødvendigt at nummerpladen skal befinde sig i midten af billedet. Nummerpladen skal fremstå vandret på billedet og skal desuden være fri for urenheder eller lignende, der gør pladen sværere at læse. Ligeledes må der heller ikke være objekter såsom anhængertræk, der hindrer frit udsyn til nummerpladen.
 
-Alle billeder skal indeholde en enkelt nummerplade og bilerne på billederne skal være parkerede. Nummerpladerne på billederne skal være vandrette. Nummerpladerne skal alle være danske privatplader som de udstedes i foråret 2008\footnote{Rød kant, hvid baggrund og sort tekst} og af typen med en enkelt linie tekst. Formatet på nummerpladerne skal være AA XX XXX, hvor A er bogstaver i mængden A-Z\footnote{Enkelte tegn er muligvis ikke lovlige. Er dette tilfældet, skal systemet ikke tage højde for dem} og X er heltal i mængden 0-9. Som eksemplet viser skal der være mellemrum mellem de to bogstaver og de to første tal samt mellem de to første tal og de tre sidste. Nummerpladerne må ikke indeholde andre tegn end de nævnte bogstaver og tal.
+Alle billeder skal indeholde en enkelt nummerplade og bilerne på billederne skal være parkerede. Nummerpladerne skal alle være danske privatplader som de udstedes i foråret 2008\footnote{Rød kant, hvid baggrund og sort tekst.} og af typen med en enkelt linie tekst. Formatet på nummerpladerne skal være \textit{AA XX XXX}, hvor \textit{A} er bogstaver i mængden \textit{A}-\textit{Z}\footnote{Enkelte tegn er muligvis ikke lovlige. Er dette tilfældet, skal systemet ikke tage højde for dem.}, og \textit{X} er heltal i mængden 0-9. Som eksemplet viser, skal der være mellemrum mellem de to bogstaver og de to første tal samt mellem de to første tal og de tre tal. Nummerpladerne må ikke indeholde andre tegn end de nævnte bogstaver og tal.
 
 %Der skal tages 150 fotografier med to forskellige kameraer dvs. samlet 300 billeder. 
 
@@ -68,24 +71,25 @@ Der er intet krav til den tid det tager for systemet at analysere et fotografi.
 
 	
 \subsection*{Arbejdsopgaver}
+I det følgende har vi beskrevet de overordnede arbejdsopgaver, der skal udføres i løbet af dette projekt. Efter disse beskrivelser følger vores tidsplan.
 %Et bachelorprojekt er beregnet til syv ugers fuldtidsarbejde, hvilket svarer til 250-300 timer pr. mand. I dette afsnit har vi afsat tid til de enkelte opgaver i forhold til denne tidsmængde. Følgende overordnede arbejdsopgaver skal udføres i projektforløbet (rækkefølgen af opgaverne skal ikke anses som den rækkefølge opgaverne skal udføres i; de skal i større eller mindre grad udføres parallelt):
 
 \begin{enumerate}
-\item Research: Læse artikler omkring nummerpladegenkendelse samt materiale omkring mønstergenkendelse og billedbehandling. %Denne opgave er estimeret til ca. 45 timer pr. mand.
+\item Research: Læsning af artikler omkring nummerpladegenkendelse samt materiale omkring mønstergenkendelse og billedbehandling. %Denne opgave er estimeret til ca. 45 timer pr. mand.
 
-\item Fotografering: Fotografering af biler med nummerplader. %Denne opgave er estimeret til ca. 10 timer pr. mand.
+\item Fotografering: Fotografering af biler med nummerplader. Disse fotografier skal bruges som inddata til systemet.%Denne opgave er estimeret til ca. 10 timer pr. mand.
 
 %\item Design af system: Bestem et overordnet systemdesign. %Denne opgave er estimeret til ca. 15 timer pr. mand.
 
 \item Implementering af system, herunder:
 
 \begin{itemize}
-\item[A:] Billedbehandling: Konstruktion af et program der tager et fotografi indeholdende en nummerplade som inddata og leverer 7 billeder indeholdende de enkelte tegn på nummerpladen som uddata. Programmet implementeres i MatLab som tilgås på DIKUs maskiner via SSH samt på vores egne computere. Vi ønsker at eksperimentere med forskellige metoder indenfor dette punkt og opfatter denne del af projektet som den mest omfattende.%Denne opgave er estimeret til ca. 90 timer pr. mand.
+\item[A:] Billedbehandling: Konstruktion af et program der tager et fotografi indeholdende en nummerplade som inddata og leverer 7 billeder indeholdende de enkelte tegn på nummerpladen som uddata. Programmet implementeres i MatLab som tilgås på DIKUs maskiner via SSH samt på vores egne computere. Vi ønsker at eksperimentere med forskellige metoder indenfor billedbehandling og opfatter denne del af projektet som den mest omfattende.%Denne opgave er estimeret til ca. 90 timer pr. mand.
 
 %- Find nummerpladen i billedet
 %- Afin transformation
 %- Opdeling af tegn
-\item[B:] Mønstergenkendelse: Konstruktion af et program der tager 7 billeder som hver indeholder et individuelt tegn som inddata og leverer en tegnfølge på 7 karakterer svarende til analysen som uddata. Programmet skal som ovenfor implementeres i MatLab. I denne del af projektet vil vi som udgangspunkt benytte simplere metoder.%Denne opgave er estimeret til ca. 90 timer pr. mand.
+\item[B:] Mønstergenkendelse: Konstruktion af et program der tager 7 billeder, som hver indeholder et individuelt tegn som inddata og leverer en tegnfølge på 7 karakterer svarende til analysen som uddata. Programmet skal som ovenfor implementeres i MatLab. I denne del af projektet vil vi som udgangspunkt benytte simplere metoder.%Denne opgave er estimeret til ca. 90 timer pr. mand.
 
 % - Syntax analyse
 \end{itemize}
@@ -121,5 +125,6 @@ Der er intet krav til den tid det tager for systemet at analysere et fotografi.
 %- Opponentgruppen fortæller hvad de synes er specielt godt i synopsis. Det er vigtigt, da gruppen så ved hvad de kan bygge videre på og helst ikke skal pille ud af projektet.
 %- Opponentgruppen fortæller hvad de synes er svage punkter og mulige problemer, og kommer gerne med ideer til hvordan de kan løses.
 %- Derefter diskuterer man hvordan projektet kan gøres bedre.
+
 
 \end{document}
