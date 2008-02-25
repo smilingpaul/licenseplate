@@ -1,5 +1,8 @@
 \section{Billedbehandling}
-Noter fra møde med Søren 20/2:
+\subsubsection*{Noter fra møde med Søren 20/2:}
 identifikation: Se på en pixel, har naboer en kontrast farve?
 En scan-linie: hvordan varierer kontrasten henover linien?
 Adaboost - godt
+
+\subsubsection*{Matriculas2003}
+Bruger kun gråtone info. Arbejder også med nummerplader som skal være læsbar for det menneskelige øje.Metode:Histogram - først normaliseres billedetSobel filter - fremhæver ikke-homogene områder"A simple threshold and a sub-sampling" bruges til at vælge områder der kan være nummerpladenHusker alle områder som kan være nummerplader så de forkerte først vælges fra i genkendelses-fasen. Bruger multi-hypothesis detection (ikke forklaret yderligere i teksten).Feature vektorer: hver pixel i et træningsbilleder er blevet klassificeret som positiv (del af nummerplade) eller negativ (ikke del af nummerplade). Minimerer efterfølgende det negative sæt.Bruger kd-træ data struktur og en "omtrent nærmeste nabo" søgeteknik.
