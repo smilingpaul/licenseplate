@@ -1,8 +1,23 @@
 \section{Billedbehandling}
+
+
 \subsubsection*{Noter fra møde med Søren 20/2:}
 identifikation: Se på en pixel, har naboer en kontrast farve?
 En scan-linie: hvordan varierer kontrasten henover linien?
 Adaboost - godt
 
 \subsubsection*{Matriculas2003}
-Bruger kun gråtone info. Arbejder også med nummerplader som skal være læsbar for det menneskelige øje.Metode:Histogram - først normaliseres billedetSobel filter - fremhæver ikke-homogene områder"A simple threshold and a sub-sampling" bruges til at vælge områder der kan være nummerpladenHusker alle områder som kan være nummerplader så de forkerte først vælges fra i genkendelses-fasen. Bruger multi-hypothesis detection (ikke forklaret yderligere i teksten).Feature vektorer: hver pixel i et træningsbilleder er blevet klassificeret som positiv (del af nummerplade) eller negativ (ikke del af nummerplade). Minimerer efterfølgende det negative sæt.Bruger kd-træ data struktur og en "omtrent nærmeste nabo" søgeteknik.
+Bruger kun gråtone info. Arbejder også med nummerplader som skal være læsbar for det menneskelige øje.
+
+Metode:
+Histogram - først normaliseres billedet
+Sobel filter - fremhæver ikke-homogene områder
+"A simple threshold and a sub-sampling" bruges til at vælge områder der kan være nummerpladen
+
+Husker alle områder som kan være nummerplader så de forkerte først vælges fra i genkendelses-fasen. Bruger multi-hypothesis detection (ikke forklaret yderligere i teksten).
+
+Feature vektorer: hver pixel i et træningsbilleder er blevet klassificeret som positiv (del af nummerplade) eller negativ (ikke del af nummerplade). Minimerer efterfølgende det negative sæt.
+
+Bruger kd-træ data struktur og en "omtrent nærmeste nabo" søgeteknik.
+
+\subsubsection*{A Real-time vehicle License Plate Recognition (LPR) System på http://visl.technion.ac.il/projects/2003w24/}* Find de gule (hos os: hvide) områder i billedet* Forstør disse områder* Find vinklen på nummerpladen ved brug af "Radon transform"* Justering af nummerpladens konturer* Unødvendige dele af billedet fjernes (kun nummerpladen tilbage)* Billedet i gråtone, herefter gøres det binært* Billedet normaliseres* Tegn-inddeling vha. peak-to-valleyDe brugte Matlab. De havde følgende relevante problemer og løsningsforslag til disse:* Udtrækning af det gule område giver ofte fejl. Man kunne supplere denne udtrækning med en algoritme der indberegner at nummerplader har en klar signatur idet der er stærke grå-tone variationer i regulære intervaller (henover nummerpladen, mener de vel?)* Hvis der er flere nummerplade-kandidater i billedet skal hver af dem testes.
