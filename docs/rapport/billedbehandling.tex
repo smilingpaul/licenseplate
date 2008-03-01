@@ -51,4 +51,37 @@ Bruger regler for nummerplader i systemet
 
 Dette system godkender 75\% af billederne. Problemer med skruer i nummerpladen. Problemer med global threshold – burde gøres på pr-tegn-basis.
 
-\subsubsection*{licence-plate-1996.pdf}Der bruges en algoritme der først lokaliserer elementer der kan være tegn/bogstaver hvorefter den udvælger et område som nummerplade* Konverter til gråtone billede* 5x5 filter, fjerne støj* Find kanter i billedet vha. Shen-Castan kant-detektor* Gør billedet binært og del elementer i forgrunden fra hinanden* Algoritme der finder bogstaver på baggrund af forskellen i gråtone værdien af bogstav/baggrund* Områder hvor der ikke er (det rette antal) bogstaver udelukkes* For at finde nummerplade bruges genetisk algoritme der bedømmer rektangler med tegn: har de den rette størrelse? er bogstaverne korrekt placeret i rektangel? osv.* Algoritmen vægter hvert område og filtrerer til sidst i disse områder udfra deres vægtStort problem: svært at finde tegn.
+\subsubsection*{licence-plate-1996.pdf}
+
+Der bruges en algoritme der først lokaliserer elementer der kan være tegn/bogstaver hvorefter den udvælger et område som nummerplade
+
+* Konverter til gråtone billede
+* 5x5 filter, fjerne støj
+* Find kanter i billedet vha. Shen-Castan kant-detektor
+* Gør billedet binært og del elementer i forgrunden fra hinanden
+* Algoritme der finder bogstaver på baggrund af forskellen i gråtone værdien af bogstav/baggrund
+* Områder hvor der ikke er (det rette antal) bogstaver udelukkes
+* For at finde nummerplade bruges genetisk algoritme der bedømmer rektangler med tegn: har de den rette størrelse? er bogstaverne korrekt placeret i rektangel? osv.
+* Algoritmen vægter hvert område og filtrerer til sidst i disse områder udfra deres vægt
+
+Stort problem: svært at finde tegn.
+
+\subsubsection{kwasnickawawrzyniak}
+Billedet skiftes til farverummet YUV fra vilket luminans er det eneste der bevares. Herefter normaliseres billedet (Hele den diskerete "range" udnyttes). Kigger på skift i kontrast. Gælder alle nummerplader. Finder alle tekster. Den rigtige skal vælges.
+
+Identifikation af plader:
+
+1. "Connected components analysis" (der kigger på et binært billede?) vælger områder med høj kontrast (threshold). De fundne områder undersøges og områder elimineres efter regler i pdf.  Herefter, er der lignenede grupper i nærheden af funden gruppe? Måske er der en serie tegn dvs. en sætning = plade.
+
+2. Searching for signatures of license plates. Et karakteristisk skift i luminans i en linie i billedet.
+
+Potentielle plader roteres så de er vandrette.
+
+Segmentering af tegn:
+Scan af peaks og valleys samt analyse af sammenhængende grupper fra identifikationsprocessen sammenlignes og segmentering foretages.
+
+Mønstergenkendelse foregår med neuraltnetværk.
+
+\subsubsection{AdaptiveLicensePlateImageExtraction.pdf}
+For at sætte hastigheden op foretages visse operationer på kraftigt nedsamplede billeder. Finder lodrette linier. Bruger Robert's edge detector til at fremhæve dem (Tegner den på billedet?). Dette efterlader en masse lodrette linier i området med nummerpladen. Et Rank filter? bruges på billedet. Efterlader en lys elipse i det område hvor pladen findes. Scanner billedet lodret for at finde det lyseste område og klipper ud (Klipper et noget større område end pladen ud på eksemplet i pdf'en). Der er formler i beskrivelsen. Roter pladen hvis skæv (Formler i pdf). Nohet med at finde linier i billedet og rotere stlsvarende (Hough og Radon transform). Det er først når vi skal genkende tegnene på pladen vi bruger billedet i sin originale opløsning.
+
