@@ -1,6 +1,6 @@
 \section{Billedbehandling}
 
-
+\begin{comment}
 \subsubsection*{Noter fra møde med Søren 20/2:}
 identifikation: Se på en pixel, har naboer en kontrast farve?
 En scan-linie: hvordan varierer kontrasten henover linien?
@@ -84,9 +84,19 @@ Mønstergenkendelse foregår med neuraltnetværk.
 
 \subsubsection{AdaptiveLicensePlateImageExtraction.pdf}
 For at sætte hastigheden op foretages visse operationer på kraftigt nedsamplede billeder. Finder lodrette linier. Bruger Robert's edge detector til at fremhæve dem (Tegner den på billedet?). Dette efterlader en masse lodrette linier i området med nummerpladen. Et Rank filter? bruges på billedet. Efterlader en lys elipse i det område hvor pladen findes. Scanner billedet lodret for at finde det lyseste område og klipper ud (Klipper et noget større område end pladen ud på eksemplet i pdf'en). Der er formler i beskrivelsen. Roter pladen hvis skæv (Formler i pdf). Nohet med at finde linier i billedet og rotere stlsvarende (Hough og Radon transform). Det er først når vi skal genkende tegnene på pladen vi bruger billedet i sin originale opløsning.
+\end{comment}
+\subsection{Rotation}
 
-\section{Rotation}
+I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet.
 
-Radon-transform: ...
+\subsubsection{Hough transformation}
 
+En Hough transformation
 
+\subsubsection{Radon transformation}
+
+En Radon transformation beregner linieintegralerne (FORKLARING) over flere linier lagt over planet i forskellige retninger. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. at rotere et billede af en nummerplade, så den står vandret i billedet. 
+
+Betragt billedet i \ref{ af en nummerplade. Nummerpladen i billedet er let fordrejet i forhold til vandret og skal drejes før segmenteringen af tegn i nummerpladen kan foregå. Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN OVERSÆTTELSE), da dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Dette gøres ved hjælp af MatLab funktionen edge, som returnerer et binært billede hvor de fundne kanter har værdien 1 og resten af punkterne i billedet har værdien 0. Dette er illustreret i ...
+
+\includegraphics{billedbehandling/illu/P_XC33139.jpg}

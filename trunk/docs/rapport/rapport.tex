@@ -1,11 +1,11 @@
-\documentclass[12pt,a4paper,final]{report}
+\documentclass[11pt,a4paper,final]{report}
 \usepackage[utf8]{inputenc}
 %\usepackage{ucs}
 \usepackage[danish]{babel}
 %\usepackage{amsmath}
 %\usepackage{amsfonts}
 %\usepackage{amssymb}
-%\usepackage{verbatim}
+\usepackage{verbatim}
 %\usepackage{listings} % Better source code listings
 \usepackage{graphicx}
 \author{Tobias Balle-Petersen og Esben Paul Bugge}
@@ -28,11 +28,15 @@
 \begin{document}
 \maketitle
 %Billedfilerne skal hedde "nummerpladens tekst"."filtype", eksempelvis EF12345.jpg.
+
+\tableofcontents
+\newpage
+
 \section{Indledende arbejde}
 Fotografering - hvor mange og hvilke billeder har vi taget.
 Opdeling af billeder i træning- og testsæt
 
-\include{billedbehandling}
+\include{billedbehandling/billedbehandling}
 \include{moenstergenkend}
 \include{test}
 
