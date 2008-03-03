@@ -100,3 +100,5 @@ En Radon transformation beregner linieintegralerne (FORKLARING) over flere linie
 Betragt billedet i \ref{ af en nummerplade. Nummerpladen i billedet er let fordrejet i forhold til vandret og skal drejes før segmenteringen af tegn i nummerpladen kan foregå. Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN OVERSÆTTELSE), da dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Dette gøres ved hjælp af MatLab funktionen edge, som returnerer et binært billede hvor de fundne kanter har værdien 1 og resten af punkterne i billedet har værdien 0. Dette er illustreret i ...
 
 \includegraphics{billedbehandling/illu/P_XC33139.jpg}
+
+Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette gøres ved brug af imrotate. 
