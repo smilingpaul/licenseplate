@@ -89,16 +89,36 @@ For at sætte hastigheden op foretages visse operationer på kraftigt nedsampled
 
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet.
 
-\subsubsection{Hough transformation}
+%\subsubsection{Hough transformation}
 
-En Hough transformation
+%Hough transformation
 
 \subsubsection{Radon transformation}
 
-En Radon transformation beregner linieintegralerne (FORKLARING) over flere linier lagt over planet i forskellige retninger. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. at rotere et billede af en nummerplade, så den står vandret i billedet. 
+En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er meget brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
-Betragt billedet i \ref{ af en nummerplade. Nummerpladen i billedet er let fordrejet i forhold til vandret og skal drejes før segmenteringen af tegn i nummerpladen kan foregå. Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN OVERSÆTTELSE), da dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Dette gøres ved hjælp af MatLab funktionen edge, som returnerer et binært billede hvor de fundne kanter har værdien 1 og resten af punkterne i billedet har værdien 0. Dette er illustreret i ...
+Billedet nedenfor viser hvordan Radon transformationen findes i en enkelt vinkel, theta. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier. Resultatet af en Radon transformation er en matrice der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
 
+SKAL NOK BYTTES UD MED HJEMMELAVET BILLEDE:
+\begin{figure}[h]
+\includegraphics{billedbehandling/illu/transform74.jpg}
+\caption{Radon transformation}
+\end{figure}
+
+Betragt billedet i Figur \ref{xc33139} af en nummerplade. Nummerpladen i billedet er let fordrejet i forhold til vandret og skal drejes før segmenteringen af tegn i nummerpladen kan foregå.
+
+\begin{figure}[h]
 \includegraphics{billedbehandling/illu/P_XC33139.jpg}
+\label{xc33139}
+\caption{En nummerplade}
+\end{figure}
+
+Når billedet i Figur \ref{xc33139}
+
+Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN OVERSÆTTELSE), da dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Dette gøres ved hjælp af MatLab funktionen edge, som returnerer et binært billede hvor de fundne kanter har værdien 1 og resten af punkterne i billedet har værdien 0. Dette er illustreret i ...
+
+BILLEDE AF RADON MATRIX FOR WC33139.
 
 Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette gøres ved brug af imrotate. 
+
+BILLEDE AF NUMMERPLADE, ROTERET.
