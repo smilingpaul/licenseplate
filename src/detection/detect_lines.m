@@ -20,19 +20,19 @@ image = transpose(downsample(transpose(image),downscaleFactor));
 
 % Detect edges in image
 %image = edge(image,'roberts',0.1); 
-image = edge(image,'roberts'); 
-%image = edge(image); 
+%image = edge(image,'roberts'); 
+image = edge(image); 
 
 % Get connected components in image
 % conComp = matrix holding components
 % numConComp = Number of connected components
-[conComp,numConComp] = (bwlabel(image,4));
+[conComp,numConComp] = (bwlabel(image,8));
 
 figure(1);
 imshow(image);
 
 % Delete connected components smaller than than X
-maxCompSize = 1;
+maxCompSize = 2;
 for i = 1:numConComp
 %for i = 1:100
   % If current component is smaller than X
