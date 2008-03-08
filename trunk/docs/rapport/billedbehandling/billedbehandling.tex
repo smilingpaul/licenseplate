@@ -85,6 +85,18 @@ Mønstergenkendelse foregår med neuraltnetværk.
 \subsubsection{AdaptiveLicensePlateImageExtraction.pdf}
 For at sætte hastigheden op foretages visse operationer på kraftigt nedsamplede billeder. Finder lodrette linier. Bruger Robert's edge detector til at fremhæve dem (Tegner den på billedet?). Dette efterlader en masse lodrette linier i området med nummerpladen. Et Rank filter? bruges på billedet. Efterlader en lys elipse i det område hvor pladen findes. Scanner billedet lodret for at finde det lyseste område og klipper ud (Klipper et noget større område end pladen ud på eksemplet i pdf'en). Der er formler i beskrivelsen. Roter pladen hvis skæv (Formler i pdf). Nohet med at finde linier i billedet og rotere stlsvarende (Hough og Radon transform). Det er først når vi skal genkende tegnene på pladen vi bruger billedet i sin originale opløsning.
 \end{comment}
+
+\subsection{Nummerplade identificering}
+
+\subsubsection{Vægtet metode}
+
+Regler:
+
+- Kant efterfulgt af rød stribe (ovenover eller nedenunder)
+- Pixel del af sammenhængende kæde som er længere end et vist antal pixels
+- En linie hvorpå der er en anden retvinklet linie, og linierne har et vist forhold
+- Længde af linie
+
 \subsection{Rotation}
 
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet.
@@ -99,26 +111,44 @@ En Radon transformation beregner projektionen af et billede fra flere forskellig
 
 Billedet nedenfor viser hvordan Radon transformationen findes i en enkelt vinkel, theta. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier. Resultatet af en Radon transformation er en matrice der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
 
-SKAL NOK BYTTES UD MED HJEMMELAVET BILLEDE:
-\begin{figure}[h]
-\includegraphics{billedbehandling/illu/transform74.jpg}
-\caption{Radon transformation}
-\end{figure}
+%SKAL NOK BYTTES UD MED HJEMMELAVET BILLEDE:
+%\begin{figure}[h]
+%\includegraphics{billedbehandling/illu/transform74.jpg}
+%\caption{Radon transformation}
+%\end{figure}
 
 Betragt billedet i Figur \ref{xc33139} af en nummerplade. Nummerpladen i billedet er let fordrejet i forhold til vandret og skal drejes før segmenteringen af tegn i nummerpladen kan foregå.
 
-\begin{figure}[h]
-\includegraphics{billedbehandling/illu/P_XC33139.jpg}
-\label{xc33139}
-\caption{En nummerplade}
-\end{figure}
+%\begin{figure}[h]
+%\includegraphics{billedbehandling/illu/P_XC33139.jpg}
+%\label{xc33139}
+%\caption{En nummerplade}
+%\end{figure}
 
 Når billedet i Figur \ref{xc33139}
 
 Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN OVERSÆTTELSE), da dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Dette gøres ved hjælp af MatLab funktionen edge, som returnerer et binært billede hvor de fundne kanter har værdien 1 og resten af punkterne i billedet har værdien 0. Dette er illustreret i ...
 
-BILLEDE AF RADON MATRIX FOR WC33139.
+%\begin{figure}[h]
+%\includegraphics[width=15cm]{billedbehandling/illu/R_XC33139.jpg}
+%\label{r_xc33139}
+%\caption{En nummerplade}
+%\end{figure}
 
 Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette gøres ved brug af imrotate. 
 
-BILLEDE AF NUMMERPLADE, ROTERET.
+%BILLEDE AF NUMMERPLADE, ROTERET.
+
+Ulemper:
+
+\subsection{Segmentering af bogstaver}
+
+\subsubsection{Skan-linie}
+En vandret skan-linie føres ned over billedet.
+
+Først gøres billedet sort-hvis med im2bw. Her kan grænseværdi bestemmes med greythresh. Virker måske bedre at sætte grænseværdien lavt, så meget af billedet bliver hvidt.
+
+Billedet skal skæres foroven og forneden. Dette gøres simpelt ved at finde den største pixl-sum i toppen af billedet og den største sum i bunden. Det antages så at disse max-summer er dele af nummerpladerne hvor teksten ikke er startet.
+
+Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af et tegn og efter et tegn.
+
