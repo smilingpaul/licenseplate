@@ -13,13 +13,17 @@ function [] = main(imagesFolder, numberOfImagesToProcess)
 
 
 % Setup variables
+
+% Add folder holding functions for plate detection
+addpath('detection');
+
 % noOfImages = 0;
 percentageOfPlatesFound = 0;
 percentageOfPlatesRead = 0;
 percentageOfCharsRead = 0;
 
 % Get filelist
-fileList = dir([imagesFolder '*.jpg']);
+fileList = dir([imagesFolder '*.JPG']);
 noOfImages = length(fileList);
 
 
@@ -30,8 +34,12 @@ else
 end
 
 for i = 1:noOfImages
+%for i = 1:1
   % FIND PLATE
-  % [imagesFolder fileList(i).name]
+  plateImage = detect_lines([imagesFolder fileList(i).name])
+
+  % Wait for user to press a key
+  pause();
   % SomeFunction([imagesFolder fileList(i).name]);
   % ROTATE
   % SEGMENT CHARS
