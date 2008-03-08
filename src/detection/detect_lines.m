@@ -19,6 +19,7 @@ image = transpose(downsample(transpose(image),downscaleFactor));
 imHeight = size(image,1);
 imWidth = size(image,2);
 
+figure(100);
 
 
 
@@ -44,6 +45,10 @@ end
 % Show image with only strong gradients marked
 %figure(1) , imshow(scanner);
 
+% Strongest gradients
+subplot(2,2,3);
+imshow(scanner);
+
 
 % Find value of most white (largest sum) horizontal line
 rowWhiteValues = sum(transpose(scanner));
@@ -61,10 +66,11 @@ end
 %figure(15) , imshow(scanner);
 
 
-figure(100);
-subplot(1,2,1);
+% Weak lines removed
+subplot(2,2,1);
 imshow(scanner);
-subplot(1,2,2);
+% Original image
+subplot(2,2,2);
 imshow(image);
 
 % Show original image
