@@ -88,6 +88,32 @@ For at sætte hastigheden op foretages visse operationer på kraftigt nedsampled
 
 \subsection{Nummerplade identificering}
 
+\subsubsection{Tobias' brainstorm}
+Kan man kigge på højde bredde på components?
+Scan linie. Man kan både kigge på components og "signatur" som beskrevet andetsteds(pdf).
+Med gradienter kan man finde f.eks. lodrette men ikke vandrette streger. Der er mange lodrette i pladen.
+Man kan kigge på en f.eks. 8x8 og se hvor mange komponenter der er tilstede. Der er mange komponenter i et 
+lille område i nummerpladen(eller hvad?).
+
+Kør en scanlinie. Noter kraftige gradienter. Hvis de er "tæt" på hinanden er det godt. giv "point"
+
+Det her dropper jeg  indtil videre:
+Kør en vertikal scanlinie. Hvis vi møder en gradient begynder vi at "tegne" en streg hvis intensitet 
+falder. Den tegner altså en savtak når den møder en gradient. Hvis der er flere høje gradienter i træk får 
+vi så en kasse med en skrå afslutning. Er det ikke en nummerplade? 
+
+
+Nu gør jeg:
+Find gradienter i billedet. Lav et binært billede hvor de steder hvor gradienten er større end (0.5 * den 
+maximale gradient) er markeret med hvidt.
+
+Der er nu mange markeringer i nummerpladeområdet.
+
+Jeg tænker. Samme princip som med kun at vise maksimale gradienter:
+Kig på summen (mængden af hvidt) af alle vandrette linier i billedet. "slet" de linier hvor der er mindre 
+end (0.5 * summen af den linie med mest hvidt). Jeg burde nu have fjernet støj men stadig have pladen. Jeg 
+statser på at pladen er på de linier med mest hvidt.
+
 \subsubsection{Vægtet metode}
 
 Regler:
@@ -151,32 +177,6 @@ Først gøres billedet sort-hvis med im2bw. Her kan grænseværdi bestemmes med 
 Billedet skal skæres foroven og forneden. Dette gøres simpelt ved at finde den største pixl-sum i toppen af billedet og den største sum i bunden. Det antages så at disse max-summer er dele af nummerpladerne hvor teksten ikke er startet.
 
 Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af et tegn og efter et tegn.
-
-\subsubsection{Tobias' brainstorm}
-Kan man kigge på højde bredde på components?
-Scan linie. Man kan både kigge på components og "signatur" som beskrevet andetsteds(pdf).
-Med gradienter kan man finde f.eks. lodrette men ikke vandrette streger. Der er mange lodrette i pladen.
-Man kan kigge på en f.eks. 8x8 og se hvor mange komponenter der er tilstede. Der er mange komponenter i et 
-lille område i nummerpladen(eller hvad?).
-
-Kør en scanlinie. Noter kraftige gradienter. Hvis de er "tæt" på hinanden er det godt. giv "point"
-
-Det her dropper jeg  indtil videre:
-Kør en vertikal scanlinie. Hvis vi møder en gradient begynder vi at "tegne" en streg hvis intensitet 
-falder. Den tegner altså en savtak når den møder en gradient. Hvis der er flere høje gradienter i træk får 
-vi så en kasse med en skrå afslutning. Er det ikke en nummerplade? 
-
-
-Nu gør jeg:
-Find gradienter i billedet. Lav et binært billede hvor de steder hvor gradienten er større end (0.5 * den 
-maximale gradient) er markeret med hvidt.
-
-Der er nu mange markeringer i nummerpladeområdet.
-
-Jeg tænker. Samme princip som med kun at vise maksimale gradienter:
-Kig på summen (mængden af hvidt) af alle vandrette linier i billedet. "slet" de linier hvor der er mindre 
-end (0.5 * summen af den linie med mest hvidt). Jeg burde nu have fjernet støj men stadig have pladen. Jeg 
-statser på at pladen er på de linier med mest hvidt.
 
 
 
