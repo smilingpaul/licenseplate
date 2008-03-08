@@ -43,7 +43,7 @@ scanner = zeros(imHeight, imWidth);
 for x = 1:imWidth
   for y = 1:imHeight
 %    if abs(FX(y,x)) > (maxGradientX * 0.5)
-    if abs(FX(y,x)) > (maxGradientX * 0.5)
+    if abs(FX(y,x)) > (maxGradientX * 0.4)
       scanner(y,x) = 1;
     end  
   end
@@ -131,8 +131,8 @@ for i = 1:numConComp
   compHeight = max(Ys)-min(Ys)+1;
   compWidth = max(Xs)-min(Xs)+1;
   ratio = compHeight/compWidth;
-%  if (ratio > 6 &&  ratio < 7)
-  if (ratio > 0.3 || ratio < 0.12 || compHeight < 4)
+%  if (ratio > 0.3 || ratio < 0.12 || compHeight < 4)
+  if (ratio > 0.35 || ratio < 0.12 || compHeight < 4)
     for j = 1:length(Ys)
       scanner(Ys(j),Xs(j)) = 0;
     end
@@ -186,6 +186,8 @@ scanner = imdilate(scanner,line);
 
 % If more than one candidate. The one closest to the center should win.
 % Or beeing close to the edge is not good
+% Another posibility is choosing the are with the most plate like ratio
+
 
 % Create components
 [conComp,numConComp] = (bwlabel(scanner,4));
@@ -220,6 +222,8 @@ for i = 1:numConComp
   end
 end
 
+
+% If detected area does not match ratio of plate. Consider making it wider.
 
 
 
