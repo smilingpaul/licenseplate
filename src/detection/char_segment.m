@@ -1,28 +1,35 @@
+% Function to pick out the chars of a cut-out and rotated licenseplate.
+% 
 function [chars] = char_segment (img) 
 
-  % transform image to binary and show the binary image
+  % transform image to binary and show the binary image, WHAT IS LEVEL 
   %level = graythresh(img);
-  level = 0.2;
-  bw_img = im2bw(img,level);
-  figure, imshow(bw_img);
+  %level = 0.6;
+  %bw_img = im2bw(img,level);
+  bw_img = im2bw(img);
+  
+  % display binary image
+  figure(100);
+  subplot(2,1,1);
+  imshow(bw_img);
 
   % calculate no. of scanlines
   h_scanlines = size(bw_img,1);
   
   % find the vertical middle of the image
-  v_middle = floor(h_scanlines/2);
+  v_middle = floor(h_scanlines/2)
 
   % calculate the sums of all horizontal scanlines
   h_scanlines_sums = sum(bw_img,2);
 
-  % find top- and bottom sums
+  % find top- and bottom sums, NOT WORKING
   top_sums = h_scanlines_sums(1:v_middle,:);
   bottom_sums = h_scanlines_sums(v_middle:h_scanlines,:);
   [max_top,top_line] = max(top_sums);
   [max_bottom,bottom_line] = max(bottom_sums);
   bottom_line = bottom_line + v_middle;
 
-  % fill out horizontal lines outside plate with 1's
+  % fill out horizontal lines outside plate with 1's (white)
   for l = 1:top_line
     bw_img(l,:) = 1;
   end
@@ -31,14 +38,17 @@ function [chars] = char_segment (img)
     bw_img(l,:) = 1;
   end
 
-  % display 'cut' image
-  figure, imshow(bw_img);
+  % display 'cut' image, everything above and below the plate should
+  % now be white
+  figure(100);
+  subplot(2,1,2);
+  imshow(bw_img);
 
-  % calculate no. of vertical scanlines and the pixel-sum of each line
+  % calculate total no. of vertical scanlines and the pixel-sum of each line
   v_scanlines = size(bw_img,2);
   v_scanlines_sums = sum(bw_img,1);
 
-  % there are 14 vertical cuts to be made
+  % there are 14 vertical cuts to be made, two for each of the seven chars
   cuts = zeros(14,1);
 
   % whether we are going towards a char
@@ -73,9 +83,10 @@ function [chars] = char_segment (img)
     s = s + 1;
   end
 
-  c = 1;
+  % ONLY RETURNING ONE CHAR
+  %c = 1;
   %for c = 1:7
-  chars = img(top_line:bottom_line,cuts(c):cuts(c+1));
+  chars = img(top_line:bottom_line,cuts(1):cuts(1+1));
   %end
   
 return;

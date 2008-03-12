@@ -3,7 +3,9 @@
 function [rotated_img] = plate_rotate (img)
   
   % display input img
-  figure, imshow(img);
+  figure(100);  
+  subplot(2,1,1);
+  imshow(img);
   
   % compute binary edge image, TO-DO: determine kind of edge-function
   bw = edge(img,'sobel');
@@ -24,10 +26,11 @@ function [rotated_img] = plate_rotate (img)
   %imwrite(imagesc(theta, xp, R),'P_Radon.jpg');
 
   % display radon matrix
-  theta = 0:179;
-  figure, imagesc(theta, xp, radon_matrix); colormap(hot);
-  xlabel('\theta'); ylabel('x\prime');
-  title('Radon transformation_{\theta} {x\prime}');
+  %theta = 0:179;
+  %figure(200);
+  %imagesc(theta, xp, radon_matrix); colormap(hot);
+  %xlabel('\theta'); ylabel('x\prime');
+  %title('Radon transformation_{\theta} {x\prime}');
   %colorbar
 
   % find degree of which the largest registration in Radon transformation matrix was found
@@ -47,8 +50,11 @@ function [rotated_img] = plate_rotate (img)
   %peaks = houghpeaks(H)
 
   % rotate image, using nearest neighbour TO-DO: can other interpolations be used?
-  rotated_img = imrotate(img,degree,'bilinear');
-  figure, imshow(rotated_img);
+  % using 'crop' to specify size of rotated image
+  rotated_img = imrotate(img,degree,'bilinear','crop');
+  figure(100);
+  subplot(2,1,2);
+  imshow(rotated_img);
 
 return;
 
