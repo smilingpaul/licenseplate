@@ -26,5 +26,8 @@ function [] = locate_plate (imgFile)
   
   % rename file
   movefile(imgFile,newName);
+  
+  % rename file
+  %addCoord(imgFile,x(1),x(2),y(1),y(2));
 
 return;

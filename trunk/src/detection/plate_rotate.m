@@ -1,14 +1,17 @@
-% Given an image of a licenseplate, rotate this image so the plate is placed horizontal in the image.
-% Input image  must be two-dimensional.
-function [rotated_img] = plate_rotate (img)
+% Given an image of a licenseplate, rotate this image so the plate is
+% placed horizontal in the image. Input image  must be two-dimensional.
+function [rotatedImg] = plate_rotate (img)
+  
+  % get coordinates
+  %[xMin, xMax, yMin, yMax] = getCoord(imgFile);
   
   % display input img
-  figure(100);  
+  figure(1);
   subplot(2,1,1);
   imshow(img);
   
   % compute binary edge image, TO-DO: determine kind of edge-function
-  bw = edge(img,'sobel');
+  bwImg = edge(img,'sobel');
   %bw = edge(img,'prewitt');
   %bw = edge(img,'roberts');
   %bw = edge(img,'log');
@@ -16,7 +19,7 @@ function [rotated_img] = plate_rotate (img)
   %figure, imshow(bw);
 
   % compute radon transform of edge image
-  [radon_matrix,xp] = radon(bw);
+  [radonMatrix,xp] = radon(bwImg);
   
   % radon matrix: make ready for storing
   %F = mat2gray(radon_matrix);
@@ -37,7 +40,7 @@ function [rotated_img] = plate_rotate (img)
   %[x,degree] = max(max(abs(R)))
 
   % find rotation degree
-  degree = find_deg(radon_matrix);
+  degree = find_deg(radonMatrix);
 
   % TEST OF HOUGH: TO-DO
   %[H,T,rho] = hough(bw);
@@ -51,18 +54,18 @@ function [rotated_img] = plate_rotate (img)
 
   % rotate image, using nearest neighbour TO-DO: can other interpolations be used?
   % using 'crop' to specify size of rotated image
-  rotated_img = imrotate(img,degree,'bilinear','crop');
-  figure(100);
+  rotatedImg = imrotate(img,degree,'bilinear','crop');
+  figure(1);
   subplot(2,1,2);
-  imshow(rotated_img);
+  imshow(rotatedImg);
 
 return;
 
 % function to find the degree
-function [rotate_deg] = find_deg (radon_matrix,lines)
+function [rotateDeg] = find_deg (radonMatrix,lines)
 
   % threshold for maximum value of degree
-  max_deg = 45;
+  maxDeg = 45;
 
   % sort radon_matrix so the 
   %radon_matrix = sort(radon_matrix,'descend');
@@ -70,7 +73,7 @@ function [rotate_deg] = find_deg (radon_matrix,lines)
   % find the clearest line(s) in the img
   %degrees = zeros(lines);
   %for n = 1:lines
-    [x,degree] = max(max(abs(radon_matrix)));
+    [x,degree] = max(max(abs(radonMatrix)));
   %end
 
   %radon_matrix(:,88)
@@ -84,10 +87,10 @@ function [rotate_deg] = find_deg (radon_matrix,lines)
   %radon_matrix(1,46)
 
   % convert the degree of rotation
-  rotate_deg = 90 - degree
+  rotateDeg = 90 - degree;
 
-  if (rotate_deg > 45)
-    rotate_deg = 0;
+  if (rotateDeg > maxDeg)
+    rotateDeg = 0;
   end
 
   return;
