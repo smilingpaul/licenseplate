@@ -36,14 +36,20 @@ end
 for i = 1:noOfImages
 %for i = 1:1
   % FIND PLATE
-  plateImage = detect_lines([imagesFolder fileList(i).name])
+  plateCoords = detect_lines([imagesFolder fileList(i).name])
   %plateImage = detect2([imagesFolder fileList(i).name])
-
+  
+  % ROTATE
+  rotatedPlateImg = plate_rotate([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4));
+  
+  % SEGMENT CHARS
+  %chars = char_segment(rotatedPlateImg);
+  
   % Wait for user to press a key
   pause();
   % SomeFunction([imagesFolder fileList(i).name]);
-  % ROTATE
-  % SEGMENT CHARS
+  
+
   % RECOGNIZE PATTERNS
 end
 

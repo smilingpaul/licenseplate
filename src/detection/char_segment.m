@@ -78,7 +78,7 @@ function [chars] = char_segment (plateImg)
     s = s + 1;
   end
 
-  % ONLY RETURNING ONE CHAR
+  % ONLY RETURNING ONE CHAR !!
   %c = 1;
   %for c = 1:7
   chars = plateImg(top_line:bottom_line,cuts(1):cuts(1+1));
