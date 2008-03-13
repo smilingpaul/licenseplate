@@ -99,6 +99,18 @@ summedGradsYThresh = im2bw(summedGradsYNorm,0.30);
 vertHorGrads = and(summedGradsXThresh, summedGradsYThresh);
 
 
+% Lets find out which connected component in the image has the most
+% plate-like width/height ratio
+optimalPlateRatio = 504/120;
+
+
+% conComp = matrix holding components
+% numConComp = Number of connected components
+[conComp,numConComp] = (bwlabel(scanner,8));
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%
 % Plots            %
