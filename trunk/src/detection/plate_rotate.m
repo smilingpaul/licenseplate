@@ -37,9 +37,9 @@ function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax)
   degree = degree + 80;
 
   % convert the degree of rotation
-  rotateDeg = 90 - degree;
+  rotateDeg = 90 - degree
 
-  if (rotateDeg > 10)
+  if abs(rotateDeg) > 10 || abs(rotateDeg) < 2
     rotateDeg = 0;
   end
 
