@@ -1,46 +1,47 @@
 % Given an image of a licenseplate, rotate this image so the plate is
 % placed horizontal in the image. Input image  must be two-dimensional.
-function [rotatedImg] = plate_rotate (img)
+function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax)
   
-  % get coordinates
-  %[xMin, xMax, yMin, yMax] = getCoord(imgFile);
+  % read image
+  img = imread(imgFile);
+  grayImg = rgb2gray(img);
   
   % display input img
-  figure(1);
-  subplot(2,1,1);
-  imshow(img);
+  figure(1), subplot(3,2,1), imshow(grayImg);
+  
+  % pick out plate image and show it
+  plateImg = grayImg(yMin:yMax, xMin:xMax);
+  figure(1), subplot(3,2,2), imshow(plateImg);
   
   % compute binary edge image, TO-DO: determine kind of edge-function
-  bwImg = edge(img,'sobel');
-  %bw = edge(img,'prewitt');
-  %bw = edge(img,'roberts');
-  %bw = edge(img,'log');
-  %bw = edge(img,'canny');
-  %figure, imshow(bw);
+  bwPlateImg = edge(plateImg,'sobel');
+  %bwPlateImg = edge(plateImg,'prewitt');
+  %bwPlateImg = edge(plateImg,'roberts');
+  %bwPlateImg = edge(plateImg,'log');
+  %bwPlateImg = edge(plateImg,'canny');
+  figure(1), subplot(3,2,3), imshow(bwPlateImg);
 
-  % compute radon transform of edge image
-  [radonMatrix,xp] = radon(bwImg);
+  % compute radon transform of edge image, TO-DO: Only in 80:100
+  [radonMatrix,xp] = radon(bwPlateImg,80:100);
   
-  % radon matrix: make ready for storing
-  %F = mat2gray(radon_matrix);
-  %size(F)
-  %figure, imshow(F); colormap(hot);
-  %figure, imshow(R); colormap(hot);
-  %imwrite(imagesc(theta, xp, R),'P_Radon.jpg');
-
   % display radon matrix
   %theta = 0:179;
   %figure(200);
-  %imagesc(theta, xp, radon_matrix); colormap(hot);
+  %imagesc(80:100, xp, radonMatrix); colormap(hot);
   %xlabel('\theta'); ylabel('x\prime');
   %title('Radon transformation_{\theta} {x\prime}');
   %colorbar
 
   % find degree of which the largest registration in Radon transformation matrix was found
-  %[x,degree] = max(max(abs(R)))
+  [x,degree] = max(max(abs(radonMatrix)));
+  degree = degree + 80;
 
-  % find rotation degree
-  degree = find_deg(radonMatrix);
+  % convert the degree of rotation
+  rotateDeg = 90 - degree;
+
+  if (rotateDeg > 10)
+    rotateDeg = 0;
+  end
 
   % TEST OF HOUGH: TO-DO
   %[H,T,rho] = hough(bw);
@@ -52,20 +53,21 @@ function [rotatedImg] = plate_rotate (img)
   % find peaks
   %peaks = houghpeaks(H)
 
-  % rotate image, using nearest neighbour TO-DO: can other interpolations be used?
-  % using 'crop' to specify size of rotated image
-  rotatedImg = imrotate(img,degree,'bilinear','crop');
-  figure(1);
-  subplot(2,1,2);
-  imshow(rotatedImg);
+  % rotate image, using 'crop' to specify size of rotated image
+  rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
+  figure(1), subplot(3,2,4), imshow(rotatedImg);
+  
+  % display rotated plate
+  rotatedPlateImg = rotatedImg(yMin:yMax, xMin:xMax, :);
+  figure(1), subplot(3,2,6), imshow(rotatedPlateImg);
 
 return;
 
 % function to find the degree
-function [rotateDeg] = find_deg (radonMatrix,lines)
+%function [rotateDeg] = find_deg (radonMatrix,lines)
 
   % threshold for maximum value of degree
-  maxDeg = 45;
+ % maxDeg = 45;
 
   % sort radon_matrix so the 
   %radon_matrix = sort(radon_matrix,'descend');
@@ -73,7 +75,7 @@ function [rotateDeg] = find_deg (radonMatrix,lines)
   % find the clearest line(s) in the img
   %degrees = zeros(lines);
   %for n = 1:lines
-    [x,degree] = max(max(abs(radonMatrix)));
+  %  [x,degree] = max(max(abs(radonMatrix)));
   %end
 
   %radon_matrix(:,88)
@@ -87,10 +89,10 @@ function [rotateDeg] = find_deg (radonMatrix,lines)
   %radon_matrix(1,46)
 
   % convert the degree of rotation
-  rotateDeg = 90 - degree;
+ % rotateDeg = 90 - degree;
 
-  if (rotateDeg > maxDeg)
-    rotateDeg = 0;
-  end
+  %if (rotateDeg > maxDeg)
+   % rotateDeg = 0;
+  %end
 
-  return;
+  %return;

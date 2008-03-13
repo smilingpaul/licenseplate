@@ -16,18 +16,18 @@ function [] = locate_plate (imgFile)
   
   % get mouse input and close figure with image
   [x,y] = ginput(2);
-  close(1);
+  %close(1);
   
   % make new filename
-  pathLength = length(imgFile);
-  fileNameStart = pathLength - 12;
-  coordinates = strcat(int2str(x(1)),'-',int2str(x(2)),'-',int2str(y(1)),'-',int2str(y(2)));
-  newName = strcat(imgFile(1:fileNameStart+1),coordinates,'_',imgFile(fileNameStart+2:pathLength));
+  %pathLength = length(imgFile);
+  %fileNameStart = pathLength - 12;
+  %coordinates = strcat(int2str(x(1)),'-',int2str(x(2)),'-',int2str(y(1)),'-',int2str(y(2)));
+  %newName = strcat(imgFile(1:fileNameStart+1),coordinates,'_',imgFile(fileNameStart+2:pathLength));
   
   % rename file
-  movefile(imgFile,newName);
+  %movefile(imgFile,newName);
   
   % rename file
-  %addCoord(imgFile,x(1),x(2),y(1),y(2));
+  addCoord(imgFile,x(1),x(2),y(1),y(2));
 
 return;
