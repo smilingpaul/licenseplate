@@ -1,4 +1,4 @@
-function plateImage = detect_lines(inputImage)
+function plateCords = detect_lines(inputImage)
 
 % Downscale factor
 downscaleFactor = 4;
@@ -290,5 +290,7 @@ image = scanner;
 %figure, imshow(edge(image,'roberts',10));
 
 
-plateImage = 0;
+
+
+plateCords = [topLeft(2), topRight(2), topLeft(1), bottomLeft(1)];
 return;
