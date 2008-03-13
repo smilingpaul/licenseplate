@@ -1,10 +1,10 @@
 function plateCords = detect2(inputImage)
 
 % Downscale factor
-downscaleFactor = 4;
+downscaleFactor = 2;
 
 % Size of blocks
-gradBlockSize = 8;
+gradBlockSize = 4;
 
 
 
@@ -99,16 +99,73 @@ summedGradsYThresh = im2bw(summedGradsYNorm,0.30);
 vertHorGrads = and(summedGradsXThresh, summedGradsYThresh);
 
 
-% Lets find out which connected component in the image has the most
-% plate-like width/height ratio
-optimalPlateRatio = 504/120;
+% Dilate to make components in plate connect
+%Shape to use for dilation
+line = strel('line',3,0);
+%line = strel('line',10,2);
+%line = strel('line',10,5);
+%line = strel('line',6,22);
+%ball = strel('ball',2,2);
+square = strel('square',2);
+%se = strel('disk',2,4);
 
+vertHorGrads = imdilate(vertHorGrads,line);
+
+
+
+% Lets find out which connected component in the image has the most
+% plate-like width/height ratio 504/120 is official size
+
+%optimalPlateRatio = 504/120;
+
+optimalPlateRatio = 604/120;
 
 % conComp = matrix holding components
 % numConComp = Number of connected components
-[conComp,numConComp] = (bwlabel(scanner,8));
+[conComp,numConComp] = (bwlabel(vertHorGrads,8));
+
+% Loop through connected components. The component with the
+% best width/height-aspect is our numberplate
+
+% smallest diff between best components ratio and optimal plate ratio
+bestRatioDiff = inf;
+
+% The number of the component with the closest matchin aspect ratio
+bestRatioComponent = 0;
 
 
+for i = 1:numConComp
+  
+  % Get Xs and Ys of current component
+  [Ys,Xs] = find(conComp == i);
+
+  % Calculate width/height-ratio of current component
+  compRatio = (max(Xs)-min(Xs))/(max(Ys)-min(Ys));
+
+  % Calculate difference between current components ratio
+  % and ratio of plate
+  ratioDiff = abs(optimalPlateRatio-compRatio);
+
+  if ratioDiff < bestRatioDiff
+    bestRatioDiff = ratioDiff;
+    bestRatioComponent = i;
+  end
+
+end
+
+
+% Get coords for best matching component
+[Ys,Xs] = find(conComp == bestRatioComponent);
+
+% Calculate coords
+minX = downscaleFactor*gradBlockSize*min(Xs);
+maxX = downscaleFactor*gradBlockSize*max(Xs);
+minY = downscaleFactor*gradBlockSize*min(Ys);
+maxY = downscaleFactor*gradBlockSize*max(Ys);
+
+
+%bestRatioComponent
+bestRatioDiff
 
 
 
@@ -126,7 +183,9 @@ imshow(vertHorGrads);
 subplot(2,3,2);
 imshow(gradsX,[]);
 subplot(2,3,3);
-imshow(gradsY,[]);
+imshow(origImage(minY:maxY,minX:maxX),[]);
+
+%imshow(gradsY,[]);
 
 % Summed gradients
 subplot(2,3,4);
