@@ -36,7 +36,8 @@ end
 for i = 1:noOfImages
 %for i = 1:1
   % FIND PLATE
-  plateImage = detect_lines([imagesFolder fileList(i).name])
+  %plateImage = detect_lines([imagesFolder fileList(i).name])
+  plateImage = detect2([imagesFolder fileList(i).name])
 
   % Wait for user to press a key
   pause();
