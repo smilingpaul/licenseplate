@@ -123,6 +123,10 @@ Regler:
 - En linie hvorpå der er en anden retvinklet linie, og linierne har et vist forhold
 - Længde af linie
 
+\subsubsection{Histogram}
+
+
+
 \subsection{Rotation}
 
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet.
@@ -169,12 +173,39 @@ Ulemper:
 
 \subsection{Segmentering af bogstaver}
 
+\subsubsection{Forbundne komponenter}
+
+Denne metode er bygget op omkring forbundne komponenter. Ideén bygger på at de 7 tegn som findes i billedet af nummerpladen alle er forbunde komponenter og derfor vil fremstå efter en forbundne komponenter-analyse. Andre dele af billedet vil højst sandsynligt også være 
+
+Metodens procedure er som følger: Først gøres billedet af nummerpladen binært ved brug af metoden im2bw. Det resulterende binære billede har værdien 1 (hvid) bl.a. i de pixels som forestiller pladens hvide baggrund, mens pixels i pladens tegn har værdien 0 (sort).
+
+EKSEMPEL PÅ BINÆRT BILLEDE AF NUMMERPLADE
+
+Herefter findes billedets forbudne komponenter ved brug af metoden bwLabel. Denne metode finder forbudne komponenter med værdien 1 i et binært billede, hvorfor metoden i denne situation bruges på det negerede binære billede.
+
+EKSEMPEL PÅ OMVENDT BINÆRT BILLEDE
+
+Som det ses på billedet i Figur ? er nummerpladens tegn ikke altid de eneste sammenhængende komponenter i billedet. Derfor er det nødvendigt at sortere flere af de sammenhængende komponenter fra udfra følgende overvejelser:
+
+\begin{itemize}
+\item[-] Hvert tegn fylder maksimalt 1/7 del af billedet.
+\item[-] Hvert tegn har en mksimal bredde på 1/7 af billedets bredde.
+\item[-] Tegnenes minimale bredde/højde
+\item[-] Tegnenes minimale størrelse
+\end{itemize}
+
+EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA
+
+Til sidst udklippes de syv tegn og returneres. Eksempel på en fuldendt og succesfuld segmentering er vist i Figur ?.
+
+EKSEMPEL PÅ UDKLIPPEDE TEGN
+
 \subsubsection{Skan-linie}
+Bruges ikke da det er for mange felter som bliver valgt. Kan måske gøres bedre ved filtrering før???
+
 Først gøres billedet sort-hvis med im2bw. Her kan grænseværdi bestemmes med greythresh. Virker måske bedre at sætte grænseværdien lavt, så meget af billedet bliver hvidt.
 
 Billedet skal skæres foroven og forneden. Dette gøres simpelt ved at finde den største pixl-sum i toppen af billedet og den største sum i bunden. Det antages så at disse max-summer er dele af nummerpladerne hvor teksten ikke er startet.
 
 Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af et tegn og efter et tegn.
-
-
 

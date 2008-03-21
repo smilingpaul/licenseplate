@@ -4,18 +4,19 @@
 % form [P][F][B]_XXXXXXX.jpg, where 'XXXXXXX' is the characters of the plate.
 % The user inputs two mouseclicks specifing the upper-left corner and the
 % lower-right corner of each licenseplate. The new filenames will be on the
-% form [P][F][B]_xMin-xMax-yMin-yMax_XXXXXXX.jpg.
+% form [P][F][B]_xMin-xMax-yMin-yMax_XXXXXXX.jpg. Note that (x,y) = (0,0) is
+% upper-left corner of the image!
 function [] = locate_plate (imgFolder)
   
   % Get filelist
-  fileList = dir([imgFolder '*.jpg']);
+  %fileList = dir([imgFolder '*.JPG']);
+  fileList = dir([imgFolder 'F_YK32567.JPG']);
   noOfFiles = length(fileList);
   
-  %if noOfFiles < 1 
-  %  'No files found. Aborting.'
-  %else
-  %  ['Going to work on' noOfFiles ' files.']
-  %end
+  if noOfFiles < 1 
+    'No files found. Aborting.'
+    return;
+  end
   
   % iterate through files
   for i = 1:noOfFiles
@@ -24,7 +25,7 @@ function [] = locate_plate (imgFolder)
     img = imread([imgFolder fileList(i).name]);
 
     % display image
-    figure(1), imshow(img);
+    figure(100), imshow(img);
 
     % get mouse input
     [x,y] = ginput(2);
@@ -44,6 +45,6 @@ function [] = locate_plate (imgFolder)
   end
   
   % close figure with image
-  close(1);
+  close(100);
 
 return;
