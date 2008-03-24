@@ -58,7 +58,7 @@ function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax)
   figure(1), subplot(3,2,4), imshow(rotatedImg);
   
   % display rotated plate
-  rotatedPlateImg = rotatedImg(yMin:yMax, xMin:xMax, :);
+  rotatedPlateImg = rotatedImg(yMin:yMax, xMin:xMax, :)
   figure(1), subplot(3,2,6), imshow(rotatedPlateImg);
 
 return;
