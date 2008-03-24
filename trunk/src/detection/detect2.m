@@ -1,4 +1,4 @@
-function plateCords = detect2(inputImage)
+function plateCoords = detect2(inputImage)
 
 % Downscale factor
 downscaleFactor = 2;
@@ -14,6 +14,10 @@ origImage = imread(inputImage);
 
 % Convert image to grayscale
 image = rgb2gray(origImage);
+
+
+image = log10(double(image));
+image = uint8((256/(max(max(image)))) .* image);
 
 
 % Downsample image columns
@@ -79,8 +83,8 @@ summedGradsYNorm = summedGradsY./max(max(summedGradsY));
 
 % Convert strongest
 
-summedGradsXThresh = im2bw(summedGradsXNorm,0.30);
-summedGradsYThresh = im2bw(summedGradsYNorm,0.30);
+summedGradsXThresh = im2bw(summedGradsXNorm,0.50);
+summedGradsYThresh = im2bw(summedGradsYNorm,0.50);
 
  
 %summedGradsXThresh = zeros(size(summedGradsXNorm,1), size(summedGradsXNorm,2));
@@ -95,21 +99,27 @@ summedGradsYThresh = im2bw(summedGradsYNorm,0.30);
 
 
 
-% Create binary image showing only areas with high vert and hori gradients
-vertHorGrads = and(summedGradsXThresh, summedGradsYThresh);
 
 
 % Dilate to make components in plate connect
 %Shape to use for dilation
-line = strel('line',3,0);
+%line = strel('line',3,0);
 %line = strel('line',10,2);
 %line = strel('line',10,5);
 %line = strel('line',6,22);
 %ball = strel('ball',2,2);
-square = strel('square',2);
+%square = strel('square',4);
 %se = strel('disk',2,4);
+shape = strel('rectangle',[2,4]);
 
-vertHorGrads = imdilate(vertHorGrads,line);
+%vertHorGrads = imdilate(vertHorGrads,square);
+summedGradsXThresh = imdilate(summedGradsXThresh,shape);
+summedGradsYThresh = imdilate(summedGradsYThresh,shape);
+
+
+% Create binary image showing only areas with high vert and hori gradients
+vertHorGrads = and(summedGradsXThresh, summedGradsYThresh);
+
 
 
 
@@ -202,6 +212,6 @@ imshow(summedGradsYThresh);
 
 
 
-plateCords = [1 2 3 4];
+plateCoords = [1 2 3 4];
 
 end 
