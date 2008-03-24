@@ -6,13 +6,10 @@ function [chars] = char_segment (plateImg)
   % display image
   figure(1), subplot(6,4,1:4), imshow(plateImg), title('plateImg');
   
-  % threshold for blackCount.
-  % example of plate with minimum: JJ 21 111
-  % example of plate with maximum: MN 48 888
-  %blackThresMin = 7;
-  %blackThresMax = 17;
-  
-  % transform image to binary and show the binary image, WHAT IS LEVEL 
+  % transform image to binary and show the binary image
+  %%%%%%%%%%%% TO-DO: determine level. In LicensplateSydney.pdf level is
+  %%%%%%%%%%%% based on the average gray scale value of the 100 pixels with
+  %%%%%%%%%%%% the largest gradient.
   %level = graythresh(img);
   %level = 0.6;
   %bwImg = im2bw(plateImg,level);
@@ -28,6 +25,8 @@ function [chars] = char_segment (plateImg)
   imHeight = size(plateImg,1);
   imWidth = size(plateImg,2);
   
+  %%%%%%%%%%%%% TO-DO: Filtering %%%%%%%%%%%%%%%%
+  
   % created connected components from bwImg
   [conComp,noOfComp] = bwlabel(~bwImg);
   figure(1), subplot(6,4,9:12), imshow(conComp), title('~conComp');
@@ -42,7 +41,7 @@ function [chars] = char_segment (plateImg)
   maxCompWidth = imWidth/7
   minCompWidth = 3; minCompHeight = 3;
   
-  r = 1;
+  %r = 1;
   compRemoved = zeros(noOfComp,1);
   
   for i = 1:noOfComp
@@ -79,6 +78,8 @@ function [chars] = char_segment (plateImg)
   %%%%%%%%%%%% %%%%%%%%%%%%% %%%%%%%%%%%%
   
   fieldNo = 1;
+  
+  % for displaying the chars
   plotPos = 17;
   
   for i = 1:noOfComp
@@ -89,6 +90,21 @@ function [chars] = char_segment (plateImg)
       
       xMin = min(x)-1; xMax = max(x)+1;
       yMin = min(y)-1; yMax = max(y)+1;
+      
+      
+      % adjust coordinates if they point outside the image
+      if xMin < 1
+        xMin = 1;
+      end
+      if xMax > imWidth
+        xMax = imWidth;
+      end
+      if yMin < 1
+        yMin = 1;
+      end
+      if yMax > imHeight
+        yMax = imHeight;
+      end
       
       % add image of a char to the struct chars (indexed by 'field1',
       % 'field2' etc.) display char afterwards
@@ -132,6 +148,11 @@ function [chars] = char_segment (plateImg)
   %%%%%%%%%%%%%%%%% vertical scanlines: search for white lines %%%%%%%%%%%%
   %%%%%%%%%%%% find top and bottom from letters %%%%%%%%%%%%%%%
   
+  % threshold for blackCount.
+  % example of plate with minimum: JJ 21 111
+  % example of plate with maximum: MN 48 888
+  %blackThresMin = 7;
+  %blackThresMax = 17;
   
   % find middle
   %middleLine = floor(size(bwImg,1)/2);
