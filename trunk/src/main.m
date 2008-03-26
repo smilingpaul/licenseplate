@@ -40,6 +40,10 @@ else
   ['Going to work on ' int2str(noOfImages) ' images.']
 end
 
+% for histogram method
+%freqTable = make_freq_table('/Users/epb/Documents/datalogi/3aar/bachelor/pics/plate_specified_epb/');
+%max(max(max(freqTable(200:255,200:255,253:255))))
+
 for i = 1:noOfImages
 %for i = 1:1
 
@@ -57,6 +61,7 @@ for i = 1:noOfImages
   %plateCoords = detect2([imagesFolder fileList(i).name])
   %plateCoords = detect4([imagesFolder fileList(i).name])
   %plateImage = detect3([imagesFolder fileList(i).name])
+  %plateCoords = histo_detect([imagesFolder fileList(i).name], freqTable);
   
   % Determine if plate is within found coordinates 
   if (realPlateCoords(1) >= plateCoords(1) && realPlateCoords(2) <= plateCoords(2) && ...
@@ -64,7 +69,7 @@ for i = 1:noOfImages
     noOfPlatesFound = noOfPlatesFound + 1;
   else
     % Echo name of image where plate was not found
-    fileList(i).name
+    ['Plate not found in ' fileList(i).name]
     % No candidate was found
     if sum(plateCoords) == 0
       noCandidate = noCandidate + 1;
@@ -79,10 +84,10 @@ for i = 1:noOfImages
   %rotatedPlateImg = plate_rotate([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4));
   
   % SEGMENT CHARS
-  %chars = char_segment(rotatedPlateImg);
+  %[chars, foundChars] = char_segment(rotatedPlateImg);
   
   % Wait for user to press a key
-  % pause();
+  %pause();
   
   % SomeFunction([imagesFolder fileList(i).name]);
   

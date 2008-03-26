@@ -54,14 +54,23 @@ function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax)
   %peaks = houghpeaks(H)
 
   % rotate image, using 'crop' to specify size of rotated image
-  rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
-  figure(1), subplot(3,2,4), imshow(rotatedImg);
+  rotationMade = false;
   
-  % display rotated plate
-  rotatedPlateImg = rotatedImg(yMin:yMax, xMin:xMax, :)
-  figure(1), subplot(3,2,6), imshow(rotatedPlateImg);
+  if rotateDeg ~= 0
+    rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
+    figure(1), subplot(3,2,4), imshow(rotatedImg);
+    rotationMade = true;
+  end
+  
+  % specify rotatedPlateImg and display it
+  if rotationMade
+    rotatedPlateImg = rotatedImg(yMin:yMax, xMin:xMax, :);
+  else
+    rotatedPlateImg = img(yMin:yMax, xMin:xMax, :);
+  end
+  figure(1), subplot(3,2,5), imshow(rotatedPlateImg);
 
-return;
+end
 
 % function to find the degree
 %function [rotateDeg] = find_deg (radonMatrix,lines)
