@@ -1,7 +1,7 @@
 % Function to pick out the chars of a licenseplate in an image. The
 % plate must be located and rotated so it is placed horizontally in the
 % image. The function returns the cut-out chars as seven images.
-function [chars] = char_segment (plateImg) 
+function [chars, foundChars] = char_segment (plateImg) 
 
   % display image
   figure(1), subplot(6,4,1:4), imshow(plateImg), title('plateImg');
@@ -9,7 +9,7 @@ function [chars] = char_segment (plateImg)
   % transform image to binary and show the binary image
   %%%%%%%%%%%% TO-DO: determine level. In LicensplateSydney.pdf level is
   %%%%%%%%%%%% based on the average gray scale value of the 100 pixels with
-  %%%%%%%%%%%% the largest gradient.
+  %%%%%%%%%%%% the largest gradient. Do we need that?
   %level = graythresh(img);
   %level = 0.6;
   %bwImg = im2bw(plateImg,level);
@@ -25,7 +25,21 @@ function [chars] = char_segment (plateImg)
   imHeight = size(plateImg,1);
   imWidth = size(plateImg,2);
   
-  %%%%%%%%%%%%% TO-DO: Filtering %%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%% TO-DO: Filtering or watersheding? %%%%%%%%%%%%%%%%
+  
+  % Experiments
+  se = strel('disk', 15);
+  Itop = imtophat(bwImg, se);
+  Ibot = imbothat(bwImg, se);
+  figure(2), subplot(2,1,1), imshow(Itop, []), title('top-hat image');
+  figure(2), subplot(2,1,2), imshow(Ibot, []), title('bottom-hat image');
+  %bwImg == Itop
+  
+  %Ienhance = imsubtract(imadd(Itop, bwImg), Ibot);
+  %figure(3), imshow(Ienhance), title('original + top-hat - bottom-hat');
+  
+  
+  
   
   % created connected components from bwImg
   [conComp,noOfComp] = bwlabel(~bwImg);
@@ -36,9 +50,9 @@ function [chars] = char_segment (plateImg)
   %%%%%%%%%%%% small and components that are too thin    %%%%%%%%%%%%
   %%%%%%%%%%%% TO-DO: tweak variables!!!!!!!!!!!!!       %%%%%%%%%%%%
   
-  maxCompSize = (imHeight*imWidth)/7
-  minCompSize = (imHeight*imWidth)/150
-  maxCompWidth = imWidth/7
+  maxCompSize = (imHeight*imWidth)/7;
+  minCompSize = (imHeight*imWidth)/150;
+  maxCompWidth = imWidth/7;
   minCompWidth = 3; minCompHeight = 3;
   
   %r = 1;
@@ -70,9 +84,6 @@ function [chars] = char_segment (plateImg)
   % show connected components that haven't been removed
   figure(1), subplot(6,4,13:16), imshow(conComp), title('conComp cleaned');
   
-  %%%%%%%%%%%%%%%%%% TO-DO: Create check on how many components have been
-  %%%%%%%%%%%%%%%%%% found
-  
   
   %%%%%%%%%%%% cut out chars %%%%%%%%%%%%
   %%%%%%%%%%%% %%%%%%%%%%%%% %%%%%%%%%%%%
@@ -88,9 +99,8 @@ function [chars] = char_segment (plateImg)
     if ~compRemoved(i)
       [y,x] = find(conComp == i);
       
-      xMin = min(x)-1; xMax = max(x)+1;
-      yMin = min(y)-1; yMax = max(y)+1;
-      
+      xMin = min(x)-2; xMax = max(x)+2;
+      yMin = min(y)-2; yMax = max(y)+2;
       
       % adjust coordinates if they point outside the image
       if xMin < 1
@@ -120,7 +130,10 @@ function [chars] = char_segment (plateImg)
     
   end
   
+  % count no. of found chars
+  foundChars = fieldNo - 1
   
+end
   
   
   
@@ -321,7 +334,7 @@ function [chars] = char_segment (plateImg)
   %end
   
   
-end
+
 
 % find no. of black sequenses across a scanline and their startpositions
 %function [blackCount, blackPositions] = findBlackCount (bwImg, lineNo)

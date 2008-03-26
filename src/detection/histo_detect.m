@@ -1,10 +1,10 @@
-% function to detect a plate in an image using the 'histrogram method'
-function plateCoords = histo_detect(img, freqTable)
+% function to detect a plate in an image using the 'histrogram method'. The
+% frequency table must be constructed before this function is run
+function plateCoords = histo_detect(imgFile, freqTable)
 
-  % display image
-  figure(1), subplot(2,3,1), imshow(img);
-  
-  %img = rgb2gray(img);
+  % read image from file and display it
+  img = imread(imgFile);
+  figure(33), subplot(2,3,1), imshow(img);
   
   % downscalefactor
   %downscaleFactor = 4;
@@ -19,12 +19,11 @@ function plateCoords = histo_detect(img, freqTable)
   imgHeight = size(img,1);
   imgWidth = size(img,2);
   
-  % create box to search for frequencies
-  %searchBox = zeros(8,8);
-  
+  % the membership image contains the frequncy value for every pixel. If
+  % the value is high, the pixel is likely part of a licenseplate
   membershipImg = zeros(imgHeight,imgWidth);
   
-  % iterate with box (8,8)
+  % fill out values in membership image
   for i = 1:imgHeight
     for j = 1:imgWidth
       r = img(i,j,1) + 1;
@@ -34,39 +33,38 @@ function plateCoords = histo_detect(img, freqTable)
     end
   end
   
-  %membershipImg
+  % display the membership image
+  figure(33), subplot(2,3,2), imshow(membershipImg);
   
-  figure(1), subplot(2,3,2), imshow(membershipImg);
-    
-  bla = im2bw(membershipImg);
-  figure(1), subplot(2,3,3), imshow(bla);
+  % create a bw image from the membership image. TO-DO: determine threshold
+  bwMmbshipImg = im2bw(membershipImg);
+  figure(33), subplot(2,3,3), imshow(bwMmbshipImg), title('Membership image');
   
-  % dilate to enhance white areas
+  % dilate to enhance white areas in bw image. TO-DO!!
   %line = strel('line',10,2);
   line = strel('rectangle',[12,8]);
-  bla = imdilate(bla,line);
-  figure(1), subplot(2,3,4), imshow(bla);
-  
-  
+  bwMmbshipImg = imdilate(bwMmbshipImg,line);
+  figure(33), subplot(2,3,4), imshow(bwMmbshipImg), title('bw membership image');
   
   % create connected components
-  [conComp, noOfComp] = bwlabel(bla);
-  
-  compRemoved = zeros(noOfComp,1);
+  [conComp, noOfComp] = bwlabel(bwMmbshipImg);
   
   % remove connected components that cannot be used as plate
+  % compRemoved holds the connected components that have been removed
+  compRemoved = zeros(noOfComp,1);
+  
   for i = 1:noOfComp
     
-    % calculate length of component and all pixels in component
+    % calculate dimensions of component and find all pixels in component
     compSize = length(find(conComp == i));
     [y,x] = find(conComp == i);
     compWidth = max(x) - min(x);
     compHeight = max(y) - min(y);
     
-    % if component hasn't got correct relations
-    if ~(compWidth/compHeight > 3.5 && compWidth/compHeight < 5)
+    % if component hasn't got correct relations, it is not the plate.
+    % TO-DO: Not working!!!
+    if ~(compWidth/compHeight > 3 && compWidth/compHeight < 5.5)
     
-
       % register that component has been removed
       compRemoved(i) = true;
       
@@ -74,25 +72,32 @@ function plateCoords = histo_detect(img, freqTable)
       for j = 1:compSize
         conComp(y(j), x(j)) = 0;
       end
-      
     end
     
   end
   
-  figure(1), subplot(2,3,5), imshow(conComp), title('conComp cleaned');
+  % display remaining components
+  figure(33), subplot(2,3,5), imshow(conComp), title('conComp cleaned');
+  
+  % find coordinates of possible plate
+  plateCoords = [0, 0, 0, 0];
+  plateFound = false;
   
   for i = 1:noOfComp
     
     % if the component hasn't been removed it's likely the plate
     if ~compRemoved(i)
       [y,x] = find(conComp == i);
-      plateCoords = [min(x)-1, max(x)+1, min(y)-1, max(y)+1]
+      plateCoords = [min(x)-1, max(x)+1, min(y)-1, max(y)+1];
+      plateFound = true;
     end
     
   end
   
-  % display cut-out plate
-  figure(1), subplot(2,3,6), imshow(img(plateCoords(3):plateCoords(4),plateCoords(1):plateCoords(2))), title('plate');
+  % display cut-out plate, if any
+  if plateFound
+    figure(33), subplot(2,3,6), imshow(img(plateCoords(3):plateCoords(4),plateCoords(1):plateCoords(2),:)), title('plate');
+  end
 
 end
 

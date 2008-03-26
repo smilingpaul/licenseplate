@@ -128,8 +128,13 @@ Regler:
 Beskrevet i LicensePlateSydney.pdf
 
 Frekvenstabel, hvordan opbygges den?
+Til historgram metoden skal der bruges en frekvenstabel indeholdende farvefrekvenserne for pixels i en række billeder af nummerplader. Denne tabel udformes vha. funktionen make\_freq\_table. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Eksempelvis
+
+Når frekvenstabellen er udformet, normaliseres den så den RGB værdi der har den højeste frekvens får værdien 1, mens de resterende RGB værdier får værdien frekvens/højeste frekvens. Hvis RGB værdien 240, 240, 230 eksempelvis har den højeste frekvens, 55 og RGB værdien 230, 230, 220 har frekvensen 35, får førstnævnte værdien 1 og sidstnævnte værdien 35/55 = 0,64.
 
 Hvordan bruges den?
+
+
 
 \subsubsection{AdaBoost?}
 
@@ -159,6 +164,8 @@ Billedet nedenfor viser hvordan Radon transformationen findes i en enkelt vinkel
 
 Betragt billedet i Figur \ref{xc33139} af en nummerplade. Nummerpladen i billedet er let fordrejet i forhold til vandret og skal drejes før segmenteringen af tegn i nummerpladen kan foregå.
 
+BILLEDE AF NUMMERPLADE, LET FORDREJET
+
 %\begin{figure}[h]
 %\includegraphics{billedbehandling/illu/P_XC33139.jpg}
 %\label{xc33139}
@@ -169,6 +176,8 @@ Når billedet i Figur \ref{xc33139}
 
 Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN OVERSÆTTELSE), da dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Dette gøres ved hjælp af MatLab funktionen edge, som returnerer et binært billede hvor de fundne kanter har værdien 1 og resten af punkterne i billedet har værdien 0. Dette er illustreret i ...
 
+BILLEDE AF EDGE-BILLEDE AF TIDLIGERE VISTE PLADE
+
 %\begin{figure}[h]
 %\includegraphics[width=15cm]{billedbehandling/illu/R_XC33139.jpg}
 %\label{r_xc33139}
@@ -177,7 +186,7 @@ Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN O
 
 Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette gøres ved brug af imrotate. 
 
-%BILLEDE AF NUMMERPLADE, ROTERET.
+BILLEDE AF NUMMERPLADE, ROTERET.
 
 Ulemper:
 
