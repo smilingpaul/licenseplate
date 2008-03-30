@@ -192,15 +192,19 @@ Ulemper:
 
 \subsection{Segmentering af bogstaver}
 
-\subsubsection{Forbundne komponenter}
+\subsubsection{Sammenhængende komponenter}
 
-Denne metode er bygget op omkring forbundne komponenter. Ideén bygger på at de 7 tegn som findes i billedet af nummerpladen alle er forbunde komponenter og derfor vil fremstå efter en forbundne komponenter-analyse. Andre dele af billedet vil højst sandsynligt også være 
+Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at de 7 tegn som findes i billedet af nummerpladen alle er forbunde komponenter og derfor vil fremstå efter en forbundne komponenter-analyse. Andre dele af billedet vil højst sandsynligt også være ..
 
-Metodens procedure er som følger: Først gøres billedet af nummerpladen binært ved brug af metoden im2bw. Det resulterende binære billede har værdien 1 (hvid) bl.a. i de pixels som forestiller pladens hvide baggrund, mens pixels i pladens tegn har værdien 0 (sort).
+%Metodens procedure er som følger: Først gøres billedet af nummerpladen binært ved brug af metoden im2bw. Det resulterende binære billede har værdien 1 (hvid) bl.a. i de pixels som forestiller pladens hvide baggrund, mens pixels i pladens tegn har værdien 0 (sort).
 
-EKSEMPEL PÅ BINÆRT BILLEDE AF NUMMERPLADE
+%EKSEMPEL PÅ BINÆRT BILLEDE AF NUMMERPLADE
 
-Herefter findes billedets forbudne komponenter ved brug af metoden bwLabel. Denne metode finder forbudne komponenter med værdien 1 i et binært billede, hvorfor metoden i denne situation bruges på det negerede binære billede.
+For at tegnene i nummerpladen skal udskille sig klart fra den hvide baggrund (pladen kan være beskidt, lyset på billedet kan være dårligt etc.) er det nødvendigt at filtrere billedet af pladen. Først omdannes billedet til gråtone hvorefter der udføres henholdsvis en top-hat filtrering og en bottom-hat filtrering MERE OM HVAD DET ER. For at forstærke billedets kontraster lægges det top-hat filtrerede billede til original billedet hvorefter det bottom-hat filtrerede billede trækkes fra.
+
+EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
+
+Herefter findes billedets sammenhængende komponenter ved brug af metoden bwLabel. Denne metode finder forbudne komponenter med værdien 1 i et binært billede, hvorfor metoden i denne situation bruges på det negerede binære billede.
 
 EKSEMPEL PÅ OMVENDT BINÆRT BILLEDE
 
@@ -208,9 +212,10 @@ Som det ses på billedet i Figur ? er nummerpladens tegn ikke altid de eneste sa
 
 \begin{itemize}
 \item[-] Hvert tegn fylder maksimalt 1/7 del af billedet.
-\item[-] Hvert tegn har en mksimal bredde på 1/7 af billedets bredde.
-\item[-] Tegnenes minimale bredde/højde
-\item[-] Tegnenes minimale størrelse
+\item[-] Hvert tegn har en maksimal bredde på 1/7 af billedets bredde.
+\item[-] Tegnenes højde er større end deres bredde
+\item[-] Tegnenes minimale højde skal være end en vis konstant (her: 5 pixels)
+\item[-] Tegnenes minimale størrelse skal være større end en vis konstant (her: 5 pixels)
 \end{itemize}
 
 EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA
