@@ -4,6 +4,7 @@ function plateCoords = histo_detect(imgFile, freqTable)
 
   % read image from file and display it
   img = imread(imgFile);
+  %img = imresize(img,0.1);
   figure(33), subplot(2,3,1), imshow(img);
   
   % downscalefactor
@@ -37,7 +38,9 @@ function plateCoords = histo_detect(imgFile, freqTable)
   figure(33), subplot(2,3,2), imshow(membershipImg);
   
   % create a bw image from the membership image. TO-DO: determine threshold
-  bwMmbshipImg = im2bw(membershipImg);
+  %level = graythresh(membershipImg);
+  %bwMmbshipImg = im2bw(membershipImg,level);
+  bwMmbshipImg = im2bw(membershipImg,0.2);
   figure(33), subplot(2,3,3), imshow(bwMmbshipImg), title('Membership image');
   
   % dilate to enhance white areas in bw image. TO-DO!!
@@ -92,6 +95,20 @@ function plateCoords = histo_detect(imgFile, freqTable)
       plateFound = true;
     end
     
+  end
+  
+  % adjust coordinates if they point outside the image
+  if plateCoords(1) < 1
+    plateCoords(1) = 1;
+  end
+  if plateCoords(2) > imgWidth
+    plateCoords(2) = imgWidth;
+  end
+  if plateCoords(3) < 1
+    plateCoords(3) = 1;
+  end
+  if plateCoords(4) > imgHeight
+    plateCoords(4) = imgHeight;
   end
   
   % display cut-out plate, if any

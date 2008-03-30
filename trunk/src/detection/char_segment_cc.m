@@ -2,7 +2,7 @@
 % connected components. Plate must be located and rotated so it is
 % placed horizontally in the image. The function returns the cut-out chars
 % and a count on how many chars that have been found.
-function [chars, foundChars] = char_segment_cc (plateImg) 
+function [chars, charCoords, foundChars] = char_segment_cc (plateImg) 
 
   chars.field1 = zeros(1,1);
   chars.field2 = zeros(1,1);
@@ -11,6 +11,7 @@ function [chars, foundChars] = char_segment_cc (plateImg)
   chars.field5 = zeros(1,1);
   chars.field6 = zeros(1,1);
   chars.field7 = zeros(1,1);
+  charCoords = zeros(7,4);
   %foundChars = 0;
   
   % display image
@@ -278,6 +279,10 @@ function [chars, foundChars] = char_segment_cc (plateImg)
         % 'field2' etc.) display char afterwards
         fieldName = strcat('field',int2str(fieldNo));
         chars.(fieldName) = plateImg(yMin:yMax,xMin:xMax,:);
+        charCoords(fieldNo,1) = xMin;
+        charCoords(fieldNo,2) = xMax;
+        charCoords(fieldNo,3) = yMin;
+        charCoords(fieldNo,4) = yMax;
         figure(2), subplot(8,4,plotPos), imshow(chars.(fieldName)), title(fieldName);
         
         % iterate

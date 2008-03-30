@@ -53,13 +53,14 @@ function normFreqTable = make_freq_table (imgFolder)
     %normFreqTable(5,4,2)
 
     % normalize using maxFreq
-    for r = 1:size(freqTable,1)
-      for g = 1:size(freqTable,2)
-        for b = 1:size(freqTable,3)
-          normFreqTable(r,g,b) = freqTable(r,g,b)/maxFreq;
-        end
-      end
-    end
+    %for r = 1:size(freqTable,1)
+    %  for g = 1:size(freqTable,2)
+    %    for b = 1:size(freqTable,3)
+    %      normFreqTable(r,g,b) = freqTable(r,g,b)/maxFreq;
+    %    end
+    %  end
+    %end
+    normFreqTable = freqTable/maxFreq;
 
     % wait for user to press a key
     %pause();
