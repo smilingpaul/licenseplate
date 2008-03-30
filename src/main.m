@@ -19,6 +19,7 @@ addpath('detection');
 
 % noOfImages = 0;
 noOfPlatesFound = 0;
+noOfPlatesRead = 0;
 percentageOfPlatesFound = 0;
 percentageOfPlatesRead = 0;
 percentageOfCharsRead = 0;
@@ -41,8 +42,10 @@ else
 end
 
 % for histogram method
-%freqTable = make_freq_table('/Users/epb/Documents/datalogi/3aar/bachelor/pics/plate_specified_epb/');
-%max(max(max(freqTable(200:255,200:255,253:255))))
+%olympusFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/detection/freqTableOlympus.mat');
+%canonFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/detection/freqTableCanon.mat');
+%freqTable = olympusFile.freqTableOlympus;
+%freqTable = canonFile.freqTableCanon;
 
 for i = 1:noOfImages
 %for i = 1:1
@@ -83,8 +86,51 @@ for i = 1:noOfImages
   %%%%%%%%%%
   %rotatedPlateImg = plate_rotate([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4));
   
+  % no figures
+  rotatedPlateImg = plate_rotate([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4),0);
+  
   % SEGMENT CHARS
-  %[chars, foundChars] = char_segment(rotatedPlateImg);
+  [chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg);
+  
+  % Determine if found chars contains coordinates of real chars. TO-DO!!
+  
+  if foundChars == 7
+  
+    %realCharCoords = getRealCharCoords([fileList(i).name]);
+    % set approximate char width and space widths
+    aproxCharWidth = 1/7;
+
+    % no. of small spaces = 6, large spaces = 2
+    %aproxSmallSpc = 0;
+    %aproxLargeSpc = 2 * aproxSmallSpc;
+
+    plateMiddle = realPlateCoords(4) - realPlateCoords(3);
+    plateLength = realPlateCoords(2) - realPlateCoords(1);
+    charWidth = aproxCharWidth * plateLength;
+
+    realCharCoords = zeros(7,2);
+    realCharCoords(:,2) = plateMiddle;
+
+    realCharCoords(1,1) = realPlateCoords(1) + charWidth/2;
+    for c = 2:7
+      realCharCoords(c,1) = realCharCoords(c-1,1) + charWidth;
+    end
+    
+    charsRead = 0;
+    for j = 1:7
+      if charCoords(j,1) <= realCharCoords(j,1) && charCoords(j,2) >= realCharCoords(j,1) && ...
+          charCoords(j,3) <= realCharCoords(j,2) && charCoords(j,4) >= realCharCoords(j,2)
+        charsRead = charsRead + 1;
+      end
+    end
+    
+    if charsRead == 7
+      noOfPlatesRead = noOfPlatesRead + 1;
+    else
+      ['Plate not read in ' fileList(i).name]
+      pause();
+    end
+  end
   
   % Wait for user to press a key
   %pause();

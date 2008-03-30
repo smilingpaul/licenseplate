@@ -1,17 +1,21 @@
 % Given an image of a licenseplate, rotate this image so the plate is
 % placed horizontal in the image. Input image  must be two-dimensional.
-function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax)
+function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax, figuresOn)
   
   % read image
   img = imread(imgFile);
   grayImg = rgb2gray(img);
   
   % display input img
-  figure(1), subplot(3,2,1), imshow(grayImg);
+  if figuresOn
+    figure(1), subplot(3,2,1), imshow(grayImg);
+  end
   
   % pick out plate image and show it
   plateImg = grayImg(yMin:yMax, xMin:xMax);
-  figure(1), subplot(3,2,2), imshow(plateImg);
+  if figuresOn
+    figure(1), subplot(3,2,2), imshow(plateImg);
+  end
   
   % compute binary edge image, TO-DO: determine kind of edge-function
   bwPlateImg = edge(plateImg,'sobel');
@@ -19,7 +23,9 @@ function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax)
   %bwPlateImg = edge(plateImg,'roberts');
   %bwPlateImg = edge(plateImg,'log');
   %bwPlateImg = edge(plateImg,'canny');
-  figure(1), subplot(3,2,3), imshow(bwPlateImg);
+  if figuresOn
+    figure(1), subplot(3,2,3), imshow(bwPlateImg);
+  end
 
   % compute radon transform of edge image, TO-DO: Only in 80:100
   [radonMatrix,xp] = radon(bwPlateImg,80:100);
@@ -58,7 +64,9 @@ function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax)
   
   if rotateDeg ~= 0
     rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
-    figure(1), subplot(3,2,4), imshow(rotatedImg);
+    if figuresOn
+      figure(1), subplot(3,2,4), imshow(rotatedImg);
+    end
     rotationMade = true;
   end
   
@@ -68,7 +76,9 @@ function [rotatedPlateImg] = plate_rotate (imgFile, xMin, xMax, yMin, yMax)
   else
     rotatedPlateImg = img(yMin:yMax, xMin:xMax, :);
   end
-  figure(1), subplot(3,2,5), imshow(rotatedPlateImg);
+  if figuresOn
+    figure(1), subplot(3,2,5), imshow(rotatedPlateImg);
+  end
 
 end
 
