@@ -84,14 +84,13 @@ for i = 1:noOfImages
   %%%%%%%%%%
   % ROTATE %
   %%%%%%%%%%
-  %rotatedPlateImg = plate_rotate([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4));
+  %rotatedPlateImg = plate_rotate_hough([imagesFolder
+  %fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4),true);
+  %rotatedPlateImg = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4),false);
   
-  % no figures
-  rotatedPlateImg = plate_rotate([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4),0);
-  
-  % SEGMENT CHARS, charCoords are relative to plate
-  [chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg);
-  %charCoords
+  % SEGMENT CHARS, charCoords are relative to plateimage
+  foundChars = 0;
+  %[chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,true);
   
   %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
   %figure(19), imshow(imread([imagesFolder fileList(i).name]));
@@ -103,7 +102,7 @@ for i = 1:noOfImages
       (realPlateCoords(4) - realPlateCoords(3))/2;
     plateLength = realPlateCoords(2) - realPlateCoords(1);
     
-    % set approximate char width and space widths
+    % set approximate char width and space widths. TO-DO!!
     relativeCharWidth = 1/8;
     relativeSmallSpace = 1/55;
     relativeLargeSpace = 2 * relativeSmallSpace;
@@ -133,11 +132,17 @@ for i = 1:noOfImages
     % calculate no. of correctly read chars
     charsRead = 0;
     for j = 1:7
-      if charCoords(j,1) <= realCharCoords(j) && ...
-          charCoords(j,2) >= realCharCoords(j) && ...
-          charCoords(j,3) <= plateMiddle && ...
-          charCoords(j,4) >= plateMiddle
+      %if charCoords(j,1) <= realCharCoords(j) && ...
+      %    charCoords(j,2) >= realCharCoords(j) && ...
+      %    charCoords(j,3) <= plateMiddle && ...
+      %    charCoords(j,4) >= plateMiddle
+      charMiddle = [(charCoords(j,1)+charCoords(j,2))/2 (charCoords(j,3)+charCoords(j,4))/2];
+      if charMiddle(1) >= realPlateCoords(1) && ...
+         charMiddle(1) <= realPlateCoords(2) && ...
+         charMiddle(2) >= realPlateCoords(3) && ...
+         charMiddle(2) <= realPlateCoords(4)
         charsRead = charsRead + 1;
+        
       end
     end
     
@@ -148,6 +153,9 @@ for i = 1:noOfImages
       ['Plate not read in ' fileList(i).name]
       %pause();
     end
+  else
+    ['Plate not read in ' fileList(i).name]
+    %pause();
   end
   
   % Wait for user to press a key

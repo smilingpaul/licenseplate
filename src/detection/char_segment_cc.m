@@ -2,7 +2,7 @@
 % connected components. Plate must be located and rotated so it is
 % placed horizontally in the image. The function returns the cut-out chars
 % and a count on how many chars that have been found.
-function [chars, charCoords, foundChars] = char_segment_cc (plateImg) 
+function [chars, charCoords, foundChars] = char_segment_cc (plateImg, figuresOn) 
 
   chars.field1 = zeros(1,1);
   chars.field2 = zeros(1,1);
@@ -15,7 +15,9 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg)
   %foundChars = 0;
   
   % display image
-  figure(2), subplot(8,4,1:4), imshow(plateImg), title('plateImg');
+  if figuresOn
+    figure(2), subplot(8,4,1:4), imshow(plateImg), title('plateImg');
+  end
   
   % transform image to binary and show the binary image
   %%%%%%%%%%%% TO-DO: determine level. In LicensplateSydney.pdf level is
@@ -38,32 +40,36 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg)
   
   %%%%%%%%%%%%% TO-DO: Filtering or watersheding? %%%%%%%%%%%%%%%%
   
-  % Experiments
-  se = strel('disk', 15);
-  imgTophat = imtophat(grayImg, se);
-  imgBothat = imbothat(grayImg, se);
-  figure(2), subplot(8,4,5:8), imshow(imgTophat, []), title('top-hat image');
-  figure(2), subplot(8,4,9:12), imshow(imgBothat, []), title('bottom-hat image');
+  %%%%% Experiments: TOP AND BOTTOM HAT %%%%%%%%
+  %se = strel('disk', 15);
+  %imgTophat = imtophat(grayImg, se);
+  %imgBothat = imbothat(grayImg, se);
+  %figure(2), subplot(8,4,5:8), imshow(imgTophat, []), title('top-hat image');
+  %figure(2), subplot(8,4,9:12), imshow(imgBothat, []), title('bottom-hat image');
   
-  %bwImg == Itop
+  %imgContrastEnh = imsubtract(imadd(imgTophat, grayImg), imgBothat);
   
-  imgContrastEnh = imsubtract(imadd(imgTophat, grayImg), imgBothat);
-  %size(grayImg)
-  %size(Itop)
-  %size(Ibot)
-  %size(Ienhance)
-  figure(2), subplot(8,4,13:16), imshow(imgContrastEnh), title('original + top-hat - bottom-hat');
+  %figure(2), subplot(8,4,13:16), imshow(imgContrastEnh), title('original + top-hat - bottom-hat');
   
   % is this necessary??
   %Iec = imcomplement(Ienhance);
   %figure(2), subplot(4,1,4), imshow(Iec), title('complement of enhanced image');
   
+  %%%%% Experiments: BRIGHTNESS %%%%%%%%
+  grayImg = uint8((double(grayImg)/180)*256);
+  imgContrastEnh = im2bw(grayImg,graythresh(grayImg));
+  if figuresOn
+    figure(2), subplot(8,4,5:8), imshow(grayImg), title('brigtnessEnh image');
+    figure(2), subplot(8,4,9:12), imshow(imgContrastEnh), title('brigtnessEnh bw image');
+  end
   
   
   % created connected components from bwImg
   %[conComp,noOfComp] = bwlabel(~bwImg);
   [conComp,noOfComp] = bwlabel(~imgContrastEnh);
-  figure(2), subplot(8,4,17:20), imshow(conComp), title('~conComp');
+  if figuresOn
+    figure(2), subplot(8,4,17:20), imshow(conComp), title('~conComp');
+  end
   
   % return if not enough chars has been found
   foundChars = noOfComp;
@@ -240,7 +246,9 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg)
   
   
   % show connected components that haven't been removed
-  figure(2), subplot(8,4,21:24), imshow(conComp), title('conComp cleaned');
+  if figuresOn
+    figure(2), subplot(8,4,21:24), imshow(conComp), title('conComp cleaned');
+  end
   
   if foundChars ~= 7
     return;
@@ -283,7 +291,9 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg)
         charCoords(fieldNo,2) = xMax;
         charCoords(fieldNo,3) = yMin;
         charCoords(fieldNo,4) = yMax;
-        figure(2), subplot(8,4,plotPos), imshow(chars.(fieldName)), title(fieldName);
+        if figuresOn
+          figure(2), subplot(8,4,plotPos), imshow(chars.(fieldName)), title(fieldName);
+        end
         
         % iterate
         plotPos = plotPos + 1;
