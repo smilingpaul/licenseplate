@@ -1,10 +1,22 @@
 % Finds 51.5% of all plates fed
 % If function returns coordinates correctness is 88%
 
+% UPDATE
+% Brightening the image but stil using logimage 
+% improves results to 59.7% and 88.7% respectively
+% Only using brightened image brings results down to 25.7% and 59.5%
+
+% WHAT DOES IT DO?
+% Finds highest peak in histogram and removes all intensities
+% not around the value of the peak from the image
+
+
+
 function plateCoords = detect4(inputImage)
 
 
 showImages = false;
+%showImages = true;
 
 
 % Downscale factor
@@ -40,11 +52,18 @@ imHeight = size(scaledImage,1);
 imWidth = size(scaledImage,2);
 
 
+
+
+logImage = uint8(256 * (double(scaledImage) ./ 180));
+max(max( double(scaledImage) ./ 180  ))
+%scaledImage = uint8(256 * (double(scaledImage) ./ 180));
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % Log image %
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-logImage = log10(double(scaledImage));
-logImage = uint8((256/(max(max(logImage)))) .* logImage);
+
+%logImage = log10(double(scaledImage));
+%logImage = uint8((256/(max(max(logImage)))) .* logImage);
 
 
 

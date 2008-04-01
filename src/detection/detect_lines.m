@@ -45,10 +45,23 @@ image = uint8((256/(max(max(image)))) .* image);
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FAST RESIZE                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Downsample image columns
-image = downsample(image,downscaleFactor);
+%image = downsample(image,downscaleFactor);
 % Downsample image rows
-image = transpose(downsample(transpose(image),downscaleFactor));
+%image = transpose(downsample(transpose(image),downscaleFactor));
+
+
+%%%%%%%%%%
+% RESIZE %
+%%%%%%%%%%
+
+image = imresize(image, 1/downscaleFactor);
+
+
+
 
 
 % Image width and height
