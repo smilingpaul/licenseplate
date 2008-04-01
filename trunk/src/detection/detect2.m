@@ -75,6 +75,7 @@ end
 
 
 % Normalize image of summed gradients
+% THIS DOES NOTHING!
 summedGradsXNorm = summedGradsX./max(max(summedGradsX));
 summedGradsYNorm = summedGradsY./max(max(summedGradsY));
 
