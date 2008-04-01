@@ -1,18 +1,18 @@
 function [] = char_segment_scan (plateImg)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%%%%%%%%% vertical scanlines: search for white lines %%%%%%%%%%%%
   %%%%%%%%%%%% find top and bottom from letters %%%%%%%%%%%%%%%
-  
+
   % threshold for blackCount.
   % example of plate with minimum: JJ 21 111
   % example of plate with maximum: MN 48 888
   %blackThresMin = 7;
   %blackThresMax = 17;
-  
+
   % find middle
   %middleLine = floor(size(bwImg,1)/2);
-  
+
   % find blackCount
   %[blackCount, blackPos] = findBlackCount(bwImg,middleLine);
   
