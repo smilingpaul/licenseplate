@@ -1,3 +1,5 @@
+% Marks areas with avg. intensity of surroundings
+
 function plateCoords = detect6(inputImage)
 
   filterWidth = 7;
@@ -5,8 +7,8 @@ function plateCoords = detect6(inputImage)
 
   brightenValue = 180; % 256 = no brighten
 
-  %showImages = false;
-  showImages = true;
+  showImages = false;
+  %showImages = true;
 
   scaleFactor = 0.25;
 
@@ -86,13 +88,18 @@ function plateCoords = detect6(inputImage)
 
   [conComp,numConComp] = (bwlabel(binImageSmall,4));
 
+  %%%%%%%%%%%%%%%%%%%%%%
+  % Get best candidate %
+  %%%%%%%%%%%%%%%%%%%%%%
+
+  
+  plateCoords = GetBestCandidate(conComp, scaleFactor);
 
 
-
-
-  plateCoords = [ 0 0 0 0 ];
-
-
+  % Make plate a little higher 
+  if sum(plateCoords) > 0
+    plateCoords + + [-5 5 0 0 ];
+  end
 
 
   %%%%%%%%%%%%%%%
@@ -111,14 +118,18 @@ function plateCoords = detect6(inputImage)
     subplot(2,4,3);
     imshow(filteredGradients);
 
-    %subplot(2,4,4);
-    %imshow(im2bw(filteredGradients,graythresh(filteredGradients)));
-
+    % Show candidate
+    subplot(2,4,4);
+    if sum(plateCoords) > 0
+      imshow(origImage(plateCoords(3):plateCoords(4),plateCoords(1):plateCoords(2)));
+    else
+      imshow(zeros(2,2));
+    end
 
     subplot(2,4,5);
     imshow(FX);
 
-    subplot(2,4,6);
+    %subplot(2,4,6);
     %imshow(FY);
 
     subplot(2,4,7);

@@ -10,7 +10,10 @@ function plateCoords = DetectMain(inputImage)
   % Finds candidates based on sameness
   f2c = detect5(inputImage);
 
-  avgResult = (f1c + f2c) / 2;
+  % Finds candidates based on 
+  f3c = detect6(inputImage);
+
+  avgResult = (f1c + f2c + f3c) / 3;
  
 
 
@@ -24,6 +27,8 @@ function plateCoords = DetectMain(inputImage)
   plot(sum(f1c(1:2))/2, sum(f1c(3:4))/2,'rx');
 
   plot(sum(f2c(1:2))/2, sum(f2c(3:4))/2,'bo');
+
+  plot(sum(f3c(1:2))/2, sum(f3c(3:4))/2,'go');
 
   hold off;
 
