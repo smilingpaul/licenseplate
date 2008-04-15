@@ -35,23 +35,50 @@
 \newpage
 
 \section{Introduktion}
-Introduktion til emnet - hvorfor er det interessant?
-Problemstilling: se synopsis
 
+I mange sammenhænge
+
+%Introduktion til emnet - hvorfor er det interessant?
+%Problemstilling: se synopsis
+
+Det system vi ville udvikle ville eksempelvis passe til et system som kunne bruges ved et parkeringsanlæg.
 
 \section{Indledende arbejde}
-\subsection{Fotografering}
-Hvor mange og hvilke billeder har vi taget.
-At billederne er taget i naturligt lys for at undgå kunstige farver og genskin fra pladen som er malet med reflekterende materiale.
-Opdeling af billeder i træning- og testsæt til f.eks. histogram metode herunder adskillelse af fotos fra de to forskellige kameraer.
+Fra start var vi meget opmærksomme på at afgrænsningen af projektet skulle være klar, så det ikke blev for omfattende. Omkring valg af billedemateriale afholdt vi os eksempelvis fra at 
+
+Ved fotograferingen var vi opmærksomme på følgende regler:
+
+\begin{itemize}
+\item[-] Billederne skulle tages ved højlys dag uden brug af kunstig lys. På denne måde vurderede vi at man ville opnå fotografier hvor nummerpladerne havde nogenlunde ens farvemønstre. Ved brug af kunstigt lys ville man risikere at nummerpladen ville fremstå med en unartulig farve eller at det reflekterende materiale, som nummerplader er lavet af, ville skabe genskin og på denne måde unaturlige farver.
+\item[-] Hvert fotografi skulle forestille en bil med en synlig nummerplade.
+\item[-] Fotografierne skulle tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 3-6 meter fra bilen uden zoom. På denne måde må det forventes at nummerpladen bliver tilpas stor i billedet til at computersystem kan finde den, samt at man med det menneskelige øje kan aflæse nummerpladen udfra fotografierne.
+\item[-] Nummerpladen skulle ikke nødvendigvis befinde sig midt i billedet. Dette ville skabe lidt udfordring for vores system, som dermed ikke nødvendigvis kan udelukke objekter som ikke er i midten af fotografiet.
+\item[-] Nummerpladen skulle fremstå vandret på billedet og skulle desuden være fri for urenheder eller lignende, der gjorde pladen sværere at læse. I færdselsloven..
+\end{itemize}
+
+Vi tog i alt 407 fotografier med to digital kameraer: 236 med et Canon og 171 med et Olympus. Et eksempel på et fotografi ses i Figur \ref{b_xc33139}. Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til identificering af nummerplader (afsnit ?.?), holdt vi de to fotografisæt adskilte. På denne måde ville det f.eks. være muligt for os at teste om skift fra et kamera til et andet, vil give ændrede resultater.
+
+\begin{figure}
+\includegraphics[width=10cm]{illu/B_XC33139.jpg}
+\label{b_xc33139}
+\caption{Fotografieksempel}
+\end{figure}
+
+%\subsection{Fotografering}
+%Hvor mange og hvilke billeder har vi taget.
+%At billederne er taget i naturligt lys for at undgå kunstige farver og genskin fra pladen som er malet med reflekterende materiale.
+%Opdeling af billeder i træning- og testsæt
+%til f.eks. histogram metode herunder adskillelse af fotos fra de to forskellige kameraer.
 
 \newpage
 \include{billedbehandling/billedbehandling}
+
+\begin{comment} % remove this later
+
 \newpage
 \include{moenstergenkend}
 \newpage
 \include{test}
-
 \newpage
 \section{Evaluering}
 
@@ -78,6 +105,6 @@ Hvordan kan nummerplader på farvefotografier identificeres og læses af et comp
 \newpage % new page before litterature
 \include{litteratur/litteratur}
 %\section{Litteraturliste}
-
+\end{comment} % remove this later
 
 \end{document}

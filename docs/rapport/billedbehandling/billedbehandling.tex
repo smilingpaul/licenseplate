@@ -125,18 +125,23 @@ Regler:
 - En linie hvorpå der er en anden retvinklet linie, og linierne har et vist forhold
 - Længde af linie
 
-\subsubsection{Histogram}
+\subsubsection{Histogram metode}
 
-Beskrevet i LicensePlateSydney.pdf
+Denne metode var baseret på farvefrekvenserne i et udpluk af nummerplader. Idéen er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser 
 
-Frekvenstabel, hvordan opbygges den?
-Til historgram metoden skal der bruges en frekvenstabel indeholdende farvefrekvenserne for pixels i en række billeder af nummerplader. Denne tabel udformes vha. funktionen make\_freq\_table. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Eksempelvis
+%Beskrevet i LicensePlateSydney.pdf
 
-Når frekvenstabellen er udformet, normaliseres den så den RGB værdi der har den højeste frekvens får værdien 1, mens de resterende RGB værdier får værdien frekvens/højeste frekvens. Hvis RGB værdien 240, 240, 230 eksempelvis har den højeste frekvens, 55 og RGB værdien 230, 230, 220 har frekvensen 35, får førstnævnte værdien 1 og sidstnævnte værdien 35/55 = 0,64.
+%Frekvenstabel, hvordan opbygges den?
+%Frekvenstabellen indeholdende farvefrekvenserne for pixels i en række billeder af nummerplader blev lavet som følgende: Tabellen blev udformet vha. funktionen make\_freq\_table. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Eksempelvis
 
-Hvordan bruges den?
+Funktionen make\_freq\_table opretter en frekvenstabel udfra nogle billeder hvor nummerpladens placering i billedet allerede er specificeret. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Når frekvenstabellen er udformet, normaliseres den så den RGB værdi der har den højeste frekvens får værdien 1, mens de resterende RGB værdier får værdien frekvens/højeste frekvens. Hvis RGB værdien 240, 240, 230 eksempelvis har den højeste frekvens, 55 og RGB værdien 230, 230, 220 har frekvensen 35, får førstnævnte værdien 1 og sidstnævnte værdien $35/55 = 0,64$.
 
 
+I systemet udarbejdede vi to frekvenstabeller: En for billederne taget med Canon kameraet og en for billederne taget med Olympus kameraet. Vi udvalgte tilfældigt hhv. 70 og 50 fra den givne gruppe til de to frekvenstabeller og gemte disse tabeller i to seperate filer. Systemet kunne herefter bruge disse frekvenstabeller uden at skulle skabe dem først.
+
+Hvordan bruges tabellerne....?
+
+\begin{comment}
 
 \subsubsection{MSER}
 
@@ -248,4 +253,6 @@ Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af e
 \subsubsection{peak-to-valley}
 
 Beskrevet i kwasnickawawrzyniak og bør måske afprøves? Måske i samarbejde med første metode?
+
+\end{comment}
 
