@@ -86,9 +86,32 @@ Mønstergenkendelse foregår med neuraltnetværk.
 For at sætte hastigheden op foretages visse operationer på kraftigt nedsamplede billeder. Finder lodrette linier. Bruger Robert's edge detector til at fremhæve dem (Tegner den på billedet?). Dette efterlader en masse lodrette linier i området med nummerpladen. Et Rank filter? bruges på billedet. Efterlader en lys elipse i det område hvor pladen findes. Scanner billedet lodret for at finde det lyseste område og klipper ud (Klipper et noget større område end pladen ud på eksemplet i pdf'en). Der er formler i beskrivelsen. Roter pladen hvis skæv (Formler i pdf). Nohet med at finde linier i billedet og rotere stlsvarende (Hough og Radon transform). Det er først når vi skal genkende tegnene på pladen vi bruger billedet i sin originale opløsning.
 \end{comment}
 
-\subsection{Nummerplade identificering}
+\subsection{Identifikation af nummerplader}
+I arbejdet med at udvælge nummerpladekandidater i billeder, har vi valgt at bruge flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer i som et samlet system til identifikation af nummerplader.
 
-\subsubsection{Udvælgelse af kandidater}
+Noget med at vi laver binære billeder hvori vi kigger efter kandidater med ratio etc.
+
+
+%\subsubsection{Udvælgelse af kandidater}
+
+\subsubsection{Områder domineret af lyse gråtoner}
+Med denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af gråtoner i et farvebillede. Det er vores forventning at en nummerplade vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger meget tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0 mens en middelgrå pixel vil derimod have værdien 128 i alle tre farvekanaler. For hver pixel i farvebilledet udregner vi gennemsnitsværdien ved at summere værdierne for de tre kanaler og dividere med tre. Hvis alle træ kanaler har en værdi der ligger tæt\footnote{Et parameter i programmet} på middelværdien og samtidig er lys\footnote{Et parameter i programmet} markeres den indeværende pixel i det binære billede der er resultatet af gennemgangen af alle pixels i farvebilledet.
+
+BILLEDER HER.
+%detect5
+ 
+
+\subsubsection{Områder med høj kontrast}
+Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast. Endvidere forventer vi at mange af disse kontrastområder vil være områder hvor den det ene intensitetsområde ligge ved siden af det andet i modsætning til over hinanden (beskriv nøjere?). F.eks. har bogstavet I lyse områder på både venstre og højre side. Der er altså to lodrette linier der markerer overgangen mellem lyse og mørke områder. Ved at lave billedet om til gråtoner og derefter betragte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter der beskriver hældningen i en pixel son en to dimensionel vektor(en illu). Et bredt område med en blød overgang i intensitet fra helt sort til helt hvid, hvil have korte vektorer i alle pixels mens en brat overgang fra sort til hvid vil resultere i meget lange gradienter for de pixels der ligger op ad overgangen. Ved brug af disse gradienter laver vi et nyt billeder der viser gradienternes vandrette længde. Peger en gradient f.eks. lodret op i billedet vil den ikke blive markeret, hvorimod den vil blive markeret hvis den f.eks. peger fra venstre mod højre. Lyse pixels i dette billede indikerer lange længder. For at gøre områder med høje intensiteter mere sammenhængende filtrerer vi billedet med et ikke kvadratisk filter der er flere gange bredere end det er højt. BESKRIVELSE. Resultater et et udglattet billede hvor intensitetsområder der ligger ved siden af hinanden er blevet forbundet. Ud fra dette billede laver vi et binært billede med kandidatområder markeret med hvidt. 
+
+Henvisning til litteratur.
+%detect6
+
+
+\subsubsection{Reducer information}
+Lav et histogram. Find peak (her er der mest info). Smid det der ikke er i nærheden ud. Find områder med aspect etc.
+
+%detect4
 
 \subsubsection{Tobias' brainstorm}
 Kan man kigge på højde bredde på components?
