@@ -56,22 +56,29 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   %Iec = imcomplement(Ienhance);
   %figure(2), subplot(4,1,4), imshow(Iec), title('complement of enhanced image');
   
-  %%%%% Experiments: BRIGHTNESS %%%%%%%%
+  %%%%% Enhance brightness and negate %%%%%%%%
   grayImg = uint8((double(grayImg)/180)*256);
+  
+  % negate grayimg
+  grayImg = uint8(abs(double(grayImg)-255));
+  
   %imgContrastEnh = im2bw(grayImg,graythresh(grayImg));
   if figuresOn
     figure(2), subplot(8,4,5:8), imshow(grayImg), title('brigtnessEnh image');
     %figure(2), subplot(8,4,9:12), imshow(imgContrastEnh), title('brigtnessEnh bw image');
   end
   
-  %%%%%%%%%%%% Find valleys across scanline %%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%                                 %%%%
+  %%%% GET SIGNATURES ACROSS SCANLINES %%%%
+  %%%%                                 %%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   noOfScanlines = 10
   
-  
   %scanline = grayImg(middle-(noOfScanlines/2),:);
   
-  summedScanlines = zeros(imWidth,1);
+  summedScanlines = zeros(1,imWidth);
   size(summedScanlines,1)
   
   %if figuresOn
@@ -81,25 +88,43 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   % sum up scanlines
   s = 1;
   scanlineNo = middle-(noOfScanlines/2)
+  %size(grayImg,2)
   while s <= 10
-    line = grayImg(scanlineNo,:); % NOT WORKING
-    size(line,1)
+    line = double(grayImg(scanlineNo,:));
+    %size(line,2)
+    %size(summedScanlines,2)
     summedScanlines = summedScanlines + line;
     scanlineNo = scanlineNo + 1;
     s = s + 1;
   end
   
   if figuresOn
-    figure(43), plot(summedScanlines), title('summedscanline graph');
+    figure(2), subplot(8,4,9:12), plot(summedScanlines), title('summedscanline graph');
+    %figure(43), plot(summedScanlines), title('summedscanline graph');
   end
   
   
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%                          %%%%
+  %%%% PEAK TO VALLEY ANALYSING %%%%
+  %%%%                          %%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
+  % find minimum valley value
+  minValleyDelta = 10
+  minValley = min(summedScanlines) + minValleyDelta
+  maxPeak = max(summedScanlines)
   
+  % find all valleys
+  valleyPoints = zeros(7,1);
   
-  
-  
-  
+  for i = 1:imgWidth
+
+    %while 
+    %  
+    %end
+    
+  end
   
   
   

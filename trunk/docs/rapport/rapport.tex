@@ -47,7 +47,7 @@ Opgavens problemformulering blev således:
 \item[-] Hvilke kendte metoder findes der, og hvor høj genkendelsesprocent kan et system vi selv laver opnå?
 \end{itemize}
 
-Et system til automatisk identificering og genkendelse af nummerplader består af fire elementer: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, segmentering af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer indgår i billedbehandling mens det fjerde element er mønstergenkendelse. Identificering af nummerpladen i billedet kan gøres Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet og hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må forventes at være én sammenhængende figur) \cite{nijhuis}.
+Et system til automatisk identificering og genkendelse af nummerplader består af fire elementer: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, segmentering af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer indgår i billedbehandling mens det fjerde element er mønstergenkendelse. Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvide områder i billedet \cite{ron}, \cite{nijhuis}, eller man kan finde pladerne udfra viden om kanter i billedet \cite{shapiro} og eventuelt kombinere det med teksturanalyse \cite{parker}. Derudover kan man analysere kontrasterne i billedet \cite{kwas}, da en nummerplade må forventes af bestå af kontrastfyldte (sort/hvide) områder. Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet og hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver i sær forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}.
 
 %\subsection{Problemformulering og afgrænsning}
 
@@ -67,15 +67,17 @@ Til at udarbejde og teste systemet havde vi brug for nogle fotografier af biler 
 \item[-] Nummerpladen skulle fremstå vandret på billedet og skulle desuden være fri for urenheder eller lignende, der gjorde pladen sværere at læse. I færdselsloven..
 \end{itemize}
 
-Vi tog i alt 407 fotografier med to digitalkameraer: 236 med et Canon og 171 med et Olympus. Et eksempel på et fotografi ses i Figur \ref{b_xc33139}.
+Vi tog i alt 407 fotografier med to digitalkameraer: 236 med et Canon og 171 med et Olympus. Et eksempel på et fotografi ses i Figur 1.%\ref{b_xc33139}.
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=10cm]{illu/B_XC33139.jpg}
-\label{b_xc33139}
-\caption{Fotografieksempel}
-\end{center}
-\end{figure}
+FIGUR 1: EKSEMPEL PÅ FOTOGRAFI AF BIL MED NUMMERPLADE
+
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width=10cm]{illu/B_XC33139.jpg}
+%\label{b_xc33139}
+%\caption{Fotografieksempel}
+%\end{center}
+%\end{figure}
 
 Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til identificering af nummerplader (se afsnit ?.?), holdt vi de to fotografisæt adskilte. På denne måde ville det f.eks. være muligt for os at teste om skift fra et kamera til et andet, vil give ændrede resultater. Billederne blev navngivet i vores database, så det, i deres filnavn, indgik om billedet forestillede en bil set forfra eller bagfra samt hvilken nummerplade bilen på nummerpladen havde. Derudover udarbejdede vi et mindre program som hjalp os til at identificere nummerpladens fire hjørnekoordinater og indskrive disse i filnavnet. Denne sidste tilføjelse ville hjælpe os i testfasen, til at undersøge om de nummerpladekandidater vores system ville udvælge er de korrekte.
 
@@ -86,7 +88,7 @@ Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til ident
 %Opdeling af billeder i træning- og testsæt
 %til f.eks. histogram metode herunder adskillelse af fotos fra de to forskellige kameraer.
 
-\newpage
+%\newpage
 \include{billedbehandling/billedbehandling}
 
 \begin{comment} % remove this later
@@ -126,6 +128,36 @@ Hvordan kan nummerplader på farvefotografier identificeres og læses af et comp
 
 \begin{thebibliography}{99}
 
+
+%%%%% BELOW: DONE %%%%%
+
+%http://visl.technion.ac.il/projects/2003w24/ (11. februar 2008)
+\bibitem{ron} Ron, B.-H.: \textit{A Real-time vehicle License Plate Recognition (LPR) System}.
+
+%Hentet 11. februar 2008:
+\bibitem{nijhuis} Nijhuis, J. A. G., ter Brugge, M. H., Helmholt, K. A., Pluim, J. P. W., Spaanenburg, L., Venema, R. S., Westenberg, M. A.: \textit{Car License Plate Recognition with Neural Networks and Fuzzy Logic}.
+%http://www.it.lth.se/users/lambert/leftovers/LicenseplateSydney.pdf
+
+% 17. april
+\bibitem{shapiro} Shapiro, V., Dimov, D., Bonchev, S., Velichkov, V., Gluhchev, G.: \textit{Adaptive License Plate Image Extraction}
+% http://ecet.ecs.ru.acad.bg/cst04/Docs/sIIIA/32.pdf
+
+%Hentet 17. februar 2008:
+\bibitem{parker} Parker, J. R., Federl, P.: \textit{An Approach To Licence Plate Recognition}.
+%http://pages.cpsc.ucalgary.ca/~federl/Publications/LicencePlate1996/licence-plate-1996.pdf
+
+%Hentet 11. februar 2008:
+\bibitem{kwas} Kwa\'snicka, H., Wawrzyniak, B.: \textit{License plate localization and recognition in camera pictures}.
+%http://www.ci.pwr.wroc.pl/~kwasnick/download/kwasnickawawrzyniak.pdf
+
+%Hentet 17. februar 2008:
+\bibitem{cano} Cano, J., Pérez-Cortés, J.-C.: \textit{Vehicle License Plate Segmentation In Natural Images}.
+%http://plutarco.disca.upv.es/~jcperez/Documentos/Matriculas2003.pdf
+
+
+
+%%%%% NOT DONE %%%%%
+
 %http://www.icg.tu-graz.ac.at/pub/pdf/arth_-_real-time_license_plate_recognition_ecw07.pdf
 
 
@@ -137,32 +169,6 @@ Hvordan kan nummerplader på farvefotografier identificeres og læses af et comp
 \bibitem{vedaldi} Vedaldi, A.: \textit{An Implementation of Multi-Dimensional Maximally Stable Extremal Regions}.
 
 \bibitem{matas} Matas, J., Chum, O., Urban, M., Pajdla, T.: \textit{Robust Wide Baseline Stereo from Maximally Stable Extremal Regions}.
-
-
-%%%%% BELOW: DONE %%%%%
-
-%Hentet 11. februar 2008:
-\bibitem{nijhuis} Nijhuis, J. A. G., ter Brugge, M. H., Helmholt, K. A., Pluim, J. P. W., Spaanenburg, L., Venema, R. S., Westenberg, M. A.: \textit{Car License Plate Recognition with Neural Networks and Fuzzy Logic}.
-%http://www.it.lth.se/users/lambert/leftovers/LicenseplateSydney.pdf
-
-%http://visl.technion.ac.il/projects/2003w24/ (11. februar 2008)
-\bibitem{ron} Ron, B.-H.: \textit{A Real-time vehicle License Plate Recognition (LPR) System}.
-
-%Hentet 11. februar 2008:
-\bibitem{kwas} Kwa\'snicka, H., Wawrzyniak, B.: \textit{License plate localization and recognition in camera pictures}.
-%http://www.ci.pwr.wroc.pl/~kwasnick/download/kwasnickawawrzyniak.pdf
-
-%Hentet 17. februar 2008:
-\bibitem{parker} Parker, J. R., Federl, P.: \textit{An Approach To Licence Plate Recognition}.
-%http://pages.cpsc.ucalgary.ca/~federl/Publications/LicencePlate1996/licence-plate-1996.pdf
-
-%Hentet 17. februar 2008:
-\bibitem{cano} Cano, J., Pérez-Cortés, J.-C.: \textit{Vehicle License Plate Segmentation In Natural Images}.
-%http://plutarco.disca.upv.es/~jcperez/Documentos/Matriculas2003.pdf
-
-% 17. april
-\bibitem{shapiro} Shapiro, V., Dimov, D., Bonchev, S., Velichkov, V., Gluhchev, G.: \textit{Adaptive License Plate Image Extraction}
-% http://ecet.ecs.ru.acad.bg/cst04/Docs/sIIIA/32.pdf
 
 
 \end{thebibliography}
