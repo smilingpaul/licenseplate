@@ -17,6 +17,9 @@ function [rotatedPlateImg] = plate_rotate_hough (imgFile, xMin, xMax, yMin, yMax
     figure(1), subplot(2,2,2), imshow(plateImg), title('plate image');
   end
   
+  plateImg = uint8((double(plateImg)/180)*256);
+  imgContrastEnh = im2bw(plateImg,graythresh(plateImg));
+  
   % compute binary edge image, TO-DO: determine kind of edge-function
   bwPlateImg = edge(plateImg,'sobel','horizontal');
   %bwPlateImg = edge(plateImg,'prewitt','horizontal');
