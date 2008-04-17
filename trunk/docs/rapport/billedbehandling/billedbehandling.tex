@@ -1,12 +1,14 @@
 \section{Billedbehandling}
 
+I dette afsnit beskrives de tre første elementer af vores system: identificering af nummerpladen i billedet, rotation af nummerpladen samt segmentering af tegn i nummerpladen.
+
 \begin{comment}
 \subsubsection*{Noter fra møde med Søren 20/2:}
 identifikation: Se på en pixel, har naboer en kontrast farve?
 En scan-linie: hvordan varierer kontrasten henover linien?
 Adaboost - godt
 
-\subsubsection*{Matriculas2003}
+\subsubsection*{cano.pdf}
 Bruger kun gråtone info. Arbejder også med nummerplader som skal være læsbar for det menneskelige øje.
 
 Metode:
@@ -20,7 +22,7 @@ Feature vektorer: hver pixel i et træningsbilleder er blevet klassificeret som 
 
 Bruger kd-træ data struktur og en "omtrent nærmeste nabo" søgeteknik.
 
-\subsubsection*{A Real-time vehicle License Plate Recognition (LPR) System på http://visl.technion.ac.il/projects/2003w24/}
+\subsubsection*{ron}
 
 * Find de gule (hos os: hvide) områder i billedet
 * Forstør disse områder
@@ -37,7 +39,7 @@ De brugte Matlab. De havde følgende relevante problemer og løsningsforslag til
 
 * Hvis der er flere nummerplade-kandidater i billedet skal hver af dem testes.
 
-\subsubsection*{LicenseplateSydney.pdf}
+\subsubsection*{nijhuis.pdf}
 
 Bruger regler for nummerplader i systemet
 
@@ -51,7 +53,7 @@ Bruger regler for nummerplader i systemet
 
 Dette system godkender 75\% af billederne. Problemer med skruer i nummerpladen. Problemer med global threshold – burde gøres på pr-tegn-basis.
 
-\subsubsection*{licence-plate-1996.pdf}
+\subsubsection*{parker.pdf}
 
 Der bruges en algoritme der først lokaliserer elementer der kan være tegn/bogstaver hvorefter den udvælger et område som nummerplade
 
@@ -66,7 +68,7 @@ Der bruges en algoritme der først lokaliserer elementer der kan være tegn/bogs
 
 Stort problem: svært at finde tegn.
 
-\subsubsection{kwasnickawawrzyniak}
+\subsubsection{kwas.pdf}
 Billedet skiftes til farverummet YUV fra vilket luminans er det eneste der bevares. Herefter normaliseres billedet (Hele den diskerete "range" udnyttes). Kigger på skift i kontrast. Gælder alle nummerplader. Finder alle tekster. Den rigtige skal vælges.
 
 Identifikation af plader:
@@ -82,7 +84,7 @@ Scan af peaks og valleys samt analyse af sammenhængende grupper fra identifikat
 
 Mønstergenkendelse foregår med neuraltnetværk.
 
-\subsubsection{AdaptiveLicensePlateImageExtraction.pdf}
+\subsubsection{shapiro.pdf}
 For at sætte hastigheden op foretages visse operationer på kraftigt nedsamplede billeder. Finder lodrette linier. Bruger Robert's edge detector til at fremhæve dem (Tegner den på billedet?). Dette efterlader en masse lodrette linier i området med nummerpladen. Et Rank filter? bruges på billedet. Efterlader en lys elipse i det område hvor pladen findes. Scanner billedet lodret for at finde det lyseste område og klipper ud (Klipper et noget større område end pladen ud på eksemplet i pdf'en). Der er formler i beskrivelsen. Roter pladen hvis skæv (Formler i pdf). Nohet med at finde linier i billedet og rotere stlsvarende (Hough og Radon transform). Det er først når vi skal genkende tegnene på pladen vi bruger billedet i sin originale opløsning.
 \end{comment}
 
@@ -92,7 +94,9 @@ I arbejdet med at udvælge nummerpladekandidater i billeder, har vi valgt at bru
 Noget med at vi laver binære billeder hvori vi kigger efter kandidater med ratio etc.
 
 
-%\subsubsection{Udvælgelse af kandidater}
+\subsubsection{Udvælgelse af kandidater}
+
+skal forbudne komponenter der ikke er kandidater slettes eller bare fravælges. Det første giver bedre illu samt debugging mens det sidste nok er hurtigere.
 
 \subsubsection{Områder domineret af lyse gråtoner}
 Med denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af gråtoner i et farvebillede. Det er vores forventning at en nummerplade vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger meget tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0 mens en middelgrå pixel vil derimod have værdien 128 i alle tre farvekanaler. For hver pixel i farvebilledet udregner vi gennemsnitsværdien ved at summere værdierne for de tre kanaler og dividere med tre. Hvis alle træ kanaler har en værdi der ligger tæt\footnote{Et parameter i programmet} på middelværdien og samtidig er lys\footnote{Et parameter i programmet} markeres den indeværende pixel i det binære billede der er resultatet af gennemgangen af alle pixels i farvebilledet.
@@ -112,7 +116,7 @@ Henvisning til litteratur.
 Lav et histogram. Find peak (her er der mest info). Smid det der ikke er i nærheden ud. Find områder med aspect etc.
 
 %detect4
-
+\begin{comment}
 \subsubsection{Tobias' brainstorm}
 Kan man kigge på højde bredde på components?
 Scan linie. Man kan både kigge på components og "signatur" som beskrevet andetsteds(pdf).
@@ -139,7 +143,11 @@ Kig på summen (mængden af hvidt) af alle vandrette linier i billedet. "slet" d
 end (0.5 * summen af den linie med mest hvidt). Jeg burde nu have fjernet støj men stadig have pladen. Jeg 
 statser på at pladen er på de linier med mest hvidt.
 
-\subsubsection{Vægtet metode}
+\end{comment}
+
+\subsubsection{Vægtet metode/sammenflet fire metoder}
+
+Diskuter om vi skal vælge en kandidat når de forskellige metoder har forskellige kandidater. Parkering: man kunne bede bilen om at bakke og tage et nyt billeder hvis der ikke kan findes en fælles kandidat. Fartkontrol: ikke muligt med nyt billede, gær derimod på den kandidat der er returneret af den mest pålidelige metode. 
 
 Regler:
 
@@ -148,9 +156,10 @@ Regler:
 - En linie hvorpå der er en anden retvinklet linie, og linierne har et vist forhold
 - Længde af linie
 
+
 \subsubsection{Histogram metode}
 
-Denne metode var baseret på farvefrekvenserne i et udpluk af nummerplader. Idéen er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser 
+Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde billeder af nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
 
 %Beskrevet i LicensePlateSydney.pdf
 
@@ -162,15 +171,19 @@ Funktionen make\_freq\_table opretter en frekvenstabel udfra nogle billeder hvor
 
 I systemet udarbejdede vi to frekvenstabeller: En for billederne taget med Canon kameraet og en for billederne taget med Olympus kameraet. Vi udvalgte tilfældigt hhv. 70 og 50 fra den givne gruppe til de to frekvenstabeller og gemte disse tabeller i to seperate filer. Systemet kunne herefter bruge disse frekvenstabeller uden at skulle skabe dem først.
 
-Hvordan bruges tabellerne....?
+De normaliserede frekvenstabeller gives sammen med et fotografi af en bil som input til funktionen histo\_detect. Her skabes et billede hvor hver pixel gives en værdi fra 0 til 1 afhængig af om pixelens farve fremkommer sjældent i en nummerplade (0) eller fremkommer hyppigt (1). Disse værdier svarer altså til de værdier der står i frekvenstabellerne. I eksemplet ovenfor, ville en pixel med RGB værdien 230, 230, 220 få værdien 0,64 i tilhørsbilledet. Dette tilhørsbillede vil, med værdier fra 0 til 1, være et gråtone billede hvor de pixels, der har samme farve som de farver der oftest optræder i billeder af nummerplader, vil blive lyse og omvendt vil de resterende pixels blive mørke. Omdannes dette billede til et binært billede vil vi (ved succes) få forbundne komponenter bl.a. der hvor nummerpladen befinder sig i billedet. Disse komponenters størrelse, form osv. kan herefter analyseres og man kan give et bud på hvor nummerpladen befinder sig.
 
-\begin{comment}
+\begin{comment} % remove this
 
 \subsubsection{MSER}
 
 Først sorteres alle pixels intensiteter (stigende). Dette gøres ved brug af bucket sort.
 
 \subsubsection{Signatur metode (kwasnickawawryniak.pdf)}
+
+\subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
+
+\cite{parker} bruger kant-detektion og localisering af tegn til at give et bud på hvor nummerpladen er.
 
 \subsection{Rotation}
 
@@ -221,6 +234,8 @@ Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette 
 BILLEDE AF NUMMERPLADE, ROTERET.
 
 Ulemper:
+
+\subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
 
 \subsection{Segmentering af bogstaver}
 
@@ -277,5 +292,7 @@ Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af e
 
 Beskrevet i kwasnickawawrzyniak og bør måske afprøves? Måske i samarbejde med første metode?
 
-\end{comment}
+\subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
+
+\end{comment} % remove this
 
