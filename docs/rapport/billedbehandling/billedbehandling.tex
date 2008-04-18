@@ -158,6 +158,7 @@ Regler:
 
 
 \subsubsection{Histogram metode}
+\label{histo}
 
 Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde billeder af nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
 
@@ -173,20 +174,22 @@ I systemet udarbejdede vi to frekvenstabeller: En for billederne taget med Canon
 
 De normaliserede frekvenstabeller gives sammen med et fotografi af en bil som input til funktionen histo\_detect. Her skabes et billede hvor hver pixel gives en værdi fra 0 til 1 afhængig af om pixelens farve fremkommer sjældent i en nummerplade (0) eller fremkommer hyppigt (1). Disse værdier svarer altså til de værdier der står i frekvenstabellerne. I eksemplet ovenfor, ville en pixel med RGB værdien 230, 230, 220 få værdien 0,64 i tilhørsbilledet. Dette tilhørsbillede vil, med værdier fra 0 til 1, være et gråtone billede hvor de pixels, der har samme farve som de farver der oftest optræder i billeder af nummerplader, vil blive lyse og omvendt vil de resterende pixels blive mørke. Omdannes dette billede til et binært billede vil vi (ved succes) få forbundne komponenter bl.a. der hvor nummerpladen befinder sig i billedet. Disse komponenters størrelse, form osv. kan herefter analyseres og man kan give et bud på hvor nummerpladen befinder sig.
 
-\begin{comment} % remove this
+%\begin{comment} % remove this
 
 \subsubsection{MSER}
-
+\begin{comment}
 Først sorteres alle pixels intensiteter (stigende). Dette gøres ved brug af bucket sort.
+\end{commen}
 
 \subsubsection{Signatur metode (kwasnickawawryniak.pdf)}
 
 \subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
-
+\begin{comment}
 \cite{parker} bruger kant-detektion og localisering af tegn til at give et bud på hvor nummerpladen er.
+\end{comment}
 
 \subsection{Rotation}
-
+\begin{comment}
 Nogle overvejelser om hvordan billedet skal være klippet til for at rotationen fungerer ordentligt...
 
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet.
@@ -194,9 +197,10 @@ I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, s
 %\subsubsection{Hough transformation}
 
 %Hough transformation
+\end{comment}
 
 \subsubsection{Radon transformation}
-
+\begin{comment}
 En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er meget brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
 Billedet nedenfor viser hvordan Radon transformationen findes i en enkelt vinkel, theta. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier. Resultatet af en Radon transformation er en matrice der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
@@ -234,19 +238,22 @@ Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette 
 BILLEDE AF NUMMERPLADE, ROTERET.
 
 Ulemper:
+\end{comment}
 
-\subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
+\subsubsection{Andre metoder brugt i litteraturen}
 
 \subsection{Segmentering af bogstaver}
 
 \subsubsection{Test af segmentering}
 
-Se nrpl.dk: %Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" de kan brede sig i. Ikke alle tegn er lige brede, og generelt er bogstaver bredere end tal. "Feltet" til bogstaver er derfor bredere end feltet til tegn. Enkelte tegn er for smalle til at udfylde deres "felt", så designeren har fundet det hensigtsmæssigt at placere disse tegn visuelt centreret inden for deres "felt".
+\begin{comment}
+Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" de kan brede sig i. Ikke alle tegn er lige brede, og generelt er bogstaver bredere end tal. "Feltet" til bogstaver er derfor bredere end feltet til tegn. Enkelte tegn er for smalle til at udfylde deres "felt", så designeren har fundet det hensigtsmæssigt at placere disse tegn visuelt centreret inden for deres "felt".
 
 "Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
+\end{comment}
 
 \subsubsection{Sammenhængende komponenter}
-
+\begin{comment}
 Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at de 7 tegn som findes i billedet af nummerpladen alle er forbunde komponenter og derfor vil fremstå efter en forbundne komponenter-analyse. Andre dele af billedet vil højst sandsynligt også være ..
 
 %Metodens procedure er som følger: Først gøres billedet af nummerpladen binært ved brug af metoden im2bw. Det resulterende binære billede har værdien 1 (hvid) bl.a. i de pixels som forestiller pladens hvide baggrund, mens pixels i pladens tegn har værdien 0 (sort).
@@ -278,8 +285,10 @@ Til sidst udklippes de syv tegn og returneres. Eksempel på en fuldendt og succe
 EKSEMPEL PÅ UDKLIPPEDE TEGN
 
 Som beskrevet i kwasnickawawrzyniak kunne man eventuelt fjerne kanter før man starter analysen?
+\end{comment}
 
 \subsubsection{Skan-linie}
+\begin{comment}
 Bruges ikke da det er for mange felter som bliver valgt. Kan måske gøres bedre ved filtrering før???
 
 Først gøres billedet sort-hvis med im2bw. Her kan grænseværdi bestemmes med greythresh. Virker måske bedre at sætte grænseværdien lavt, så meget af billedet bliver hvidt.
@@ -287,12 +296,13 @@ Først gøres billedet sort-hvis med im2bw. Her kan grænseværdi bestemmes med 
 Billedet skal skæres foroven og forneden. Dette gøres simpelt ved at finde den største pixl-sum i toppen af billedet og den største sum i bunden. Det antages så at disse max-summer er dele af nummerpladerne hvor teksten ikke er startet.
 
 Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af et tegn og efter et tegn.
+\end{comment}
 
 \subsubsection{peak-to-valley}
-
+\begin{comment}
 Beskrevet i kwasnickawawrzyniak og bør måske afprøves? Måske i samarbejde med første metode?
+\end{comment}
+\subsubsection{Andre metoder brugt i litteraturen}
 
-\subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
-
-\end{comment} % remove this
+%\end{comment} % remove this
 
