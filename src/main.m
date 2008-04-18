@@ -84,10 +84,15 @@ for i = 1:noOfImages
   %%%%%%%%%%
   % ROTATE %
   %%%%%%%%%%
+  
   %rotatedPlateImg = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4),true);
   rotatedPlateImg = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4),false);
   
-  % SEGMENT CHARS, charCoords are relative to plateimage
+  %%%%%%%%%%%%%%%%%
+  % SEGMENT CHARS %
+  %%%%%%%%%%%%%%%%%
+  
+  % charCoords are relative to plateimage
   %foundChars = 0;
   %[chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,true);
   [chars, charCoords, foundChars] = char_segment_ptv(rotatedPlateImg,true);
@@ -163,12 +168,17 @@ for i = 1:noOfImages
   
   % SomeFunction([imagesFolder fileList(i).name]);
   
-
-  % RECOGNIZE PATTERNS
+  %%%%%%%%%%%%%%%%%%%%%%
+  % RECOGNIZE PATTERNS %
+  %%%%%%%%%%%%%%%%%%%%%%
+  
+  
+  
 end
 
-
-% PRINT STATS
+%%%%%%%%%%%%%%%
+% PRINT STATS %
+%%%%%%%%%%%%%%%
 
 percentageOfPlatesFound = noOfPlatesFound*(100/noOfImages)
 

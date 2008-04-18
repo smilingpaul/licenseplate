@@ -1,5 +1,5 @@
 % Function to pick out the chars of a licenseplate in an image using
-% connected components. Plate must be located and rotated so it is
+% peak-to-valley info. Plate must be located and rotated so it is
 % placed horizontally in the image. The function returns the cut-out chars
 % and a count on how many chars that have been found.
 function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn) 
@@ -12,12 +12,12 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   chars.field6 = zeros(1,1);
   chars.field7 = zeros(1,1);
   charCoords = zeros(7,4);
-  %foundChars = 0;
+  foundChars = 0;
   
   % display image
-  if figuresOn
-    figure(2), subplot(8,4,1:4), imshow(plateImg), title('plateImg');
-  end
+  %if figuresOn
+  %  figure(2), subplot(3,1,1), imshow(plateImg), title('plateImg');
+  %end
   
   % transform image to binary and show the binary image
   %%%%%%%%%%%% TO-DO: determine level. In LicensplateSydney.pdf level is
@@ -57,16 +57,17 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   %figure(2), subplot(4,1,4), imshow(Iec), title('complement of enhanced image');
   
   %%%%% Enhance brightness and negate %%%%%%%%
-  grayImg = uint8((double(grayImg)/180)*256);
+  brightGrayImg = uint8((double(grayImg)/180)*255);
   
   % negate grayimg
-  grayImg = uint8(abs(double(grayImg)-255));
+  %grayImg = uint8(abs(double(grayImg)-255));
   
   %imgContrastEnh = im2bw(grayImg,graythresh(grayImg));
-  if figuresOn
-    figure(2), subplot(8,4,5:8), imshow(grayImg), title('brigtnessEnh image');
-    %figure(2), subplot(8,4,9:12), imshow(imgContrastEnh), title('brigtnessEnh bw image');
-  end
+  %if figuresOn
+  %  figure(22), imshow(grayImg), title('brigtnessEnh image');
+  %  %figure(2), subplot(8,4,9:12), imshow(imgContrastEnh), title('brigtnessEnh bw image');
+  %  hold on;
+  %end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%                                 %%%%
@@ -74,35 +75,14 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   %%%%                                 %%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  noOfScanlines = 10
-  
-  %scanline = grayImg(middle-(noOfScanlines/2),:);
+  % REPLACE WITH GETSIGNATURE
   
   summedScanlines = zeros(1,imWidth);
-  size(summedScanlines,1)
   
-  %if figuresOn
-  %  figure(43), plot(scanline), title('scanline graph');
-  %end
-  
-  % sum up scanlines
-  s = 1;
-  scanlineNo = middle-(noOfScanlines/2)
-  %size(grayImg,2)
-  while s <= 10
-    line = double(grayImg(scanlineNo,:));
-    %size(line,2)
-    %size(summedScanlines,2)
-    summedScanlines = summedScanlines + line;
-    scanlineNo = scanlineNo + 1;
-    s = s + 1;
+  % sum up scanlines: entire image
+  for i = 1:imHeight
+    summedScanlines = summedScanlines + double(brightGrayImg(i,:));
   end
-  
-  if figuresOn
-    figure(2), subplot(8,4,9:12), plot(summedScanlines), title('summedscanline graph');
-    %figure(43), plot(summedScanlines), title('summedscanline graph');
-  end
-  
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%                          %%%%
@@ -110,312 +90,231 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   %%%%                          %%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  % find minimum valley value
-  minValleyDelta = 10
-  minValley = min(summedScanlines) + minValleyDelta
-  maxPeak = max(summedScanlines)
+  % smoothen with simple average function
+  lagSize = 6;
+  for i = 1:imWidth
+    
+    % determine the low and high for calculating mean
+    low = i-lagSize+1;
+    high = i+lagSize;
+    
+    if low < 1
+      low = 1;
+    end
+    if high > imWidth
+      high = imWidth;
+    end
+    
+    summedScanlines(i) = mean(summedScanlines(low:high));
+  end
   
-  % find all valleys
-  valleyPoints = zeros(7,1);
+  % find peaks: where to cut
+  allPeaks = zeros(8,2);
+  p = 1;
+  goingDown = false;
+  %minInterval = imWidth / 15
+  noOfNexts = 5
   
-  for i = 1:imgWidth
+  % mark spots where the next spot has a higher value
+  for i = 1:imWidth-noOfNexts % MAYBE THIS IS NOT GOOD? :)
+    %current = summedScanlines(i);
+    
+    
+    next = zeros(noOfNexts+1,1); % plus 1 to hold current
+    for n = 0:noOfNexts-1
+      next(n+1) = summedScanlines(i+n);
+    end
+    
+    % going up: searching for peaks
+    if ~goingDown
+      
+      % determine if the next pixels indicate that the current spot is a
+      % peak
+      %peakReached = false;
+      for n = 1:noOfNexts-1
+        if next(n) > next(n+1)
+          peakReached = true;
+        else
+          peakReached = false;
+          break;
+        end
+      end
+      
+      % if theres a peak: register it 
+      %if p == 1 || (current > allPeaks(p-1,1) + minInterval)
+      if peakReached
+        allPeaks(p,1) = i;
+        allPeaks(p,2) = next(1);
+        %previous = current;
+        p = p + 1;
+        goingDown = true;
+      end
 
-    %while 
-    %  
-    %end
     
-  end
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  %%%%%%%%%%%% remove components that are too big or too %%%%%%%%%%%%
-  %%%%%%%%%%%% small and components that are too thin    %%%%%%%%%%%%
-  %%%%%%%%%%%% TO-DO: tweak variables!!!!!!!!!!!!!       %%%%%%%%%%%%
-  
-  maxCompSize = (imHeight*imWidth)/7;
-  %minCompSize = (imHeight*imWidth)/150;
-  minCompSize = 5;
-  maxCompWidth = imWidth/7;
-  %minCompWidth = 3;
-  minCompHeight = 5;
-  
-  %compRemoved = zeros(noOfComp,1);
-  
-  % create list of char candidates, pos. 1 store wheter the component is a
-  % candidate, pos. 2 stores the height of the component in pixels, pos. 3
-  % stores the no. of components with a similar height.
-  isCandidate = zeros(noOfComp,3);
-  candidates = 0;
-  
-  charHeightSum = 0;
-  charWidthSum = 0;
-  maxCharHeight = 0;
-  maxCharWidth = 0;
-  
-  % find candidates
-  for i = 1:noOfComp
-    
-    % calculate length of component and all pixels in component
-    compSize = length(find(conComp == i));
-    [y,x] = find(conComp == i);
-    compWidth = max(x) - min(x);
-    compHeight = max(y) - min(y);
-    
-    % take only obvious components as candidates
-    if compSize <= maxCompSize && compWidth <= maxCompWidth && ...
-        compWidth < compHeight && compSize >= minCompSize && ...
-        compHeight >= minCompHeight
-      
-      isCandidate(i,1) = 1;
-      candidates = candidates + 1;
-      isCandidate(i,2) = compHeight;
-      %isCandidate(i,3) = 1;
-      %isCandidate(i,3) = max(x);
-      %isCandidate(i,4) = min(y);
-      %isCandidate(i,5) = max(y);
-      
-      charHeightSum = charHeightSum + compHeight;
-      charWidthSum = charWidthSum + compWidth;
-      
-      if compHeight > maxCharHeight
-        maxCharHeight = compHeight;
-      elseif compWidth > maxCharWidth
-        maxCharWidth = compWidth;
-      end
-      
+    % going down: searching for valley, when valley found: start going up
+    elseif goingDown && next(2) > next(1)
+      goingDown = false;
     end
     
   end
   
-  % FOR TEST: remove non-candidates from connected component image
-  %for i = 1:noOfComp
-  %
-  %    if ~isCandidate(i,1)
-  %
-  %      % register that component has been removed
-  %      %compRemoved(i) = true;
-  %
-  %      % set color of pixels in component to black
-  %      compSize = length(find(conComp == i));
-  %      [y,x] = find(conComp == i);
-  %      for j = 1:compSize
-  %        conComp(y(j), x(j)) = 0;
-  %      end
-  % 
-  %     end
-  %
-  %end
-  
-  %figure(2), subplot(8,4,21:24), imshow(conComp), title('conComp semi-cleaned');
-  
-  % remove more candidates by looking at ratios if no. of candidates is > 7
-  %ratioDifs = zeros(noOfComp,1);
-  %candidateHeights = zeros(candidates,1);
-  
-  heightMaxDif = 5;
-  c = 1;
-  
-  if candidates > 7
-    %charAvgHeight = charHeightSum / candidates;
-    %charAvgWidth = charWidthSum / candidates;
-    %charAvgRatio = charAvgHeight / charAvgWidth;
-    
-    %for i = 1:noOfComp
-      %compHeight = isCandidate(i,3) - isCandidate(i,2)
-      %compWidth = isCandidate(i,5) - isCandidate(i,4)
-      %compRatio = compWidth / compHeight;
-      %if isCandidate(i,1)
-        
-        %candidateHeights(c) = isCandidate(i,2);
-        %c = c + 1;
-        %i
-        %compRatio = (isCandidate(i,5) - isCandidate(i,4)) / (isCandidate(i,3) - isCandidate(i,2))
-        %ratioDifs(i) = compRatio;
-        %compRatioDif = charAvgRatio - compRatio
-        
-        %if (isCandidate(i,5) - isCandidate(i,4) / isCandidate(i,3) - isCandidate(i,2)) < charAvgHeight
-        %  isCandidate(i,:) = 0;
-        %  candidates = candidates - 1;
-        %end
-        
-      %end
-      
-      
-      
-    %end
-    
-    for i = 1:noOfComp
-      for j = 1:noOfComp
-        
-        % find how many other candidates that have similar height
-        if isCandidate(i,1)
-          if i ~= j && isCandidate(j,1) && abs(isCandidate(i,2) - isCandidate(j,2)) <= heightMaxDif
-            isCandidate(i,3) = isCandidate(i,3) + 1;
-          end
-        end
-        
-      end
-      
-      % remove if not 6 others have similar height
-      if isCandidate(i,1) && isCandidate(i,3) ~= 6
-        isCandidate(i,:) = 0;
-        candidates = candidates - 1;
-      end
-      
-    end
-    
-    
-    
-    % remove candidate with worst ratio score
-    %[worstRatio, index] = max(ratioDifs)
-    %isCandidate(index,:) = 0;
-    %ratioDifs(index) = 0;
-    %candidates = candidates - 1;
-    
-  end
-  
-  foundChars = candidates
-  
-  % for displaying: remove non-candidates from connected component image
-  for i = 1:noOfComp
-  
-      if ~isCandidate(i,1)
-  
-        % register that component has been removed
-        %compRemoved(i) = true;
-  
-        % set color of pixels in component to black
-        compSize = length(find(conComp == i));
-        [y,x] = find(conComp == i);
-        for j = 1:compSize
-          conComp(y(j), x(j)) = 0;
-        end
-  
-      end
-  
-  end
-  
-  
-  % show connected components that haven't been removed
-  if figuresOn
-    figure(2), subplot(8,4,21:24), imshow(conComp), title('conComp cleaned');
-  end
-  
-  if foundChars ~= 7
+  % return if not enough peaks has been found
+  if size(allPeaks) < 8
     return;
-  else
-    
-    fieldNo = 1;
-  
-    %for displaying the chars
-    plotPos = 25;
-    
-    % cut out chars
-    for i = 1:noOfComp
-      
-      % if the component hasn't been removed it's likely a char: cut it out
-      if isCandidate(i,1)
-        [y,x] = find(conComp == i);
-        
-        xMin = min(x)-2; xMax = max(x)+2;
-        yMin = min(y)-2; yMax = max(y)+2;
-        
-        % adjust coordinates if they point outside the image
-        if xMin < 1
-          xMin = 1;
-        end
-        if xMax > imWidth
-          xMax = imWidth;
-        end
-        if yMin < 1
-          yMin = 1;
-        end
-        if yMax > imHeight
-          yMax = imHeight;
-        end
-        
-        % add image of a char to the struct chars (indexed by 'field1',
-        % 'field2' etc.) display char afterwards
-        fieldName = strcat('field',int2str(fieldNo));
-        chars.(fieldName) = plateImg(yMin:yMax,xMin:xMax,:);
-        charCoords(fieldNo,1) = xMin;
-        charCoords(fieldNo,2) = xMax;
-        charCoords(fieldNo,3) = yMin;
-        charCoords(fieldNo,4) = yMax;
-        if figuresOn
-          figure(2), subplot(8,4,plotPos), imshow(chars.(fieldName)), title(fieldName);
-        end
-        
-        % iterate
-        plotPos = plotPos + 1;
-        fieldNo = fieldNo + 1;
-              
-      end
-      
-    end
   end
   
+  % find the 8 maximum peaks
+  peaks = zeros(8,1);
   
-  % remove components which are obviously wrong
-  %  if compSize > maxCompSize || compWidth > maxCompWidth || ...
-  %      compWidth > compHeight || compSize < minCompSize || ...
-  %      compHeight < minCompHeight
-  %
-  %    % register that component has been removed
-  %    compRemoved(i) = true;
-  %    
-  %    % set color of pixels in component to black
-  %    for j = 1:compSize
-  %      conComp(y(j), x(j)) = 0;
-  %    end
-  %  
-  %  else
-  %    
-  %    possibleChars = possibleChars + 1;
-  %    charHeightSum = charHeightSum + compHeight;
-  %    charWidthSum = charWidthSum + compWidth;
-  %    
-  %    if compHeight > maxCharHeight
-  %      maxCharHeight = compHeight;
-  %    elseif compWidth > maxCharWidth
-  %      maxCharWidth = compWidth;
-  %    end
-  %    
-  %  end
-  %
-  %charAvgHeight = charHeightSum / possibleChars;
-  %charAvgWidth= charWidthSum / possibleChars;
+  for p = 1:8
+    [maxVal,maxPos] = max(allPeaks(:,2));
+    peaks(p) = allPeaks(maxPos,1);
+    allPeaks(maxPos,2) = 0;
+  end
   
+  peaks
   
-  % if there are to many candidates left, some more should be removed
-  %if possibleChars > 7
-  %
-  %  for i = 1:noOfComp
-  %
-  %    if ~compRemoved(i) && compSize > (charAvgHeight*charAvgWidth)/2
-  %
-  %      % register that component has been removed
-  %      compRemoved(i) = true;
-  %
-  %      % set color of pixels in component to black
-  %      for j = 1:compSize
-  %        conComp(y(j), x(j)) = 0;
-  %      end
-  %
-  %    end
-  %
-  %  end
-  %  
-  %end
+  % plot summedScanlines and found peaks
+  if figuresOn
+    normSummedScanlines = (summedScanlines/max(summedScanlines))*imHeight;
+    figure(22), subplot(6,3,1:3), imshow(grayImg), title('gray image');
+    figure(22), subplot(6,3,4:6), imshow(brightGrayImg), title('brigtnessEnh image');
+    hold on;
+    plot(normSummedScanlines,'r');
+    for j = 1:size(allPeaks)
+      plot(allPeaks(j), middle, 'gx');
+    end
+    for i = 1:8
+      plot(peaks(i), 1:imHeight, 'b-');
+    end
+    hold off;
+  end
+ 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%                          %%%%
+  %%%% PEAK TO VALLEY ANALYSING %%%%
+  %%%%                          %%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  %{
+  % REPLACE WITH GETSIGNATURE
+  
+  summedScanlines = zeros(imHeight,1);
+  size(summedScanlines)
+  size(brightGrayImg)
+  
+  % sum up scanlines: entire image
+  for i = 1:imWidth
+    summedScanlines = summedScanlines + double(brightGrayImg(:,i));
+  end
+  
+  % smoothen with simple average function
+  lagSize = 15
+  for i = 1:imHeight
+    
+    % determine the low and high for calculating mean
+    low = i-lagSize+1;
+    high = i+lagSize;
+    
+    if low < 1
+      low = 1;
+    end
+    if high > imHeight
+      high = imHeight;
+    end
+    
+    summedScanlines(i) = mean(summedScanlines(low:high));
+  end
+  
+  %}
+
+  
+  %%%% Find upper and lower cut-line %%%%
+  
+  % use bw img to find upper and lower cut
+  bwImg = im2bw(grayImg,graythresh(grayImg));
+  %brightBwImg = im2bw(brightGrayImg,graythresh(brightGrayImg));
+  
+  if figuresOn
+    %normSummedScanlines = (summedScanlines/max(summedScanlines))*imWidth;
+    figure(22), subplot(6,3,7:9), imshow(bwImg), title('bw from grayImg');
+    %figure(22), subplot(4,1,4), imshow(brightBwImg), title('bw from brightGrayImg');
+    %hold on;
+    %figure(33), plot(normSummedScanlines,'r');
+    %hold off;
+  end
+
+  % find top- and bottom cuts
+  scanlineSums = sum(bwImg,2);
+  bottomSums = scanlineSums(1:middle,:);
+  topSums = scanlineSums(middle:imHeight,:);
+  [maxBottom,lowerCut] = max(bottomSums)
+  [maxTop,upperCut] = max(topSums);
+  upperCut = upperCut + middle
+  
+    
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%                       %%%%
+  %%%% CUT AND RETURN CHARS  %%%%
+  %%%%                       %%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  foundChars = 7;
+  
+  % for removing white spaces
+  charHeight = upperCut - lowerCut + 1
+
+  % cut out chars, roughly
+  plotPos = 10;
+  for n = 1:7
+    
+    % find x-coordinates using peaks
+    [xMin, minIndex] = min(peaks)
+    peaks(minIndex) = inf;
+    [xMax, maxIndex] = min(peaks)
+    
+    % adjust coordinates if they point outside the image
+    if xMin < 1
+      xMin = 1;
+    end
+    if xMax > imWidth
+      xMax = imWidth;
+    end
+    %if yMin < 1
+    %  yMin = 1;
+    %end
+    %if yMax > imHeight
+    %  yMax = imHeight;
+    %end
+    
+    % remove white spaces on both sides of char
+    %leftWhite = xMin;
+    %rightWhite = xMax;
+    %sum(bwImg(lowerCut:upperCut,xMin))
+    while sum(bwImg(lowerCut:upperCut,xMin)) == charHeight && xMin < xMax
+      xMin = xMin + 1;
+    end
+    while sum(bwImg(lowerCut:upperCut,xMax)) == charHeight && xMin < xMax
+      xMax = xMax - 1;
+    end
+    
+    %leftWhite
+    %rightWhite
+    
+    % specify position of char
+    fieldName = strcat('field',int2str(n));
+    %chars.(fieldName) = plateImg(upperCut:lowerCut,xMin:xMax,:);
+    chars.(fieldName) = bwImg(lowerCut:upperCut,xMin:xMax);
+    charCoords(n,1) = xMin;
+    charCoords(n,2) = xMax;
+    charCoords(n,3) = lowerCut;
+    charCoords(n,4) = upperCut;
+    
+    % display char
+    if figuresOn
+      figure(22), subplot(6,3,plotPos), imshow(chars.(fieldName)), title(fieldName);
+      plotPos = plotPos + 1;
+    end
+  end  
   
 end
