@@ -8,12 +8,13 @@
 \usepackage{verbatim}
 %\usepackage{listings} % Better source code listings
 \usepackage{graphicx}
+\usepackage{hyperref}
 
 \author{Tobias Balle-Petersen og Esben Paul Bugge}
 \title{Bachelorprojekt}
 
 \parindent=0pt
-\parskip=8pt
+\parskip=10pt
 \usepackage[top=3cm, bottom=2.5cm, left=4cm, right=4cm]{geometry} 
 
 %\lstset{language=python}
@@ -38,10 +39,10 @@
 
 \section{Introduktion}
 
-I mange sammenhænge vil det være relevant at automatisk kunne identificere og genkende køretøjers nummerplader. F.eks. kunne politiets arbejde med at fange fartsyndere udnytte denne automatiske funktion: Et system bestående af et kamera, en computer og en hastighedsmåler opstilles i en vejkant. De forbikørendes hastighed måles og hvis denne er for høj i forhold til det tilladte, tages der et billede af bilen. Efterfølgende kan computeren automatisk identificere og genkende nummerpladen på bilen, hvorefter politiet kan finde frem til fartsynderen. I dette projekt vil vi arbejde med netop dette emne: automatisk identificering og genkendelse af nummerplader i billeder ved hjælp af et computersystem. Det system, vi ønsker at udvikle, egner sig bedst til en situation, hvor bilen står stille eller bevæger sig meget langsomt. Dette kunne eksempelvis passe til et system som kunne bruges ved et parkeringsanlæg, hvor der tages et billede af de biler der ankommer til anlægget, så man kan registrere hvilke biler der befinder sig på anlægget.
+I mange sammenhænge vil det være relevant at automatisk kunne identificere og genkende køretøjers nummerplader. F.eks. kunne politiets arbejde med at fange fartsyndere udnytte denne automatiske funktion: Et system bestående af et kamera, en computer og en hastighedsmåler opstilles i en vejkant. Den forbikørendes hastighed måles og hvis denne er for høj i forhold til det tilladte, tages der et billede af bilen. Efterfølgende kan computeren automatisk identificere og genkende nummerpladen på bilen, hvorefter politiet kan finde frem til fartsynderen. I dette projekt vil vi arbejde med netop dette emne: automatisk identificering og genkendelse af nummerplader i billeder ved hjælp af et computersystem. Det system, vi ønsker at udvikle og afprøve, egner sig dog bedst til en situation, hvor bilen står stille eller bevæger sig meget langsomt. Dette system kunne eksempelvis være et system som bruges ved et parkeringsanlæg, hvor der tages et billede af de biler der ankommer til anlægget, så man kan registrere hvilke biler der befinder sig på anlægget.
 
 \subsection{Problemformulering}
-Opgavens problemformulering blev således:
+Opgavens problemformulering blev som følger:
 
 \begin{itemize}
 \item[-] Hvordan kan nummerplader på farvefotografier identificeres og læses af et computersystem?
@@ -50,17 +51,20 @@ Opgavens problemformulering blev således:
 
 \subsection{Afgrænsning}
 
+Vi afgrænsede projektet på følgende måder:
+
 \begin{itemize}
 \item[-] Billederne skulle tages ved højlys dag uden brug af kunstig lys. På denne måde vurderede vi at man ville opnå fotografier hvor nummerpladerne havde nogenlunde ens farvemønstre. Ved brug af kunstigt lys ville man risikere at nummerpladen ville fremstå med en unartulig farve eller at det reflekterende materiale, som nummerplader er lavet af, ville skabe genskin og på denne måde unaturlige farver.
 \item[-] Hvert fotografi skulle forestille en bil med en synlig nummerplade.
 \item[-] Fotografierne skulle tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 3-6 meter fra bilen uden zoom. På denne måde må det forventes at nummerpladen bliver tilpas stor i billedet til at computersystem kan finde den, samt at man med det menneskelige øje kan aflæse nummerpladen udfra fotografierne.
-\item[-] Nummerpladen skulle ikke nødvendigvis befinde sig midt i billedet. Dette ville skabe lidt udfordring for vores system, som dermed ikke nødvendigvis kan udelukke objekter som ikke er i midten af fotografiet.
-\item[-] Nummerpladen skulle fremstå vandret på billedet og skulle desuden være fri for urenheder eller lignende, der gjorde pladen sværere at læse. I færdselsloven..
+\item[-] Nummerpladen skulle ikke nødvendigvis befinde sig midt i billedet. %Dette ville skabe lidt udfordring for vores system, som dermed ikke nødvendigvis kan udelukke objekter som ikke er i midten af fotografiet.
+\item[-] Nummerpladen skulle fremstå vandret i billedet og skulle desuden være fri for urenheder eller lignende, der gjorde pladen sværere at læse.
+\item[-] Nummerpladerne skal alle være danske privatplader som de udstedtes i foråret 2008\footnote{Rød kant, hvid baggrund og sort tekst.} Formatet på nummerpladerne skal være \textit{AA XX XXX}, hvor \textit{A} er bogstaver i mængden \textit{A}-\textit{Z}\footnote{Enkelte tegn er muligvis ikke lovlige. Er dette tilfældet, skal systemet ikke tage højde for dem.}, og \textit{X} er heltal i mængden 0-9. Som eksemplet viser, skal der være mellemrum mellem de to bogstaver og de to første tal samt mellem de to første tal og de tre tal. Nummerpladerne må ikke indeholde andre tegn end de nævnte bogstaver og tal.
 \end{itemize}
 
 \subsection{Kendte metoder}
 
-Et system til automatisk identificering og genkendelse af nummerplader består af fire elementer: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, segmentering af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer indgår i billedbehandling mens det fjerde element er mønstergenkendelse. Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvide områder i billedet \cite{ron}, \cite{nijhuis}, eller man kan finde pladerne udfra viden om kanter i billedet \cite{shapiro} og eventuelt kombinere det med teksturanalyse \cite{parker}. Derudover kan man analysere kontrasterne i billedet \cite{kwas}, da en nummerplade må forventes af bestå af kontrastfyldte (sort/hvide) områder. Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet og hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver i sær forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}.
+Et system til automatisk identificering og genkendelse af nummerplader består af fire elementer: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, segmentering af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer har vi defineret som værende billedbehandling mens det fjerde element er mønstergenkendelse. Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvide områder i billedet \cite{ron}, \cite{nijhuis}, eller udfra viden om kanter i billedet \cite{shapiro} og eventuelt kombinere det med teksturanalyse \cite{parker}. Derudover kan man analysere kontrasterne i billedet \cite{kwas}, da en nummerplade må forventes af bestå af kontrastfyldte (sort/hvide) områder. Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet, samt hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver i sær forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
 
 
 %\newpage
@@ -68,11 +72,11 @@ Et system til automatisk identificering og genkendelse af nummerplader består a
 
 %\begin{comment} % remove this later
 
-\newpage
+%\newpage
 \include{moenstergenkend}
-\newpage
+%\newpage
 \include{test}
-\newpage
+%\newpage
 %\section{Evaluering}
 
 % God bedømmelse af projektet fås hvis man kan:
@@ -83,9 +87,11 @@ Et system til automatisk identificering og genkendelse af nummerplader består a
 %5. Kunne give en sammenhængende, præcis og ikke-triviel beskrivelse af og begrundelse for væsentlige dele af den konkrete løsning, eller af de generelle muligheder for at løse problemet.
 %6. Kunne vurdere på hvilke områder det er lykkedes at løse problemet, og på hvilke områder det ikke er lykkedes, og kunne påpege eventuelle svagheder i løsningen.
 %7. Kunne reflektere over sin egen arbejdsproces og når det er relevant, komme med forslag til forbedring af den.
-%8. Kunne skrive en sproglig og strukturel velskrevet rapport med relevante illustrationer og referencer som følger en etableret standard. 
+%8. Kunne skrive en sproglig og strukturel velskrevet rapport med relevante illustrationer og referencer som følger en etableret standard.
 
 \begin{comment}
+
+Skal vi have arbejdsopgaverne med i rapporten og så bedømmes de?
 
 Blev spørgsmålene besvaret:
 
@@ -130,6 +136,9 @@ Hvordan kan nummerplader på farvefotografier identificeres og læses af et comp
 \bibitem{kwas} Kwa\'snicka, H., Wawrzyniak, B.: \textit{License plate localization and recognition in camera pictures}.
 %http://www.ci.pwr.wroc.pl/~kwasnick/download/kwasnickawawrzyniak.pdf
 
+\bibitem{arth} Arth, C., Limberger, F., Bischof, H.: \textit{Real-Time License Plate Recognition on an Embedded DSP-Platform}.
+%http://www.icg.tu-graz.ac.at/pub/pdf/arth_-_real-time_license_plate_recognition_ecw07.pdf
+
 %Hentet 17. februar 2008:
 \bibitem{cano} Cano, J., Pérez-Cortés, J.-C.: \textit{Vehicle License Plate Segmentation In Natural Images}.
 %http://plutarco.disca.upv.es/~jcperez/Documentos/Matriculas2003.pdf
@@ -137,8 +146,6 @@ Hvordan kan nummerplader på farvefotografier identificeres og læses af et comp
 
 
 %%%%% NOT DONE %%%%%
-
-%http://www.icg.tu-graz.ac.at/pub/pdf/arth_-_real-time_license_plate_recognition_ecw07.pdf
 
 
 %http://nrpl.dk/ - Nummerplader

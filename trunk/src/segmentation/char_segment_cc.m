@@ -2,6 +2,16 @@
 % connected components. Plate must be located and rotated so it is
 % placed horizontally in the image. The function returns the cut-out chars
 % and a count on how many chars that have been found.
+% 
+% Input parameters:
+% - plateImg: image of a licenseplate where the plate has (possibly) been
+%   rotated so the plate is horizontal in the image.
+% - figuresOn: true/false whether figures should be printed.
+% 
+% Output parameters:
+% - chars: 
+% - charCoords: 
+% - foundChars: 
 function [chars, charCoords, foundChars] = char_segment_cc (plateImg, figuresOn) 
 
   chars.field1 = zeros(1,1);
