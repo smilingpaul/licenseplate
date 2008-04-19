@@ -35,6 +35,7 @@ ORIG\_IM BIN\_IM.
 %detect6
 
 \subsubsection*{Frekvensanalyse}
+\label{sec_frekvensanalyse} 
 Ideen bag denne metode til markering af interesseområder er, at kigge på frekvensen af skift mellem lyse og mørke intensiteter i vandrette linier i et gråtonebillede. For at kunne markere områder der har en frekvens svarende til en nummerplade, skal vi først finde ud af hvad denne representative frekvens er. Derfor har vi analyseret nummerpladeområderne på vores testbilleder og udregnet den gennemsnitlige frekvens. Med denne viden kan vi skabe et binært billede hvor de markerede interesseområder er dem hvor frekvensen ligger tæt på den udregnede idealfrekvens. (ref til pdfer med signaturer)
 
 ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
@@ -80,17 +81,29 @@ TO ILLUSTRATIONER: ORIGINAL BILLEDE OG TILHØRSBILLEDE
 
 \subsubsection*{Analyse af kandidater}
 \label{sec_kandidater}
-Ud fra de binære billeder der viser interesseområder, skal vi forsøget at finde de områder der mest sandsynligt er nummerplader. (noget med sammenhængende områder og dilate/erode). Vi har valgt at begynde med at sortere de områder fra der kan udelukkes. Områder med følgende karateristika sorterer vi fra:
+Ud fra de binære billeder der viser interesseområder, skal vi forsøget at finde de områder der mest sandsynligt er nummerplader. (noget med sammenhængende områder og dilate/erode). Vi begynder udvælgelsesprocessen med at frasortere de områdervi mener kan udelukkes som værende nummerplader. Vi sletter områder med følgende karateristika:
 \begin{itemize}
 \item Området er meget lille.
 \item Området er meget stort.
 \item Området er højere end det er bredt.
 \item Området er meget bredt i forhold til højden.
-\
+\item Området har få markerede pixels i forhold til det rektangel det udspænder.
 \end{itemize}
 
-%Signatur: avg plateness ganges op da plate sig ser ud som den gør.
-ILLU\_MED\_TRIN\_I\_FRAVÆLGELSE\_AF\_KANDIDATER
+
+I det resulterende binære billede giver vi de tilbageværende områder point efter deres højde/bredde forhold og deres frekvens. Et område der udspænder et rektangel med samme højde/bredde-forhold som en nummerplade får 0 point og et område der afviger meget fra det ideelle højde/bredde-forhold får et højt antal point.
+
+Herefter kigger vi på en værdi der beskriver antallet af skift mellem meget lyse og meget mørke områder i kandidatområdet. Princippet er det samme som metoden beskrevet afsnittet \textbf{Frekvensanalyse} på side \pageref{sec_frekvensanalyse}. Forskellen er, at vi i det fåregående afsnit kiggede på linier der er indeholdt i nummerplader, mens vi her kigger på et helt områder der er større end selve nummerpladen. Der er en væsentlig forskel, da starten og slutningen på en nummerplade er meget karakteristisk. Udfra vores testdata har vi udregnet en gennemsnitsværdi for svingninger i nummerpladeområder. Vi sammenligner kandidaterne og giver dem point i forhold til hvor tæt de ligger på den på forhånd bestemte gennemsnitsværdi. Jo mere et område afviger fra det ideelle antal svingninger, jo flere point får det.
+
+ILLU\_PLATESIG\_M\_AVG
+
+
+
+Signatur: avg plateness ganges op da plate sig ser ud som den gør.
+ILLU_MED_TRIN_I_FRAVÆLGELSE_AF_KANDIDATER
+\paragraph*{Analyse}
+Ville være hurtigere at ikke slette men at fravælge. Størrelser. Må man det? Generelt vs. ikke generelt.
+
 
 %\paragraph*{Analyse}
 %Ville være hurtigere at ikke slette men at fravælge. Størrelser. Må man det? Generelt vs. ikke generelt.
