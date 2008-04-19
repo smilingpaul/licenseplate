@@ -36,10 +36,11 @@
 \tableofcontents
 \newpage
 
-\section{Introduktion/Baggrund}
+\section{Introduktion}
 
 I mange sammenhænge vil det være relevant at automatisk kunne identificere og genkende køretøjers nummerplader. F.eks. kunne politiets arbejde med at fange fartsyndere udnytte denne automatiske funktion: Et system bestående af et kamera, en computer og en hastighedsmåler opstilles i en vejkant. De forbikørendes hastighed måles og hvis denne er for høj i forhold til det tilladte, tages der et billede af bilen. Efterfølgende kan computeren automatisk identificere og genkende nummerpladen på bilen, hvorefter politiet kan finde frem til fartsynderen. I dette projekt vil vi arbejde med netop dette emne: automatisk identificering og genkendelse af nummerplader i billeder ved hjælp af et computersystem. Det system, vi ønsker at udvikle, egner sig bedst til en situation, hvor bilen står stille eller bevæger sig meget langsomt. Dette kunne eksempelvis passe til et system som kunne bruges ved et parkeringsanlæg, hvor der tages et billede af de biler der ankommer til anlægget, så man kan registrere hvilke biler der befinder sig på anlægget.
 
+\subsection{Problemformulering}
 Opgavens problemformulering blev således:
 
 \begin{itemize}
@@ -47,17 +48,7 @@ Opgavens problemformulering blev således:
 \item[-] Hvilke kendte metoder findes der, og hvor høj genkendelsesprocent kan et system vi selv laver opnå?
 \end{itemize}
 
-Et system til automatisk identificering og genkendelse af nummerplader består af fire elementer: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, segmentering af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer indgår i billedbehandling mens det fjerde element er mønstergenkendelse. Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvide områder i billedet \cite{ron}, \cite{nijhuis}, eller man kan finde pladerne udfra viden om kanter i billedet \cite{shapiro} og eventuelt kombinere det med teksturanalyse \cite{parker}. Derudover kan man analysere kontrasterne i billedet \cite{kwas}, da en nummerplade må forventes af bestå af kontrastfyldte (sort/hvide) områder. Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet og hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver i sær forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}.
-
-%\subsection{Problemformulering og afgrænsning}
-
-
-
-
-\section{Indledende arbejde}
-%Fra start var vi meget opmærksomme på at afgrænsningen af projektet skulle være klar, så det ikke blev for omfattende. Omkring valg af billedemateriale afholdt vi os eksempelvis fra at 
-
-Til at udarbejde og teste systemet havde vi brug for nogle fotografier af biler med nummerplader. Ved fotograferingen var vi opmærksomme på følgende afgrænsninger:
+\subsection{Afgrænsning}
 
 \begin{itemize}
 \item[-] Billederne skulle tages ved højlys dag uden brug af kunstig lys. På denne måde vurderede vi at man ville opnå fotografier hvor nummerpladerne havde nogenlunde ens farvemønstre. Ved brug af kunstigt lys ville man risikere at nummerpladen ville fremstå med en unartulig farve eller at det reflekterende materiale, som nummerplader er lavet af, ville skabe genskin og på denne måde unaturlige farver.
@@ -67,26 +58,10 @@ Til at udarbejde og teste systemet havde vi brug for nogle fotografier af biler 
 \item[-] Nummerpladen skulle fremstå vandret på billedet og skulle desuden være fri for urenheder eller lignende, der gjorde pladen sværere at læse. I færdselsloven..
 \end{itemize}
 
-Vi tog i alt 407 fotografier med to digitalkameraer: 236 med et Canon og 171 med et Olympus. Et eksempel på et fotografi ses i Figur 1.%\ref{b_xc33139}.
+\subsection{Kendte metoder}
 
-FIGUR 1: EKSEMPEL PÅ FOTOGRAFI AF BIL MED NUMMERPLADE
+Et system til automatisk identificering og genkendelse af nummerplader består af fire elementer: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, segmentering af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer indgår i billedbehandling mens det fjerde element er mønstergenkendelse. Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvide områder i billedet \cite{ron}, \cite{nijhuis}, eller man kan finde pladerne udfra viden om kanter i billedet \cite{shapiro} og eventuelt kombinere det med teksturanalyse \cite{parker}. Derudover kan man analysere kontrasterne i billedet \cite{kwas}, da en nummerplade må forventes af bestå af kontrastfyldte (sort/hvide) områder. Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet og hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver i sær forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}.
 
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=10cm]{illu/B_XC33139.jpg}
-%\label{b_xc33139}
-%\caption{Fotografieksempel}
-%\end{center}
-%\end{figure}
-
-Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til identificering af nummerplader (se afsnit \ref{histo}), holdt vi de to fotografisæt adskilte. På denne måde ville det f.eks. være muligt for os at teste om skift fra et kamera til et andet, vil give ændrede resultater. Billederne blev navngivet i vores database, så det, i deres filnavn, indgik om billedet forestillede en bil set forfra eller bagfra samt hvilken nummerplade bilen på nummerpladen havde. Derudover udarbejdede vi et mindre program som hjalp os til at identificere nummerpladens fire hjørnekoordinater og indskrive disse i filnavnet. Denne sidste tilføjelse ville hjælpe os i testfasen, til at undersøge om de nummerpladekandidater vores system ville udvælge er de korrekte.
-
-
-%\subsection{Fotografering}
-%Hvor mange og hvilke billeder har vi taget.
-%At billederne er taget i naturligt lys for at undgå kunstige farver og genskin fra pladen som er malet med reflekterende materiale.
-%Opdeling af billeder i træning- og testsæt
-%til f.eks. histogram metode herunder adskillelse af fotos fra de to forskellige kameraer.
 
 %\newpage
 \include{billedbehandling/billedbehandling}
@@ -98,7 +73,7 @@ Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til ident
 \newpage
 \include{test}
 \newpage
-\section{Evaluering}
+%\section{Evaluering}
 
 % God bedømmelse af projektet fås hvis man kan:
 %1. Opstille en arbejdsplan og afslutte en undersøgelse af problemet indenfor den tid der er til rådighed.
@@ -118,19 +93,20 @@ Hvordan kan nummerplader på farvefotografier identificeres og læses af et comp
 
 \end{comment}
 
-\subsection{Performance}
-\subsection{Problemer}
-\subsection{Resultater i forhold til læst litteratur}
-\subsection{Konklusion}
+%\subsection{Performance}
+%\subsection{Problemer}
+%\subsection{Resultater i forhold til læst litteratur}
+\section{Konklusion}
 
 %\end{comment} % remove this later
 
 \newpage % new page before litterature
 %\include{litteratur/litteratur}
 %\section{Litteraturliste}
-%\section{Litteratur}
+\section{Litteratur}
 
 \begin{thebibliography}{99}
+%\bibliographystyle{plain}
 
 
 %%%%% BELOW: DONE %%%%%

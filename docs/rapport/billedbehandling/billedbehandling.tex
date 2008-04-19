@@ -94,25 +94,25 @@ I arbejdet med at udvælge nummerpladekandidater i billeder, har vi valgt at bru
 Noget med at vi laver binære billeder hvori vi kigger efter kandidater med ratio etc.
 
 
-\subsubsection{Udvælgelse af kandidater}
+\subsubsection*{Udvælgelse af kandidater}
 
 skal forbudne komponenter der ikke er kandidater slettes eller bare fravælges. Det første giver bedre illu samt debugging mens det sidste nok er hurtigere.
 
-\subsubsection{Områder domineret af lyse gråtoner}
+\subsubsection*{Områder domineret af lyse gråtoner}
 Med denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af gråtoner i et farvebillede. Det er vores forventning at en nummerplade vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger meget tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0 mens en middelgrå pixel vil derimod have værdien 128 i alle tre farvekanaler. For hver pixel i farvebilledet udregner vi gennemsnitsværdien ved at summere værdierne for de tre kanaler og dividere med tre. Hvis alle træ kanaler har en værdi der ligger tæt\footnote{Et parameter i programmet} på middelværdien og samtidig er lys\footnote{Et parameter i programmet} markeres den indeværende pixel i det binære billede der er resultatet af gennemgangen af alle pixels i farvebilledet.
 
 BILLEDER HER.
 %detect5
  
 
-\subsubsection{Områder med høj kontrast}
+\subsubsection*{Områder med høj kontrast}
 Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast. Endvidere forventer vi at mange af disse kontrastområder vil være områder hvor den det ene intensitetsområde ligge ved siden af det andet i modsætning til over hinanden (beskriv nøjere?). F.eks. har bogstavet I lyse områder på både venstre og højre side. Der er altså to lodrette linier der markerer overgangen mellem lyse og mørke områder. Ved at lave billedet om til gråtoner og derefter betragte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter der beskriver hældningen i en pixel son en to dimensionel vektor(en illu). Et bredt område med en blød overgang i intensitet fra helt sort til helt hvid, hvil have korte vektorer i alle pixels mens en brat overgang fra sort til hvid vil resultere i meget lange gradienter for de pixels der ligger op ad overgangen. Ved brug af disse gradienter laver vi et nyt billeder der viser gradienternes vandrette længde. Peger en gradient f.eks. lodret op i billedet vil den ikke blive markeret, hvorimod den vil blive markeret hvis den f.eks. peger fra venstre mod højre. Lyse pixels i dette billede indikerer lange længder. For at gøre områder med høje intensiteter mere sammenhængende filtrerer vi billedet med et ikke kvadratisk filter der er flere gange bredere end det er højt. BESKRIVELSE. Resultater et et udglattet billede hvor intensitetsområder der ligger ved siden af hinanden er blevet forbundet. Ud fra dette billede laver vi et binært billede med kandidatområder markeret med hvidt. 
 
 Henvisning til litteratur.
 %detect6
 
 
-\subsubsection{Reducer information}
+\subsubsection*{Reducer information}
 Lav et histogram. Find peak (her er der mest info). Smid det der ikke er i nærheden ud. Find områder med aspect etc.
 
 %detect4
@@ -145,7 +145,7 @@ statser på at pladen er på de linier med mest hvidt.
 
 \end{comment}
 
-\subsubsection{Vægtet metode/sammenflet fire metoder}
+\subsubsection*{Vægtet metode/sammenflet fire metoder}
 
 Diskuter om vi skal vælge en kandidat når de forskellige metoder har forskellige kandidater. Parkering: man kunne bede bilen om at bakke og tage et nyt billeder hvis der ikke kan findes en fælles kandidat. Fartkontrol: ikke muligt med nyt billede, gær derimod på den kandidat der er returneret af den mest pålidelige metode. 
 
@@ -157,7 +157,7 @@ Regler:
 - Længde af linie
 
 
-\subsubsection{Histogram metode}
+\subsubsection*{Histogram metode}
 \label{histo}
 
 Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde billeder af nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
@@ -176,7 +176,7 @@ De normaliserede frekvenstabeller gives sammen med et fotografi af en bil som in
 
 %\begin{comment} % remove this
 
-\subsubsection{MSER}
+\subsubsection*{MSER}
 \begin{comment}
 Først sorteres alle pixels intensiteter (stigende). Dette gøres ved brug af bucket sort.
 \end{commen}
@@ -199,7 +199,7 @@ I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, s
 %Hough transformation
 \end{comment}
 
-\subsubsection{Radon transformation}
+\subsubsection*{Radon transformation}
 \begin{comment}
 En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er meget brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
@@ -240,19 +240,11 @@ BILLEDE AF NUMMERPLADE, ROTERET.
 Ulemper:
 \end{comment}
 
-\subsubsection{Andre metoder brugt i litteraturen}
+\subsubsection*{Andre metoder brugt i litteraturen}
 
 \subsection{Segmentering af bogstaver}
 
-\subsubsection{Test af segmentering}
-
-\begin{comment}
-Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" de kan brede sig i. Ikke alle tegn er lige brede, og generelt er bogstaver bredere end tal. "Feltet" til bogstaver er derfor bredere end feltet til tegn. Enkelte tegn er for smalle til at udfylde deres "felt", så designeren har fundet det hensigtsmæssigt at placere disse tegn visuelt centreret inden for deres "felt".
-
-"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
-\end{comment}
-
-\subsubsection{Sammenhængende komponenter}
+\subsubsection*{Sammenhængende komponenter}
 \begin{comment}
 Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at de 7 tegn som findes i billedet af nummerpladen alle er forbunde komponenter og derfor vil fremstå efter en forbundne komponenter-analyse. Andre dele af billedet vil højst sandsynligt også være ..
 
@@ -287,7 +279,7 @@ EKSEMPEL PÅ UDKLIPPEDE TEGN
 Som beskrevet i kwasnickawawrzyniak kunne man eventuelt fjerne kanter før man starter analysen?
 \end{comment}
 
-\subsubsection{Skan-linie}
+\subsubsection*{Skan-linie}
 \begin{comment}
 Bruges ikke da det er for mange felter som bliver valgt. Kan måske gøres bedre ved filtrering før???
 
@@ -298,11 +290,19 @@ Billedet skal skæres foroven og forneden. Dette gøres simpelt ved at finde den
 Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af et tegn og efter et tegn.
 \end{comment}
 
-\subsubsection{peak-to-valley}
+\subsubsection*{peak-to-valley}
 \begin{comment}
 Beskrevet i kwasnickawawrzyniak og bør måske afprøves? Måske i samarbejde med første metode?
 \end{comment}
-\subsubsection{Andre metoder brugt i litteraturen}
+\subsubsection*{Andre metoder brugt i litteraturen}
+
+\subsubsection*{Test af segmentering}
+
+\begin{comment}
+Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" de kan brede sig i. Ikke alle tegn er lige brede, og generelt er bogstaver bredere end tal. "Feltet" til bogstaver er derfor bredere end feltet til tegn. Enkelte tegn er for smalle til at udfylde deres "felt", så designeren har fundet det hensigtsmæssigt at placere disse tegn visuelt centreret inden for deres "felt".
+
+"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
+\end{comment}
 
 %\end{comment} % remove this
 
