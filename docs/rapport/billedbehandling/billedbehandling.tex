@@ -6,13 +6,11 @@ I dette afsnit beskrives de tre første elementer af vores system: identificerin
 \subsection{Identifikation af nummerplader}
 I arbejdet med at udvælge nummerpladekandidater i billeder, har vi valgt at bruge flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til identifikation af nummerplader. 
 
-Noget med at vi laver binære billeder hvori vi kigger efter kandidater med ratio etc.
-
 
 \subsubsection*{Interesseområder}
-Metoderne i dette afsnit, har alle det til fælles at de returnerer et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante ar markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort. I den realistiske situation er der mange interesseområder markeret i det binære billede. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem det senere afsnit \bf{Analyse af kandidater} der begynder på side \pageref{sec_kandidater}.
+Metoderne i dette afsnit, har alle det til fælles at de returnerer et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante ar markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort. I den realistiske situation er der mange interesseområder markeret i det binære billede. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec_kandidater}.
 
-ORIG_BILLEDE IDEAL_ILLU REAL_ILLU
+TRE ILLUSTRATIONER ORIGINAL BILLEDE, IDEAL ILLU, REAL ILLU
 
 
 
@@ -21,19 +19,19 @@ ORIG_BILLEDE IDEAL_ILLU REAL_ILLU
 \subsubsection*{Områder domineret af lyse gråtoner}
 Med denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af gråtoner i et farvebillede. Det er vores forventning at en nummerplade vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger meget tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0 mens en middelgrå pixel vil derimod have værdien 128 i alle tre farvekanaler. For hver pixel i farvebilledet udregner vi gennemsnitsværdien ved at summere værdierne for de tre kanaler og dividere med tre. Hvis alle tre kanaler har en værdi der ligger tæt\footnote{Et parameter i programmet} på middelværdien og samtidig er lys\footnote{Et parameter i programmet} markeres den indeværende pixel i det binære billede der er resultatet af gennemgangen af alle pixels i farvebilledet.
 
-ORIG_IM BIN_IM.
+ORIG\_IM BIN\_IM.
 %detect5
-\paragraph*{Analyse}
-\paragraph*{Implementation}
+%\paragraph*{Analyse}
+%\paragraph*{Implementation}
  
 
 \subsubsection*{Områder med høj kontrast}
 Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast. Endvidere forventer vi at mange af disse kontrastområder vil være områder hvor den det ene intensitetsområde ligge ved siden af det andet i modsætning til over hinanden (beskriv nøjere? antagelse om vandrette plader). F.eks. har bogstavet I lyse områder på både venstre og højre side. Der er altså to lodrette linier der markerer overgangen mellem lyse og mørke områder. Ved at lave billedet om til gråtoner og derefter betragte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter der beskriver hældningen i en pixel son en to dimensionel vektor(en illu). Et bredt område med en blød overgang i intensitet fra helt sort til helt hvid, hvil have korte vektorer i alle pixels mens en brat overgang fra sort til hvid vil resultere i meget lange gradienter for de pixels der ligger op ad overgangen. Ved brug af disse gradienter laver vi et nyt billeder der viser gradienternes vandrette længde. Peger en gradient f.eks. lodret op i billedet vil den ikke blive markeret, hvorimod den vil blive markeret hvis den f.eks. peger fra venstre mod højre. Lyse pixels i dette billede indikerer lange længder. For at gøre områder med høje intensiteter mere sammenhængende filtrerer vi billedet med et ikke kvadratisk filter der er flere gange bredere end det er højt. BESKRIVELSE. Resultater et et udglattet billede hvor intensitetsområder der ligger ved siden af hinanden er blevet forbundet. Ud fra dette billede laver vi et binært billede med kandidatområder markeret med hvidt. (Henvisning til litteratur.)
 
-ORIG_IM BIN_IM.
+ORIG\_IM BIN\_IM.
 
-\paragraph*{Analyse}
-\paragraph*{Implementation}
+%\paragraph*{Analyse}
+%\paragraph*{Implementation}
 %detect6
 
 \subsubsection*{Frekvensanalyse}
@@ -41,17 +39,44 @@ Ideen bag denne metode til markering af interesseområder er, at kigge på frekv
 
 ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
 
-\paragraph*{Analyse}
-\paragraph*{Implementation}
-
+%\paragraph*{Analyse}
+%\paragraph*{Implementation}
 
 \subsubsection*{Skru op for Kontrast}
-Lav et histogram. Lad et vindue køre hen over histogrammet. Vælg den position hvor der er mest info i vinduet. Stræk dette område så det fylder helle intensitetsspekter fra 0 til 255. Lav binært billede ud fra dette high-contrast-billede. Er det en metode eller en forberedelse af billedet før en af de andre metoder bruges?
+%Lav et histogram. Lad et vindue køre hen over histogrammet. Vælg den position hvor der er mest info i vinduet. Stræk dette område så det fylder helle intensitetsspekter fra 0 til 255. Lav binært billede ud fra dette high-contrast-billede. Er det en metode eller en forberedelse af billedet før en af de andre metoder bruges?
 
-ORIG\_IM CONTRAST\_IM BIN\_IM.
+%ORIG\_IM CONTRAST\_IM BIN\_IM.
 
-\paragraph*{Analyse}
-\paragraph*{Implementation}
+%\paragraph*{Analyse}
+%\paragraph*{Implementation}
+
+\subsubsection*{Histogram metode}
+\label{sec_histo}
+
+Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
+
+%Beskrevet i LicensePlateSydney.pdf
+
+%Frekvenstabel, hvordan opbygges den?
+%Frekvenstabellen indeholdende farvefrekvenserne for pixels i en række billeder af nummerplader blev lavet som følgende: Tabellen blev udformet vha. funktionen make\_freq\_table. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Eksempelvis
+
+Først oprettes en frekvenstabel udfra nogle billeder, hvor nummerpladens placering i billedet allerede er specificeret. Her itereres der gennem alle pixels i et billede og antallet af farver med en bestemt farvekombination summeres i en $255 \times 255 \times 255$ matrice, med plads til én frekvensværdi, $f$ for hver farvekombination. Når frekvenstabellen er udformet, normaliseres den. Det medfører at den RGB værdi der har den højeste frekvens, $f_{max}$ får værdien 1, mens de resterende RGB værdier får værdien $f$/$f_{max}$. Hvis RGB værdien 240, 240, 230 eksempelvis har den højeste frekvens, 55 og RGB værdien 230, 230, 220 har frekvensen $35$, får førstnævnte værdien 1 og sidstnævnte værdien $35/55 = 0,64$.
+
+
+I systemet udarbejdede vi to frekvenstabeller. Én for billederne taget med et Canon digitalkamera og én for billederne taget med et Olympus digitalkamera. Grunden til at oprette disse to adskilte tabeller er, at vi får mulighed for at undersøge forskellen på brug af kamera. Eksempelvis kan det undersøges om en frekvenstabel lavet udfra billeder fra ét kamera kan bruges til at identificere nummerplader i billeder fra et andet kamera.
+
+
+%Vi udvalgte tilfældigt hhv. 70 og 50 billeder fra de to grupper til de to frekvenstabeller og gemte disse tabeller i to seperate filer. Systemet kunne herefter bruge disse frekvenstabeller uden at skulle skabe dem først.
+
+Ved hjælp af frekvenstabellerne skabes et billede hvor hver pixel gives en værdi fra 0 til 1 afhængig af om pixelens farve fremkommer sjældent (0) eller hyppigt (1) i en nummerplade. Disse værdier svarer altså til de værdier der står i frekvenstabellerne. I eksemplet ovenfor, ville en pixel med RGB værdien 230, 230, 220 få værdien 0,64 i tilhørsbilledet. Dette tilhørsbillede vil, med værdier fra 0 til 1, være et gråtone billede hvor de pixels, der har samme farve som de farver der oftest optræder i billeder af nummerplader, vil blive lyse og omvendt vil de resterende pixels blive mørke. De pixels der har de højeste frekvenser bliver altså interesseområder.
+
+TO ILLUSTRATIONER: ORIGINAL BILLEDE OG TILHØRSBILLEDE
+
+%\paragraph{Analyse}
+
+%\paragraph{Implementation}
+
+%Omdannes dette billede til et binært billede vil vi (ved succes) få forbundne komponenter bl.a. der hvor nummerpladen befinder sig i billedet. Disse komponenters størrelse, form osv. kan herefter analyseres og man kan give et bud på hvor nummerpladen befinder sig.
 
 \subsubsection*{Analyse af kandidater}
 \label{sec_kandidater}
@@ -64,12 +89,13 @@ Ud fra de binære billeder der viser interesseområder, skal vi forsøget at fin
 \
 \end{itemize}
 
-Signatur: avg plateness ganges op da plate sig ser ud som den gør.
-ILLU_MED_TRIN_I_FRAVÆLGELSE_AF_KANDIDATER
-\paragraph*{Analyse}
-Ville være hurtigere at ikke slette men at fravælge. Størrelser. Må man det? Generelt vs. ikke generelt.
+%Signatur: avg plateness ganges op da plate sig ser ud som den gør.
+ILLU\_MED\_TRIN\_I\_FRAVÆLGELSE\_AF\_KANDIDATER
 
-\paragraph*{Implementation}
+%\paragraph*{Analyse}
+%Ville være hurtigere at ikke slette men at fravælge. Størrelser. Må man det? Generelt vs. ikke generelt.
+
+%\paragraph*{Implementation}
 
 
 %detect4
@@ -104,6 +130,7 @@ statser på at pladen er på de linier med mest hvidt.
 
 \subsubsection*{Vægtet metode/sammenflet fire metoder}
 
+\begin{comment}
 Diskuter om vi skal vælge en kandidat når de forskellige metoder har forskellige kandidater. Parkering: man kunne bede bilen om at bakke og tage et nyt billeder hvis der ikke kan findes en fælles kandidat. Fartkontrol: ikke muligt med nyt billede, gær derimod på den kandidat der er returneret af den mest pålidelige metode. 
 
 Regler:
@@ -113,23 +140,8 @@ Regler:
 - En linie hvorpå der er en anden retvinklet linie, og linierne har et vist forhold
 - Længde af linie
 
+\end{comment}
 
-\subsubsection*{Histogram metode}
-\label{histo}
-
-Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde billeder af nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
-
-%Beskrevet i LicensePlateSydney.pdf
-
-%Frekvenstabel, hvordan opbygges den?
-%Frekvenstabellen indeholdende farvefrekvenserne for pixels i en række billeder af nummerplader blev lavet som følgende: Tabellen blev udformet vha. funktionen make\_freq\_table. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Eksempelvis
-
-Funktionen make\_freq\_table opretter en frekvenstabel udfra nogle billeder hvor nummerpladens placering i billedet allerede er specificeret. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Når frekvenstabellen er udformet, normaliseres den så den RGB værdi der har den højeste frekvens får værdien 1, mens de resterende RGB værdier får værdien frekvens/højeste frekvens. Hvis RGB værdien 240, 240, 230 eksempelvis har den højeste frekvens, 55 og RGB værdien 230, 230, 220 har frekvensen 35, får førstnævnte værdien 1 og sidstnævnte værdien $35/55 = 0,64$.
-
-
-I systemet udarbejdede vi to frekvenstabeller: En for billederne taget med Canon kameraet og en for billederne taget med Olympus kameraet. Vi udvalgte tilfældigt hhv. 70 og 50 fra den givne gruppe til de to frekvenstabeller og gemte disse tabeller i to seperate filer. Systemet kunne herefter bruge disse frekvenstabeller uden at skulle skabe dem først.
-
-De normaliserede frekvenstabeller gives sammen med et fotografi af en bil som input til funktionen histo\_detect. Her skabes et billede hvor hver pixel gives en værdi fra 0 til 1 afhængig af om pixelens farve fremkommer sjældent i en nummerplade (0) eller fremkommer hyppigt (1). Disse værdier svarer altså til de værdier der står i frekvenstabellerne. I eksemplet ovenfor, ville en pixel med RGB værdien 230, 230, 220 få værdien 0,64 i tilhørsbilledet. Dette tilhørsbillede vil, med værdier fra 0 til 1, være et gråtone billede hvor de pixels, der har samme farve som de farver der oftest optræder i billeder af nummerplader, vil blive lyse og omvendt vil de resterende pixels blive mørke. Omdannes dette billede til et binært billede vil vi (ved succes) få forbundne komponenter bl.a. der hvor nummerpladen befinder sig i billedet. Disse komponenters størrelse, form osv. kan herefter analyseres og man kan give et bud på hvor nummerpladen befinder sig.
 
 %\begin{comment} % remove this
 

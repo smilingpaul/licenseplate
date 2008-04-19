@@ -1,5 +1,13 @@
 % Given an image of a licenseplate, rotate this image so the plate is
 % placed horizontal in the image. Input image  must be two-dimensional.
+%
+% Input parameters:
+% - imgFile: file containing the image with a plate
+% - xMin, Xmax, yMin, yMax: the coordinates of the plate in the image.
+% - figuresOn: true/false whether figures should be printed.
+%
+% Output parameters:
+% - rotatedPlateImg: the image of the plate (and only the plate), rotated
 function [rotatedPlateImg] = plate_rotate_radon (imgFile, xMin, xMax, yMin, yMax, figuresOn)
   
   % read image
@@ -81,10 +89,6 @@ function [rotatedPlateImg] = plate_rotate_radon (imgFile, xMin, xMax, yMin, yMax
   
   if rotateDeg ~= 0
     rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
-    %if figuresOn
-    %  figure(1), subplot(3,2,4), imshow(rotatedImg), title('rotated image');
-    %end
-    %rotationMade = true;
     rotatedPlateImg = rotatedImg(yMin:yMax, xMin:xMax, :);
   else
     rotatedPlateImg = img(yMin:yMax, xMin:xMax, :);
@@ -96,37 +100,3 @@ function [rotatedPlateImg] = plate_rotate_radon (imgFile, xMin, xMax, yMin, yMax
   end
 
 end
-
-% function to find the degree
-%function [rotateDeg] = find_deg (radonMatrix,lines)
-
-  % threshold for maximum value of degree
- % maxDeg = 45;
-
-  % sort radon_matrix so the 
-  %radon_matrix = sort(radon_matrix,'descend');
-
-  % find the clearest line(s) in the img
-  %degrees = zeros(lines);
-  %for n = 1:lines
-  %  [x,degree] = max(max(abs(radonMatrix)));
-  %end
-
-  %radon_matrix(:,88)
-  %radon_matrix(:,89)
-  %radon_matrix(1,40)
-  %radon_matrix(1,41)
-  %radon_matrix(1,42)
-  %radon_matrix(1,43)
-  %radon_matrix(1,44)
-  %radon_matrix(1,45)
-  %radon_matrix(1,46)
-
-  % convert the degree of rotation
- % rotateDeg = 90 - degree;
-
-  %if (rotateDeg > maxDeg)
-   % rotateDeg = 0;
-  %end
-
-  %return;

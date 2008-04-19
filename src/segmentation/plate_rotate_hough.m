@@ -1,5 +1,13 @@
 % Given an image of a licenseplate, rotate this image so the plate is
 % placed horizontal in the image. Input image  must be two-dimensional.
+%
+% Input parameters:
+% - imgFile: file containing the image with a plate
+% - xMin, Xmax, yMin, yMax: the coordinates of the plate in the image.
+% - figuresOn: true/false whether figures should be printed.
+%
+% Output parameters:
+% - rotatedPlateImg: the image of the plate (and only the plate), rotated
 function [rotatedPlateImg] = plate_rotate_hough (imgFile, xMin, xMax, yMin, yMax, figuresOn)
   
   % read image
@@ -59,13 +67,9 @@ function [rotatedPlateImg] = plate_rotate_hough (imgFile, xMin, xMax, yMin, yMax
   end
 
   
-  
+  % rotate plate if necessary
   if rotateDeg ~= 0
     rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
-    %if figuresOn
-    %  figure(1), subplot(3,2,4), imshow(rotatedImg), title('rotated image');
-    %end
-    %rotationMade = true;
     rotatedPlateImg = rotatedImg(yMin:yMax, xMin:xMax, :);
   else
     rotatedPlateImg = img(yMin:yMax, xMin:xMax, :);
