@@ -16,6 +16,8 @@ function [] = main(imagesFolder, numberOfImagesToProcess)
 
 % Add folder holding functions for plate detection
 addpath('detection');
+addpath('segmentation');
+addpath('patternreg');
 
 % noOfImages = 0;
 noOfPlatesFound = 0;
@@ -64,7 +66,7 @@ for i = 1:noOfImages
   %plateCoords = detect2([imagesFolder fileList(i).name])
   %plateCoords = detect4([imagesFolder fileList(i).name])
   %plateImage = detect3([imagesFolder fileList(i).name])
-  %plateCoords = histo_detect([imagesFolder fileList(i).name], freqTable);
+  %plateCoords = histo_detect([imagesFolder fileList(i).name], freqTable, true);
   
   % Determine if plate is within found coordinates 
   if (realPlateCoords(1) >= plateCoords(1) && realPlateCoords(2) <= plateCoords(2) && ...
@@ -93,7 +95,7 @@ for i = 1:noOfImages
   %%%%%%%%%%%%%%%%%
   
   % charCoords are relative to plateimage
-  %foundChars = 0;
+  foundChars = 0;
   %[chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,true);
   [chars, charCoords, foundChars] = char_segment_ptv(rotatedPlateImg,true);
   

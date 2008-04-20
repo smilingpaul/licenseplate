@@ -14,6 +14,7 @@
 % - foundChars: 
 function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn) 
 
+  % create output elements
   chars.field1 = zeros(1,1);
   chars.field2 = zeros(1,1);
   chars.field3 = zeros(1,1);
@@ -49,8 +50,6 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   imWidth = size(plateImg,2)
   middle = round(imHeight / 2)
   
-  %%%%%%%%%%%%% TO-DO: Filtering or watersheding? %%%%%%%%%%%%%%%%
-  
   %%%%% Experiments: TOP AND BOTTOM HAT %%%%%%%%
   %se = strel('disk', 15);
   %imgTophat = imtophat(grayImg, se);
@@ -85,14 +84,49 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   %%%%                                 %%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
+  smoothFactor = 6;
+
+  
+  % collect info on every line
+  scanlines = zeros(imHeight,imWidth-(2*smoothFactor));
+  
+  scanlineAvgs = zeros(imHeight,1);
+  
+  for i = 1:imHeight
+    scanlines(i,:) = GetSignature(brightGrayImg(i,:),smoothFactor);
+    scanlineAvgs(i) = mean(scanlines(i,:));
+  end
+  
+  %normScanlines = (scanlines/max(summedScanlines));
+  
+  if figuresOn
+    %figure(55), plot(normSummedScanlines,'r');
+    figure(55), plot(scanlines(14,:),'r');
+    hold on;
+    plot(1:size(scanlines,2), scanlineAvgs(14), 'r-');
+    %plot(scanlines(14,:),'b');
+    plot(scanlines(12,:),'g');
+    plot(1:size(scanlines,2), scanlineAvgs(12), 'g-');
+    %plot(normScanlines(50,:),'y');
+    %plot(1:size(normScanlines,2),normPlateSigAvg, 'g');
+    hold off;
+  end
+  
+  
   % REPLACE WITH GETSIGNATURE
   
+  % sum up lines
   summedScanlines = zeros(1,imWidth);
+  
+  %summedScanlines = GetSignature(brightGrayImg,smoothFactor);
   
   % sum up scanlines: entire image
   for i = 1:imHeight
     summedScanlines = summedScanlines + double(brightGrayImg(i,:));
   end
+  
+  %summedScanlines = 
+  
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%                          %%%%
@@ -101,12 +135,12 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   % smoothen with simple average function
-  lagSize = 6;
+  %lagSize = 6;
   for i = 1:imWidth
     
     % determine the low and high for calculating mean
-    low = i-lagSize+1;
-    high = i+lagSize;
+    low = i-smoothFactor+1;
+    high = i+smoothFactor;
     
     if low < 1
       low = 1;
@@ -118,6 +152,13 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
     summedScanlines(i) = mean(summedScanlines(low:high));
   end
   
+  % calculate average on summedScanlines
+  plateSigAvg = mean(summedScanlines);
+  normPlateSigAvg = (plateSigAvg/max(summedScanlines))
+  
+  normSummedScanlines = (summedScanlines/max(summedScanlines));
+  
+  
   % find peaks: where to cut
   allPeaks = zeros(8,2);
   p = 1;
@@ -126,7 +167,7 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   noOfNexts = 5
   
   % mark spots where the next spot has a higher value
-  for i = 1:imWidth-noOfNexts % MAYBE THIS IS NOT GOOD? :)
+  for i = 1:size(summedScanlines,2)-noOfNexts % MAYBE THIS IS NOT GOOD? :)
     %current = summedScanlines(i);
     
     
@@ -187,6 +228,7 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   % plot summedScanlines and found peaks
   if figuresOn
     normSummedScanlines = (summedScanlines/max(summedScanlines))*imHeight;
+    %normPlateSigAvg = plateSigAvg/max(summedScanlines)*imHeight
     figure(22), subplot(6,3,1:3), imshow(grayImg), title('gray image');
     figure(22), subplot(6,3,4:6), imshow(brightGrayImg), title('brigtnessEnh image');
     hold on;
@@ -197,6 +239,7 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
     for i = 1:8
       plot(peaks(i), 1:imHeight, 'b-');
     end
+    plot(normPlateSigAvg, middle, 'y')
     hold off;
   end
  
@@ -279,9 +322,9 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, figuresOn
   for n = 1:7
     
     % find x-coordinates using peaks
-    [xMin, minIndex] = min(peaks)
+    [xMin, minIndex] = min(peaks);
     peaks(minIndex) = inf;
-    [xMax, maxIndex] = min(peaks)
+    [xMax, maxIndex] = min(peaks);
     
     % adjust coordinates if they point outside the image
     if xMin < 1
