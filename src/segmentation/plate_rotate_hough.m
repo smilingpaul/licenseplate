@@ -3,12 +3,12 @@
 %
 % Input parameters:
 % - imgFile: file containing the image with a plate
-% - xMin, Xmax, yMin, yMax: the coordinates of the plate in the image.
+% - plateCoords: the coordinates of the plate in the image.
 % - figuresOn: true/false whether figures should be printed.
 %
 % Output parameters:
-% - rotatedPlateImg: the image of the plate (and only the plate), rotated
-function [rotatedPlateImg] = plate_rotate_hough (imgFile, xMin, xMax, yMin, yMax, figuresOn)
+% - rotatedImg: the image, rotated
+function [rotatedImg, plateCoords] = plate_rotate_hough (imgFile, plateCoords, figuresOn)
   
   % read image
   img = imread(imgFile);
@@ -20,7 +20,7 @@ function [rotatedPlateImg] = plate_rotate_hough (imgFile, xMin, xMax, yMin, yMax
   end
   
   % pick out plate image and show it
-  plateImg = grayImg(yMin:yMax, xMin:xMax);
+  plateImg = grayImg(plateCoords(3):plateCoords(4), plateCoords(1):plateCoords(2));
   if figuresOn
     figure(1), subplot(2,2,2), imshow(plateImg), title('plate image');
   end
@@ -70,14 +70,15 @@ function [rotatedPlateImg] = plate_rotate_hough (imgFile, xMin, xMax, yMin, yMax
   % rotate plate if necessary
   if rotateDeg ~= 0
     rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
-    rotatedPlateImg = rotatedImg(yMin:yMax, xMin:xMax, :);
+    %rotatedPlateImg = rotatedImg(plateCoords(3):plateCoords(4), plateCoords(1):plateCoords(2), :);
   else
-    rotatedPlateImg = img(yMin:yMax, xMin:xMax, :);
+    %rotatedPlateImg = img(plateCoords(3):plateCoords(4), plateCoords(1):plateCoords(2), :);
+    rotatedImg = img;
   end
   
   % display rotated image
   if figuresOn
-    figure(1), subplot(2,2,4), imshow(rotatedPlateImg), title('rotated plate image');
+    figure(1), subplot(2,2,4), imshow(rotatedImg(plateCoords(3):plateCoords(4), plateCoords(1):plateCoords(2), :), title('rotated plate image'));
   end
 
 end

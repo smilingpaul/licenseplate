@@ -48,6 +48,8 @@ end
 %canonFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/detection/freqTableCanon.mat');
 %freqTable = olympusFile.freqTableOlympus;
 %freqTable = canonFile.freqTableCanon;
+%horizontalTable = canonFile.horizontalTable;
+%verticalTable = canonFile.verticalTable;
 
 for i = 1:noOfImages
 %for i = 1:1
@@ -67,6 +69,7 @@ for i = 1:noOfImages
   %plateCoords = detect4([imagesFolder fileList(i).name])
   %plateImage = detect3([imagesFolder fileList(i).name])
   %plateCoords = histo_detect([imagesFolder fileList(i).name], freqTable, true);
+  %plateCoords = histo_detect([imagesFolder fileList(i).name], horizontalTable, verticalTable, true);
   
   % Determine if plate is within found coordinates 
   if (realPlateCoords(1) >= plateCoords(1) && realPlateCoords(2) <= plateCoords(2) && ...
@@ -87,8 +90,9 @@ for i = 1:noOfImages
   % ROTATE %
   %%%%%%%%%%
   
-  %rotatedPlateImg = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4),true);
-  rotatedPlateImg = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords(1),plateCoords(2),plateCoords(3),plateCoords(4),false);
+  %[rotatedImg, plateCoords] = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords,true);
+  %[rotatedImg, plateCoords] = plate_rotate_hough([imagesFolder
+  %fileList(i).name],plateCoords,false);
   
   %%%%%%%%%%%%%%%%%
   % SEGMENT CHARS %
@@ -96,8 +100,8 @@ for i = 1:noOfImages
   
   % charCoords are relative to plateimage
   foundChars = 0;
-  %[chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,true);
-  [chars, charCoords, foundChars] = char_segment_ptv(rotatedPlateImg,true);
+  %[chars, charCoords, foundChars] = char_segment_cc(rotatedImg,plateCoords,true);
+  %[chars, charCoords, foundChars] = char_segment_ptv(rotatedImg,plateCoords,true);
   
   %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
   %figure(19), imshow(imread([imagesFolder fileList(i).name]));
@@ -166,7 +170,7 @@ for i = 1:noOfImages
   end
   
   % Wait for user to press a key
-  pause();
+  %pause();
   
   % SomeFunction([imagesFolder fileList(i).name]);
   

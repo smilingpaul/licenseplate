@@ -1,8 +1,8 @@
 % function to detect a plate in an image using the 'histrogram method'. The
 % frequency table must be constructed before this function is run
-function plateCoords = histo_detect(imgFile, freqTable, figuresOn)
+function plateCoords = histo_detect(imgFile, horizontalTable, verticalTable, figuresOn)
 
-  scaleFactor = 0.25
+  scaleFactor = 0.25;
 
   % read image from file and display it
   img = imread(imgFile);
@@ -21,20 +21,40 @@ function plateCoords = histo_detect(imgFile, freqTable, figuresOn)
   %figure(1), subplot(2,2,2), imshow(img);
   
   % get image dimensions
-  imgHeight = size(img,1)
-  imgWidth = size(img,2)
+  imgHeight = size(img,1);
+  imgWidth = size(img,2);
   
   % the membership image contains the frequncy value for every pixel. If
   % the value is high, the pixel is likely part of a licenseplate
   membershipImg = zeros(imgHeight,imgWidth);
   
   % fill out values in membership image
-  for i = 1:imgHeight
-    for j = 1:imgWidth
-      r = img(i,j,1) + 1;
-      g = img(i,j,2) + 1;
-      b = img(i,j,3) + 1;
-      membershipImg(i,j) = freqTable(r,g,b);
+  for i = 1:imgHeight-1
+    for j = 1:imgWidth-1
+      
+      % NEW METHOD
+      r = floor(double(img(i,j,1))/16)+1;
+      g = floor(double(img(i,j,2))/16)+1;
+      b = floor(double(img(i,j,3))/16)+1;
+      
+      rRight = floor(double(img(i,j+1,1))/16)+1;
+      gRight = floor(double(img(i,j+1,2))/16)+1;
+      bRight = floor(double(img(i,j+1,3))/16)+1;
+       
+      rBelow = floor(double(img(i+1,j,1))/16)+1;
+      gBelow = floor(double(img(i+1,j,2))/16)+1;
+      bBelow = floor(double(img(i+1,j,3))/16)+1;
+      
+      membershipImg(i,j) = ...
+        horizontalTable(r,g,b,rRight,gRight,bRight) + ...
+        verticalTable(r,g,b,rBelow,gBelow,bBelow);
+      
+      % OLD METOHD
+      %r = img(i,j,1) + 1;
+      %g = img(i,j,2) + 1;
+      %b = img(i,j,3) + 1;
+      %membershipImg(i,j) = freqTable(r,g,b);
+      
     end
   end
   
@@ -44,7 +64,7 @@ function plateCoords = histo_detect(imgFile, freqTable, figuresOn)
   % create a bw image from the membership image. high threshold = fewer
   % components
   %level = 0.2
-  level = graythresh(membershipImg)
+  level = graythresh(membershipImg);
   bwMmbshipImg = im2bw(membershipImg,level);
   if figuresOn
     figure(33), subplot(3,3,3), imshow(bwMmbshipImg), title('bw membership image');
@@ -81,7 +101,7 @@ function plateCoords = histo_detect(imgFile, freqTable, figuresOn)
   % find coordinates of possible plate
   plateCoords = [0, 0, 0, 0];
   plateFound = false;
-  plateCoords = GetBestCandidate(conComp,1)
+  plateCoords = GetBestCandidate(conComp,1);
   if plateCoords ~= [inf inf inf inf]
     plateFound = true;
   end

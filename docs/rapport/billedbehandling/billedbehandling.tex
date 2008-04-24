@@ -1,4 +1,7 @@
 \section{Billedbehandling}
+\label{sec_billed}
+
+\fixme{Hvor kommer metoderne fra?}
 
 I dette afsnit beskrives de tre første elementer af vores system: identificering af nummerpladen i billedet, rotation af nummerpladen samt segmentering af tegn i nummerpladen.
 
@@ -17,6 +20,7 @@ TRE ILLUSTRATIONER ORIGINAL BILLEDE, IDEAL ILLU, REAL ILLU
 %skal forbudne komponenter der ikke er kandidater slettes eller bare fravælges. Det første giver bedre illu samt debugging mens det sidste nok er hurtigere.
 
 \subsubsection*{Områder domineret af lyse gråtoner}
+\fixme{Søren: Næppe realitisk denne metode, afhængig af belysning}
 Med denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af gråtoner i et farvebillede. Det er vores forventning at en nummerplade vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger meget tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0 mens en middelgrå pixel vil derimod have værdien 128 i alle tre farvekanaler. For hver pixel i farvebilledet udregner vi gennemsnitsværdien ved at summere værdierne for de tre kanaler og dividere med tre. Hvis alle tre kanaler har en værdi der ligger tæt\footnote{Et parameter i programmet} på middelværdien og samtidig er lys\footnote{Et parameter i programmet} markeres den indeværende pixel i det binære billede der er resultatet af gennemgangen af alle pixels i farvebilledet.
 
 ORIG\_IM BIN\_IM.
@@ -39,6 +43,8 @@ ORIG\_IM BIN\_IM.
 Ideen bag denne metode til markering af interesseområder er, at kigge på frekvensen af skift mellem lyse og mørke intensiteter i vandrette linier i et gråtonebillede. For at kunne markere områder der har en frekvens svarende til en nummerplade, skal vi først finde ud af hvad denne representative frekvens er. Derfor har vi analyseret nummerpladeområderne på vores testbilleder og udregnet den gennemsnitlige frekvens. Med denne viden kan vi skabe et binært billede hvor de markerede interesseområder er dem hvor frekvensen ligger tæt på den udregnede idealfrekvens. (ref til pdfer med signaturer)
 
 ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
+
+\fixme{figurer af histogrammer og lign.}
 
 %\paragraph*{Analyse}
 %\paragraph*{Implementation}
@@ -156,7 +162,6 @@ Regler:
 \end{comment}
 
 
-%\begin{comment} % remove this
 
 \subsubsection*{MSER}
 \begin{comment}
@@ -171,19 +176,21 @@ Først sorteres alle pixels intensiteter (stigende). Dette gøres ved brug af bu
 \end{comment}
 
 \subsection{Rotation}
-\begin{comment}
-Nogle overvejelser om hvordan billedet skal være klippet til for at rotationen fungerer ordentligt...
 
-I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet.
+%Nogle overvejelser om hvordan billedet skal være klippet til for at rotationen fungerer ordentligt...
+
+I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er fundet i...
 
 %\subsubsection{Hough transformation}
 
 %Hough transformation
-\end{comment}
+
 
 \subsubsection*{Radon transformation}
-\begin{comment}
-En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er meget brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
+
+%\fixme{Er dette en dårlig metode? Søren?}
+
+En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
 Billedet nedenfor viser hvordan Radon transformationen findes i en enkelt vinkel, theta. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier. Resultatet af en Radon transformation er en matrice der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
 
@@ -220,14 +227,16 @@ Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette 
 BILLEDE AF NUMMERPLADE, ROTERET.
 
 Ulemper:
-\end{comment}
 
 \subsubsection*{Andre metoder brugt i litteraturen}
 
-\subsection{Segmentering af bogstaver}
+%Tror ikke der er andre?
+
+\subsection{Opdeling af tegn}
+
+I det følgende beskrives to metoder til opdeling af tegn i en nummerplade. Ser vi på det komplette system er dette trin, trin tre hvilket udføres efter at nummerpladen er blevet identificeret i billedet og eventuelt roteret. De to metoder til opdeling af tegn kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund). Metoderne er fundet i....
 
 \subsubsection*{Sammenhængende komponenter}
-\begin{comment}
 Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at de 7 tegn som findes i billedet af nummerpladen alle er forbunde komponenter og derfor vil fremstå efter en forbundne komponenter-analyse. Andre dele af billedet vil højst sandsynligt også være ..
 
 %Metodens procedure er som følger: Først gøres billedet af nummerpladen binært ved brug af metoden im2bw. Det resulterende binære billede har værdien 1 (hvid) bl.a. i de pixels som forestiller pladens hvide baggrund, mens pixels i pladens tegn har værdien 0 (sort).
@@ -259,10 +268,10 @@ Til sidst udklippes de syv tegn og returneres. Eksempel på en fuldendt og succe
 EKSEMPEL PÅ UDKLIPPEDE TEGN
 
 Som beskrevet i kwasnickawawrzyniak kunne man eventuelt fjerne kanter før man starter analysen?
-\end{comment}
 
-\subsubsection*{Skan-linie}
 \begin{comment}
+\subsubsection*{Skan-linie}
+
 Bruges ikke da det er for mange felter som bliver valgt. Kan måske gøres bedre ved filtrering før???
 
 Først gøres billedet sort-hvis med im2bw. Her kan grænseværdi bestemmes med greythresh. Virker måske bedre at sætte grænseværdien lavt, så meget af billedet bliver hvidt.
@@ -273,9 +282,12 @@ Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af e
 \end{comment}
 
 \subsubsection*{peak-to-valley}
-\begin{comment}
-Beskrevet i kwasnickawawrzyniak og bør måske afprøves? Måske i samarbejde med første metode?
-\end{comment}
+
+Denne metode baseres på en vertikal projektion af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er dale (de lyse områder mellem tegnene) og bakker (tegnene), hvorefter vi kan udskære tegnene.
+
+
+%Beskrevet i kwasnickawawrzyniak og bør måske afprøves? Måske i samarbejde med første metode?
+
 \subsubsection*{Andre metoder brugt i litteraturen}
 
 \subsubsection*{Test af segmentering}
@@ -291,11 +303,23 @@ Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" 
 % Beskrivelser af PDfer
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
+
 \begin{comment}
 \subsubsection*{Noter fra møde med Søren 20/2:}
 identifikation: Se på en pixel, har naboer en kontrast farve?
 En scan-linie: hvordan varierer kontrasten henover linien?
 Adaboost - godt
+
+
+
+
+
+
+
+
+
 
 \subsubsection*{cano.pdf}
 Bruger kun gråtone info. Arbejder også med nummerplader som skal være læsbar for det menneskelige øje.
