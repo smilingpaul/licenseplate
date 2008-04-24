@@ -7,9 +7,7 @@
 % Only using brightened image brings results down to 25.7% and 59.5%
 
 % WHAT DOES IT DO?
-% Finds highest peak in histogram and removes all intensities
-% not around the value of the peak from the image
-
+% Finds highest peak in histogram and does contrast stretch
 
 
 function plateCoords = detect4(inputImage)
