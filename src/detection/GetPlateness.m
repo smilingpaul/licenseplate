@@ -1,12 +1,12 @@
 % Takes a signature, returns plateness integer
-function plateness = GetSignature(sig)
+function plateness = GetPlateness(sig)
 
 
 % Calculate plateness (number of times plot crosses avg. value in sig) 
 
 % Average value for sig
 % Plates often start and end low, We can move the avg up to try to compensate
-sigAvg = 1.1 * (sum(sig)/length(sig));
+sigAvg = 1.0 * (sum(sig)/length(sig));
 
 % How many times have we crossed the avg. sig value
 timesCrossed = 0;
@@ -33,7 +33,7 @@ end
 
 
 % Plateness to return
-plateness = timesCrossed
+plateness = timesCrossed;
 
 
 end
