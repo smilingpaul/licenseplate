@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,final]{article}
+\documentclass[11pt,a4paper,draft]{article}
 \usepackage[utf8]{inputenc}
 %\usepackage{ucs}
 \usepackage[danish]{babel}
@@ -9,9 +9,10 @@
 %\usepackage{listings} % Better source code listings
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{fixme}
 
 \author{Tobias Balle-Petersen og Esben Paul Bugge}
-\title{Bachelorprojekt}
+\title{Bachelorprojekt: Automatisk identifikation og læsning af nummerplader}
 
 \parindent=0pt
 \parskip=10pt
@@ -39,42 +40,76 @@
 
 \section{Introduktion}
 
-I mange sammenhænge vil det være relevant at automatisk kunne identificere og genkende køretøjers nummerplader. F.eks. kunne politiets arbejde med at fange fartsyndere udnytte denne automatiske funktion: Et system bestående af et kamera, en computer og en hastighedsmåler opstilles i en vejkant. Den forbikørendes hastighed måles og hvis denne er for høj i forhold til det tilladte, tages der et billede af bilen. Efterfølgende kan computeren automatisk identificere og genkende nummerpladen på bilen, hvorefter politiet kan finde frem til fartsynderen. I dette projekt vil vi arbejde med netop dette emne: automatisk identificering og genkendelse af nummerplader i billeder ved hjælp af et computersystem. Det system, vi ønsker at udvikle og afprøve, egner sig dog bedst til en situation, hvor bilen står stille eller bevæger sig meget langsomt. Dette system kunne eksempelvis være et system som bruges ved et parkeringsanlæg, hvor der tages et billede af de biler der ankommer til anlægget, så man kan registrere hvilke biler der befinder sig på anlægget.
+\fixme{Alt skal være enten datid eller nutid}
+%\fixme{noget om læringsmål}
+\fixme{evt. færre fodnoter}
+
+
+%\fixme{Fjerne eksempel ikke gennemføres. Give andet eksempel.}
+
+I mange sammenhænge vil det være relevant at automatisk kunne identificere og genkende køretøjers nummerplader. Et sådant system kunne eksempelvis være et system som bruges ved et parkeringsanlæg, hvor der f.eks. tages billeder af de biler der ankommer til anlægget, så man kan registrere hvilke biler der befinder sig på anlægget. Et sådant system kunne også bruges af parkeringsvagter, som eksempelvis manuelt tager billeder af parkerede biler hvorefter systemet identificere bilen.
+
+I dette projekt vil vi arbejde med netop dette emne: automatisk identificering og genkendelse af nummerplader i billeder ved hjælp af et computersystem. Det system, vi ønsker at udvikle og afprøve, egner sig bedst til en situation, hvor bilen står stille eller bevæger sig meget langsomt.
+
+Dette projekt laves som bachelorprojekt på Københavns Universitet. Vores forventning er ikke at systemet kan opnå en effektivitet svarende til etablerede systemer til genkendelse af nummerplader. Derimod ønsker vi via arbejdet at få erfaring med praktisk anvendelse af elementære teknikker indenfor billedbehandling og mønstergenkendelse.
 
 \subsection{Problemformulering}
 Opgavens problemformulering blev som følger:
 
+\fixme{Bør det være spørgsmål}
 \begin{itemize}
 \item[-] Hvordan kan nummerplader på farvefotografier identificeres og læses af et computersystem?
-\item[-] Hvilke kendte metoder findes der, og hvor høj genkendelsesprocent kan et system vi selv laver opnå?
+\item[-] Hvilke kendte metoder til identifikation og læsning af nummerplader findes der?
+\item[-] Hvor høj genkendelsesprocent kan et system, vi selv laver, opnå?
 \end{itemize}
+%\fixme{Søren: opdel sidste spørgsmål i flere}
 
 \subsection{Afgrænsning}
 
-Vi afgrænsede projektet på følgende måder:
+\fixme{Søren: ikke sigende titel}
 
+\fixme{Mere argumentation i dette afsnit}
+
+På grund af projektets omfang var det nødvendigt at lave visse afgrænsninger. Disse afgrænsninger blev som følger:
+
+\fixme{Bør ikke være punktopstilling når den er så lang}
 \begin{itemize}
-\item[-] Billederne skulle tages ved højlys dag uden brug af kunstig lys. På denne måde vurderede vi at man ville opnå fotografier hvor nummerpladerne havde nogenlunde ens farvemønstre. Ved brug af kunstigt lys ville man risikere at nummerpladen ville fremstå med en unartulig farve eller at det reflekterende materiale, som nummerplader er lavet af, ville skabe genskin og på denne måde unaturlige farver.
-\item[-] Hvert fotografi skulle forestille en bil med en synlig nummerplade.
-\item[-] Fotografierne skulle tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 3-6 meter fra bilen uden zoom. På denne måde må det forventes at nummerpladen bliver tilpas stor i billedet til at computersystem kan finde den, samt at man med det menneskelige øje kan aflæse nummerpladen udfra fotografierne.
-\item[-] Nummerpladen skulle ikke nødvendigvis befinde sig midt i billedet. %Dette ville skabe lidt udfordring for vores system, som dermed ikke nødvendigvis kan udelukke objekter som ikke er i midten af fotografiet.
-\item[-] Nummerpladen skulle fremstå vandret i billedet og skulle desuden være fri for urenheder eller lignende, der gjorde pladen sværere at læse.
+\item[-] Billederne skulle tages ved højlys dag uden brug af kunstig lys. På denne måde vurderede vi at man ville opnå fotografier hvor nummerpladerne havde nogenlunde ens farvemønstre. Ved brug af kunstigt lys ville man risikere at nummerpladen ville fremstå med en unartulig farve eller at det reflekterende materiale, som nummerplader er lavet af, ville skabe genskin og på denne måde unaturlige farver. \fixme{forklaring på farvemønster}
+\item[-] Hvert fotografi skulle forestille en bil med netop én synlig nummerplade.
+\item[-] Fotografierne skulle tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 3-6 meter fra bilen uden zoom \begin{comment}Søren: med hvilken optik\end{comment}. På denne måde må det forventes at nummerpladen bliver tilpas stor i billedet til at computersystem kan finde den, samt at man med det menneskelige øje kan aflæse nummerpladen udfra fotografierne. \fixme{evt. figur af hvordan vi stod da vi fotograferede}
+\item[-] Nummerpladen skulle ikke nødvendigvis befinde sig midt i billedet. \fixme{midt i billede: er den en afgrænsning?} %Dette ville skabe lidt udfordring for vores system, som dermed ikke nødvendigvis kan udelukke objekter som ikke er i midten af fotografiet.
+\item[-] Nummerpladen skulle fremstå vandret i billedet og skulle desuden være fri for urenheder eller lignende, der gjorde pladen sværere at læse. \fixme{hvad vil det sige at nummerpladen er vandret}
 \item[-] Nummerpladerne skal alle være danske privatplader som de udstedtes i foråret 2008\footnote{Rød kant, hvid baggrund og sort tekst.} Formatet på nummerpladerne skal være \textit{AA XX XXX}, hvor \textit{A} er bogstaver i mængden \textit{A}-\textit{Z}\footnote{Enkelte tegn er muligvis ikke lovlige. Er dette tilfældet, skal systemet ikke tage højde for dem.}, og \textit{X} er heltal i mængden 0-9. Som eksemplet viser, skal der være mellemrum mellem de to bogstaver og de to første tal samt mellem de to første tal og de tre tal. Nummerpladerne må ikke indeholde andre tegn end de nævnte bogstaver og tal.
 \end{itemize}
 
-\subsection{Kendte metoder}
+\fixme{har vi udelukket kvadratiske nummerplader?}
 
-Et system til automatisk identificering og genkendelse af nummerplader består af fire elementer: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, segmentering af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer har vi defineret som værende billedbehandling mens det fjerde element er mønstergenkendelse. Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvide områder i billedet \cite{ron}, \cite{nijhuis}, eller udfra viden om kanter i billedet \cite{shapiro} og eventuelt kombinere det med teksturanalyse \cite{parker}. Derudover kan man analysere kontrasterne i billedet \cite{kwas}, da en nummerplade må forventes af bestå af kontrastfyldte (sort/hvide) områder. Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet, samt hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver i sær forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
+\subsection{Metoder fra litteraturen}
 
+\fixme{Hvilken litteratur har vi og vi har vi den fra? Let at finde metoder? Hvorfor har vi kun beskrevet disse metoder? Mangler henvisninger til teoriafsnit. Argumentér for hvorfor der er fire elementer. Hvorfor er rotation et element når vi har vandrette billeder.}
+
+I forbindelse med dette projekt har vi identificeret følgende fire dele, som et system der skal kunne identificere og aflæse nummerplade kunne indeholde: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, opdeling af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer har vi defineret som værende billedbehandling mens det fjerde element er mønstergenkendelse. Metoderne til billedbehandlingsdelene diskuteres i afsnit \ref{sec_billed} mens metoderne til mønstergenkendelse diskuteres i afsnit \ref{sec_monster}.
+
+Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvide områder i billedet \cite{ron}, \cite{nijhuis}, eller udfra viden om kanter i billedet \cite{shapiro} og eventuelt kombinere det med teksturanalyse \cite{parker}. Derudover kan man analysere kontrasterne i billedet \cite{kwas}, da en nummerplade må forventes af bestå af kontrastfyldte (sort/hvide) områder. Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet, samt hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver især forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bl.a. bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
+\fixme{Søren: til Radon: han skriver "nej"??}
+\fixme{skal vi ha noget om testdata her?}
 
 %\newpage
+
+\fixme{nedenfor i billedbehandling: der mangler intro til valg af metoder}
 \include{billedbehandling/billedbehandling}
 
 %\begin{comment} % remove this later
 
 %\newpage
 \include{moenstergenkend}
-%\newpage
+\newpage
+
+
+\section{Implementation}
+
+\fixme{beskriv hvordan koden er implementeret - dens opbygning og de fede ting ved den}
+
 \include{test}
 %\newpage
 %\section{Evaluering}
