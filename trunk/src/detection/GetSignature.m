@@ -1,4 +1,6 @@
-% Takes an image, returns signature and plateness integer
+% Takes an image and smoothness parameter, returns signature
+% Sig. vector vil be 2*smoothness shorter than width of input image
+
 function signature = GetSignature(image, smoothness)
 
 %figure, imshow(image);

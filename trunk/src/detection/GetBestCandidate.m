@@ -1,7 +1,7 @@
-% Takes a matrix of connected components and a scale factor ]0.0-1.0] 
-% Returns best plate candidate
+% Takes a matrix of connected components and a grayscale image 
+% Returns best plate candidate based on frequency analysis and ratio
 
-function plateCoords = GetBestCandidate(conComp, scaleFactor)
+function plateCoords = GetBestCandidate(conComp, inputImage, scaleFactor)
 
   % Number of components
   numConComp = max(max(conComp));
@@ -10,10 +10,11 @@ function plateCoords = GetBestCandidate(conComp, scaleFactor)
   % Lets find out which connected component in the image has the most
   % plate-like width/height ratio 504/120 is official size
 
-  % optimalPlateRatio = 504/120; %
+   optimalPlateRatio = 504/120; %
+   optimalPlateness = 18; % Calculated from test sets
 
   % Ratio from image
-  optimalPlateRatio = 182/37;
+  %optimalPlateRatio = 182/37;
   % optimalPlateRatio = 182/42;
 
 
@@ -22,9 +23,11 @@ function plateCoords = GetBestCandidate(conComp, scaleFactor)
 
   % smallest diff between best components ratio and optimal plate ratio
   bestRatioDiff = inf;
+  bestPlatenessDiff = inf;
 
   % The number of the component with the closest matchin aspect ratio
   bestRatioComponent = 0;
+  bestPlatenessComponent = 0;
 
 
 for i = 1:numConComp
@@ -37,42 +40,39 @@ for i = 1:numConComp
   compWidth = max(Xs)-min(Xs);
   compLength = length(Xs);
 
+
+  compSignature = GetSignature(inputImage(min(Ys):max(Ys),min(Xs):max(Xs)),0);
+  compPlateness = GetPlateness(compSignature)
+ 
   % Calculate width/height-ratio of current component
   compRatio = compWidth/compHeight;
 
-  % Very big components are bad
-  %if compHeight < imHeight/4 && compWidth < imWidth/4
+  ratioDiff = abs(optimalPlateRatio-compRatio);
+  platenessDiff = abs(optimalPlateness - compPlateness);
 
-    % compLength
-    % Calculate difference between current components ratio
-    % and ratio of plate
-    ratioDiff = abs(optimalPlateRatio-compRatio);
+  % Maybe it should not HAVE to be a better ratio than the best
+  % The ratio is not an exact science anyway. Maybe it should just be one parameter
+  % But, remember that the one with the best ratio is picked as the best match currently
 
-    % Maybe it should not HAVE to be a better ratio than the best
-    % The ratio is not an exact science anyway. Maybe it should just be one parameter
-    % But, remember that the one with the best ratio is picked as the best match currently
+  %if ratioDiff < bestRatioDiff && ... % Best ratio
+  if platenessDiff < bestPlatenessDiff && ... % Best ratio
+     compPlateness > 10 && compPlateness < 26
 
-  if ratioDiff < bestRatioDiff && ... % Best ratio
-       compLength >= (compHeight*compWidth)/2.0 && ... % High density
-       compWidth >= 3*compHeight % Must be wide
-       %compWidth <= scaleFactor*280 && compHeight >= scaleFactor*22
 
-       %wi = max(Ys)-min(Ys)
-       %he = max(Xs)-min(Xs)
-       %length(Xs)
-       %(compHeight*compWidth)/1)
-       %compHeight >= scaleFactor*30 && compHeight <= scaleFactor*70 && ...
-       %compWidth >= scaleFactor*100 && compWidth <= scaleFactor*250
-      bestRatioDiff = ratioDiff;
-      bestRatioComponent = i;
+      %bestRatioDiff = ratioDiff;
+      %bestRatioComponent = i
+      bestPlatenessDiff = platenessDiff;
+      bestPlatenessComponent = i
     end
-  %end
+  
 end
 
 
-if bestRatioDiff < inf
+%if bestRatioDiff < inf % A candidate was selected
+if bestPlatenessDiff < inf % A candidate was selected
   % Get coords for best matching component
-  [Ys,Xs] = find(conComp == bestRatioComponent);
+  %[Ys,Xs] = find(conComp == bestRatioComponent);
+  [Ys,Xs] = find(conComp == bestPlatenessComponent);
 
   % Calculate coords
   minX = min(Xs);
