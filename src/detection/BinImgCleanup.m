@@ -6,8 +6,8 @@
 
 function cleanImg = BinImgCleanup(inputImage, scaleFactor)
 
-  showImages = true;
-  %showImages = false;
+  %showImages = true;
+  showImages = false;
 
 
 

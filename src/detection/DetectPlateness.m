@@ -122,7 +122,7 @@ function plateCoords = DetectPlateness(inputImage)
   %%%%%%%%%%%%%%%%%%%%%%
 
   
-  plateCoords = GetBestCandidate(conComp, scaleFactor);
+  plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
 
 
 
