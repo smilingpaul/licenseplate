@@ -132,8 +132,8 @@ for i = 1:noOfImages
   else
     % Echo name of image where plate was not found
     ['Plate not found in ' fileList(i).name]
-    beep 
-    pause(); % Pause when plate was not found 
+    %beep 
+    %pause(); % Pause when plate was not found 
     % No candidate was found
     if sum(plateCoords) == 0
       noCandidate = noCandidate + 1;
