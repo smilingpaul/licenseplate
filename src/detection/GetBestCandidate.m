@@ -60,7 +60,7 @@ for i = 1:numConComp
 
   % Candidates nead a difference in intensities of at least this value
   % In one set min diff is 43 in the other it is 91
-  if compIntDiff >= 0 % 43 
+  if compIntDiff >= 43
     if platenessDiff < bestPlatenessDiff && ... % Best plateness
        compPlateness > 10 && compPlateness < 30 
 
