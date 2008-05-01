@@ -188,7 +188,7 @@ I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, s
 
 \subsubsection*{Radon transformation}
 
-%\fixme{Er dette en dårlig metode? Søren?}
+\fixme{Roterer ikke omkring pladens midte, men om hele billedets.. forkert!}
 
 En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
@@ -234,24 +234,22 @@ Ulemper:
 
 \subsection{Opdeling af tegn}
 
-I det følgende beskrives to metoder til opdeling af tegn i en nummerplade. Ser vi på det komplette system er dette trin, trin tre hvilket udføres efter at nummerpladen er blevet identificeret i billedet og eventuelt roteret. De to metoder til opdeling af tegn kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund). Metoderne er fundet i....
+I det følgende beskrives to metoder til opdeling af tegn i en nummerplade. Med henblik på det komplette system er dette trin, trin nr. tre hvilket udføres efter at nummerpladen er blevet identificeret i billedet og eventuelt roteret. De to metoder til opdeling af tegn kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund). Metoderne er fundet i....
+
+
 
 \subsubsection*{Sammenhængende komponenter}
-Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at de 7 tegn som findes i billedet af nummerpladen alle er forbunde komponenter og derfor vil fremstå efter en forbundne komponenter-analyse. Andre dele af billedet vil højst sandsynligt også være ..
+Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at de syv tegn som findes i billedet af nummerpladen er syv sammenhængende komponenter. I vores tilfælde vil hver sammenhængende komponent bestå af mørke pixels mens baggrunden er lyse pixels.
 
-%Metodens procedure er som følger: Først gøres billedet af nummerpladen binært ved brug af metoden im2bw. Det resulterende binære billede har værdien 1 (hvid) bl.a. i de pixels som forestiller pladens hvide baggrund, mens pixels i pladens tegn har værdien 0 (sort).
-
-%EKSEMPEL PÅ BINÆRT BILLEDE AF NUMMERPLADE
-
-For at tegnene i nummerpladen skal udskille sig klart fra den hvide baggrund (pladen kan være beskidt, lyset på billedet kan være dårligt etc.) er det nødvendigt at filtrere billedet af pladen. Først omdannes billedet til gråtone hvorefter der udføres henholdsvis en top-hat filtrering og en bottom-hat filtrering MERE OM HVAD DET ER. For at forstærke billedets kontraster lægges det top-hat filtrerede billede til original billedet hvorefter det bottom-hat filtrerede billede trækkes fra.
+Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet, hvis ikke billedet forarbejdes (nummerpladen kan være beskidt, lyset på billedet kan være dårligt, billedet kan være klippet 'for løst' sådan at elementer uden for nummerpladen vil være sammenhængende og mørke etc.). For at tegnene skal udskille sig klart fra den lyse baggrund er det nødvendigt at forstærke både lys og kontrast i billedet. Lyset forstærkes pga. muligheden for dårligt lys på nummerpladen mens kontrasten forstærkes for at adskille tegnene fra den lyse baggrund. I Figur ? ses forskellen på et billede af en nummerplade uden forarbejdning og et med.
 
 EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
 
-Herefter findes billedets sammenhængende komponenter ved brug af metoden bwLabel. Denne metode finder forbudne komponenter med værdien 1 i et binært billede, hvorfor metoden i denne situation bruges på det negerede binære billede.
+Efterfølgende oprettes et billede med sammenhængende komponenter. I Figur ? ses et billede af en nummerplade hvor de sammen hængende komponenter er hvide.
 
-EKSEMPEL PÅ OMVENDT BINÆRT BILLEDE
+EKSEMPEL PÅ BILLEDE MED SAMMENHÆNGENDE KOMPONENTER
 
-Som det ses på billedet i Figur ? er nummerpladens tegn ikke altid de eneste sammenhængende komponenter i billedet. Derfor er det nødvendigt at sortere flere af de sammenhængende komponenter fra udfra følgende overvejelser:
+Som det ses er det ikke kun tegnene der er sammenhængende komponenter. Derfor gennemføres en analyse på komponenterne for at frasortere de komponenter der ikke kan være tegn. Vi kan frasortere komponenter som ikke opfylder følgende regler:
 
 \begin{itemize}
 \item[-] Hvert tegn fylder maksimalt 1/7 del af billedet.
@@ -259,15 +257,16 @@ Som det ses på billedet i Figur ? er nummerpladens tegn ikke altid de eneste sa
 \item[-] Tegnenes højde er større end deres bredde
 \item[-] Tegnenes minimale højde skal være end en vis konstant (her: 5 pixels)
 \item[-] Tegnenes minimale størrelse skal være større end en vis konstant (her: 5 pixels)
+\item[-] For hvert tegn findes der seks andre tegn som er ca. lige så højde som det pågældende tegn.
 \end{itemize}
 
 EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA
 
-Til sidst udklippes de syv tegn og returneres. Eksempel på en fuldendt og succesfuld segmentering er vist i Figur ?.
+De resterende komponenter må forventes at være nummerpladens tegn.
 
 EKSEMPEL PÅ UDKLIPPEDE TEGN
 
-Som beskrevet i kwasnickawawrzyniak kunne man eventuelt fjerne kanter før man starter analysen?
+\fixme{beskrevet i kwas: man ku fjerne kanter før analysen}
 
 \begin{comment}
 \subsubsection*{Skan-linie}
@@ -285,8 +284,7 @@ Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af e
 
 Denne metode baseres på en vertikal projektion af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er dale (de lyse områder mellem tegnene) og bakker (tegnene), hvorefter vi kan udskære tegnene.
 
-
-%Beskrevet i kwasnickawawrzyniak og bør måske afprøves? Måske i samarbejde med første metode?
+Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR? Nummerpladens signatur fås ved at summere intensiteterne i alle kolonnerne i billedet. En graf over signaturen vil så give toppe i de kolonner hvor der er størst inte
 
 \subsubsection*{Andre metoder brugt i litteraturen}
 
@@ -299,6 +297,18 @@ Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" 
 \end{comment}
 
 %\end{comment} % remove this
+
+
+
+
+
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Beskrivelser af PDfer
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
