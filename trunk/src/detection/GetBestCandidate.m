@@ -11,7 +11,8 @@ function plateCoords = GetBestCandidate(conComp, inputImage, scaleFactor)
   % plate-like width/height ratio 504/120 is official size
 
    optimalPlateRatio = 504/120; %
-   optimalPlateness = 18; % Calculated from test sets
+   optimalPlateness = 17; % If smoothness = 0
+   %optimalPlateness = 13; % If smoothness = 1
 
   % Ratio from image
   %optimalPlateRatio = 182/37;
@@ -40,10 +41,13 @@ for i = 1:numConComp
   compWidth = max(Xs)-min(Xs);
   compLength = length(Xs);
 
+  thisImage = inputImage(min(Ys):max(Ys),min(Xs):max(Xs));
 
-  compSignature = GetSignature(inputImage(min(Ys):max(Ys),min(Xs):max(Xs)),0);
-  compPlateness = GetPlateness(compSignature)
+  compSignature = GetSignature(thisImage,0);
+  compPlateness = GetPlateness(compSignature);
  
+  compIntDiff = max(max(thisImage)) - min(min(thisImage));
+
   % Calculate width/height-ratio of current component
   compRatio = compWidth/compHeight;
 
@@ -54,17 +58,21 @@ for i = 1:numConComp
   % The ratio is not an exact science anyway. Maybe it should just be one parameter
   % But, remember that the one with the best ratio is picked as the best match currently
 
-  %if ratioDiff < bestRatioDiff && ... % Best ratio
-  if platenessDiff < bestPlatenessDiff && ... % Best ratio
-     compPlateness > 10 && compPlateness < 26
+  % Candidates nead a difference in intensities of at least this value
+  % In one set min diff is 43 in the other it is 91
+  if compIntDiff >= 43 
+    if platenessDiff < bestPlatenessDiff && ... % Best plateness
+       compPlateness > 10 && compPlateness < 30 
 
-
-      %bestRatioDiff = ratioDiff;
-      %bestRatioComponent = i
-      bestPlatenessDiff = platenessDiff;
-      bestPlatenessComponent = i
-    end
-  
+        %bestRatioDiff = ratioDiff;
+        %bestRatioComponent = i
+        bestPlatenessDiff = platenessDiff;
+        bestPlatenessComponent = i;
+     end
+  else
+    [ 'A candidate has no good intensity diff' ]
+    %beep
+  end
 end
 
 

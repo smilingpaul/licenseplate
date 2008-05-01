@@ -26,8 +26,15 @@ percentageOfPlatesFound = 0;
 percentageOfPlatesRead = 0;
 percentageOfCharsRead = 0;
 
-% Number of times there weas no candidate
+% For getting avg plateness
+platenessSum = 0;
+plateWidthSum = 0;
+
+% Number of times there was no candidate
 noCandidate = 0;
+
+% Minimal difference between max and min intensity in plates
+%minIntDiff = inf;
 
 % echo time
 datestr(now)
@@ -60,24 +67,73 @@ for i = 1:noOfImages
 
   % Get plate coordinates from filename
   % xMin, xMax, yMin, yMax
-  realPlateCoords = [str2num(fileList(i).name(1,3:6)), str2num(fileList(i).name(1,8:11)), ...
+  % Real Plate Coordinates = RPC
+  RPC = [str2num(fileList(i).name(1,3:6)), str2num(fileList(i).name(1,8:11)), ...
                      str2num(fileList(i).name(1,13:16)), str2num(fileList(i).name(1,18:21))];
  
-  % Analyze image and get coordinates of plate
-  plateCoords = detect_lines([imagesFolder fileList(i).name]);
-  %plateCoords = detect2([imagesFolder fileList(i).name])
-  %plateCoords = detect4([imagesFolder fileList(i).name])
-  %plateImage = detect3([imagesFolder fileList(i).name])
-  %plateCoords = histo_detect([imagesFolder fileList(i).name], freqTable, true);
-  %plateCoords = histo_detect([imagesFolder fileList(i).name], horizontalTable, verticalTable, true);
   
+  % Calculate plateness for this plate
+  %image = imresize(rgb2gray(imread([imagesFolder fileList(i).name])),0.25);
+  %RPC = RPC * 0.25;
+  %platenessSum = platenessSum + GetPlateness(GetSignature(image(RPC(3):RPC(4), RPC(1):RPC(2)), 0));
+  %plateWidthSum = plateWidthSum + (RPC(2)-RPC(1)); 
+  %plateCoords = [ 0 0 0 0 ];
+  
+
+  % Show plate
+  % Read image from file
+  %image = rgb2gray(imread([imagesFolder fileList(i).name]));
+  %image = log10(double(image));
+  %image = uint8((256/(max(max(image)))) .* image);
+  % image = image(RPC(3)-3:RPC(4)+3, RPC(1)-3:RPC(2))+3;
+  %image = image(1:16,1:16);
+  %figure(100), imshow(image);
+  %figure(101), hist(double(image(:)),256);
+
+  %thisIntDiff = max(max(image)) - min(min(image));  
+  %if thisIntDiff < minIntDiff
+  %  minIntDiff = thisIntDiff;
+  %end
+
+
+
+  % Analyze image and get coordinates of plate
+  %plateCoords = detect_lines([imagesFolder fileList(i).name]);
+ 
+  %plateCoords = detect2([imagesFolder fileList(i).name])
+  %plateCoords = detect3([imagesFolder fileList(i).name])
+ 
+  % High contrast
+  % plateCoords = detect4([imagesFolder fileList(i).name])
+   
+  % plateCoords = histo_detect([imagesFolder fileList(i).name], freqTable);
+
+
+  % Filter avg. intensity for neighbourhood
+  % plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
+
+  % Besed on sameness
+  % plateCoords = DetectSameness([imagesFolder fileList(i).name])
+  
+  % Frequency analysis
+  %plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
+
+  % Contrast stretch on blocks
+  %plateCoords = DetectSpread([imagesFolder fileList(i).name]);
+
+  % All methods together
+  plateCoords = DetectMain([imagesFolder fileList(i).name]);
+
+    
   % Determine if plate is within found coordinates 
-  if (realPlateCoords(1) >= plateCoords(1) && realPlateCoords(2) <= plateCoords(2) && ...
-   realPlateCoords(3) >= plateCoords(3) && realPlateCoords(4) <= plateCoords(4))
+  if (RPC(1) >= plateCoords(1) && RPC(2) <= plateCoords(2) && ...
+   RPC(3) >= plateCoords(3) && RPC(4) <= plateCoords(4))
     noOfPlatesFound = noOfPlatesFound + 1;
   else
     % Echo name of image where plate was not found
     ['Plate not found in ' fileList(i).name]
+    beep 
+    pause(); % Pause when plate was not found 
     % No candidate was found
     if sum(plateCoords) == 0
       noCandidate = noCandidate + 1;
@@ -169,7 +225,7 @@ for i = 1:noOfImages
     %pause();
   end
   
-  % Wait for user to press a key
+  % Wait for user to press a key after every image
   %pause();
   
   % SomeFunction([imagesFolder fileList(i).name]);
@@ -194,5 +250,12 @@ correctnessOfCandidates = noOfPlatesFound*(100/(noOfImages-noCandidate))
 %noOfPlatesNotFound = noOfImages - noOfPlatesFound
 percentageOfPlatesRead = noOfPlatesRead*(100/noOfPlatesFound)
 
+%avgPlateness = round(platenessSum/noOfImages)
+%avgPlatenessPixel = platenessSum/plateWidthSum    
+
+%minIntDiff 
+
+
 % echo time
 datestr(now)
+
