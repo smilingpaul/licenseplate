@@ -12,7 +12,7 @@
 % Output parameters:
 % - rotatedImg: the image, rotated so the plate is horizontally placed.
 % - plateCoords: the coordinates of the plate in the rotated image.
-function [rotatedImg, plateCoords] = plate_rotate_radon (imgFile, plateCoords, figuresOn)
+function [rotatedPlateImg, newPlateCoords] = plate_rotate_radon (imgFile, plateCoords, figuresOn)
   
   % specify the minimum rotation degree. Image will not be rotated if the
   % analysis indicates a rotation lower than this.
@@ -20,10 +20,11 @@ function [rotatedImg, plateCoords] = plate_rotate_radon (imgFile, plateCoords, f
 
   % read image and make it grayscale
   img = imread(imgFile);
-  grayImg = rgb2gray(img);
+  %grayImg = rgb2gray(img);
   
   % pick out plate image and show it
-  plateImg = grayImg(plateCoords(3):plateCoords(4), plateCoords(1):plateCoords(2));
+  plateImg = img(plateCoords(3):plateCoords(4), plateCoords(1):plateCoords(2),:);
+  grayPlateImg = rgb2gray(plateImg);
   if figuresOn
     figure(11), subplot(3,1,1), imshow(plateImg), title('input plate image');
   end
@@ -31,11 +32,11 @@ function [rotatedImg, plateCoords] = plate_rotate_radon (imgFile, plateCoords, f
   % enhance contrast etc. TO-DO??
   
   % compute binary edge image from grayImg
-  bwPlateImg = edge(plateImg,'sobel','horizontal');
-  %bwPlateImg = edge(plateImg,'prewitt','horizontal');
-  %bwPlateImg = edge(plateImg,'roberts'); VERY BAD
-  %bwPlateImg = edge(plateImg,'log');
-  %bwPlateImg = edge(plateImg,'canny');
+  bwPlateImg = edge(grayPlateImg,'sobel','horizontal');
+  %bwPlateImg = edge(grayPlateImg,'prewitt','horizontal');
+  %bwPlateImg = edge(grayPlateImg,'roberts'); VERY BAD
+  %bwPlateImg = edge(grayPlateImg,'log');
+  %bwPlateImg = edge(grayPlateImg,'canny');
   if figuresOn
     figure(11), subplot(3,1,2), imshow(bwPlateImg), title('edge image, normal');
   end
@@ -44,11 +45,13 @@ function [rotatedImg, plateCoords] = plate_rotate_radon (imgFile, plateCoords, f
   [radonMatrix,xp] = radon(bwPlateImg,80:100);
   
   % display radon matrix
-  %theta = 0:179;
-  figure(111), imagesc(80:100, xp, radonMatrix); colormap(hot);
-  %xlabel('\theta'); ylabel('x\prime');
-  title('Radon transformation_{\theta} {x\prime}');
-  colorbar
+  if figuresOn
+    %theta = 0:179;
+    %figure(111), imagesc(80:100, xp, radonMatrix); colormap(hot);
+    %xlabel('\theta'); ylabel('x\prime');
+    %title('Radon transformation_{\theta} {x\prime}');
+    %colorbar
+  end
 
   % find degree of which the largest registration in Radon transformation
   % matrix was found
@@ -59,15 +62,51 @@ function [rotatedImg, plateCoords] = plate_rotate_radon (imgFile, plateCoords, f
   %rotateDeg = 90 - degree + 1 % plus 1: correction, WHY IS IT NEEDED??
 
   % only rotate if rotateDeg is between minRotation and 10
+  rotated = false;
   if abs(rotateDeg) >= minRotation % no need to check for <= 10 because of 80:100
-    rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
+    %rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
+    rotatedPlateImg = imrotate(plateImg,rotateDeg,'bilinear','crop');
+    rotated = true;
   else
-    rotatedImg = img;
+    %rotatedImg = img;
+    rotatedPlateImg = plateImg;
+  end
+  
+  % set new platecoords using rotation matrix
+  newPlateCoords = plateCoords;
+  if rotated
+    %imgMiddle = [size(img,1)/2, size(img,2)/2];
+    plateImgMiddle = [(plateCoords(1)+plateCoords(2))/2, ...
+      (plateCoords(3)+plateCoords(4))/2];
+    %yDif = imgMiddle(1) - 1; % difference from original origo
+    %xDif = imgMiddle(2) - 1;
+    yDif = plateImgMiddle(1) - 1; % difference from plate origo
+    xDif = plateImgMiddle(2) - 1;
+    
+    % the rotation matrix
+    rotationMatrix = [cosd(rotateDeg) -sind(rotateDeg); ...
+      sind(rotateDeg) cosd(rotateDeg)];
+    
+    % current coordinates
+    minXY = [plateCoords(1)-xDif;plateCoords(3)-yDif];
+    maxXY = [plateCoords(2)-xDif;plateCoords(4)-yDif];
+    
+    % find rotated coordinates
+    minXY = rotationMatrix * minXY;
+    maxXY = rotationMatrix * maxXY;
+    
+    % save rotated coordinates
+    newPlateCoords(1) = round(minXY(1) + xDif);
+    newPlateCoords(3) = round(minXY(2) + yDif);
+    newPlateCoords(2) = round(maxXY(1) + xDif);
+    newPlateCoords(4) = round(maxXY(2) + yDif);
   end
   
   % display rotated image
   if figuresOn
-    figure(11), subplot(3,1,3), imshow(rotatedImg(plateCoords(3):plateCoords(4), plateCoords(1):plateCoords(2), :)), title('rotated plate image');
+    %figure(11), subplot(3,1,3), imshow(rotatedImg(newPlateCoords(3):newPlateCoords(4), newPlateCoords(1):newPlateCoords(2), :)), title('rotated plate image');
+    figure(11), subplot(3,1,3), imshow(rotatedPlateImg), title('rotated plate image');
+    %figure(66), imshow(img(newPlateCoords(3):newPlateCoords(4), newPlateCoords(1):newPlateCoords(2), :));
   end
 
 end

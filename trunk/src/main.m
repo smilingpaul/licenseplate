@@ -26,6 +26,11 @@ percentageOfPlatesFound = 0;
 percentageOfPlatesRead = 0;
 percentageOfCharsRead = 0;
 
+% for saving char images
+charImgNo = 1;
+
+% Number of times there weas no candidate
+
 % For getting avg plateness
 platenessSum = 0;
 plateWidthSum = 0;
@@ -115,6 +120,9 @@ for i = 1:noOfImages
   % Besed on sameness
   % plateCoords = DetectSameness([imagesFolder fileList(i).name])
   
+  % For testing:
+  plateCoords = [0 0 0 0];
+  
   % Frequency analysis
   %plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
 
@@ -122,121 +130,178 @@ for i = 1:noOfImages
   %plateCoords = DetectSpread([imagesFolder fileList(i).name]);
 
   % All methods together
-  plateCoords = DetectMain([imagesFolder fileList(i).name]);
+  %plateCoords = DetectMain([imagesFolder fileList(i).name]);
 
-    
   % Determine if plate is within found coordinates 
   if (RPC(1) >= plateCoords(1) && RPC(2) <= plateCoords(2) && ...
    RPC(3) >= plateCoords(3) && RPC(4) <= plateCoords(4))
     noOfPlatesFound = noOfPlatesFound + 1;
+    plateFound = true;
   else
     % Echo name of image where plate was not found
     ['Plate not found in ' fileList(i).name]
+    plateFound = false;
     %beep 
     %pause(); % Pause when plate was not found 
+
     % No candidate was found
     if sum(plateCoords) == 0
       noCandidate = noCandidate + 1;
     end
   end   
 
-
-
-  %%%%%%%%%%
-  % ROTATE %
-  %%%%%%%%%%
-  
-  %[rotatedImg, plateCoords] = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords,true);
-  %[rotatedImg, plateCoords] = plate_rotate_hough([imagesFolder
-  %fileList(i).name],plateCoords,false);
-  
-  %%%%%%%%%%%%%%%%%
-  % SEGMENT CHARS %
-  %%%%%%%%%%%%%%%%%
-  
-  % charCoords are relative to plateimage
-  foundChars = 0;
-  %[chars, charCoords, foundChars] = char_segment_cc(rotatedImg,plateCoords,true);
-  %[chars, charCoords, foundChars] = char_segment_ptv(rotatedImg,plateCoords,true);
-  
-  %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
-  %figure(19), imshow(imread([imagesFolder fileList(i).name]));
-  
-  if foundChars == 7
-
-    % find vertical middle of plate and its length plus the width of a char
-    plateMiddle = realPlateCoords(4) - ...
-      (realPlateCoords(4) - realPlateCoords(3))/2;
-    plateLength = realPlateCoords(2) - realPlateCoords(1);
+  % only try to rotate, segment and read plate if candidate was correct
+  %if plateFound
     
-    % set approximate char width and space widths. TO-DO!!
-    relativeCharWidth = 1/8;
-    relativeSmallSpace = 1/55;
-    relativeLargeSpace = 2 * relativeSmallSpace;
-    charWidth = relativeCharWidth * plateLength;
-    smallSpace = relativeSmallSpace * plateLength;
-    largeSpace = relativeLargeSpace * plateLength;
+    % For testing:
+    plateCoords(1) = RPC(1) - 15;
+    plateCoords(2) = RPC(2) + 15;
+    plateCoords(3) = RPC(3) - 15;
+    plateCoords(4) = RPC(4) + 15;
 
-    % find real char coordinates
-    realCharCoords = zeros(7,1); % plateMiddle is second coordinate
-    %realCharCoords(:,2) = plateMiddle;
+    %%%%%%%%%%
+    % ROTATE %
+    %%%%%%%%%%
 
-    realCharCoords(1) = realPlateCoords(1) + smallSpace + charWidth/2;
-    for c = 2:7
-      if c ~= 3 && c ~=5
-        realCharCoords(c) = realCharCoords(c-1) + smallSpace + charWidth;
+    [rotatedPlateImg, newPlateCoords] = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords,false);
+    %newPlateCoords
+    %%%%%%%%%%%%%%%%%
+    % SEGMENT CHARS %
+    %%%%%%%%%%%%%%%%%
+
+    foundChars = 0;
+    [chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,newPlateCoords,false);
+    %[chars, charCoords, foundChars] = char_segment_ptv(rotatedPlateImg,newPlateCoords,true);
+    %charCoords
+    %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
+    %figure(19), imshow(imread([imagesFolder fileList(i).name]));
+
+    noCharCandidate = 0;
+    
+    if foundChars == 7
+      
+      %{
+
+      % OLD METHOD: CALCULATE CHAR COORDS
+      % find vertical middle of plate and its length plus the width of a char
+      plateMiddle = realPlateCoords(4) - ...
+        (realPlateCoords(4) - realPlateCoords(3))/2;
+      plateLength = realPlateCoords(2) - realPlateCoords(1);
+
+      % set approximate char width and space widths. TO-DO!!
+      relativeCharWidth = 1/8;
+      relativeSmallSpace = 1/55;
+      relativeLargeSpace = 2 * relativeSmallSpace;
+      charWidth = relativeCharWidth * plateLength;
+      smallSpace = relativeSmallSpace * plateLength;
+      largeSpace = relativeLargeSpace * plateLength;
+
+      % find real char coordinates
+      realCharCoords = zeros(7,1); % plateMiddle is second coordinate
+      %realCharCoords(:,2) = plateMiddle;
+
+      realCharCoords(1) = realPlateCoords(1) + smallSpace + charWidth/2;
+      for c = 2:7
+        if c ~= 3 && c ~=5
+          realCharCoords(c) = realCharCoords(c-1) + smallSpace + charWidth;
+        else
+          realCharCoords(c) = realCharCoords(c-1) + largeSpace + charWidth;
+        end
+      end
+
+      % calculate char coordinates relative to entire image
+      for k = 1:7
+        charCoords(k,1:2) = charCoords(k,1:2) + plateCoords(1);
+        charCoords(k,3:4) = charCoords(k,3:4) + plateCoords(3);
+      end
+      
+      % calculate no. of correctly read chars
+      charsRead = 0;
+      for j = 1:7
+        %if charCoords(j,1) <= realCharCoords(j) && ...
+        %    charCoords(j,2) >= realCharCoords(j) && ...
+        %    charCoords(j,3) <= plateMiddle && ...
+        %    charCoords(j,4) >= plateMiddle
+        charMiddle = [(charCoords(j,1)+charCoords(j,2))/2 (charCoords(j,3)+charCoords(j,4))/2];
+        if charMiddle(1) >= realPlateCoords(1) && ...
+           charMiddle(1) <= realPlateCoords(2) && ...
+           charMiddle(2) >= realPlateCoords(3) && ...
+           charMiddle(2) <= realPlateCoords(4)
+          charsRead = charsRead + 1;
+
+        end
+      end
+      
+      %}
+      
+      % NEW METHOD: CHAR MIDDLES ARE SIMPLY WITHIN PLATE
+      
+      % calculate newRealPlateCoords
+      if plateCoords(1) ~= newPlateCoords(1) || ...
+          plateCoords(2) ~= newPlateCoords(2) || ...
+          plateCoords(3) ~= newPlateCoords(3) || ...
+          plateCoords(4) ~= newPlateCoords(4)
+        coordDif = newPlateCoords - plateCoords;
+        newRealPlateCoords = RPC + coordDif;
       else
-        realCharCoords(c) = realCharCoords(c-1) + largeSpace + charWidth;
+        newRealPlateCoords = RPC;
       end
-    end
-    
-    % calculate char coordinates relative to entire image
-    for k = 1:7
-      charCoords(k,1:2) = charCoords(k,1:2) + plateCoords(1);
-      charCoords(k,3:4) = charCoords(k,3:4) + plateCoords(3);
-    end
-    
-    % calculate no. of correctly read chars
-    charsRead = 0;
-    for j = 1:7
-      %if charCoords(j,1) <= realCharCoords(j) && ...
-      %    charCoords(j,2) >= realCharCoords(j) && ...
-      %    charCoords(j,3) <= plateMiddle && ...
-      %    charCoords(j,4) >= plateMiddle
-      charMiddle = [(charCoords(j,1)+charCoords(j,2))/2 (charCoords(j,3)+charCoords(j,4))/2];
-      if charMiddle(1) >= realPlateCoords(1) && ...
-         charMiddle(1) <= realPlateCoords(2) && ...
-         charMiddle(2) >= realPlateCoords(3) && ...
-         charMiddle(2) <= realPlateCoords(4)
-        charsRead = charsRead + 1;
+      
+      charsRead = 0;
+      for c = 1:7
+        charMiddle = [round((charCoords(c,1)+charCoords(c,2))/2), ...
+          round((charCoords(c,3)+charCoords(c,4))/2)];
+        if charMiddle(1) >= newRealPlateCoords(1) && ...
+            charMiddle(1) <= newRealPlateCoords(2) && ...
+            charMiddle(2) >= newRealPlateCoords(3) && ...
+            charMiddle(2) <= newRealPlateCoords(4)
+          charsRead = charsRead + 1;
+          
+          %if c < 7
+          %  round((charCoords(c+1,1)+charCoords(c+1,2))/2) - ...
+          %  charMiddle(1)
+          %end
+          
+        end
+      end
+
+      % determine if the plate is correctly read
+      if charsRead == 7
+        noOfPlatesRead = noOfPlatesRead + 1;
         
+        % for pattern recognition: save images
+        %for n = 1:7
+        %  charName = strcat('char',int2str(n));
+        %  posFolderName = strcat('pos',int2str(n));
+        %  imgName = strcat(imagesFolder, ...
+        %    posFolderName,'/',int2str(charImgNo),'.PNG');
+        %  imwrite (chars.(charName),imgName,'png','BitDepth',1);
+        %  charImgNo = charImgNo + 1;
+        %end
+        
+      else
+        ['Plate not read in ' fileList(i).name]
+        %pause();
       end
-    end
-    
-    % determine if the plate is correctly read
-    if charsRead == 7
-      noOfPlatesRead = noOfPlatesRead + 1;
     else
       ['Plate not read in ' fileList(i).name]
+      noCharCandidate = noCharCandidate + 1;
       %pause();
     end
-  else
-    ['Plate not read in ' fileList(i).name]
-    %pause();
-  end
+
+    %%%%%%%%%%%%%%%%%%%%%%
+    % RECOGNIZE PATTERNS %
+    %%%%%%%%%%%%%%%%%%%%%%
+
+
+
+  %end % plateFound
   
   % Wait for user to press a key after every image
+  %
   %pause();
   
-  % SomeFunction([imagesFolder fileList(i).name]);
-  
-  %%%%%%%%%%%%%%%%%%%%%%
-  % RECOGNIZE PATTERNS %
-  %%%%%%%%%%%%%%%%%%%%%%
-  
-  
-  
-end
+end % iterate through images
 
 %%%%%%%%%%%%%%%
 % PRINT STATS %
@@ -248,7 +313,11 @@ percentageOfPlatesFound = noOfPlatesFound*(100/noOfImages)
 correctnessOfCandidates = noOfPlatesFound*(100/(noOfImages-noCandidate))
 
 %noOfPlatesNotFound = noOfImages - noOfPlatesFound
-percentageOfPlatesRead = noOfPlatesRead*(100/noOfPlatesFound)
+%percentageOfPlatesRead = noOfPlatesRead*(100/noOfPlatesFound)
+percentageOfPlatesRead = noOfPlatesRead*(100/noOfImages)
+
+%correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfPlatesFound-noCharCandidate))
+correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfImages-noCharCandidate))
 
 %avgPlateness = round(platenessSum/noOfImages)
 %avgPlatenessPixel = platenessSum/plateWidthSum    
