@@ -15,6 +15,11 @@
 % - foundChars: the no. of found char candidates
 function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoords, figuresOn) 
 
+  brigthenImg = false;
+  
+  % down-scale image
+  %plateImg = imresize(plateImg,0.5);
+
   %%%%%%%%%%%%%%%%%%
   % PRE-PROCCESING %
   %%%%%%%%%%%%%%%%%%
@@ -35,12 +40,6 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   charCoords = zeros(7,4); % contains 4 coordinates for each of the 7 chars
   %foundChars = 0;
   
-  % get and display plate image
-  %plateImg = img(plateCoords(3):plateCoords(4),plateCoords(1):plateCoords(2),:);
-  %if figuresOn
-  %  figure(2), subplot(9,4,1:4), imshow(plateImg), title('plateImg');
-  %end  
-  
   % create grayscale image
   grayImg = rgb2gray(plateImg);
   
@@ -50,16 +49,12 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
     figure(2), subplot(9,4,1:4), imshow(grayImg), title('gray plateImg');
   end
   
-  %figure(2), subplot(2,1,1), imshow(grayImg), title('gray plateImg');
-  
   % dilate
   %se = strel('square',2);
   %se = strel('disk',2);
   %dilatedGrayImg = imdilate(grayImg,se);
 
   % calculate width and height of images
-  %imgHeight = size(img,1);
-  %imgWidth = size(img,2);
   plateImgHeight = size(grayImg,1);
   plateImgWidth = size(grayImg,2);
   
@@ -93,20 +88,32 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   
   %imgContrastEnh = imsubtract(imadd(imgTophat, grayImg), imgBothat);
   
-  %figure(2), subplot(8,4,13:16), imshow(imgContrastEnh), title('original +
-  %top-hat - bottom-hat');
-  
   %%%%% BRIGHTNESS / CONTRAST %%%%%%%%
-  %meanVal = mean(mean(grayImg))
   
-  %brightImg = uint8((double(grayImg)/180)*256);
-  %brightImg = uint8((double(grayImg)/mean(mean(grayImg)))*256);
- 
-  %contrastImg = ContrastStretch(medianFilteredImg,0);
-  contrastImg = ContrastStretch(grayImg,0);
-  %contrastImg = ContrastStretch(brightImg,0);
-  %contrastImg = ContrastStretch(dilatedGrayImg,0);
+  function trala = bla (blabla)
+    
+    trala = ContrastStretch(blabla,0);
+    
+    %result = trala(3,3);
+    
+  end
   
+  %topmeanVal = mean(mean(grayImg(1:plateImgHeight/2,:)))
+  %overallthresh = graythresh(grayImg)
+  
+  if brigthenImg
+    %brightImg = uint8((double(grayImg)/180)*256);
+    brightImg = uint8((double(grayImg)/mean(mean(grayImg)))*256);
+    %contrastImg = ContrastStretch(brightImg,0);
+    %contrastImg = nlfilter(grayImg, [5 5],@bla);
+    contrastImg = blkproc(grayImg, [5 5],@bla);
+  else
+    %contrastImg = ContrastStretch(medianFilteredImg,0);
+    %contrastImg = ContrastStretch(grayImg,0);
+    %contrastImg = nlfilter(grayImg, [5 5],@bla);
+    contrastImg = blkproc(grayImg, [13 13],@bla);
+    %contrastImg = ContrastStretch(dilatedGrayImg,0);
+  end
   
   % dilate
   %se = strel('square',2);
@@ -125,12 +132,15 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   %  end
   %end
   
+  thresh = graythresh(contrastImg)*0.4;
+  %thresh = graythresh(contrastImg);
+  bwPlate = im2bw(contrastImg,thresh);
   
-  %%%%%%%%%%%% TO-DO: determine level. In LicensplateSydney.pdf level is
-  %%%%%%%%%%%% based on the average gray scale value of the 100 pixels with
-  %%%%%%%%%%%% the largest gradient. Do we need that?
-  %thresh = graythresh(contrastImg)
-  bwPlate = im2bw(contrastImg,graythresh(contrastImg));
+  %topbwplate = im2bw(contrastImg(1:floor(plateImgHeight/2),:),graythresh(contrastImg(1:floor(plateImgHeight/2),:)));
+  %btbwplate = im2bw(contrastImg(floor(plateImgHeight/2)+1:plateImgHeight,:),graythresh(contrastImg(floor(plateImgHeight/2)+1:plateImgHeight,:)));
+  %bwPlate(1:floor(plateImgHeight/2),:) = topbwplate;
+  %bwPlate(floor(plateImgHeight/2)+1:plateImgHeight,:) = btbwplate;
+  
   %bwPlate = im2bw(dilatedContrastImg,graythresh(dilatedContrastImg));
   %bwPlate = im2bw(contrastImg,0.7);
   %bwPlate = im2bw(brightImg,graythresh(brightImg));
@@ -139,7 +149,9 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
     %figure(2), subplot(9,4,5:8), imshow(medianFilteredImg), title('median');
     %figure(2), subplot(8,4,5:8), imshow(grayImg), title('gray image');
     figure(2), subplot(9,4,9:12), imshow(contrastImg), title('contrast image');
-    %figure(2), subplot(9,4,5:8), imshow(brightImg), title('brightness image');
+    if brigthenImg
+      figure(2), subplot(9,4,5:8), imshow(brightImg), title('brightness image');
+    end
     figure(2), subplot(9,4,13:16), imshow(bwPlate), title('bw image');
   end
   
@@ -184,17 +196,8 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   % candidate, pos. 2 stores the height of the component in pixels, pos. 3
   % stores the no. of components with a similar height. pos. 4 stores no.
   % of components AT same height.
-  %isCandidate = zeros(noOfComp,1);
-  %candidateGroup 
-  
-  
-  candidates = zeros(noOfComp,4);
+  isCandidate = zeros(noOfComp,1);
   noOfCandidates = 0;
-  
-  %charHeightSum = 0;
-  %charWidthSum = 0;
-  %maxCharHeight = 0;
-  %maxCharWidth = 0;
   
   % find candidates
   for i = 1:noOfComp
@@ -212,12 +215,8 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
         compHeight >= minCompHeight
       
       % register component as candidate
-      %isCandidate(i) = true;
-      
-      
-      candidates(i,1) = 1;
+      isCandidate(i) = true;
       noOfCandidates = noOfCandidates + 1;
-      candidates(i,2) = compHeight;
       
     else
       
@@ -241,121 +240,169 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   % - NOT 6 OTHER CANDIDATES HAVE SAME AVERAGE Y-VALUE %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  heightMaxDif = 5;
-  
-  if noOfCandidates > 7
+  % the maximum height difference
+  heightMaxDif = 6;
+  % this is the matrix to hold the component group that are the 7 chars
+  charGroup = zeros(7,2);
     
-    % for each candidate: calculate how many other candidates that have
-    % similar height
-    for i = 1:noOfComp
+  % for each candidate: calculate how many other candidates that have
+  % similar height, are at same heigth, and for groups calculate the
+  % distances between the components
+  for i = 1:noOfComp
+    
+    if isCandidate(i)
       
+      % find all facts about component i
+      [iY,iX] = find(conComp == i);
+      iHeight = max(iY) - min(iY);
+      iVertMiddle = (min(iY) + max(iY))/2;
+        
+      % create list to hold components in same group. pos. 1 is
+      % componentno. pos. 2 is component horizontal middle.
+      candidateGroup = nan(noOfComp,2);
+      groupIndex = 1;
+    
       for j = 1:noOfComp
-        
-        
-        % pos. 1, holds if the component is a candidate
-        if candidates(i,1) && candidates(j,1) && i ~= j
-          
-          % find all pixels in components
-          [y_i,x_i] = find(conComp == i);
-          [y_j,x_j] = find(conComp == j);
-          yMiddleI = (max(y_i)+min(y_i))/2;
-          yMiddleJ = (max(y_j)+min(y_j))/2;
-          
-          % register no. af components with same height
-          if abs(candidates(i,2) - candidates(j,2)) <= heightMaxDif
-            candidates(i,3) = candidates(i,3) + 1;
-          end
-          % register no. of components at same height
-          if abs(yMiddleI - yMiddleJ) <= heightMaxDif
-            candidates(i,4) = candidates(i,4) + 1;
-          end
+
+        if isCandidate(j)
+          % find facts about component j
+          [jY,jX] = find(conComp == j);
+          jHeight = max(jY) - min(jY);
+          jVertMiddle = (max(jY) + min(jY))/2;
+          jHorzMiddle = (min(jX) + max(jX))/2;
+
+          % register no. af components as a group with same height and at
+          % same height
+          if abs(iHeight - jHeight) <= heightMaxDif && ...
+              abs(iVertMiddle - jVertMiddle) <= heightMaxDif
+            candidateGroup(groupIndex,1) = j;
+            candidateGroup(groupIndex,2) = jHorzMiddle;
+            groupIndex = groupIndex + 1;
+          end 
         end
+
+      end % j
+
+      % check horizontal distances between components in group
+      if groupIndex-1 == 7
+
+        % sort by increasing "middle" in charGroup
+        for x = 1:7
+          [minMiddle, minIndex] = min(candidateGroup(:,2));
+          compNo = candidateGroup(minIndex,1);
+          charGroup(x,1) = compNo;
+          charGroup(x,2) = minMiddle;
+          candidateGroup(minIndex,2) = nan;
+        end          
+
+        % calculate distances
+        dist1_2 = charGroup(2,2) - charGroup(1,2);
+        dist2_3 = charGroup(3,2) - charGroup(2,2); % should be largest
+        dist3_4 = charGroup(4,2) - charGroup(3,2);
+        dist4_5 = charGroup(5,2) - charGroup(4,2); % should be largest
+        dist5_6 = charGroup(6,2) - charGroup(5,2);
+        dist6_7 = charGroup(7,2) - charGroup(6,2);
+
+        % check distances
+        if dist1_2 < dist2_3 && ...
+            dist3_4 < dist2_3 && dist3_4 < dist4_5 && ...
+            dist5_6 < dist2_3 && dist5_6 < dist4_5 && ...
+            dist6_7 < dist2_3 && dist6_7 < dist4_5
+          break;
+        end
+
       end
-      
-      % remove if not 6 others HAVE similar height or AT same height
-      if candidates(i,1) && (candidates(i,3) < 6 || candidates(i,4) < 6)
-        candidates(i,:) = 0;
+
+      % if we didn't break, the distances are not right so remove
+      % components in group       
+      for r = 1:groupIndex-1
+        compNo = candidateGroup(r,1);
+        isCandidate(compNo) = false;
         noOfCandidates = noOfCandidates - 1;
-        
+
         % set color of pixels in component to black
-        compSize = length(find(conComp == i));
-        [y,x] = find(conComp == i);
-        for j = 1:compSize
-          conComp(y(j), x(j)) = 0;
+        [y,x] = find(conComp == compNo);
+        compSize = length(find(conComp == compNo));
+        for c = 1:compSize
+          conComp(y(c), x(c)) = 0;
         end
         
+        % reset charGroup
+        charGroup(:,:) = 0;
+        
       end
+     
+    end % isCandidate(i)
       
-    end
-    
-  end
+  end % i
   
-  foundChars = noOfCandidates
+  % TO-DO: remove components that are not in charGroup
+  
+  % up-scale image again
+  %conComp = imresize(conComp,2);
   
   % show connected components that haven't been removed
   if figuresOn
-    figure(2), subplot(9,4,25:28), imshow(conComp), title('conComp cleaned');
+    figure(2), subplot(9,4,25:28), imshow(conComp), title('conComp group cleaned');
   end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % DISPLAY AND RETURN CHARS %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  if foundChars ~= 7
+  % if the charGroup has no content: return, else: cut chars
+  if length(find(charGroup(:,1))) ~= 7
+    foundChars = 0;
     return;
   else
-    % char number
-    charNo = 1;
+    
+
+    
+    foundChars = 7;
   
     % for displaying the chars
     plotPos = 29;
     
     % cut out chars
-    for i = 1:noOfComp
+    for charNo = 1:7
       
-      % if the component is a candidate: cut it out
-      if candidates(i,1)
-        [y,x] = find(conComp == i);
+      % find component no.
+      compNo = charGroup(charNo,1);
+      [y,x] = find(conComp == compNo);
         
-        xMin = min(x);
-        xMax = max(x);
-        yMin = min(y);
-        yMax = max(y);
+      xMin = min(x);
+      xMax = max(x);
+      yMin = min(y);
+      yMax = max(y);
                 
-        % adjust coordinates if they point outside the image
-        if xMin < 1
-          xMin = 1;
-        end
-        if xMax > plateImgWidth
-          xMax = plateImgWidth;
-        end
-        if yMin < 1
-          yMin = 1;
-        end
-        if yMax > plateImgHeight
-          yMax = plateImgHeight;
-        end        
-        
-        % add image of a char to the struct chars (indexed by 'char1',
-        % 'char2' etc.) display char afterwards
-        charName = strcat('char',int2str(charNo));
-        %chars.(charName) = img(yMin:yMax,xMin:xMax,:);
-        %chars.(charName) = plateImg(yMin:yMax,xMin:xMax,:);
-        chars.(charName) = conComp(yMin:yMax,xMin:xMax);
-        charCoords(charNo,1) = xMin + plateCoords(1);
-        charCoords(charNo,2) = xMax + plateCoords(1);
-        charCoords(charNo,3) = yMin + plateCoords(3);
-        charCoords(charNo,4) = yMax + plateCoords(3);
-        if figuresOn
-          figure(2), subplot(9,4,plotPos), imshow(chars.(charName)), title(charName);
-        end
-        
-        % increment variables
-        plotPos = plotPos + 1;
-        charNo = charNo + 1;
-        %imgNo = imgNo + 1;
-              
+      % adjust coordinates if they point outside the image
+      if xMin < 1
+        xMin = 1;
       end
+      if xMax > plateImgWidth
+        xMax = plateImgWidth;
+      end
+      if yMin < 1
+        yMin = 1;
+      end
+      if yMax > plateImgHeight
+        yMax = plateImgHeight;
+      end        
+        
+      % add image of a char to the struct chars (indexed by 'char1',
+      % 'char2' etc.) display char afterwards
+      charName = strcat('char',int2str(charNo));
+      chars.(charName) = conComp(yMin:yMax,xMin:xMax);
+      charCoords(charNo,1) = xMin + plateCoords(1);
+      charCoords(charNo,2) = xMax + plateCoords(1);
+      charCoords(charNo,3) = yMin + plateCoords(3);
+      charCoords(charNo,4) = yMax + plateCoords(3);
+      if figuresOn
+        figure(2), subplot(9,4,plotPos), imshow(chars.(charName)), title(charName);
+      end
+        
+      % increment variables
+      plotPos = plotPos + 1;
       
     end
   end

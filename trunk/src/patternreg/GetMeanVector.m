@@ -9,7 +9,7 @@
 % - width: the width that all the images should be scaled to.
 %
 % Output:
-% - meanVector: the mean vector of length heigth x width.
+% - meanVector: the mean vector of length height x width.
 
 function meanVector = GetMeanVector (imgFolder, height, width)
 
