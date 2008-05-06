@@ -170,7 +170,7 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    [chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,newPlateCoords,false);
+    [chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,newPlateCoords,true);
     %[chars, charCoords, foundChars] = char_segment_ptv(rotatedPlateImg,newPlateCoords,true);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
@@ -281,12 +281,12 @@ for i = 1:noOfImages
         
       else
         ['Plate not read in ' fileList(i).name]
-        %pause();
+        pause();
       end
     else
       ['Plate not read in ' fileList(i).name]
       noCharCandidate = noCharCandidate + 1;
-      %pause();
+      pause();
     end
 
     %%%%%%%%%%%%%%%%%%%%%%
