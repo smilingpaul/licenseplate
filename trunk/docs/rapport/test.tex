@@ -20,6 +20,8 @@
 % vi holder dem adskilt - ikke noget med histo
 Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til identificering af nummerplader (se afsnit \ref{histo}), holdt vi de to fotografisæt adskilte. På denne måde ville det f.eks. være muligt for os at teste om skift fra et kamera til et andet, vil give ændrede resultater. Billederne blev navngivet i vores database, så det, i deres filnavn, indgik om billedet forestillede en bil set forfra eller bagfra samt hvilken nummerplade bilen på nummerpladen havde. Derudover udarbejdede vi et mindre program som hjalp os til at identificere nummerpladens fire hjørnekoordinater og indskrive disse i filnavnet. Denne sidste tilføjelse ville hjælpe os i testfasen, til at undersøge om de nummerpladekandidater vores system ville udvælge er de korrekte.
 
+Vi skal ha' taget flere billeder!
+
 
 %\subsection{Fotografering}
 %Hvor mange og hvilke billeder har vi taget.
@@ -62,11 +64,16 @@ Konklussion:
 
 \subsection{Seperation af tegn.}
 Test af de to metoder.
-Er alle karakteret indenfor pladen? Det er kun nødvendigt at se på om tegnene er indenfor pladen da blah blah. Er der forskel på succesraten i forhold til størrelsen på pladen?
+Er alle karakteret indenfor pladen? Det er kun nødvendigt at se på om tegnene er indenfor pladen da blah blah. Er der forskel på succesraten i forhold til størrelsen på pladen? Er det forskel på succesraten i forhold til om vi ser på pladerne vi manuelt har plottet (med evt. et tilfældigt yderområde lagt til) eller om vi ser på de nummerplader som vores indetifikationsmetoder finder?
 
-\fixme{Noget om usikkerhed ved simpel testmetode af tegnopdel}
-Konklussion:
+Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information
+
+
+
+Konklusion:
 
 \subsection{Genkendelse af tegn}
 Test af begge metoder.
 Hvor gode er vi på tal. Hvor gode er vi på bogstaver. Hvor gode er vi på hele plader.
+
+Konklusion:

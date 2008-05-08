@@ -25,6 +25,20 @@ noOfPlatesRead = 0;
 percentageOfPlatesFound = 0;
 percentageOfPlatesRead = 0;
 percentageOfCharsRead = 0;
+noOfChar1sRead = 0;
+noOfChar2sRead = 0;
+noOfChar3sRead = 0;
+noOfChar4sRead = 0;
+noOfChar5sRead = 0;
+noOfChar6sRead = 0;
+noOfChar7sRead = 0;
+percentageOfChar1sRead = 0;
+percentageOfChar2sRead = 0;
+percentageOfChar3sRead = 0;
+percentageOfChar4sRead = 0;
+percentageOfChar5sRead = 0;
+percentageOfChar6sRead = 0;
+percentageOfChar7sRead = 0;
 
 % for saving char images
 charImgNo = 1;
@@ -281,19 +295,53 @@ for i = 1:noOfImages
         
       else
         ['Plate not read in ' fileList(i).name]
-        pause();
+        %pause();
       end
     else
       ['Plate not read in ' fileList(i).name]
       noCharCandidate = noCharCandidate + 1;
-      pause();
+      %pause();
     end
 
     %%%%%%%%%%%%%%%%%%%%%%
     % RECOGNIZE PATTERNS %
     %%%%%%%%%%%%%%%%%%%%%%
+    
+    plateAsString = '';
+    if foundChars == 7 && charsRead == 7
+      plateAsString = ReadPlateFV(chars)
+    end
 
-
+  % stats on reading of chars
+  if ~strcmp(plateAsString,'')
+    
+    realChars = [fileList(i).name(1,23), fileList(i).name(1,24), ...
+      fileList(i).name(1,25), fileList(i).name(1,26), ...
+      fileList(i).name(1,27), fileList(i).name(1,28), ...
+      fileList(i).name(1,29)]
+    
+    if strcmp(plateAsString(1),realChars(1))
+      noOfChar1sRead = noOfChar1sRead + 1;
+    end
+    if strcmp(plateAsString(2),realChars(2))
+      noOfChar2sRead = noOfChar2sRead + 1;
+    end
+    if strcmp(plateAsString(3),realChars(3))
+      noOfChar3sRead = noOfChar3sRead + 1;
+    end
+    if strcmp(plateAsString(4),realChars(4))
+      noOfChar4sRead = noOfChar4sRead + 1;
+    end
+    if strcmp(plateAsString(5),realChars(5))
+      noOfChar5sRead = noOfChar5sRead + 1;
+    end
+    if strcmp(plateAsString(6),realChars(6))
+      noOfChar6sRead = noOfChar6sRead + 1;
+    end
+    if strcmp(plateAsString(7),realChars(7))
+      noOfChar7sRead = noOfChar7sRead + 1;
+    end
+  end
 
   %end % plateFound
   
@@ -324,6 +372,13 @@ correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfImages-noCharCandidate))
 
 %minIntDiff 
 
+percentageOfChar1sRead = noOfChar1sRead*(100/(noOfPlatesRead))
+percentageOfChar2sRead = noOfChar2sRead*(100/(noOfPlatesRead))
+percentageOfChar3sRead = noOfChar3sRead*(100/(noOfPlatesRead))
+percentageOfChar4sRead = noOfChar4sRead*(100/(noOfPlatesRead))
+percentageOfChar5sRead = noOfChar5sRead*(100/(noOfPlatesRead))
+percentageOfChar6sRead = noOfChar6sRead*(100/(noOfPlatesRead))
+percentageOfChar7sRead = noOfChar7sRead*(100/(noOfPlatesRead))
 
 % echo time
 datestr(now)

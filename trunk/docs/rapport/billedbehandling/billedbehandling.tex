@@ -169,18 +169,14 @@ Regler:
 \end{comment}
 
 
+\subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
+
+\cite{parker} bruger kant-detektion og localisering af tegn til at give et bud på hvor nummerpladen er.
+
 
 \subsubsection*{MSER}
-\begin{comment}
+
 Først sorteres alle pixels intensiteter (stigende). Dette gøres ved brug af bucket sort.
-\end{commen}
-
-\subsubsection{Signatur metode (kwasnickawawryniak.pdf)}
-
-\subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
-\begin{comment}
-\cite{parker} bruger kant-detektion og localisering af tegn til at give et bud på hvor nummerpladen er.
-\end{comment}
 
 \subsection{Rotation}
 
@@ -195,15 +191,13 @@ I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, s
 
 \subsubsection*{Radon transformation}
 
-\fixme{Roterer ikke omkring pladens midte, men om hele billedets.. forkert!}
-
 En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
 Billedet nedenfor viser hvordan Radon transformationen findes i en enkelt vinkel, theta. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier. Resultatet af en Radon transformation er en matrice der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
 
 %SKAL NOK BYTTES UD MED HJEMMELAVET BILLEDE:
 %\begin{figure}[h]
-%\includegraphics{billedbehandling/illu/transform74.jpg}
+\includegraphics{billedbehandling/illu/transform74.jpg}
 %\caption{Radon transformation}
 %\end{figure}
 
@@ -233,13 +227,21 @@ Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette 
 
 BILLEDE AF NUMMERPLADE, ROTERET.
 
+Udregner nye koordinater for roteret plade vha. rotationsmatrix....
+
 Ulemper:
 
 \subsubsection*{Andre metoder brugt i litteraturen}
 
-%Tror ikke der er andre?
+Tror ikke der er andre?
 
 \subsection{Opdeling af tegn}
+
+\begin{comment}
+Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" de kan brede sig i. Ikke alle tegn er lige brede, og generelt er bogstaver bredere end tal. "Feltet" til bogstaver er derfor bredere end feltet til tegn. Enkelte tegn er for smalle til at udfylde deres "felt", så designeren har fundet det hensigtsmæssigt at placere disse tegn visuelt centreret inden for deres "felt".
+
+"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
+\end{comment}
 
 I det følgende beskrives to metoder til opdeling af tegn i en nummerplade. Med henblik på det komplette system er dette trin, trin nr. tre hvilket udføres efter at nummerpladen er blevet identificeret i billedet og eventuelt roteret. De to metoder til opdeling af tegn kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund). Metoderne er fundet i....
 
@@ -275,6 +277,21 @@ EKSEMPEL PÅ UDKLIPPEDE TEGN
 
 \fixme{beskrevet i kwas: man ku fjerne kanter før analysen}
 
+\subsubsection*{peak-to-valley}
+
+Denne metode baseres på en vertikal projektion af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er dale (de lyse områder mellem tegnene) og bakker (tegnene), hvorefter vi kan udskære tegnene.
+
+Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR? Nummerpladens signatur fås ved at summere intensiteterne i alle kolonnerne i billedet. En graf over signaturen vil så give toppe i de kolonner hvor der er størst inte
+
+\subsubsection*{Andre metoder brugt i litteraturen}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Note fra segmentering af tegn
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \begin{comment}
 \subsubsection*{Skan-linie}
 
@@ -287,40 +304,10 @@ Billedet skal skæres foroven og forneden. Dette gøres simpelt ved at finde den
 Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af et tegn og efter et tegn.
 \end{comment}
 
-\subsubsection*{peak-to-valley}
-
-Denne metode baseres på en vertikal projektion af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er dale (de lyse områder mellem tegnene) og bakker (tegnene), hvorefter vi kan udskære tegnene.
-
-Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR? Nummerpladens signatur fås ved at summere intensiteterne i alle kolonnerne i billedet. En graf over signaturen vil så give toppe i de kolonner hvor der er størst inte
-
-\subsubsection*{Andre metoder brugt i litteraturen}
-
-\subsubsection*{Test af segmentering}
-
-\begin{comment}
-Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" de kan brede sig i. Ikke alle tegn er lige brede, og generelt er bogstaver bredere end tal. "Feltet" til bogstaver er derfor bredere end feltet til tegn. Enkelte tegn er for smalle til at udfylde deres "felt", så designeren har fundet det hensigtsmæssigt at placere disse tegn visuelt centreret inden for deres "felt".
-
-"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
-\end{comment}
-
-%\end{comment} % remove this
-
-
-
-
-
-
-
-
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Beskrivelser af PDfer
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
 \begin{comment}

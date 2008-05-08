@@ -354,6 +354,7 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoor
       xMax = xMax - 1;
     end
     
+    % TO-DO: Remember to return logical image (im2bw at last like in cc)
     % add image of a char to the struct chars (indexed by 'char1',
     % 'char2' etc.) display char afterwards
     charName = strcat('char',int2str(charNo));

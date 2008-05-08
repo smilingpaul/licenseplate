@@ -41,13 +41,14 @@ function [rotatedPlateImg, newPlateCoords] = plate_rotate_radon (imgFile, plateC
     figure(11), subplot(3,1,2), imshow(bwPlateImg), title('edge image, normal');
   end
 
-  % compute radon transform of edge image, TO-DO: Only in 80:100
-  [radonMatrix,xp] = radon(bwPlateImg,80:100);
+  % compute radon transform of edge image
+  %theta = [80:100];
+  theta = [0:179];
+  [radonMatrix,xp] = radon(bwPlateImg,theta);
   
   % display radon matrix
   if figuresOn
-    %theta = 0:179;
-    %figure(111), imagesc(80:100, xp, radonMatrix); colormap(hot);
+    %figure(111), imagesc(theta, xp, radonMatrix); colormap(hot);
     %xlabel('\theta'); ylabel('x\prime');
     %title('Radon transformation_{\theta} {x\prime}');
     %colorbar
@@ -56,10 +57,12 @@ function [rotatedPlateImg, newPlateCoords] = plate_rotate_radon (imgFile, plateC
   % find degree of which the largest registration in Radon transformation
   % matrix was found
   [x,degree] = max(max(abs(radonMatrix)));
-  rotateDeg = 90 - (degree + 80 - 1) % plus 80 because of the 80:100 radonmatrix  
-
-  % convert the degree of rotation to horizontal plane
-  %rotateDeg = 90 - degree + 1 % plus 1: correction, WHY IS IT NEEDED??
+  %rotateDeg = 90 - (degree + 80 - 1) % plus 80 because of the 80:100 radonmatrix
+  rotateDeg = 90 - (degree - 1)
+  
+  if rotateDeg > 9 || rotateDeg < -9
+    pause;
+  end
 
   % only rotate if rotateDeg is between minRotation and 10
   rotated = false;
