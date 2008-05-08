@@ -3,6 +3,7 @@
 function plateCoords = DetectPlateness(inputImage)
 
   scaleFactor = 0.25;
+  %scaleFactor = 0.5;
 
   filterWidth = round(90*scaleFactor);
   filterHeight = 1;

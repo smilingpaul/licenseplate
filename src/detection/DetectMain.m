@@ -7,7 +7,7 @@ function plateCoords = DetectMain(inputImage)
 
 
   % High contrast blocks
-  f1c = DetectSpread(inputImage);
+  f1c = DetectCStretch(inputImage);
   candCoords(1,1:4) = f1c;   
 
   % Finds candidates based on sameness
@@ -21,6 +21,10 @@ function plateCoords = DetectMain(inputImage)
   % Finds candidates based on freq analysis 
   f4c = DetectPlateness(inputImage);
   candCoords(4,1:4) = f4c;   
+
+  % Reduces image to 8 colors 
+  f5c = DetectQuant(inputImage);
+  candCoords(5,1:4) = f5c;   
 
 
   % Calculate average candidate
@@ -79,7 +83,8 @@ candCoords
   agLev = max(max(candCoords(:,5)));
 
   if noOfCandidates == 1
-    % We have only one candidate
+    % We have only one candidate.
+    % We will return it
     plateCoords = candCoords(1,1:4);
   
   elseif agLev >= 2
@@ -155,6 +160,8 @@ candCoords
   plot(sum(f3c(1:2))/2, sum(f3c(3:4))/2,'go');
 
   plot(sum(f4c(1:2))/2, sum(f4c(3:4))/2,'gx');
+
+  plot(sum(f5c(1:2))/2, sum(f5c(3:4))/2,'rx');
 
 
   hold off;
