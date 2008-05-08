@@ -45,6 +45,7 @@ for i = 1:numConComp
 
   compSignature = GetSignature(thisImage,0);
   compPlateness = GetPlateness(compSignature);
+  [compDistBelow, compDistAbove] = GetDistribution(thisImage);
  
   compIntDiff = max(max(thisImage)) - min(min(thisImage));
 
@@ -58,17 +59,22 @@ for i = 1:numConComp
   % The ratio is not an exact science anyway. Maybe it should just be one parameter
   % But, remember that the one with the best ratio is picked as the best match currently
 
-  % Candidates nead a difference in intensities of at least this value
+  % Candidates need a difference in intensities of at least this value
   % In one set min diff is 43 in the other it is 91
   if compIntDiff >= 43
-    if platenessDiff < bestPlatenessDiff && ... % Best plateness
-       compPlateness > 10 && compPlateness < 30 
+    %if compDistAbove >= 50 && compDistAbove <= 80
+    if compDistAbove >= 0 && compDistAbove <= 100
+      if platenessDiff < bestPlatenessDiff && ... % Best plateness
+         compPlateness > 10 && compPlateness < 30 
 
-        %bestRatioDiff = ratioDiff;
-        %bestRatioComponent = i
-        bestPlatenessDiff = platenessDiff;
-        bestPlatenessComponent = i;
-     end
+          %bestRatioDiff = ratioDiff;
+          %bestRatioComponent = i
+          bestPlatenessDiff = platenessDiff;
+          bestPlatenessComponent = i;
+       end
+    else
+      [ 'A candidate has less than 50% intensity above average' ]
+    end 
   else
     [ 'A candidate has no good intensity diff' ]
     %beep

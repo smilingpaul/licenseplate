@@ -104,7 +104,9 @@ for i = 1:noOfImages
   %image = rgb2gray(imread([imagesFolder fileList(i).name]));
   %image = log10(double(image));
   %image = uint8((256/(max(max(image)))) .* image);
-  % image = image(RPC(3)-3:RPC(4)+3, RPC(1)-3:RPC(2))+3;
+  %image = image(RPC(3)-3:RPC(4)+3, RPC(1)-3:RPC(2))+3;
+  %[ below, above ] = GetDistribution(image)
+
   %image = image(1:16,1:16);
   %figure(100), imshow(image);
   %figure(101), hist(double(image(:)),256);
@@ -128,23 +130,34 @@ for i = 1:noOfImages
   % plateCoords = histo_detect([imagesFolder fileList(i).name], freqTable);
 
 
-  % Filter avg. intensity for neighbourhood
+  % Filter avg. intensity for neighbourhood 62.7/85.0
   % plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
 
-  % Besed on sameness
+  % Besed on sameness 56.8/95.5
   % plateCoords = DetectSameness([imagesFolder fileList(i).name])
-  
+
   % For testing:
-  plateCoords = [0 0 0 0];
+  %plateCoords = [0 0 0 0];
   
-  % Frequency analysis
-  %plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
+  % Frequency analysis 50.5/65.5
+  plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
 
   % Contrast stretch on blocks
-  %plateCoords = DetectSpread([imagesFolder fileList(i).name]);
+  plateCoords = DetectCStretch([imagesFolder fileList(i).name]);
+
+  % Distribution of intensities
+  %plateCoords = DetectIntDist([imagesFolder fileList(i).name]);
+
+  % 67.8/75.4
+  %plateCoords = DetectQuant([imagesFolder fileList(i).name]);
+
+
+
+  %plateCoords = DetectNAME([imagesFolder fileList(i).name]);
+
 
   % All methods together
-  %plateCoords = DetectMain([imagesFolder fileList(i).name]);
+  % plateCoords = DetectMain([imagesFolder fileList(i).name]);
 
   % Determine if plate is within found coordinates 
   if (RPC(1) >= plateCoords(1) && RPC(2) <= plateCoords(2) && ...
@@ -346,8 +359,12 @@ for i = 1:noOfImages
   %end % plateFound
   
   % Wait for user to press a key after every image
+<<<<<<< .mine
+  % pause();
+=======
   %
   %pause();
+>>>>>>> .r101
   
 end % iterate through images
 
