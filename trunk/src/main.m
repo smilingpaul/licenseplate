@@ -52,6 +52,9 @@ plateWidthSum = 0;
 % Number of times there was no candidate
 noCandidate = 0;
 
+% Analyzing lengths of white lines in plates
+shortestWhiteLine = inf;
+
 % Minimal difference between max and min intensity in plates
 %minIntDiff = inf;
 
@@ -103,9 +106,22 @@ for i = 1:noOfImages
   % Read image from file
   %image = rgb2gray(imread([imagesFolder fileList(i).name]));
   %image = log10(double(image));
-  %image = uint8((256/(max(max(image)))) .* image);
-  %image = image(RPC(3)-3:RPC(4)+3, RPC(1)-3:RPC(2))+3;
+  %image = image(RPC(3)-30:RPC(4)+30, RPC(1)-30:RPC(2)+30);
+  %image = imresize(image, 0.25);
   %[ below, above ] = GetDistribution(image)
+  
+  % Find shortest white line in plate
+  %linePerc = GetLongestLine(image);
+  %if linePerc < shortestWhiteLine
+  %  shortestWhiteLine = linePerc
+  %  beep;
+  %  pause;
+  %end
+
+
+  % For testing:
+  %plateCoords = [0 0 0 0];
+
 
   %image = image(1:16,1:16);
   %figure(100), imshow(image);
@@ -136,20 +152,18 @@ for i = 1:noOfImages
   % Besed on sameness 56.8/95.5
   % plateCoords = DetectSameness([imagesFolder fileList(i).name])
 
-  % For testing:
-  %plateCoords = [0 0 0 0];
   
   % Frequency analysis 50.5/65.5
-  plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
+  % plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
 
   % Contrast stretch on blocks
-  plateCoords = DetectCStretch([imagesFolder fileList(i).name]);
+  % plateCoords = DetectCStretch([imagesFolder fileList(i).name]);
 
   % Distribution of intensities
   %plateCoords = DetectIntDist([imagesFolder fileList(i).name]);
 
-  % 67.8/75.4
-  %plateCoords = DetectQuant([imagesFolder fileList(i).name]);
+  % 67.8/75.4 -> whiteline 73.5/?
+  plateCoords = DetectQuant([imagesFolder fileList(i).name]);
 
 
 
@@ -177,8 +191,9 @@ for i = 1:noOfImages
     end
   end   
 
+  plateFound = false;
   % only try to rotate, segment and read plate if candidate was correct
-  %if plateFound
+  if plateFound
     
     % For testing:
     plateCoords(1) = RPC(1) - 15;
@@ -356,15 +371,10 @@ for i = 1:noOfImages
     end
   end
 
-  %end % plateFound
+  end % plateFound
   
   % Wait for user to press a key after every image
-<<<<<<< .mine
-  % pause();
-=======
-  %
   %pause();
->>>>>>> .r101
   
 end % iterate through images
 
@@ -379,23 +389,27 @@ correctnessOfCandidates = noOfPlatesFound*(100/(noOfImages-noCandidate))
 
 %noOfPlatesNotFound = noOfImages - noOfPlatesFound
 %percentageOfPlatesRead = noOfPlatesRead*(100/noOfPlatesFound)
-percentageOfPlatesRead = noOfPlatesRead*(100/noOfImages)
+%percentageOfPlatesRead = noOfPlatesRead*(100/noOfImages)
 
 %correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfPlatesFound-noCharCandidate))
-correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfImages-noCharCandidate))
+%correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfImages-noCharCandidate))
 
 %avgPlateness = round(platenessSum/noOfImages)
 %avgPlatenessPixel = platenessSum/plateWidthSum    
 
+% What was the shortest white line in a plate in percent
+%shortestWhiteLine
+
 %minIntDiff 
 
-percentageOfChar1sRead = noOfChar1sRead*(100/(noOfPlatesRead))
-percentageOfChar2sRead = noOfChar2sRead*(100/(noOfPlatesRead))
-percentageOfChar3sRead = noOfChar3sRead*(100/(noOfPlatesRead))
-percentageOfChar4sRead = noOfChar4sRead*(100/(noOfPlatesRead))
-percentageOfChar5sRead = noOfChar5sRead*(100/(noOfPlatesRead))
-percentageOfChar6sRead = noOfChar6sRead*(100/(noOfPlatesRead))
-percentageOfChar7sRead = noOfChar7sRead*(100/(noOfPlatesRead))
+%percentageOfChar1sRead = noOfChar1sRead*(100/(noOfPlatesRead))
+%percentageOfChar2sRead = noOfChar2sRead*(100/(noOfPlatesRead))
+%percentageOfChar3sRead = noOfChar3sRead*(100/(noOfPlatesRead))
+%percentageOfChar4sRead = noOfChar4sRead*(100/(noOfPlatesRead))
+%percentageOfChar5sRead = noOfChar5sRead*(100/(noOfPlatesRead))
+%percentageOfChar6sRead = noOfChar6sRead*(100/(noOfPlatesRead))
+%percentageOfChar7sRead = noOfChar7sRead*(100/(noOfPlatesRead))
+
 
 % echo time
 datestr(now)
