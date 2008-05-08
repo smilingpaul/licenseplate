@@ -15,10 +15,14 @@
 % - foundChars: the no. of found char candidates
 function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoords, figuresOn) 
 
+  % whether the image should be brigthened
   brigthenImg = false;
   
-  % down-scale image
-  %plateImg = imresize(plateImg,0.5);
+  % from 0 to 1. if high: less white in bwImg
+  threshFactor = 0.8;
+  
+  % from 0 to 1. if low: the image will be downscaled a lot
+  downScaleFactor = 1;
 
   %%%%%%%%%%%%%%%%%%
   % PRE-PROCCESING %
@@ -40,10 +44,11 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   charCoords = zeros(7,4); % contains 4 coordinates for each of the 7 chars
   %foundChars = 0;
   
+  % down-scale image
+  plateImg = imresize(plateImg,downScaleFactor);
+  
   % create grayscale image
   grayImg = rgb2gray(plateImg);
-  
-  %grayImg = [ 2 3 4 10 110 2 9 1 4; 3 1 100 34 99 87 2 1 255; 233 12 1 80 70 40 2 9 12; 233 12 1 80 70 40 2 9 12; 100 10 200 180 110 20 1 2 22]
   
   if figuresOn
     figure(2), subplot(9,4,1:4), imshow(grayImg), title('gray plateImg');
@@ -132,9 +137,7 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   %  end
   %end
   
-  thresh = graythresh(contrastImg)*0.4;
-  %thresh = graythresh(contrastImg);
-  bwPlate = im2bw(contrastImg,thresh);
+  bwPlate = im2bw(contrastImg,graythresh(contrastImg)*threshFactor);
   
   %topbwplate = im2bw(contrastImg(1:floor(plateImgHeight/2),:),graythresh(contrastImg(1:floor(plateImgHeight/2),:)));
   %btbwplate = im2bw(contrastImg(floor(plateImgHeight/2)+1:plateImgHeight,:),graythresh(contrastImg(floor(plateImgHeight/2)+1:plateImgHeight,:)));
@@ -339,7 +342,7 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   % TO-DO: remove components that are not in charGroup
   
   % up-scale image again
-  %conComp = imresize(conComp,2);
+  conComp = imresize(conComp,downScaleFactor);
   
   % show connected components that haven't been removed
   if figuresOn
@@ -392,7 +395,7 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
       % add image of a char to the struct chars (indexed by 'char1',
       % 'char2' etc.) display char afterwards
       charName = strcat('char',int2str(charNo));
-      chars.(charName) = conComp(yMin:yMax,xMin:xMax);
+      chars.(charName) = im2bw(conComp(yMin:yMax,xMin:xMax));
       charCoords(charNo,1) = xMin + plateCoords(1);
       charCoords(charNo,2) = xMax + plateCoords(1);
       charCoords(charNo,3) = yMin + plateCoords(3);
