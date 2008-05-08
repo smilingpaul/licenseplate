@@ -46,6 +46,7 @@ for i = 1:numConComp
   compSignature = GetSignature(thisImage,0);
   compPlateness = GetPlateness(compSignature);
   [compDistBelow, compDistAbove] = GetDistribution(thisImage);
+  compWhiteLine = GetLongestLine(thisImage);
  
   compIntDiff = max(max(thisImage)) - min(min(thisImage));
 
@@ -64,14 +65,22 @@ for i = 1:numConComp
   if compIntDiff >= 43
     %if compDistAbove >= 50 && compDistAbove <= 80
     if compDistAbove >= 0 && compDistAbove <= 100
-      if platenessDiff < bestPlatenessDiff && ... % Best plateness
-         compPlateness > 10 && compPlateness < 30 
-
-          %bestRatioDiff = ratioDiff;
-          %bestRatioComponent = i
-          bestPlatenessDiff = platenessDiff;
-          bestPlatenessComponent = i;
-       end
+      if compWhiteLine >= 50 % Needs a white line of length 50%
+        if platenessDiff < bestPlatenessDiff && ... % Best plateness
+           compPlateness > 10 && compPlateness < 30 
+ 
+            %bestRatioDiff = ratioDiff;
+            %bestRatioComponent = i
+            bestPlatenessDiff = platenessDiff;
+            bestPlatenessComponent = i;
+         end
+      else
+        [ 'A candidate has less than 50% white line' ]
+        figure(661), imshow(thisImage);
+        title([ 'No good white line' ]);
+        beep;
+        %pause;
+      end 
     else
       [ 'A candidate has less than 50% intensity above average' ]
     end 
