@@ -87,6 +87,9 @@ for i = 1:noOfImages
   % FIND PLATE %
   %%%%%%%%%%%%%%
 
+  ['Looking at image ' int2str(i) ' of ' int2str(noOfImages) '.' ]
+
+
   % Get plate coordinates from filename
   % xMin, xMax, yMin, yMax
   % Real Plate Coordinates = RPC
@@ -146,14 +149,15 @@ for i = 1:noOfImages
   % plateCoords = histo_detect([imagesFolder fileList(i).name], freqTable);
 
 
-  % Filter avg. intensity for neighbourhood 62.7/85.0
-  % plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
+  % Filter avg. intensity for neighbourhood 
+  % 62.7/85.0 -> 63.9/90.6
+  plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
 
-  % Besed on sameness 56.8/95.5
+  % Besed on sameness 56.8/95.5 -> whiteline 56.6/95.8
   % plateCoords = DetectSameness([imagesFolder fileList(i).name])
 
   
-  % Frequency analysis 50.5/65.5
+  % Frequency analysis 50.5/65.5 -> whiteline 52.8/72.0
   % plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
 
   % Contrast stretch on blocks
@@ -162,8 +166,8 @@ for i = 1:noOfImages
   % Distribution of intensities
   %plateCoords = DetectIntDist([imagesFolder fileList(i).name]);
 
-  % 67.8/75.4 -> whiteline 73.5/?
-  plateCoords = DetectQuant([imagesFolder fileList(i).name]);
+  % 67.8/75.4 -> whiteline 73.5/85.4
+  % plateCoords = DetectQuant([imagesFolder fileList(i).name]);
 
 
 
