@@ -78,7 +78,7 @@ for i = 1:numConComp
         [ 'A candidate has less than 50% white line' ]
         figure(661), imshow(thisImage);
         title([ 'No good white line' ]);
-        beep;
+        %beep;
         %pause;
       end 
     else
