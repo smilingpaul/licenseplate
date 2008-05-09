@@ -10,9 +10,8 @@
 % - width: the width that each char must be scaled to
 %
 % Output:
-% - char1-3: three strings representing the char in the charImg. char1 is
-% the best guess etc.
-function [char1, char2, char3] = ReadCharFV (charImg, meanVectors, height, width)
+% - charsSorted: a string of sorted chars. charsSorted(1) is best guess.
+function charsSorted = ReadCharFV (charImg, meanVectors, height, width)
 
   % order of meanvectors must be:
   % 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,H,J,K,L,M,N,O,P,R,S,T,U,V,X,Y,Z
@@ -21,44 +20,19 @@ function [char1, char2, char3] = ReadCharFV (charImg, meanVectors, height, width
   % resize image and make vector. TO-DO: OTHER RESIZE METHOD?
   resizedImg = imresize(charImg, [height width]);
   imgVector = reshape(resizedImg,height*width,1);
- 
-  % minimum distance and meanVector no.
-  minEuclidDist1 = inf;
-  minEuclidDist2 = inf;
-  minEuclidDist3 = inf;
-  bestMeanVector1 = 1;
-  bestMeanVector2 = 1;
-  bestMeanVector3 = 1;
- 
-  % iterate through meanVectors to find the most appropiate
-  for i = 1:size(meanVectors,1)
-   
-    % calculate distance from imgVector to current meanVector
-    euclidDist = sqrt(sum((imgVector-meanVectors(:,i)).^2));
-   
-    % determine if the calculated distance is the one of the minimum
-    if euclidDist < minEuclidDist1
-      minEuclidDist3 = minEuclidDist2;
-      bestMeanVector3 = bestMeanVector2;
-      minEuclidDist2 = minEuclidDist1;
-      bestMeanVector2 = bestMeanVector1;
-      minEuclidDist1 = euclidDist;
-      bestMeanVector1 = i;
-    elseif euclidDist < minEuclidDist2
-      minEuclidDist3 = minEuclidDist2;
-      bestMeanVector3 = bestMeanVector2;
-      minEuclidDist2 = euclidDist;
-      bestMeanVector2 = i;
-    elseif euclidDist < minEuclidDist3
-      minEuclidDist3 = euclidDist;
-      bestMeanVector3 = i;
-    end
-   
+  
+  % calculate euclidian distances
+  euclidDists = zeros(31,1);
+  for i = 1:size(meanVectors,2)
+    euclidDists(i) = sqrt(sum((imgVector-meanVectors(:,i)).^2));
   end
- 
-  % output chars corresponding to found meanVectors
-  char1 = chars(bestMeanVector1);
-  char2 = chars(bestMeanVector2);
-  char3 = chars(bestMeanVector3);
+  
+  % sort the chars by minimum euclid. distance: nearest first
+  charsSorted = '';
+  for i = 1:length(chars)
+    [minDist, minIndex] = min(euclidDists);
+    charsSorted = strcat(charsSorted,chars(minIndex));
+    euclidDists(minIndex) = inf;
+  end
 
 end
