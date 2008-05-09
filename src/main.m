@@ -123,7 +123,7 @@ for i = 1:noOfImages
 
 
   % For testing:
-  %plateCoords = [0 0 0 0];
+  plateCoords = [0 0 0 0];
 
 
   %image = image(1:16,1:16);
@@ -151,7 +151,7 @@ for i = 1:noOfImages
 
   % Filter avg. intensity for neighbourhood 
   % 62.7/85.0 -> 63.9/90.6
-  plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
+  %plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
 
   % Besed on sameness 56.8/95.5 -> whiteline 56.6/95.8
   % plateCoords = DetectSameness([imagesFolder fileList(i).name])
@@ -195,7 +195,9 @@ for i = 1:noOfImages
     end
   end   
 
-  plateFound = false;
+  % For testing
+  plateFound = true;
+  
   % only try to rotate, segment and read plate if candidate was correct
   if plateFound
     
@@ -211,18 +213,21 @@ for i = 1:noOfImages
 
     [rotatedPlateImg, newPlateCoords] = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords,false);
     %newPlateCoords
+    
     %%%%%%%%%%%%%%%%%
     % SEGMENT CHARS %
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    [chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,newPlateCoords,true);
+    [chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,newPlateCoords,false);
     %[chars, charCoords, foundChars] = char_segment_ptv(rotatedPlateImg,newPlateCoords,true);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
     %figure(19), imshow(imread([imagesFolder fileList(i).name]));
 
     noCharCandidate = 0;
+    
+    
     
     if foundChars == 7
       
@@ -341,39 +346,56 @@ for i = 1:noOfImages
     
     plateAsString = '';
     if foundChars == 7 && charsRead == 7
-      plateAsString = ReadPlateFV(chars)
+      [L1Chars, L2Chars, N1Chars, N2Chars, N3Chars, N4Chars, N5Chars] = ...
+        ReadPlateFV(chars,5,3);
+      plateAsString = [L1Chars(1) L2Chars(1) N1Chars(1) N2Chars(1) ...
+        N3Chars(1) N4Chars(1) N5Chars(1)]
     end
 
-  % stats on reading of chars
-  if ~strcmp(plateAsString,'')
-    
-    realChars = [fileList(i).name(1,23), fileList(i).name(1,24), ...
-      fileList(i).name(1,25), fileList(i).name(1,26), ...
-      fileList(i).name(1,27), fileList(i).name(1,28), ...
-      fileList(i).name(1,29)]
-    
-    if strcmp(plateAsString(1),realChars(1))
-      noOfChar1sRead = noOfChar1sRead + 1;
+    % stats on reading of chars: first, best guess without syntax analysis
+    if ~strcmp(plateAsString,'')
+
+      realChars = [fileList(i).name(1,23), fileList(i).name(1,24), ...
+        fileList(i).name(1,25), fileList(i).name(1,26), ...
+        fileList(i).name(1,27), fileList(i).name(1,28), ...
+        fileList(i).name(1,29)]
+
+      if strcmp(plateAsString(1),realChars(1))
+        noOfChar1sRead = noOfChar1sRead + 1;
+      else
+        pause;
+      end
+      if strcmp(plateAsString(2),realChars(2))
+        noOfChar2sRead = noOfChar2sRead + 1;
+      else
+        pause;
+      end
+      if strcmp(plateAsString(3),realChars(3))
+        noOfChar3sRead = noOfChar3sRead + 1;
+      else
+        pause;
+      end
+      if strcmp(plateAsString(4),realChars(4))
+        noOfChar4sRead = noOfChar4sRead + 1;
+      else
+        pause;
+      end
+      if strcmp(plateAsString(5),realChars(5))
+        noOfChar5sRead = noOfChar5sRead + 1;
+      else
+        pause;
+      end
+      if strcmp(plateAsString(6),realChars(6))
+        noOfChar6sRead = noOfChar6sRead + 1;
+      else
+        pause;
+      end
+      if strcmp(plateAsString(7),realChars(7))
+        noOfChar7sRead = noOfChar7sRead + 1;
+      else
+        pause;
+      end
     end
-    if strcmp(plateAsString(2),realChars(2))
-      noOfChar2sRead = noOfChar2sRead + 1;
-    end
-    if strcmp(plateAsString(3),realChars(3))
-      noOfChar3sRead = noOfChar3sRead + 1;
-    end
-    if strcmp(plateAsString(4),realChars(4))
-      noOfChar4sRead = noOfChar4sRead + 1;
-    end
-    if strcmp(plateAsString(5),realChars(5))
-      noOfChar5sRead = noOfChar5sRead + 1;
-    end
-    if strcmp(plateAsString(6),realChars(6))
-      noOfChar6sRead = noOfChar6sRead + 1;
-    end
-    if strcmp(plateAsString(7),realChars(7))
-      noOfChar7sRead = noOfChar7sRead + 1;
-    end
-  end
 
   end % plateFound
   
@@ -393,10 +415,10 @@ correctnessOfCandidates = noOfPlatesFound*(100/(noOfImages-noCandidate))
 
 %noOfPlatesNotFound = noOfImages - noOfPlatesFound
 %percentageOfPlatesRead = noOfPlatesRead*(100/noOfPlatesFound)
-%percentageOfPlatesRead = noOfPlatesRead*(100/noOfImages)
+percentageOfPlatesRead = noOfPlatesRead*(100/noOfImages)
 
 %correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfPlatesFound-noCharCandidate))
-%correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfImages-noCharCandidate))
+correctnessOfPlatesRead = noOfPlatesRead*(100/(noOfImages-noCharCandidate))
 
 %avgPlateness = round(platenessSum/noOfImages)
 %avgPlatenessPixel = platenessSum/plateWidthSum    
@@ -404,15 +426,18 @@ correctnessOfCandidates = noOfPlatesFound*(100/(noOfImages-noCandidate))
 % What was the shortest white line in a plate in percent
 %shortestWhiteLine
 
-%minIntDiff 
+%minIntDiff
 
-%percentageOfChar1sRead = noOfChar1sRead*(100/(noOfPlatesRead))
-%percentageOfChar2sRead = noOfChar2sRead*(100/(noOfPlatesRead))
-%percentageOfChar3sRead = noOfChar3sRead*(100/(noOfPlatesRead))
-%percentageOfChar4sRead = noOfChar4sRead*(100/(noOfPlatesRead))
-%percentageOfChar5sRead = noOfChar5sRead*(100/(noOfPlatesRead))
-%percentageOfChar6sRead = noOfChar6sRead*(100/(noOfPlatesRead))
-%percentageOfChar7sRead = noOfChar7sRead*(100/(noOfPlatesRead))
+if noOfPlatesRead == 0
+  noOfPlatesRead = noOfImages
+end
+percentageOfChar1sRead = noOfChar1sRead*(100/(noOfPlatesRead))
+percentageOfChar2sRead = noOfChar2sRead*(100/(noOfPlatesRead))
+percentageOfChar3sRead = noOfChar3sRead*(100/(noOfPlatesRead))
+percentageOfChar4sRead = noOfChar4sRead*(100/(noOfPlatesRead))
+percentageOfChar5sRead = noOfChar5sRead*(100/(noOfPlatesRead))
+percentageOfChar6sRead = noOfChar6sRead*(100/(noOfPlatesRead))
+percentageOfChar7sRead = noOfChar7sRead*(100/(noOfPlatesRead))
 
 
 % echo time
