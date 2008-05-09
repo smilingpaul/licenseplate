@@ -58,17 +58,17 @@ For at begrænse opgavens omfang, har vi valgt nedenstående afgrænsninger af d
 \item Vi arbejder med stilbilleder.
 \item Bilerne på billederne må ikke være i bevægelse.
 \item Alle billeder skal indeholde netop en nummerplade.
-\item Alle nummerplader skal være danske og af typen med sort skrift på hvid baggrund. Alle tegn skal stå på en enkelt linje.
+\item Alle nummerplader skal være danske og af typen med sort skrift på hvid baggrund. Alle tegn skal stå på en enkelt linje. \fixme{udelukker ikke plader med blåt eu-mærke}
 \item Billederne skal tages på en sådan måde, at nummerpladen ikke er roteret mere end 10 grader i forhold til vandret position.
 \item Billederne skal tages på en måde så perspektivisk forvrængning af nummerpladen er minimal.
-\item Billederne skal være taget fra en afstand på mellem 3 og 6 meter uden brug af zoom.
+\item Billederne skal være taget fra en afstand på mellem 3 og 6 meter \fixme{"afstand til bilen"} uden brug af zoom.
 \end{itemize}
 
 For at sikre så skarpe billeder som muligt, har vi har valgt at arbejde med stilbilleder af biler der ikke er i bevægelse. Med denne afgrænsning minimerer vi omfanget af uskarpe nummerplader i de data vi arbejder med. Uskarpheder kan dog stadig forekomme hvis kameraet bevæger sig i det øjeblik billedet tages. En anden kilde til uskarpe billeder kan være situationer hvor kameraet ikke er stillet skarpt på bilen. For at begrænse de områder i billederne vi opfatter som potentielle nummerplader, har vi valgt at udelukkende beskæftige os med den mest udbredte danske type. Envidere har vi besluttet os for ikke at arbejde med afin transformation i forbindelse med perspektivisk forvrængning af numerplader. For at sætte en øvre og nedre grænse for størrelsen af de nummerplader vi ønsker at arbejde med, har vi valgt at alle billeder skal være taget fra en afstand som beskrevet ovenfor.
 
 Vi arbejder med to set billeder. Det ene set, bestående af 407 billeder, indeholder billeder vi har taget før vi begyndte på opgaven. Dette sæt kalder vi for vores \textit{træningsæt}. Det er billeder i dette set vi har brugt i arbejdet med at udvikle vores software. F.eks. har vi på baggrund af disse billeder defineret den maksimale bredde og højde på nummerplader så vi kan se bort fra områder der, ifølge definationen, ikke kan indeholde nummerplader.
 
-Vores andet sæt, \textit{kontrolsættet}, består af XX \fixme{antal billeder?} billeder som vi har taget på et tidspunkt hvor vores system var næsten førdigt. Vi bruger dette set billeder som en indikation af i hvilket omfang vores system kan læse numerplader på "ukendte" billeder. Vi er opmærksomme på, at vi nok burde have taget alle billeder fra starten, da vi ikke kan udelukke at arbejdet med opgaven kan have påvirket den måde vi har taget billederne i \textit{kontrolsættet} på. Vi mener dog stadig, at dette andet sæt er relevant i forhold til afprøvning af vores system.
+Vores andet sæt, \textit{testsættet}, består af XX \fixme{antal billeder?} billeder som vi har taget på et tidspunkt hvor vores system var næsten førdigt. Vi bruger dette set billeder som en indikation af i hvilket omfang vores system kan læse numerplader på "ukendte" billeder.
 
 FIGUR 1: EKSEMPEL PÅ FOTOGRAFI AF BIL MED NUMMERPLADE
 
@@ -183,6 +183,8 @@ Hvordan kan nummerplader på farvefotografier identificeres og læses af et comp
 %\subsection{Problemer}
 %\subsection{Resultater i forhold til læst litteratur}
 \section{Konklusion}
+
+Vi er opmærksomme på, at vi nok burde have taget alle billeder fra starten, da vi ikke kan udelukke at arbejdet med opgaven kan have påvirket den måde vi har taget billederne i \textit{testsættet} på. Vi mener dog stadig, at dette andet sæt er relevant i forhold til afprøvning af vores system.
 
 Noter fra møde med Søren: Konklusion skal indeholde "Kan man gå videre med dette system efter de påviste resultater?", "Hvad gik godt? : henvisninger til testene"
 
