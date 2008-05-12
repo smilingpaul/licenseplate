@@ -11,7 +11,7 @@
 %
 % Output:
 % - charsSorted: a string of sorted chars. charsSorted(1) is best guess.
-function charsSorted = ReadCharFV (charImg, meanVectors, height, width)
+function [charHitlist, euclidDistsHitList] = ReadCharFV (charImg, meanVectors, height, width)
 
   % order of meanvectors must be:
   % 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,H,J,K,L,M,N,O,P,R,S,T,U,V,X,Y,Z
@@ -21,17 +21,19 @@ function charsSorted = ReadCharFV (charImg, meanVectors, height, width)
   resizedImg = imresize(charImg, [height width]);
   imgVector = reshape(resizedImg,height*width,1);
   
-  % calculate euclidian distances
+  % calculate euclidian distances to all 31 meanvectors
   euclidDists = zeros(31,1);
   for i = 1:size(meanVectors,2)
     euclidDists(i) = sqrt(sum((imgVector-meanVectors(:,i)).^2));
   end
+  euclidDistsHitList = zeros(size(euclidDists));
   
-  % sort the chars by minimum euclid. distance: nearest first
-  charsSorted = '';
+  % sort the chars by minimum euclidian distance: nearest first
+  charHitlist = '';
   for i = 1:length(chars)
     [minDist, minIndex] = min(euclidDists);
-    charsSorted = strcat(charsSorted,chars(minIndex));
+    charHitlist = strcat(charHitlist,chars(minIndex));
+    euclidDistsHitList(i) = minDist;
     euclidDists(minIndex) = inf;
   end
 
