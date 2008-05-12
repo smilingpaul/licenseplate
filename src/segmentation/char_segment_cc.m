@@ -28,11 +28,6 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   % PRE-PROCCESING %
   %%%%%%%%%%%%%%%%%%
   
-  % char height and - width
-  %defaultCharHeight = 8;
-  %defaultCharWidth = 5;
-  %chars = zeros(defaultCharHeight,defaultCharWidth,7);
-  
   % create outputs
   chars.char1 = zeros(1,1);
   chars.char2 = zeros(1,1);
@@ -42,7 +37,6 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   chars.char6 = zeros(1,1);
   chars.char7 = zeros(1,1);
   charCoords = zeros(7,4); % contains 4 coordinates for each of the 7 chars
-  %foundChars = 0;
   
   % down-scale image
   plateImg = imresize(plateImg,downScaleFactor);
@@ -50,18 +44,40 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   % create grayscale image
   grayImg = rgb2gray(plateImg);
   
+  % EXPERIMENT: SHRINK PLATEIMG TO LARGEST KOMPONENT
+  grayImg2bw = im2bw(grayImg,graythresh(grayImg)*threshFactor);
+  [testing, testing2] = bwlabel(grayImg2bw);
+  
   if figuresOn
-    figure(2), subplot(9,4,1:4), imshow(grayImg), title('gray plateImg');
+    figure(2), subplot(9,4,1:4), imshow(plateImg), title('plateImg');
+    figure(2), subplot(9,4,5:8), imshow(testing), title('testing');
   end
   
-  % dilate
-  %se = strel('square',2);
-  %se = strel('disk',2);
-  %dilatedGrayImg = imdilate(grayImg,se);
+  maxSize = 1;
+  maxComp = 1;
+  for i = 1:testing2
+    compSize = length(find(testing == i));
+    if compSize > maxSize
+      maxComp = i;
+      maxSize = compSize;
+    end
+  end
+  [y,x] = find(testing == maxComp);
+  
+  
+  plateImg = plateImg(min(y):max(y),min(x):max(x),:);
+  
+  % create grayscale image
+  grayImg = rgb2gray(plateImg);
 
   % calculate width and height of images
   plateImgHeight = size(grayImg,1);
   plateImgWidth = size(grayImg,2);
+  
+  xShrink = min(x)-1;
+  yShrink = min(y)-1;
+  %xShrink = 0;
+  %yShrink = 0;
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % ENHANCE CONTRAST AND CREATE CONNECTED COMPONENTS %
@@ -84,69 +100,37 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   %medianFilteredImg
   %figure(2), subplot(2,1,2), imshow(medianFiltered), title('median');
   
-  %%%%% Experiments: TOP AND BOTTOM HAT %%%%%%%%
-  %se = strel('disk', 15);
-  %imgTophat = imtophat(grayImg, se);
-  %imgBothat = imbothat(grayImg, se);
-  %figure(2), subplot(9,4,5:8), imshow(imgTophat, []), title('top-hat image');
-  %figure(2), subplot(9,4,9:12), imshow(imgBothat, []), title('bottom-hat image');
-  
   %imgContrastEnh = imsubtract(imadd(imgTophat, grayImg), imgBothat);
   
   %%%%% BRIGHTNESS / CONTRAST %%%%%%%%
   
-  function trala = bla (blabla)
+  function result = bla (blabla)
     
     trala = ContrastStretch(blabla,0);
     
-    %result = trala(3,3);
+    result = trala(3,3);
     
   end
   
-  %topmeanVal = mean(mean(grayImg(1:plateImgHeight/2,:)))
-  %overallthresh = graythresh(grayImg)
-  
-  if brigthenImg
-    %brightImg = uint8((double(grayImg)/180)*256);
-    brightImg = uint8((double(grayImg)/mean(mean(grayImg)))*256);
-    %contrastImg = ContrastStretch(brightImg,0);
-    %contrastImg = nlfilter(grayImg, [5 5],@bla);
-    contrastImg = blkproc(grayImg, [5 5],@bla);
-  else
+  %if brigthenImg
+  %  %brightImg = uint8((double(grayImg)/180)*256);
+  %  brightImg = uint8((double(grayImg)/mean(mean(grayImg)))*256);
+  %  %contrastImg = ContrastStretch(brightImg,0);
+  %  %contrastImg = nlfilter(grayImg, [5 5],@bla);
+  %  contrastImg = blkproc(grayImg, [5 5],@bla);
+  %else
     %contrastImg = ContrastStretch(medianFilteredImg,0);
-    %contrastImg = ContrastStretch(grayImg,0);
+    contrastImg = ContrastStretch(grayImg,0);
     %contrastImg = nlfilter(grayImg, [5 5],@bla);
-    contrastImg = blkproc(grayImg, [13 13],@bla);
+    %contrastImg = blkproc(grayImg, [13 13],@bla);
     %contrastImg = ContrastStretch(dilatedGrayImg,0);
-  end
-  
-  % dilate
-  %se = strel('square',2);
-  %se = strel('disk',2);
-  %dilatedContrastImg = imdilate(contrastImg,se);
-
-  % set horizontal lines with high whiteness to "all white"
-  %summedLines = sum(contrastImg,2);
-  %avgWhiteness = mean(summedLines)
-  %maxWhiteness = max(summedLines)
-  %
-  %for i = 1:size(summedLines,1)
-  %  %if summedLines(i) > avgWhiteness+10000
-  %  if summedLines(i) >= maxWhiteness-1000
-  %    contrastImg(i,:) = 255;
-  %  end
   %end
   
-  bwPlate = im2bw(contrastImg,graythresh(contrastImg)*threshFactor);
-  
-  %topbwplate = im2bw(contrastImg(1:floor(plateImgHeight/2),:),graythresh(contrastImg(1:floor(plateImgHeight/2),:)));
-  %btbwplate = im2bw(contrastImg(floor(plateImgHeight/2)+1:plateImgHeight,:),graythresh(contrastImg(floor(plateImgHeight/2)+1:plateImgHeight,:)));
-  %bwPlate(1:floor(plateImgHeight/2),:) = topbwplate;
-  %bwPlate(floor(plateImgHeight/2)+1:plateImgHeight,:) = btbwplate;
-  
+  bwPlate = im2bw(contrastImg,graythresh(contrastImg)*threshFactor);  
   %bwPlate = im2bw(dilatedContrastImg,graythresh(dilatedContrastImg));
   %bwPlate = im2bw(contrastImg,0.7);
   %bwPlate = im2bw(brightImg,graythresh(brightImg));
+  
   if figuresOn
     %figure(2), subplot(8,4,5:8), imshow(dilatedGrayImg), title('dilated gray image');
     %figure(2), subplot(9,4,5:8), imshow(medianFilteredImg), title('median');
@@ -158,20 +142,58 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
     figure(2), subplot(9,4,13:16), imshow(bwPlate), title('bw image');
   end
   
-  % dilate bw image
-  %se = strel('square',2);
-  %se = strel('disk',2);
-  %dilatedBwPlate = imdilate(bwPlate,se);
+  % pad 0's on the edge of the image: 1 pixel wide
+  plateImgHeight = plateImgHeight + 2;
+  plateImgWidth = plateImgWidth + 2;  
+  negBwPlate = zeros(plateImgHeight,plateImgWidth);
+  negBwPlate(2:plateImgHeight-1,2:plateImgWidth-1) = ~bwPlate;
   
-  %if figuresOn
-  %  figure(2), subplot(9,4,17:20), imshow(dilatedBwPlate), title('dilated bw image');
-  %end
+  %%%%%%%%%%%%%%%%%%%%%%%%%%
+  % REMOVE THIN COMPONENTS %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  function result = RemoveThinComps (area)
+
+    result = area(1,2);
+    if area(1,2) ~= 0
+      if (area(1,1) == 0 && area(1,3) == 0)
+        result = 0;
+      end
+    end
+
+  end
+  
+  % remove thin components in 1/3 of top plus 1/10 of the sides
+  negBwPlate(1:floor(plateImgHeight/3),:) = ...
+    nlfilter(negBwPlate(1:floor(plateImgHeight/3),:), [1 3],@RemoveThinComps);
+  negBwPlate(:,1:floor(plateImgWidth/10)) = ...
+    nlfilter(negBwPlate(:,1:floor(plateImgWidth/10)), [1 3],@RemoveThinComps);
+  negBwPlate(:,floor(plateImgWidth*9/10):plateImgWidth) = ...
+    nlfilter(negBwPlate(:,floor(plateImgWidth*9/10):plateImgWidth), [1 3],@RemoveThinComps);
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % REMOVE HORIZONTAL LINES WITH ONLY A FEW WHITES %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  for i = 1:plateImgHeight
+    if sum(negBwPlate(i,:)) < plateImgWidth/10 || ...
+        sum(negBwPlate(i,:)) > plateImgWidth/1.5
+      negBwPlate(i,:) = 0;
+    end
+  end
+  
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % CREATE CONNECTED COMPONENTS AND DISPLAY %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   % created connected components from bwImg
-  %[conComp,noOfComp] = bwlabel(~dilatedBwPlate);
-  [conComp,noOfComp] = bwlabel(~bwPlate);
+  [conComp,noOfComp] = bwlabel(negBwPlate(2:plateImgHeight-1,2:plateImgWidth-1));
+  plateImgHeight = size(conComp,1);
+  plateImgWidth = size(conComp,2);
+  
   if figuresOn
-    figure(2), subplot(9,4,17:20), imshow(conComp), title('~conComp');
+    figure(2), subplot(9,4,17:20), imshow(conComp), title('conComp');
   end
   
   % return if not enough chars has been found
@@ -193,12 +215,6 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   minCompWidth = 3;
   minCompHeight = 5;
   
-  %compRemoved = zeros(noOfComp,1);
-  
-  % create list of char candidates, pos. 1 store wheter the component is a
-  % candidate, pos. 2 stores the height of the component in pixels, pos. 3
-  % stores the no. of components with a similar height. pos. 4 stores no.
-  % of components AT same height.
   isCandidate = zeros(noOfComp,1);
   noOfCandidates = 0;
   
@@ -213,9 +229,12 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
     
     % take only obvious components as candidates. compWidth can be equal to
     % compHeight, e.g. if the char "8" has some dust etc. next to it.
+    % component can not touch image edge
     if compSize <= maxCompSize && compWidth <= maxCompWidth && ...
         compSize >= minCompSize && compWidth >= minCompWidth && ...
-        compHeight >= minCompHeight
+        compHeight >= minCompHeight && ~(min(x) == 1) && ...
+        ~(min(y) == 1) && ~(max(x) == plateImgWidth) && ...
+        ~(max(y) == plateImgHeight)
       
       % register component as candidate
       isCandidate(i) = true;
@@ -231,6 +250,8 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
     end
     
   end
+  
+  
   
   % show connected components that haven't been removed
   if figuresOn
@@ -396,10 +417,10 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
       % 'char2' etc.) display char afterwards
       charName = strcat('char',int2str(charNo));
       chars.(charName) = im2bw(conComp(yMin:yMax,xMin:xMax));
-      charCoords(charNo,1) = xMin + plateCoords(1);
-      charCoords(charNo,2) = xMax + plateCoords(1);
-      charCoords(charNo,3) = yMin + plateCoords(3);
-      charCoords(charNo,4) = yMax + plateCoords(3);
+      charCoords(charNo,1) = xMin + plateCoords(1) + xShrink;
+      charCoords(charNo,2) = xMax + plateCoords(1) + xShrink;
+      charCoords(charNo,3) = yMin + plateCoords(3) + yShrink;
+      charCoords(charNo,4) = yMax + plateCoords(3) + yShrink;
       if figuresOn
         figure(2), subplot(9,4,plotPos), imshow(chars.(charName)), title(charName);
       end
