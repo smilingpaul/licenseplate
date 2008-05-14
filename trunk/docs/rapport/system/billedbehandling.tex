@@ -1,17 +1,17 @@
-\section{Billedbehandling}
 \label{sec_billed}
 
+\subsection{Identifikation af nummerplade}
 \fixme{Hvor kommer metoderne fra?}
-\fixme{Et eller andet sted skal der stå, at der er godt hvis pladerne ikke er klippet helt tæt, da rotation så er nemmere da der vil være en over- og underkant.}
+\fixme{nedenfor i billedbehandling: der mangler intro til valg af metoder}
 
 I dette afsnit beskrives de tre første elementer af vores system: identificering af nummerpladen i billedet, rotation af nummerpladen samt segmentering af tegn i nummerpladen.
 
 
-\subsection{Identifikation af nummerplader}
+%\subsection{Identifikation af nummerplader}
 I arbejdet med at udvælge nummerpladekandidater i billeder, har vi valgt at bruge flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til identifikation af nummerplader. 
 
 
-\subsubsection*{Interesseområder}
+%\subsubsection*{Interesseområder}
 Metoderne i dette afsnit, har alle det til fælles at de returnerer et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante ar markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort. I den realistiske situation er der mange interesseområder markeret i det binære billede. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec_kandidater}.
 
 TRE ILLUSTRATIONER ORIGINAL BILLEDE, IDEAL ILLU, REAL ILLU
@@ -20,7 +20,7 @@ TRE ILLUSTRATIONER ORIGINAL BILLEDE, IDEAL ILLU, REAL ILLU
 
 %skal forbudne komponenter der ikke er kandidater slettes eller bare fravælges. Det første giver bedre illu samt debugging mens det sidste nok er hurtigere.
 
-\subsubsection*{Metode: Områder domineret af lyse gråtoner}
+\subsubsection{Metode: Områder domineret af lyse gråtoner}
 \fixme{Søren: Næppe realitisk denne metode, afhængig af belysning}
 Med denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af gråtoner i et farvebillede. Det er vores forventning at en nummerplade vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger meget tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0 mens en middelgrå pixel vil derimod have værdien 128 i alle tre farvekanaler. For hver pixel i farvebilledet udregner vi gennemsnitsværdien ved at summere værdierne for de tre kanaler og dividere med tre. Hvis alle tre kanaler har en værdi der ligger tæt\footnote{Et parameter i programmet} på middelværdien og samtidig er lys\footnote{Et parameter i programmet} markeres den indeværende pixel i det binære billede der er resultatet af gennemgangen af alle pixels i farvebilledet.
 
@@ -30,7 +30,7 @@ ORIG\_IM BIN\_IM.
 %\paragraph*{Implementation}
  
 
-\subsubsection*{Metode: Områder med høj kontrast}
+\subsubsection{Metode: Områder med høj kontrast}
 Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast. Endvidere forventer vi at mange af disse kontrastområder vil være områder hvor den det ene intensitetsområde ligge ved siden af det andet i modsætning til over hinanden (beskriv nøjere? antagelse om vandrette plader). F.eks. har bogstavet I lyse områder på både venstre og højre side. Der er altså to lodrette linier der markerer overgangen mellem lyse og mørke områder. Ved at lave billedet om til gråtoner og derefter betragte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter der beskriver hældningen i en pixel son en to dimensionel vektor(en illu). Et bredt område med en blød overgang i intensitet fra helt sort til helt hvid, hvil have korte vektorer i alle pixels mens en brat overgang fra sort til hvid vil resultere i meget lange gradienter for de pixels der ligger op ad overgangen. Ved brug af disse gradienter laver vi et nyt billeder der viser gradienternes vandrette længde. Peger en gradient f.eks. lodret op i billedet vil den ikke blive markeret, hvorimod den vil blive markeret hvis den f.eks. peger fra venstre mod højre. Lyse pixels i dette billede indikerer lange længder. For at gøre områder med høje intensiteter mere sammenhængende filtrerer vi billedet med et ikke kvadratisk filter der er flere gange bredere end det er højt. BESKRIVELSE. Resultater et et udglattet billede hvor intensitetsområder der ligger ved siden af hinanden er blevet forbundet. Ud fra dette billede laver vi et binært billede med kandidatområder markeret med hvidt. (Henvisning til litteratur.)
 
 ORIG\_IM BIN\_IM.
@@ -39,7 +39,7 @@ ORIG\_IM BIN\_IM.
 %\paragraph*{Implementation}
 %detect6
 
-\subsubsection*{Metode: Frekvensanalyse}
+\subsubsection{Metode: Frekvensanalyse}
 \label{sec_frekvensanalyse} 
 Ideen bag denne metode til markering af interesseområder er, at kigge på frekvensen af skift mellem lyse og mørke intensiteter i vandrette linier i et gråtonebillede. For at kunne markere områder der har en frekvens svarende til en nummerplade, skal vi først finde ud af hvad denne representative frekvens er. Derfor har vi analyseret nummerpladeområderne på vores testbilleder og udregnet den gennemsnitlige frekvens. Med denne viden kan vi skabe et binært billede hvor de markerede interesseområder er dem hvor frekvensen ligger tæt på den udregnede idealfrekvens. (ref til pdfer med signaturer)
 
@@ -50,7 +50,7 @@ ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
 %\paragraph*{Analyse}
 %\paragraph*{Implementation}
 
-\subsubsection*{Metode: Skru op for Kontrast}
+\subsubsection{Metode: Skru op for Kontrast}
 %Lav et histogram. Lad et vindue køre hen over histogrammet. Vælg den position hvor der er mest info i vinduet. Stræk dette område så det fylder helle intensitetsspekter fra 0 til 255. Lav binært billede ud fra dette high-contrast-billede. Er det en metode eller en forberedelse af billedet før en af de andre metoder bruges?
 
 %ORIG\_IM CONTRAST\_IM BIN\_IM.
@@ -58,10 +58,10 @@ ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
 %\paragraph*{Analyse}
 %\paragraph*{Implementation}
 
-\subsubsection*{Metode: Kvantifisering}
+\subsubsection{Metode: Kvantifisering}
 Kun 8 farver i billedet.
 
-\subsubsection*{Metode: Histogram}
+\subsubsection{Metode: Histogram}
 \label{sec_histo}
 
 Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
@@ -89,7 +89,7 @@ TO ILLUSTRATIONER: ORIGINAL BILLEDE OG TILHØRSBILLEDE
 
 %Omdannes dette billede til et binært billede vil vi (ved succes) få forbundne komponenter bl.a. der hvor nummerpladen befinder sig i billedet. Disse komponenters størrelse, form osv. kan herefter analyseres og man kan give et bud på hvor nummerpladen befinder sig.
 
-\subsubsection*{Analyse af kandidater}
+\subsubsection{Analyse af kandidater}
 \label{sec_kandidater}
 Ud fra de binære billeder der viser interesseområder, skal vi forsøget at finde de områder der mest sandsynligt er nummerplader. (noget med sammenhængende områder og dilate/erode). Vi begynder udvælgelsesprocessen med at frasortere de områdervi mener kan udelukkes som værende nummerplader. Vi sletter områder med følgende karateristika:
 \begin{itemize}
@@ -122,10 +122,14 @@ ILLU MED TRIN I FRAVÆLGELSE AF KANDIDATER
 
 
 %detect4
+\subsubsection{Vælg nummerpladekandidat på baggrund af alle metoder.}
 
 
-\subsubsection{Vælg nummerpladekadidt på baggrund af alle metoder.}
+\subsubsection{Metoder fra litteraturen}
+\cite{parker} bruger kant-detektion og lokalisering af tegn til at give et bud på hvor nummerpladen er.
 
+\subsubsection*{MSER}
+Først sorteres alle pixels intensiteter (stigende). Dette gøres ved brug af bucket sort.
 
 
 \begin{comment}
@@ -168,242 +172,3 @@ Regler:
 - Længde af linie
 
 \end{comment}
-
-
-\subsubsection{Andre metoder brugt i litteraturen, som der skal diskuteres?}
-
-\cite{parker} bruger kant-detektion og localisering af tegn til at give et bud på hvor nummerpladen er.
-
-
-\subsubsection*{MSER}
-
-Først sorteres alle pixels intensiteter (stigende). Dette gøres ved brug af bucket sort.
-
-\subsection{Rotation}
-
-%Nogle overvejelser om hvordan billedet skal være klippet til for at rotationen fungerer ordentligt...
-
-I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er fundet i...
-
-%\subsubsection{Hough transformation}
-
-%Hough transformation
-
-
-\subsubsection*{Radon transformation}
-
-En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
-
-Billedet nedenfor viser hvordan Radon transformationen findes i en enkelt vinkel, theta. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier. Resultatet af en Radon transformation er en matrice der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
-
-%SKAL NOK BYTTES UD MED HJEMMELAVET BILLEDE:
-%\begin{figure}[h]
-%\includegraphics{billedbehandling/illu/transform74.jpg}
-%\caption{Radon transformation}
-%\end{figure}
-
-Betragt billedet i Figur \ref{xc33139} af en nummerplade. Nummerpladen i billedet er let fordrejet i forhold til vandret og skal drejes før segmenteringen af tegn i nummerpladen kan foregå.
-
-BILLEDE AF NUMMERPLADE, LET FORDREJET
-
-%\begin{figure}[h]
-%\includegraphics{billedbehandling/illu/P_XC33139.jpg}
-%\label{xc33139}
-%\caption{En nummerplade}
-%\end{figure}
-
-Når billedet i Figur \ref{xc33139}
-
-Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN OVERSÆTTELSE), da dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Dette gøres ved hjælp af MatLab funktionen edge, som returnerer et binært billede hvor de fundne kanter har værdien 1 og resten af punkterne i billedet har værdien 0. Dette er illustreret i ...
-
-BILLEDE AF EDGE-BILLEDE AF TIDLIGERE VISTE PLADE
-
-%\begin{figure}[h]
-%\includegraphics[width=15cm]{billedbehandling/illu/R_XC33139.jpg}
-%\label{r_xc33139}
-%\caption{En nummerplade}
-%\end{figure}
-
-Når nummerpladens hældning i billedet er fundet, skal billedet roteres. Dette gøres ved brug af imrotate. Billedet roteres kun hvis ...
-
-BILLEDE AF NUMMERPLADE, ROTERET.
-
-Udregner nye koordinater for roteret plade vha. rotationsmatrix....
-
-Ulemper:
-
-\subsubsection*{Andre metoder brugt i litteraturen}
-
-Tror ikke der er andre?
-
-\subsection{Opdeling af tegn}
-
-\begin{comment}
-Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" de kan brede sig i. Ikke alle tegn er lige brede, og generelt er bogstaver bredere end tal. "Feltet" til bogstaver er derfor bredere end feltet til tegn. Enkelte tegn er for smalle til at udfylde deres "felt", så designeren har fundet det hensigtsmæssigt at placere disse tegn visuelt centreret inden for deres "felt".
-
-"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
-\end{comment}
-
-I det følgende beskrives to metoder til opdeling af tegn i en nummerplade. Med henblik på det komplette system er dette trin, trin nr. tre hvilket udføres efter at nummerpladen er blevet identificeret i billedet og eventuelt roteret. De to metoder til opdeling af tegn kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund). Metoderne er fundet i....
-
-
-
-\subsubsection*{Sammenhængende komponenter}
-Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at de syv tegn som findes i billedet af nummerpladen er syv sammenhængende komponenter. I vores tilfælde vil hver sammenhængende komponent bestå af mørke pixels mens baggrunden er lyse pixels.
-
-Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet, hvis ikke billedet forarbejdes (nummerpladen kan være beskidt, lyset på billedet kan være dårligt, billedet kan være klippet 'for løst' sådan at elementer uden for nummerpladen vil være sammenhængende og mørke etc.). For at tegnene skal udskille sig klart fra den lyse baggrund er det nødvendigt at forstærke både lys og kontrast i billedet. Lyset forstærkes pga. muligheden for dårligt lys på nummerpladen mens kontrasten forstærkes for at adskille tegnene fra den lyse baggrund. I Figur ? ses forskellen på et billede af en nummerplade uden forarbejdning og et med.
-
-EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
-
-Efterfølgende oprettes et billede med sammenhængende komponenter. I Figur ? ses et billede af en nummerplade hvor de sammen hængende komponenter er hvide.
-
-EKSEMPEL PÅ BILLEDE MED SAMMENHÆNGENDE KOMPONENTER
-
-Som det ses er det ikke kun tegnene der er sammenhængende komponenter. Derfor gennemføres en analyse på komponenterne for at frasortere de komponenter der ikke kan være tegn. Vi kan frasortere komponenter som ikke opfylder følgende regler:
-
-\begin{itemize}
-\item[-] Hvert tegn fylder maksimalt 1/7 del af billedet.
-\item[-] Hvert tegn har en maksimal bredde på 1/7 af billedets bredde.
-\item[-] Tegnenes højde er større end deres bredde
-\item[-] Tegnenes minimale højde skal være end en vis konstant (her: 5 pixels)
-\item[-] Tegnenes minimale størrelse skal være større end en vis konstant (her: 5 pixels)
-\item[-] For hvert tegn findes der seks andre tegn som er ca. lige så højde som det pågældende tegn.
-\end{itemize}
-
-EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA
-
-De resterende komponenter må forventes at være nummerpladens tegn.
-
-EKSEMPEL PÅ UDKLIPPEDE TEGN
-
-\fixme{beskrevet i kwas: man ku fjerne kanter før analysen}
-
-\subsubsection*{peak-to-valley}
-
-Denne metode baseres på en vertikal projektion af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er dale (de lyse områder mellem tegnene) og bakker (tegnene), hvorefter vi kan udskære tegnene.
-
-Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR? Nummerpladens signatur fås ved at summere intensiteterne i alle kolonnerne i billedet. En graf over signaturen vil så give toppe i de kolonner hvor der er størst inte
-
-\subsubsection*{Andre metoder brugt i litteraturen}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Note fra segmentering af tegn
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\begin{comment}
-\subsubsection*{Skan-linie}
-
-Bruges ikke da det er for mange felter som bliver valgt. Kan måske gøres bedre ved filtrering før???
-
-Først gøres billedet sort-hvis med im2bw. Her kan grænseværdi bestemmes med greythresh. Virker måske bedre at sætte grænseværdien lavt, så meget af billedet bliver hvidt.
-
-Billedet skal skæres foroven og forneden. Dette gøres simpelt ved at finde den største pixl-sum i toppen af billedet og den største sum i bunden. Det antages så at disse max-summer er dele af nummerpladerne hvor teksten ikke er startet.
-
-Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af et tegn og efter et tegn.
-\end{comment}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Beskrivelser af PDfer
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\begin{comment}
-\subsubsection*{Noter fra møde med Søren 20/2:}
-identifikation: Se på en pixel, har naboer en kontrast farve?
-En scan-linie: hvordan varierer kontrasten henover linien?
-Adaboost - godt
-
-
-
-
-
-
-
-
-
-
-\subsubsection*{cano.pdf}
-Bruger kun gråtone info. Arbejder også med nummerplader som skal være læsbar for det menneskelige øje.
-
-Metode:
-Histogram - først normaliseres billedet
-Sobel filter - fremhæver ikke-homogene områder
-"A simple threshold and a sub-sampling" bruges til at vælge områder der kan være nummerpladen
-
-Husker alle områder som kan være nummerplader så de forkerte først vælges fra i genkendelses-fasen. Bruger multi-hypothesis detection (ikke forklaret yderligere i teksten).
-
-Feature vektorer: hver pixel i et træningsbilleder er blevet klassificeret som positiv (del af nummerplade) eller negativ (ikke del af nummerplade). Minimerer efterfølgende det negative sæt.
-
-Bruger kd-træ data struktur og en "omtrent nærmeste nabo" søgeteknik.
-
-\subsubsection*{ron}
-
-* Find de gule (hos os: hvide) områder i billedet
-* Forstør disse områder
-* Find vinklen på nummerpladen ved brug af "Radon transform"
-* Justering af nummerpladens konturer
-* Unødvendige dele af billedet fjernes (kun nummerpladen tilbage)
-* Billedet i gråtone, herefter gøres det binært
-* Billedet normaliseres
-* Tegn-inddeling vha. peak-to-valley
-
-De brugte Matlab. De havde følgende relevante problemer og løsningsforslag til disse:
-
-* Udtrækning af det gule område giver ofte fejl. Man kunne supplere denne udtrækning med en algoritme der indberegner at nummerplader har en klar signatur idet der er stærke grå-tone variationer i regulære intervaller (henover nummerpladen, mener de vel?)
-
-* Hvis der er flere nummerplade-kandidater i billedet skal hver af dem testes.
-
-\subsubsection*{nijhuis.pdf}
-
-Bruger regler for nummerplader i systemet
-
-    * Starter med kontrast “udstrækning”, bortfiltrering af støj (der tages selvfølgelig højde for billedkvaliteten i denne del)
-    * Lokalisering af nummerpladen: fuzzy clustering algoritme som bruger karakteristikker som “gul-hed” og teksturer
-    * Gul-hed er defineret af frekvenstabel lavet fra manuelt udklippede nummerplader
-    * Tekstur: her ser man på grå-værdien af de 8 nabopixels
-    * “global threshold” baseret på gennemsnitsværdien af gråtone: fås binært billede
-    * Udfra regler (højde, bredde m.m) findes potintielle tegn
-    * Nummerpladen gives kun videre til mønstergenkendelse hvis den indeholder det rette antal tegn
-
-Dette system godkender 75\% af billederne. Problemer med skruer i nummerpladen. Problemer med global threshold – burde gøres på pr-tegn-basis.
-
-\subsubsection*{parker.pdf}
-
-Der bruges en algoritme der først lokaliserer elementer der kan være tegn/bogstaver hvorefter den udvælger et område som nummerplade
-
-* Konverter til gråtone billede
-* 5x5 filter, fjerne støj
-* Find kanter i billedet vha. Shen-Castan kant-detektor
-* Gør billedet binært og del elementer i forgrunden fra hinanden
-* Algoritme der finder bogstaver på baggrund af forskellen i gråtone værdien af bogstav/baggrund
-* Områder hvor der ikke er (det rette antal) bogstaver udelukkes
-* For at finde nummerplade bruges genetisk algoritme der bedømmer rektangler med tegn: har de den rette størrelse? er bogstaverne korrekt placeret i rektangel? osv.
-* Algoritmen vægter hvert område og filtrerer til sidst i disse områder udfra deres vægt
-
-Stort problem: svært at finde tegn.
-
-\subsubsection{kwas.pdf}
-Billedet skiftes til farverummet YUV fra vilket luminans er det eneste der bevares. Herefter normaliseres billedet (Hele den diskerete "range" udnyttes). Kigger på skift i kontrast. Gælder alle nummerplader. Finder alle tekster. Den rigtige skal vælges.
-
-Identifikation af plader:
-
-1. "Connected components analysis" (der kigger på et binært billede?) vælger områder med høj kontrast (threshold). De fundne områder undersøges og områder elimineres efter regler i pdf.  Herefter, er der lignenede grupper i nærheden af funden gruppe? Måske er der en serie tegn dvs. en sætning = plade.
-
-2. Searching for signatures of license plates. Et karakteristisk skift i luminans i en linie i billedet.
-
-Potentielle plader roteres så de er vandrette.
-
-Segmentering af tegn:
-Scan af peaks og valleys samt analyse af sammenhængende grupper fra identifikationsprocessen sammenlignes og segmentering foretages.
-
-Mønstergenkendelse foregår med neuraltnetværk.
-
-\subsubsection{shapiro.pdf}
-For at sætte hastigheden op foretages visse operationer på kraftigt nedsamplede billeder. Finder lodrette linier. Bruger Robert's edge detector til at fremhæve dem (Tegner den på billedet?). Dette efterlader en masse lodrette linier i området med nummerpladen. Et Rank filter? bruges på billedet. Efterlader en lys elipse i det område hvor pladen findes. Scanner billedet lodret for at finde det lyseste område og klipper ud (Klipper et noget større område end pladen ud på eksemplet i pdf'en). Der er formler i beskrivelsen. Roter pladen hvis skæv (Formler i pdf). Nohet med at finde linier i billedet og rotere stlsvarende (Hough og Radon transform). Det er først når vi skal genkende tegnene på pladen vi bruger billedet i sin originale opløsning.
-\end{comment}
-
-
