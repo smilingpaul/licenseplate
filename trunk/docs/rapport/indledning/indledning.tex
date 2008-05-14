@@ -67,7 +67,6 @@ På grund af projektets omfang var det nødvendigt at lave visse afgrænsninger.
 
 \fixme{har vi udelukket kvadratiske nummerplader?}
 
-\end{comment}
 
 
 
@@ -78,6 +77,6 @@ På grund af projektets omfang var det nødvendigt at lave visse afgrænsninger.
 
 I forbindelse med dette projekt har vi identificeret følgende fire dele, som et system der skal kunne identificere og aflæse nummerplade kunne indeholde: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, opdeling af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer har vi defineret som værende billedbehandling mens det fjerde element er mønstergenkendelse. Metoderne til billedbehandlingsdelene diskuteres i afsnit \ref{sec_billed} mens metoderne til mønstergenkendelse diskuteres i afsnit \ref{sec_monster}.
 
-Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvide områder i billedet \cite{ron}, \cite{nijhuis}, eller udfra viden om kanter i billedet \cite{shapiro} og eventuelt kombinere det med teksturanalyse \cite{parker}. Derudover kan man analysere kontrasterne i billedet \cite{kwas}, da en nummerplade må forventes af bestå af kontrastfyldte (sort/hvide) områder. Rotation af nummerpladen kan gøres ved brug af Radon transformation, som kan afgøre hvor der findes linier i billedet, samt hvilken vinkel disse linier har \cite{ron}, \cite{shapiro}. Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver især forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bl.a. bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
-\fixme{Søren: til Radon: han skriver "nej"??}
-\fixme{skal vi ha noget om testdata her?}
+\end{comment}
+
+
