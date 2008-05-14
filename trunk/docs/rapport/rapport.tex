@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,draft]{article}
+\documentclass[11pt,a4paper,final]{article}
 \usepackage[utf8]{inputenc}
 %\usepackage{ucs}
 \usepackage[danish]{babel}
@@ -7,9 +7,10 @@
 \usepackage{amssymb}
 \usepackage{verbatim}
 \usepackage{listings} % Better source code listings
-\usepackage{graphicx}
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \usepackage{fixme}
+\usepackage{graphicx}
+
 
 \author{Tobias Balle-Petersen og Esben Paul Bugge}
 \title{Bachelorprojekt: Automatisk identifikation og læsning af nummerplader}
@@ -48,10 +49,14 @@
 % OPBYGNING AF SYSTEM %
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Vores system}
-I vores system har vi opdelt arbejdet med at læse nummerplader i tre dele. Først forsøger vi at identificere nummerpladen i billedet. Herefter separerer vi tegnenen i nummerpladen. Tilsidst forsøger vi at genkende tegnene.
+I vores system har vi opdelt arbejdet med at læse nummerplader i tre dele. Først forsøger vi at identificere nummerpladen i billedet. Vi roterer nummerpladen til vandret position og  separere tegnene . Til sidst forsøger vi at genkende nummerpladens bogstaver og tal. Figur \ref{fig:system_overblik}.
 
-
+\begin{figure}[htp]
+\centering
 \includegraphics[width=10cm]{system/illu/overordnet_system.png} 
+\caption{Transverse momentum distributions}
+\label{fig:system_overblik}
+\end{figure}
 
 Der er modulet der laver blah blah... (ET-DIAGRAM).
 
@@ -127,6 +132,7 @@ Vores testbilleder blev taget sent i forløbet. Vi er opmærksomme på, at vi no
 
 Noter fra møde med Søren: Konklusion skal indeholde "Kan man gå videre med dette system efter de påviste resultater?", "Hvad gik godt? : henvisninger til testene"
 
+Vi har ikke så mange bogstaver i vores træningsæt.
 %\end{comment} % remove this later
 
 \newpage % new page before litterature
