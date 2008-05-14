@@ -45,7 +45,7 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   grayImg = rgb2gray(plateImg);
   
   % EXPERIMENT: SHRINK PLATEIMG TO LARGEST KOMPONENT
-  grayImg2bw = im2bw(grayImg,graythresh(grayImg)*threshFactor);
+  grayImg2bw = im2bw(grayImg,graythresh(grayImg)*(threshFactor^2));
   [testing, testing2] = bwlabel(grayImg2bw);
   
   if figuresOn
@@ -108,7 +108,7 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
     
     trala = ContrastStretch(blabla,0);
     
-    result = trala(3,3);
+    result = trala(9,9);
     
   end
   
@@ -120,8 +120,8 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   %  contrastImg = blkproc(grayImg, [5 5],@bla);
   %else
     %contrastImg = ContrastStretch(medianFilteredImg,0);
-    contrastImg = ContrastStretch(grayImg,0);
-    %contrastImg = nlfilter(grayImg, [5 5],@bla);
+    %contrastImg = ContrastStretch(grayImg,0);
+    contrastImg = nlfilter(grayImg, [17 17],@bla);
     %contrastImg = blkproc(grayImg, [13 13],@bla);
     %contrastImg = ContrastStretch(dilatedGrayImg,0);
   %end
@@ -306,19 +306,35 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
         end
 
       end % j
+      
+      % sort by increasing "middle" in charGroup
+      for x = 1:groupIndex-1
+        [minMiddle, minIndex] = min(candidateGroup(:,2));
+        compNo = candidateGroup(minIndex,1);
+        charGroup(x,1) = compNo;
+        charGroup(x,2) = minMiddle;
+        candidateGroup(minIndex,2) = nan;
+      end
+      
+      % remove the two outermost components if there are 9 components in
+      % group or the outermost component if there are 8 components.
+      while size(charGroup,1) > 7
+        if size(charGroup,1) >= 9
+          charGroup = charGroup(2:size(charGroup,1)-1,:);
+        else
+          leftDist = charGroup(1,2);
+          rightDist = plateImgWidth - charGroup(8,2);
+          if rightDist < leftDist
+            charGroup = charGroup(1:7,:);
+          else
+            charGroup = charGroup(2:8,:);
+          end
+        end
+      end
 
       % check horizontal distances between components in group
-      if groupIndex-1 == 7
-
-        % sort by increasing "middle" in charGroup
-        for x = 1:7
-          [minMiddle, minIndex] = min(candidateGroup(:,2));
-          compNo = candidateGroup(minIndex,1);
-          charGroup(x,1) = compNo;
-          charGroup(x,2) = minMiddle;
-          candidateGroup(minIndex,2) = nan;
-        end          
-
+      if size(charGroup,1) == 7
+        
         % calculate distances
         dist1_2 = charGroup(2,2) - charGroup(1,2);
         dist2_3 = charGroup(3,2) - charGroup(2,2); % should be largest
@@ -338,29 +354,33 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
       end
 
       % if we didn't break, the distances are not right so remove
-      % components in group       
+      % components in group from list of candidates      
       for r = 1:groupIndex-1
         compNo = candidateGroup(r,1);
         isCandidate(compNo) = false;
         noOfCandidates = noOfCandidates - 1;
-
-        % set color of pixels in component to black
-        [y,x] = find(conComp == compNo);
-        compSize = length(find(conComp == compNo));
-        for c = 1:compSize
-          conComp(y(c), x(c)) = 0;
-        end
         
         % reset charGroup
         charGroup(:,:) = 0;
-        
       end
      
     end % isCandidate(i)
       
   end % i
   
-  % TO-DO: remove components that are not in charGroup
+  % remove components that are not in charGroup
+  if isempty(find(charGroup == 0,1))
+    for i = 1:noOfComp
+      if isempty(find(charGroup == i,1))
+        % set color of pixels in component to black
+        [y,x] = find(conComp == i);
+        compSize = length(find(conComp == i));
+        for c = 1:compSize
+          conComp(y(c), x(c)) = 0;
+        end
+      end
+    end
+  end
   
   % up-scale image again
   conComp = imresize(conComp,downScaleFactor);
@@ -379,8 +399,6 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
     foundChars = 0;
     return;
   else
-    
-
     
     foundChars = 7;
   
