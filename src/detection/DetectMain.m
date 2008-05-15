@@ -1,5 +1,6 @@
 function plateCoords = DetectMain(inputImage)
 
+  showImages = false;
 
   % Read image from file
   origImage = rgb2gray(imread(inputImage));
@@ -137,34 +138,36 @@ candCoords
   
 %}
 
+  if showImages
+
+    figure(300);
+    imshow(origImage ./ 4);
+    hold on;
+
+    %line([10 100], [100 200]);
+
+    if sum(plateCoords) > 0
+      % Draw average candidate
+      line( plateCoords(1:2), [plateCoords(3) plateCoords(3)] );
+      line( plateCoords(1:2), [plateCoords(4) plateCoords(4)] );
+      line( [plateCoords(1) plateCoords(1)], plateCoords(3:4) );
+      line( [plateCoords(2) plateCoords(2)], plateCoords(3:4) );
+    end
+
+    plot(sum(f1c(1:2))/2, sum(f1c(3:4))/2,'ro');
+
+    plot(sum(f2c(1:2))/2, sum(f2c(3:4))/2,'bo');
+
+    plot(sum(f3c(1:2))/2, sum(f3c(3:4))/2,'go');
+
+    plot(sum(f4c(1:2))/2, sum(f4c(3:4))/2,'gx');
+
+    plot(sum(f5c(1:2))/2, sum(f5c(3:4))/2,'rx');
 
 
-  figure(300);
-  imshow(origImage ./ 4);
-  hold on;
-
-  %line([10 100], [100 200]);
-
-  if sum(plateCoords) > 0
-    % Draw average candidate
-    line( plateCoords(1:2), [plateCoords(3) plateCoords(3)] );
-    line( plateCoords(1:2), [plateCoords(4) plateCoords(4)] );
-    line( [plateCoords(1) plateCoords(1)], plateCoords(3:4) );
-    line( [plateCoords(2) plateCoords(2)], plateCoords(3:4) );
+    hold off;
+    
   end
-
-  plot(sum(f1c(1:2))/2, sum(f1c(3:4))/2,'ro');
-
-  plot(sum(f2c(1:2))/2, sum(f2c(3:4))/2,'bo');
-
-  plot(sum(f3c(1:2))/2, sum(f3c(3:4))/2,'go');
-
-  plot(sum(f4c(1:2))/2, sum(f4c(3:4))/2,'gx');
-
-  plot(sum(f5c(1:2))/2, sum(f5c(3:4))/2,'rx');
-
-
-  hold off;
 
 %{
   figure(301);

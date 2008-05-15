@@ -23,6 +23,9 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   
   % from 0 to 1. if low: the image will be downscaled a lot
   downScaleFactor = 1;
+  
+  % blocksize for contrast function
+  blockSize = 17;
 
   %%%%%%%%%%%%%%%%%%
   % PRE-PROCCESING %
@@ -44,7 +47,10 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   % create grayscale image
   grayImg = rgb2gray(plateImg);
   
-  % EXPERIMENT: SHRINK PLATEIMG TO LARGEST KOMPONENT
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % SHRINK PLATEIMG TO LARGEST COMPONENT %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
   grayImg2bw = im2bw(grayImg,graythresh(grayImg)*(threshFactor^2));
   [testing, testing2] = bwlabel(grayImg2bw);
   
@@ -104,11 +110,18 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   
   %%%%% BRIGHTNESS / CONTRAST %%%%%%%%
   
-  function result = bla (blabla)
+  % blocksize for contrast function
+  %if plateImgWidth > 200
+  %  blockSize = 11;
+  %else
+  %  blockSize = 17;
+  %end
+  
+  function result = BlockContrast (block)
     
-    trala = ContrastStretch(blabla,0);
+    contrastedBlock = ContrastStretch(block,0);
     
-    result = trala(9,9);
+    result = contrastedBlock(ceil(blockSize/2),ceil(blockSize/2));
     
   end
   
@@ -121,7 +134,7 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   %else
     %contrastImg = ContrastStretch(medianFilteredImg,0);
     %contrastImg = ContrastStretch(grayImg,0);
-    contrastImg = nlfilter(grayImg, [17 17],@bla);
+    contrastImg = nlfilter(grayImg, [blockSize blockSize],@BlockContrast);
     %contrastImg = blkproc(grayImg, [13 13],@bla);
     %contrastImg = ContrastStretch(dilatedGrayImg,0);
   %end
