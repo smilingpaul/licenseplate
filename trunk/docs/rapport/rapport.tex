@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,final]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 %\usepackage{ucs}
 \usepackage[danish]{babel}
@@ -9,11 +9,32 @@
 \usepackage{listings} % Better source code listings
 %\usepackage{hyperref}
 \usepackage{fixme}
+\usepackage[danish]{varioref}
 \usepackage{graphicx}
+
+\lstset{ %
+language=Matlab,                % choose the language of the code
+basicstyle=\scriptsize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\scriptsize,      % the size of the fonts that are used for the line-numbers
+stepnumber=5,                   % the step between two line-numbers. If it's 1 each line will be numbered
+%numbersep=5pt,                  % how far the line-numbers are from the code
+%backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+%showspaces=false,               % show spaces adding particular underscores
+%showstringspaces=false,         % underline spaces within strings
+%showtabs=false,                 % show tabs within strings adding particular underscores
+%frame=single,                   % adds a frame around the code
+%tabsize=2,                      % sets default tabsize to 2 spaces
+%captionpos=b,                   % sets the caption-position to bottom
+%breaklines=true,                % sets automatic line breaking
+%breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%escapeinside={\%*}{*)}          % if you want to add a comment within your code
+}
+
 
 
 \author{Tobias Balle-Petersen og Esben Paul Bugge}
-\title{Bachelorprojekt: Automatisk identifikation og læsning af nummerplader}
+\title{Automatisk identifikation og læsning af nummerplader}
 
 \parindent=0pt
 \parskip=10pt
@@ -49,17 +70,14 @@
 % OPBYGNING AF SYSTEM %
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Vores system}
-I vores system har vi opdelt arbejdet med at læse nummerplader i tre dele. Først forsøger vi at identificere nummerpladen i billedet. Vi roterer nummerpladen til vandret position og  separere tegnene . Til sidst forsøger vi at genkende nummerpladens bogstaver og tal. Figur \ref{fig:system_overblik}.
+I vores system har vi opdelt arbejdet med at læse nummerplader i tre dele. Først forsøger vi at lokalisere nummerpladen i billedet. Derefter roterer vi nummerpladen til vandret position og prøver at separere tegnene. Til sidst forsøger vi at genkende nummerpladens bogstaver og tal. Figur \ref{fig:system_overblik} viser systemet som et diagram med data markeret af rektangler og databehandling markeret med ruder.
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=10cm]{system/illu/overordnet_system.png} 
-\caption{Transverse momentum distributions}
+\caption{Vores system som diagram}
 \label{fig:system_overblik}
 \end{figure}
-
-Der er modulet der laver blah blah... (ET-DIAGRAM).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hvordan lokaliserer vi pladerne? %
@@ -191,9 +209,14 @@ Vi har ikke så mange bogstaver i vores træningsæt.
 
 \appendix
 
+
 \section{Kildekode}
 Her er kode blah...
+
 \subsection{Identifikation af nummerplade}
+\subsubsection{DetectSameness.m}
+\label{code:DetectSameness}
+\lstinputlisting{../../src/detection/DetectSameness.m}
 
 \subsection{Separation af tegn}
 
