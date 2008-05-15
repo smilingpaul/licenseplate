@@ -179,7 +179,6 @@ maxY = downscaleFactor*gradBlockSize*max(Ys);
 bestRatioDiff
 
 
-
 %%%%%%%%%%%%%%%%%%%%
 % Plots            %
 %%%%%%%%%%%%%%%%%%%%

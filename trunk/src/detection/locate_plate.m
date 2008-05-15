@@ -9,8 +9,8 @@
 function [] = locate_plate (imgFolder)
   
   % Get filelist
-  %fileList = dir([imgFolder '*.JPG']);
-  fileList = dir([imgFolder 'F_YK32567.JPG']);
+  fileList = dir([imgFolder '*.jpg']);
+  %fileList = dir([imgFolder 'F_YK32567.JPG']);
   noOfFiles = length(fileList);
   
   if noOfFiles < 1 
