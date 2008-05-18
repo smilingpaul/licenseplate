@@ -20,8 +20,25 @@ Til læsning af tegn vil vi bruge to forskellige metoder: Den første bruger inf
 \subsubsection{Feature vektorer}
 En feature vektor er en vektor der... Idéen i denne metode er at der oprettes en feature vektor for hvert muligt tegn der kan forekomme i en nummerplade. For et billede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med tegn-vektorerne for at se hvilken vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
 
-Euklidisk afstand/mahap afstand.. mahap afstand skal (i følge søren) bruge mange data? Kan dog ikke huske hvorfor :)
+\fixme{mahap afstand skal (i følge søren) bruge mange data? Kan dog ikke huske hvorfor}
+
+\fixme{Eksempel på vektor?}
 
 \subsubsection{Simpel metode hvor træningsættet andes}
+
+\subsubsection{Syntaks analyse}
+
+Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. Her ledes efter følgende fejl:
+
+\begin{itemize}
+\item[-] Et tal er placeret på en af de første to pladser
+\item[-] Et bogstav er placeret på en af de sidste fem pladser
+\item[-] Bogstavkombinationen er ikke tilladt
+\item[-] Talkombinationen er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav
+\end{itemize}
+
+Hvis en af disse muligheder forekommer itererer syntaks analysen ned igennem hitlisterne til et lovligt valg af tegn er fundet. Dette er illustreret i følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer syntaks analysen ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
+
+I systemet sætter vi en øvre grænse for hvor langt ned ad hitlisten syntaks analysen kan vælge tegn. Hvis denne grænse ikke fandtes kunne det blive gætværk...
 
 \subsubsection{Metoder fra litteraturen}

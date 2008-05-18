@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt,a4paper, draft]{article}
 \usepackage[utf8]{inputenc}
 %\usepackage{ucs}
 \usepackage[danish]{babel}
@@ -103,9 +103,7 @@ I vores system har vi opdelt arbejdet med at læse nummerplader i tre dele. Før
 %%%%%%%%%%%%%%%%%%
 \section{Implementation}
 
-\fixme{beskriv hvordan koden er implementeret - dens opbygning og de fede ting ved den}
-\fixme{Der er problemer med rotation hvis pladen klippes så tæt at over/under eller venstre/højre kanter ikke kommer med.}
-\fixme{Beskriv problemer med tegnet K.}
+\include{implementation/implementation}
 
 
 %\subsection{}
@@ -212,6 +210,7 @@ Vi har ikke så mange bogstaver i vores træningsæt.
 
 \section{Kildekode}
 Her er kode blah...
+
 
 \subsection{Identifikation af nummerplade}
 \subsubsection{DetectSameness.m}

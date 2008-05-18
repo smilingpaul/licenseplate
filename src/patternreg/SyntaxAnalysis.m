@@ -80,7 +80,7 @@ function [syntaxAnalysedStr, hits] = SyntaxAnalysis (charHitLists, distances, ma
   %  currentValueD1 = str2num(digit1Hitlist(digit1CurrentHit));
   %end
   
-  % while the value of the first digit is to high/low: iterate
+  % while the value of the first two digits is to high/low: iterate
   currentValueD1D2 = str2num([digit1Hitlist(digit1CurrentHit) digit2Hitlist(digit2CurrentHit)]);
   while currentValueD1D2 < minValueD1D2 || currentValueD1D2 > maxValueD1D2
     if distances(1,digit1CurrentHit) < distances(2,digit2CurrentHit)
