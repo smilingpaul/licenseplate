@@ -1,21 +1,11 @@
 \subsection{Genkendelse af tegn}
-Hvordan genkender vi de tegn vi har klippet ud?
+
+\fixme{indsæt genkendelses-del af diagram over system}
 \label{sec_monster}
 
-\begin{comment}
-Noter fra møde med Søren 20/2:
-Opret feature vektor $f$ for hvert bogstav $\omega$
-Finde middelværdivektor for hvert $\omega$.
-Afstandsfunktion: den afstand til en middelværdivektor der er mindst, vælges. Dvs. det bogstav vælges.
-Featurevektorafstand udregnes hver gang
+Til genkendelse af tegn vil vi bruge to forskellige metoder: Den første bruger informationer fra en feature vektor mens den anden analyserer enkelte pixels i hvert tegn-billede. I dette afsnit vil vi beskrive disse to metoder samt en metode til at udføre syntaks analyse på den tegnfølge der repræsenterer et gæt på nummerpladen.
 
-Euklidisk afstand
-En-eller-anden mahap afstand
-\end{comment}
-
-%\subsection{Læsning af tegn}
-
-Til læsning af tegn vil vi bruge to forskellige metoder: Den første bruger informationer fra en feature vektor mens den anden analyserer enkelte pixels i hvert tegn-billede. I dette afsnit vil vi beskrive disse to metoder.
+De to metoder til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv.
 
 \subsubsection{Feature vektorer}
 En feature vektor er en vektor der... Idéen i denne metode er at der oprettes en feature vektor for hvert muligt tegn der kan forekomme i en nummerplade. For et billede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med tegn-vektorerne for at se hvilken vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
@@ -28,7 +18,7 @@ En feature vektor er en vektor der... Idéen i denne metode er at der oprettes e
 
 \subsubsection{Syntaks analyse}
 
-Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. Her ledes efter følgende fejl:
+Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. Analysen sker på baggrund af at et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Der kan forekomme følgende fejl:
 
 \begin{itemize}
 \item[-] Et tal er placeret på en af de første to pladser
@@ -37,7 +27,7 @@ Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. 
 \item[-] Talkombinationen er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav
 \end{itemize}
 
-Hvis en af disse muligheder forekommer itererer syntaks analysen ned igennem hitlisterne til et lovligt valg af tegn er fundet. Dette er illustreret i følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer syntaks analysen ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
+Hvis en eller flere af disse muligheder er gældende itererer metoden ned igennem hitlisterne indtil et lovligt valg af tegn er fundet. Dette er illustreret i følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
 
 I systemet sætter vi en øvre grænse for hvor langt ned ad hitlisten syntaks analysen kan vælge tegn. Hvis denne grænse ikke fandtes kunne det blive gætværk...
 
