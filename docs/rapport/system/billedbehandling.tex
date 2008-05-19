@@ -14,14 +14,16 @@ I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere for
 Metoderne i dette afsnit, fungerer alle på den måde at de returnerer et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist på figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses på figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:kandidater}.
 \fixme{Skal der refereres til billedet af bilen?}
 
-\fixme{Not in outer par mode}
-%\begin{comment}
+\fixme{Fjernet framebox for at få det til at virke - hvad skal framebox bruges til?}
 \begin{figure}[htp]
 \centering
-\framebox{\includegraphics[width=5cm]{illu/B_XC33139.jpg}} 
+%\framebox{
+\includegraphics[width=5cm]{illu/B_XC33139.jpg}
+%}
 \caption{Et billede hvor vi ønsker at lokalisere nummerpladen}
 \label{fig:input_billede}
 \end{figure}
+
 
 
 \begin{figure}[htp]
@@ -31,15 +33,13 @@ Metoderne i dette afsnit, fungerer alle på den måde at de returnerer et binær
 \label{fig:binary_ideal}
 \end{figure}
 
-
+\fixme{Sidste eksempelbillede skal være et der viser situationen før der sorteres fra?}
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5cm]{system/illu/binary_real.png} 
 \caption{Et realistisk eksempel på nummerpladekandidater i billedet på figur \ref{fig:input_billede}}
-\fixme{Eksempelbilledet skal være et der viser situationen før der sorteres fra?}
 \label{fig:binary_real}
 \end{figure}
-%\end{comment}
 
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
 \fixme{Søren: Næppe realitisk denne metode, afhængig af belysning}
@@ -81,8 +81,8 @@ Efter at have udregnet billedets gradienter, kan vi udregne deres vinkler. Vi v�
 
 % Ved brug af gradienter laver vi et nyt billeder der viser gradienternes vandrette længde. Peger en gradient f.eks. lodret op i billedet vil den ikke blive markeret, hvorimod den vil blive markeret hvis den er vandret og f.eks. peger mod højre. Lyse pixels i dette billede indikerer store gradienter. For at gøre områder med høje intensiteter mere sammenhængende filtrerer vi billedet med et ikke kvadratisk filter der er flere gange bredere end det er højt. BESKRIVELSE. Resultater et et udglattet billede hvor intensitetsområder der ligger ved siden af hinanden er blevet forbundet. Ud fra dette billede laver vi et binært billede med kandidatområder markeret med hvidt. (Henvisning til litteratur.)
 
-\fixme{Billede mangler i svn!}
-%\begin{comment}
+\fixme{Billede mangler i svn}
+\begin{comment}
 \begin{figure}[htp]
 \centering
 \includegraphics[width=10cm]{system/illu/gradienter.png} 
@@ -90,7 +90,7 @@ Efter at have udregnet billedets gradienter, kan vi udregne deres vinkler. Vi v�
 \fixme{Eksempelbilledet skal være et der viser situationen før der sorteres fra?}
 \label{fig:gradienter}
 \end{figure}
-%\end{comment}
+\end{comment}
 
 ORIG\_IM BIN\_IM.
 
@@ -122,7 +122,7 @@ Kun 8 farver i billedet.
 
 \subsubsection{Metode: Histogram}
 \label{sec_histo}
-
+\fixme{Skal denne metode beskrives?}
 Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
 
 %Beskrevet i LicensePlateSydney.pdf

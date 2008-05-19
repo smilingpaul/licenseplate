@@ -184,9 +184,9 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   negBwPlate(:,floor(plateImgWidth*9/10):plateImgWidth) = ...
     nlfilter(negBwPlate(:,floor(plateImgWidth*9/10):plateImgWidth), [1 3],@RemoveThinComps);
   
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % REMOVE HORIZONTAL LINES WITH ONLY A FEW WHITES %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % REMOVE HORIZONTAL LINES WITH ONLY A FEW/MANY WHITES %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   for i = 1:plateImgHeight
     if sum(negBwPlate(i,:)) < plateImgWidth/10 || ...
