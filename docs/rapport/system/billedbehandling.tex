@@ -4,6 +4,8 @@
 \fixme{Hvor kommer metoderne fra?}
 \fixme{nedenfor i billedbehandling: der mangler intro til valg af metoder}
 
+\fixme{Lav om så eksempelbilledet kun vises en gang, og man forstår at det er dette billede alle eksempler bruger so inddata.}
+
 %I dette afsnit beskrives de tre første elementer af vores system: identificering af nummerpladen i billedet, rotation af nummerpladen samt segmentering af tegn i nummerpladen.
 
 
@@ -37,7 +39,7 @@ Metoderne i dette afsnit, fungerer alle på den måde at de returnerer et binær
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5cm]{system/illu/binary_real.png} 
-\caption{Et realistisk eksempel på nummerpladekandidater i billedet på figur \ref{fig:input_billede}}
+\caption{Et mere realistisk eksempel på nummerpladekandidater for billedet på figur \ref{fig:input_billede}}
 \label{fig:binary_real}
 \end{figure}
 
@@ -73,30 +75,67 @@ B_{ij} =
 
 \subsubsection{Metode: Områder med høj kontrast}
 \fixme{Referer til artiklen med denne metode.}
-Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast på grund af de mange kanter mellem sort og hvid. Ved at lave billedet om til gråtoner og derefter opfatte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter. Gradienter beskriver hældningen i en pixel som en todimensionel vektor(en illu). Et bredt område med en blød overgang i intensitet fra sort til hvid, vil have korte gradienter der alle peger den samme vej for alle pixels i området, mens et område med en brat overgang fra sort til hvid (høj kontrast) vil resultere i lange vektorer der peger mod det sorte område. Figur \vref{fig:gradienter} viser to simple eksempler på intensitetslandskaber og de tilhørende gradienter.
+Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast på grund af de mange kanter mellem sort og hvid. Ved at lave billedet om til gråtoner og derefter opfatte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter. Gradienter beskriver hældningen i en pixel som en todimensionel vektor. Et område med en blød overgang i intensitet fra sort til hvid, har korte gradienter der alle peger den samme vej for alle pixels i området, mens et område med en brat overgang fra sort til hvid (høj kontrast) vil resultere i lange gradienter der peger mod det sorte område. Figur \vref{fig:gradienter} viser to simple eksempler på intensitetslandskaber og de tilhørende gradienter.
 
-Efter at have udregnet billedets gradienter, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem 0 og 30 mellem sig selv og en vandret linie. Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet I og seks forekomster af tallet 1 være meget synlig på vores gradientbillede medens en nummerplade hvor begge bogstaver er et O og alle seks cifre er tallet 0 være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter. 
-\fixme{Husk at der skal stå at vi booster de længste gradienter.}
-
-
-% Ved brug af gradienter laver vi et nyt billeder der viser gradienternes vandrette længde. Peger en gradient f.eks. lodret op i billedet vil den ikke blive markeret, hvorimod den vil blive markeret hvis den er vandret og f.eks. peger mod højre. Lyse pixels i dette billede indikerer store gradienter. For at gøre områder med høje intensiteter mere sammenhængende filtrerer vi billedet med et ikke kvadratisk filter der er flere gange bredere end det er højt. BESKRIVELSE. Resultater et et udglattet billede hvor intensitetsområder der ligger ved siden af hinanden er blevet forbundet. Ud fra dette billede laver vi et binært billede med kandidatområder markeret med hvidt. (Henvisning til litteratur.)
-
-\fixme{Billede mangler i svn}
+% Illustration af gradienter
 %\begin{comment}
 \begin{figure}[htp]
 \centering
 \includegraphics[width=10cm]{system/illu/gradienter.png} 
-\caption{Illustration af konceptet gradienter. Pilene viser hældninger i intensitetslandskabet. Da der er tale om glidende overgange fra hvid til sort, har pilene alle samme længde. Illustrationen er fra \cite{wiki_gradienter}}.
+\caption{Illustration af konceptet gradienter. Pilene viser hældninger i intensitetslandskabet. Da der er tale om glidende overgange fra hvid til sort, har pilene alle samme længde. Illustrationen er fra \cite{wiki_gradienter}.}.
 \fixme{Eksempelbilledet skal være et der viser situationen før der sorteres fra?}
 \label{fig:gradienter}
 \end{figure}
 %\end{comment}
 
-ORIG\_IM BIN\_IM.
+Efter at have udregnet billedets gradienter som vist på figur \vref{fig:DetectContrastAvg-grads}, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem 0 og 30 mellem sig selv og en vandret linie. Et eksempel på et sådant billede er vist på figur \href{fig:DetectContrastAvg-hgrads}. Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet I og seks forekomster af tallet 1 være meget synlig på vores gradientbillede medens en nummerplade hvor begge bogstaver er et O og alle seks cifre er tallet 0 være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter.
 
-%\paragraph*{Analyse}
-%\paragraph*{Implementation}
-%detect6
+% Input image & gradients
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}[b]{5 cm}
+    \framebox{\includegraphics[width=4cm]{illu/example_car_gray.jpg}}
+  \end{minipage}
+  \begin{minipage}[b]{5 cm}
+    \framebox{\includegraphics[width=4cm]{system/illu/DetectContrastAvg-grads.png}}  
+  \end{minipage}
+  \caption{Billedet til højre viser gradienterne i billedet til venstre. Området med nummerpladen er tydeligt markeret på grund af de store kontraster i området.}
+  \label{fig:DetectContrastAvg-grads}
+\end{figure}
+
+% Horizontal gradients
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=10cm]{system/illu/DetectContrastAvg-hgrads.png}}
+  \caption{Gradienterne fra figur \vref{fig:DetectContrastAvg-grads} med vinkler mellem 0 og 30 grader. Bemærk at de vandrette linier der er synlige over og under nummerpladen på figur \ref{fig:DetectContrastAvg-grads} ikke er synlige.}
+  \label{fig:DetectContrastAvg-hgrads}  
+\end{figure}
+\fixme{Husk at der skal stå at vi booster de længste gradienter.}
+
+Før vi laver det binære billede med nummerpladekandidater, forsøger vi gøre nummerpladeområdet til en sammenhængende figur ved at udtvære\footnote{Eng.: Blur} billedet med et filter der giver hver pixel en intensitet svarende til middelværdien for dens nærområde. Da vi primært er interesserede i at forbinde pixels der ligger ved siden af hinanden (tegnene i nummerpladen) og ønsker at undgå at nummerpladeområdet bliver forbundet med områder der ligger tæt på dens over- og underkant, definerer vi nærområdet som et liggende rektangel. Resultatet bliver et sammenhængende område med en højde svarende til højden på tegnene i nummerpladen og en bredde der er noget længere end nummerpladens bredde. Et eksempel er vist på figur \vref{fig:DetectContrastAvg-blurredGrads}. 
+
+% Blured horizontal gradients
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=10cm]{system/illu/DetectContrastAvg-blurredGrads.png}}
+  \caption{De markerede områder i nummerpladen på figur \vref{fig:DetectContrastAvg-hgrads} forbindes ved at give hver pixel en intensitet der er proportional med gennemsnittet i nærområdet.}
+  \label{fig:DetectContrastAvg-blurredGrads}  
+\end{figure}
+
+
+Som det sidste trin laver vi et binært billede med nummerpladekandidater som vist på figur \vref{fig:DetectContrastAvg-binary}. Vi bruger en forholdsvis lav grænseværdi når vi laver dette billede. Det vil sige, vi opfatter forholdsvis mørke områder som potentielle nummerpladeområder.
+
+%Binary image
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=10cm]{system/illu/DetectContrastAvg-binary.png}}  
+  \caption{Det binære billede med nummerpladekandidater der er afledt af billedet på figur \vref{fig:DetectContrastAvg-blurredGrads}.}
+  \label{fig:DetectContrastAvg-binary}
+\end{figure}
+
+Metoden beskrevet i dette afsnit er implementeret i funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}.
+
+
 
 \subsubsection{Metode: Frekvensanalyse}
 \label{sec_frekvensanalyse} 
@@ -118,7 +157,40 @@ ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
 %\paragraph*{Implementation}
 
 \subsubsection{Metode: Kvantifisering}
-Kun 8 farver i billedet.
+Med denne metode forsøger vi at lokalisere nummerpladen ved at sætte antallet af gråtoner i vores inddatabillede ned fra 256 til 8. Med kun 8 intensitetsværdier vil billedet indeholde større sammenhængende områder der repræsenterer de områder i originalbilledet hvor intensiteterne ligge forholdsvis tæt på hinanden. Det er vores håb at et af disse områder er nummerpladen.
+
+Som det første trin i denne metode, kører vi et filter der giver en pixel den maksimale intensitet fra dens nærområde. Vi forventer at dette vil udviske tegnene på nummerpladen og efterlade et lyst rektangel i billedet der hvor nummerpladen findes. Formen på vores filter er et liggende rektangel da vi vil forsøge at undgå at nummerpladen forbindes med lyse områder der ligger over og under nummerpladen. Et eksempel på hvordan resultatet af at anvende dette filter er vist på figur \vref{fig:DetectQuant-filteredImage}.
+
+% Filtered image
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=10cm]{system/illu/DetectQuant-filteredImage.png}}
+  \caption{Resultatet af at køre et filter der giver hver pixel samme intensitet som den maksimale intensitet i nærområdet.}
+  \label{fig:DetectQuant-filteredImage}  
+\end{figure}
+
+Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned fra 256 til 8. Det giver os større sammenhængende områder som vist på figur \vref{fig:DetectQuant-quantImage}. På baggrund af dette billede danner vi et binært billede der viser vores interresseområder. Et eksempel er vist på figur \vref{fig:DetectQuant-binary}.
+
+% Quant image
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=10cm]{system/illu/DetectQuant-quantImage.png}}
+  \caption{Resultatet af at sætte antallet af intensitetet i billedet på figur \vref{fig:DetectQuant-filteredImage} ned til otte.}
+  \label{fig:DetectQuant-quantImage}  
+\end{figure}
+
+% Quant binary image
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=10cm]{system/illu/DetectQuant-binary.png}}
+  \caption{Interesseområde valgt på baggrund af billedet på figur \vref{fig:DetectQuant-quantImage}}
+  \label{fig:DetectQuant-binary}  
+\end{figure}
+
+\fixme{Hvor skal vi skrive at metoden er dårlig på hvide biler?}
+
+
+Metoden beskrevet i dette afsnit er implementeret i funktionen \textit{DetectQuant} hvis kildekode findes i afsnit \vref{code:DetectQuant}.
 
 \subsubsection{Metode: Histogram}
 \label{sec_histo}
