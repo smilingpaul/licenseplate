@@ -1,10 +1,13 @@
 \section{Implementation}
 \label{sec_implementation}
+
+
 Noget med at vi har brugt Matlabs egne metoder hvis vi kendte til komandoer for det vi gerne ville opnå. F.eks. filter og blokprocess.
 
 \fixme{beskriv hvordan koden er implementeret - dens opbygning og de fede ting ved den}
 \subsection{Lokalisering af nummerplader}
 I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. Vi har skaleret ned for at spare tid.
+
 
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
 
@@ -27,20 +30,50 @@ Brugt matlabs metoder.
 
 \subsection{Separation}
 
-\fixme{Der er problemer med rotation hvis pladen klippes så tæt at over/under eller venstre/højre kanter ikke kommer med.}
+\subsubsection{Rotation}
+
+Metoden til rotation findes i filen \textit{RotatePlateRadon.m}. For at finde pladens rotation er det nødvendigt at finde kanter i billedet af en nummerplade. Matlab funktionen edge bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke, da dette ville give en større mulighed for at radon transformationen finder den tydligste kant i en vertikale linie i billedet. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Matlab funktionen radon bruges til at udføre en Radon transformation på det binære kantbillede.
+
+EVT. ILLU AF RADON? ELLER SKAL DET VÆRE I "SYSTEM" AFSNITTET?
+
+Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
+
+Udregner nye koordinater for roteret plade vha. rotationsmatrix....
+
+\subsubsection{Separation}
+
+Filerne bla og bla indeholder..
+
+\subsubsection*{Sammenhængende komponenter}
+
+\fixme{Beskriv problemer med tegnet K.}
+
+De billeder der i denne del af systemet modtages fra metoderne til identificering af nummerplader er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på den givne bil). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen. Da nummerpladen med sandsynlighed er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen im2bw, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. På denne måde sikrer vi os, at nummerpladen vil være hvid og at den ikke bliver sort (SKRIV OM).
+
+For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal billedet kontrastforstærkes. Dette gøres i blokke så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med bestemmes ved eksperimenter.
+
+Når det binære billede er dannet opstår der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Se et eksempel nedenfor... Når dette .... Derfor slettes alle pixels som har en tom plads på begge sider i den øverste 1/3 af billedet, samt i den yderste 1/10 i både højre og venstre side.
+
+BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE KOMPONENTER KAN FJERNES
+
+Derudover slettes alle pixels i de rækker af billedet som ikke har mindst en 1/10 eller højst 2/3 af alle pixels i billedets bredde sat. Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område.
+
+I næste del af funktionen frasorteres alle de sammenhængende komponenter der er for små eller for store. Så findes der grupper af syv sammenhængende komponenter hvor elementerne i hver gruppe skal være ca. lige høje og befinde sig i ca. samme højde. Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har de rette afstande i mellem sig, vælges elementerne i gruppen som tegnene.
+
+\subsubsection*{Top-til-bund}
+
+
 
 \subsection{Genkendelse af tegn}
 
 Implementationen af metoden til tegngenkendelse ved hjælp af vektor analyse findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}.
 
-\textit{GetMeanVectors.m} udarbejder en matrix bestående af middelvektorer for hvert lovligt tegn.
+For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
 
-\textit{ReadPlateFV.m}...
-
-\fixme{Beskriv problemer med tegnet K.}
+\textit{GetMeanVectors.m} udarbejder en matrix bestående af middelvektorer for hvert lovligt tegn. Hver vektor vil have længden $d$. Denne matrix bruges af \textit{ReadPlateFV.m}: Hvert inputbillede omformes til en vektor af længden $d$ og herefter løbes middelvektor-matrixen igennem. Afstanden fra det omformede billede til hver middelvektor noteres og tegnhitlisten udarbejdes på baggrund af disse afstande. Sammen med denne hitliste returneres afstandene, så disse kan bruges i forbindelse med syntaks analyse.
 
 \subsubsection{Syntaks analyse}
 
 Implementationen af metoden til syntaks analyse findes i filen \textit{SyntaxAnalysis.m}.
 
-Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? 
+Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavkombination skal det vælges hvilket tegn man skal forsøge at udskifte så en lovlig kombination forekommer. Dette gøres på baggrund af billedets (af tegnet) afstand til de to middelvektorer: Den middelvektor der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud.
