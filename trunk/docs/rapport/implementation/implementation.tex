@@ -1,6 +1,29 @@
+\section{Implementation}
 \label{sec_implementation}
+Noget med at vi har brugt Matlabs egne metoder hvis vi kendte til komandoer for det vi gerne ville opnå. F.eks. filter og blokprocess.
 
 \fixme{beskriv hvordan koden er implementeret - dens opbygning og de fede ting ved den}
+\subsection{Lokalisering af nummerplader}
+I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. Vi har skaleret ned for at spare tid.
+
+\subsubsection{Metode: Områder domineret af lyse gråtoner}
+
+\subsubsection{Metode: Områder med høj kontrast}
+Pladerne bliver meget lave da vi kun kigger på kontrasten. Vi får altså ikke den hvide over- og underkant med. Derfor udvider vi kandidaten med 15 pixels på over- og underkanten. 
+
+\subsubsection{Metode: Frekvensanalyse}
+Metoden bliver dårligere jo mere man skalerer billedet ned da tegn i nummerpladerne ikke længere er klart separeret.
+
+\subsubsection{Metode: Skru op for Kontrast}
+Brugt matlabs metoder.
+
+\subsubsection{Metode: Kvantifisering}
+
+
+\subsubsection{Metode: Histogram}
+
+
+
 
 \subsection{Separation}
 
