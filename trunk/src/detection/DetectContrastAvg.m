@@ -6,9 +6,10 @@ function plateCoords = DetetctContrastAvg(inputImage)
   filterHeight = 2;
 
   brightenValue = 180; % 256 = no brighten
+  %brightenValue = 256; % 256 = no brighten
 
-  showImages = false;
-  %showImages = true;
+  %showImages = false;
+  showImages = true;
 
   scaleFactor = 0.25;
 
@@ -25,8 +26,13 @@ function plateCoords = DetetctContrastAvg(inputImage)
   % Resize image
   resizedImage = imresize(grayImage, scaleFactor);
 
+  % Get image height and width
+  [imHeight, imWidth] = (size(resizedImage));
+
+
   % Log image
   logImage = log(double(grayImage));
+
 
   % Brigthen image
   brightenedImage = uint8(256 * (double(resizedImage) ./ brightenValue));
@@ -34,56 +40,101 @@ function plateCoords = DetetctContrastAvg(inputImage)
 
   % Calculate gradient images
   [FX,FY] = gradient(double(brightenedImage));
- 
-  % Convert gradients to absolute values
-  FX = abs(FX);
-  FY = abs(FY);
 
-  % Normalize gradient images
-  FX = uint8(255 * (FX ./ max(max(FX))));
-  FY = uint8(255 * (FY ./ max(max(FY))));
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Calculate angles of gradients %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  %%%%%%%%%%%%%%%%%%%%%%%%
-  % Apply filter         %
-  %%%%%%%%%%%%%%%%%%%%%%%%
+  % Angles are between 0 (horizontal) and 90 (vertical)
 
-  % Get image height and width
-  [imHeight, imWidth] = (size(resizedImage))
+  % Matrix to hold gradient angles
+  gradAngles = zeros(imHeight, imWidth);
 
-  % Create empty image
-  filteredGradients = zeros(imHeight, imWidth);
-  %newImageY = zeros(imHeight, imWidth);
-
-
-  % Apply filter
-  for y = filterHeight:imHeight-filterHeight
-    for x = filterWidth:imWidth-filterWidth
-      %newImageY(y,x) = round(sum(sum(FY(y:y+filterHeight-1,x:x+filterWidth-1))) / (filterWidth*filterHeight));
-      filteredGradients(y,x) = round(sum(sum(FX(y:y+filterHeight-1,x:x+filterWidth-1))) / (filterWidth*filterHeight));
+  for y = 1:imHeight
+    for x = 1:imWidth
+      gradAngles(y,x) = abs(atand(FY(y,x)/FX(y,x)));
     end
   end
 
-  % Normalize (to 256) filtered gradients
-  filteredGradients = uint8(256 * (filteredGradients ./ max(max(filteredGradients))));
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Calculate length of gradients %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % Matrix to hold gradient lengths
+  gradLengths = zeros(imHeight, imWidth);
+
+  for y = 1:imHeight
+    for x = 1:imWidth
+      gradLengths(y,x) = sqrt( FY(y,x)^2 + FX(y,x)^2 );
+    end
+  end
+
+  % Normalize gradient lengths
+  gradLengths = gradLengths / max(max(gradLengths));
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Isolate longest gradients %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % Matrix to hold gradient lengths
+  longestGrads = zeros(imHeight, imWidth);
+
+  for y = 1:imHeight
+    for x = 1:imWidth
+      if gradLengths(y,x) >= 0.25
+        longestGrads(y,x) = gradLengths(y,x);
+      end
+    end
+  end
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Isolate vertical and horizontal gradients %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % Matrix to hold vertical and horizontal gradients
+  gradsVertHori = zeros(imHeight, imWidth);
+
+  for y = 1:imHeight
+    for x = 1:imWidth
+      %if gradAngles(y,x) <= 5 || gradAngles(y,x) >= 85
+      if gradAngles(y,x) <= 30
+        gradsVertHori(y,x) = gradLengths(y,x);
+        if gradsVertHori(y,x) >= 0.25
+          % Boost if long gradient
+          gradsVertHori(y,x) = 2.0 * gradsVertHori(y,x);
+        end
+      end
+    end
+  end
+
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Blur horizontal gradients %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+  % Set pixels to max intensity of neighbourhood
+  fun = @(x) 0.8 * mean(mean(x));
+  filteredGradients = nlfilter(gradsVertHori ,'indexed', [3 7], fun);
+
+
+
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
   % Create binary image     %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
-  binImage = im2bw(filteredGradients,graythresh(filteredGradients));
+  binImage = im2bw(filteredGradients, 0.5 * graythresh(filteredGradients));
 
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % Delete small areas        %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
-  % Delete areas smaller than 250 pixels
-  %binImageSmall = bwareaopen(binImage,250,4);
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % Cleanup bin image         %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  binImageSmall = BinImgCleanup(binImage, scaleFactor);
+  binImageCleaned = BinImgCleanup(binImage, scaleFactor);
 
 
 
@@ -91,7 +142,7 @@ function plateCoords = DetetctContrastAvg(inputImage)
   % Connected components     %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  [conComp,numConComp] = (bwlabel(binImageSmall,4));
+  [conComp,numConComp] = (bwlabel(binImageCleaned,4));
 
   %%%%%%%%%%%%%%%%%%%%%%
   % Get best candidate %
@@ -100,9 +151,9 @@ function plateCoords = DetetctContrastAvg(inputImage)
   plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
 
 
-  % Make plate a little higher 
+  % Make plate a little higher as we get very flat plates (only the characters)
   if sum(plateCoords) > 0
-    plateCoords + + [-5 5 0 0 ];
+    plateCoords = plateCoords + [-15 15 0 0 ];
   end
 
 
@@ -115,37 +166,49 @@ function plateCoords = DetetctContrastAvg(inputImage)
   
     subplot(2,4,1);
     imshow(resizedImage);
+    title('Original image');
 
     subplot(2,4,2);
-    imshow(brightenedImage);
-
+    imshow(gradLengths,[]);
+    title('Length of gradients');
+  
     subplot(2,4,3);
-    imshow(filteredGradients);
+    imshow(longestGrads,[]);
+    title('Longest gradients');
+
+    subplot(2,4,4);
+    imshow(gradsVertHori,[]);
+    title('Horizontal gradients');
+
+
 
     % Show candidate
-    subplot(2,4,4);
+   subplot(2,4,8);
     if sum(plateCoords) > 0
       imshow(origImage(plateCoords(3):plateCoords(4),plateCoords(1):plateCoords(2)));
     else
       imshow(zeros(2,2));
     end
 
-    subplot(2,4,5);
-    imshow(FX);
+%    subplot(2,4,5);
+%    imshow(FX);
 
-    %subplot(2,4,6);
-    %imshow(FY);
+    subplot(2,4,5);
+    imshow(filteredGradients,[]);
+    title('Blurred gradients');
+    imwrite(filteredGradients,'DetectContrastAvg-blurredGrads.png','PNG');
+
+    % Binary image
+    subplot(2,4,6);
+    imshow(binImage);
+    title('Blurred gradients to binary');
+
 
     subplot(2,4,7);
-    imshow(binImage);
-
-    subplot(2,4,8);
-    imshow(binImageSmall);
+    imshow(binImageCleaned);
+    title('Cleaned binary image');
 
 
-
-    %subplot(2,4,5);
-    %imshow(newImage(minY:maxY,minX:maxX));
 
   end
 
