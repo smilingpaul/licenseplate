@@ -1,13 +1,16 @@
 \subsection{Separation af tegn}
-Hvad beskriver vi i dette afsnit? Hvilke trin udgør processen?
+
+Separation af tegnene i en nummerplade system består i vores af to dele: Først må billedet indeholdende nummerpladen roteres så nummerpladen står vandret i billedet. Dernæst skal tegnene fra nummerpladen identificeres og separeres.
+
+\fixme{indsæt separations-del af diagram over system}
+
+Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv binære billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet som forgrund og nummerpladens hvide område som baggrund.
+
+%\fixme{Hvad beskriver vi i dette afsnit? Hvilke trin udgør processen?}
 
 \subsubsection{Rotation}
 %Nogle overvejelser om hvordan billedet skal være klippet til for at rotationen fungerer ordentligt...
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er fundet i...
-
-%\subsubsection{Hough transformation}
-
-%Hough transformation
 
 
 \subsubsection*{Radon transformation}
@@ -53,7 +56,7 @@ Ulemper:
 
 \subsubsection*{Andre metoder brugt i litteraturen}
 
-Tror ikke der er andre?
+\fixme{Hough?}
 
 \subsubsection{Identifikation af tegn}
 
@@ -63,18 +66,18 @@ Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" 
 "Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
 \end{comment}
 
-I det følgende beskrives to metoder til opdeling af tegn i en nummerplade. Med henblik på det komplette system er dette trin, trin nr. tre hvilket udføres efter at nummerpladen er blevet identificeret i billedet og eventuelt roteret. De to metoder til opdeling af tegn kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund). Metoderne er fundet i....
+I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund). Metoderne er fundet i....
 
 
 
 \subsubsection*{Sammenhængende komponenter}
-Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at de syv tegn som findes i billedet af nummerpladen er syv sammenhængende komponenter. I vores tilfælde vil hver sammenhængende komponent bestå af mørke pixels mens baggrunden er lyse pixels.
+Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er é sammenhængende komponent. I dette tilfælde vil hver sammenhængende komponent bestå af mørke pixels mens baggrunden er lyse pixels.
 
-Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet, hvis ikke billedet forarbejdes (nummerpladen kan være beskidt, lyset på billedet kan være dårligt, billedet kan være klippet 'for løst' sådan at elementer uden for nummerpladen vil være sammenhængende og mørke etc.). For at tegnene skal udskille sig klart fra den lyse baggrund er det nødvendigt at forstærke både lys og kontrast i billedet. Lyset forstærkes pga. muligheden for dårligt lys på nummerpladen mens kontrasten forstærkes for at adskille tegnene fra den lyse baggrund. I Figur ? ses forskellen på et billede af en nummerplade uden forarbejdning og et med.
+Med sandsynlighed vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, lyset på billedet kan være dårligt, billedet kan være klippet 'for løst' sådan at elementer uden for nummerpladen vil være sammenhængende etc. For at tegnene skal udskille sig klart fra den lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Figur ? viser forskellen på et billede af en nummerplade uden forarbejdning og et med hvor kontrasten i billedet er forstærket.
 
 EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
 
-Efterfølgende oprettes et billede med sammenhængende komponenter. I Figur ? ses et billede af en nummerplade hvor de sammen hængende komponenter er hvide.
+Efterfølgende oprettes et binært billede med sammenhængende komponenter. I Figur ? ses et billede af en nummerplade hvor de sammen hængende komponenter er hvide.
 
 EKSEMPEL PÅ BILLEDE MED SAMMENHÆNGENDE KOMPONENTER
 
@@ -87,6 +90,8 @@ Som det ses er det ikke kun tegnene der er sammenhængende komponenter. Derfor g
 \item[-] Tegnenes minimale højde skal være end en vis konstant (her: 5 pixels)
 \item[-] Tegnenes minimale størrelse skal være større end en vis konstant (her: 5 pixels)
 \item[-] For hvert tegn findes der seks andre tegn som er ca. lige så højde som det pågældende tegn.
+\item[-] For hvert tegn findes der seks andre tegn som befinder sig i samme højde som det pågældende.
+\item[-] Afstanden mellem tegnene 2 og 3 samt 4 og 5 i en tegnfølge på syv tegn er større end afstanden mellem de resterende tegn der støder op til hinanden.
 \end{itemize}
 
 EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA

@@ -7,7 +7,17 @@
 \fixme{Der er problemer med rotation hvis pladen klippes så tæt at over/under eller venstre/højre kanter ikke kommer med.}
 
 \subsection{Genkendelse af tegn}
+
+Implementationen af metoden til tegngenkendelse ved hjælp af vektor analyse findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}.
+
+\textit{GetMeanVectors.m} udarbejder en matrix bestående af middelvektorer for hvert lovligt tegn.
+
+\textit{ReadPlateFV.m}...
+
 \fixme{Beskriv problemer med tegnet K.}
 
 \subsubsection{Syntaks analyse}
 
+Implementationen af metoden til syntaks analyse findes i filen \textit{SyntaxAnalysis.m}.
+
+Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? 
