@@ -14,7 +14,7 @@ I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere for
 Metoderne i dette afsnit, fungerer alle på den måde at de returnerer et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist på figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses på figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:kandidater}.
 \fixme{Skal der refereres til billedet af bilen?}
 
-\begin{comment}
+%\begin{comment}
 \begin{figure}[htp]
 \centering
 \framebox{\includegraphics[width=5cm]{illu/B_XC33139.jpg}} 
@@ -38,7 +38,7 @@ Metoderne i dette afsnit, fungerer alle på den måde at de returnerer et binær
 \fixme{Eksempelbilledet skal være et der viser situationen før der sorteres fra?}
 \label{fig:binary_real}
 \end{figure}
-\end{comment}
+%\end{comment}
 
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
 \fixme{Søren: Næppe realitisk denne metode, afhængig af belysning}
@@ -71,9 +71,23 @@ B_{ij} =
 
 
 \subsubsection{Metode: Områder med høj kontrast}
-Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast. Endvidere forventer vi at mange af disse kontrastområder vil være områder hvor den det ene intensitetsområde ligge ved siden af det andet i modsætning til over hinanden (beskriv nøjere? antagelse om vandrette plader). 
+\fixme{Referer til artiklen med denne metode.}
+Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast på grund af de mange kanter mellem sort og hvid. Ved at lave billedet om til gråtoner og derefter opfatte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter. Gradienter beskriver hældningen i en pixel som en todimensionel vektor(en illu). Et bredt område med en blød overgang i intensitet fra sort til hvid, vil have korte gradienter der alle peger den samme vej for alle pixels i området, mens et område med en brat overgang fra sort til hvid (høj kontrast) vil resultere i lange vektorer der peger mod det sorte område. Figur \vref{fig:gradienter} viser to simple eksempler på intensitetslandskaber og de tilhørende gradienter.
 
-F.eks. har bogstavet I lyse områder på både venstre og højre side. Der er altså to lodrette linier der markerer overgangen mellem lyse og mørke områder. Ved at lave billedet om til gråtoner og derefter betragte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter der beskriver hældningen i en pixel som en to dimensionel vektor(en illu). Et bredt område med en blød overgang i intensitet fra helt sort til helt hvid, vil have kortere vektorer i alle pixels mens en brat overgang fra sort til hvid vil resultere i meget lange vektorer for de pixels der ligger op ad overgangen. Ved brug af disse gradienter laver vi et nyt billeder der viser gradienternes vandrette længde. Peger en gradient f.eks. lodret op i billedet vil den ikke blive markeret, hvorimod den vil blive markeret hvis den er vandret og f.eks. peger mod højre. Lyse pixels i dette billede indikerer store gradienter. For at gøre områder med høje intensiteter mere sammenhængende filtrerer vi billedet med et ikke kvadratisk filter der er flere gange bredere end det er højt. BESKRIVELSE. Resultater et et udglattet billede hvor intensitetsområder der ligger ved siden af hinanden er blevet forbundet. Ud fra dette billede laver vi et binært billede med kandidatområder markeret med hvidt. (Henvisning til litteratur.)
+Efter at have udregnet billedets gradienter, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem 0 og 30 mellem sig selv og en vandret linie. Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet I og seks forekomster af tallet 1 være meget synlig på vores gradientbillede medens en nummerplade hvor begge bogstaver er et O og alle seks cifre er tallet 0 være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter. 
+\fixme{Husk at der skal stå at vi booster de længste gradienter.}
+
+
+% Ved brug af gradienter laver vi et nyt billeder der viser gradienternes vandrette længde. Peger en gradient f.eks. lodret op i billedet vil den ikke blive markeret, hvorimod den vil blive markeret hvis den er vandret og f.eks. peger mod højre. Lyse pixels i dette billede indikerer store gradienter. For at gøre områder med høje intensiteter mere sammenhængende filtrerer vi billedet med et ikke kvadratisk filter der er flere gange bredere end det er højt. BESKRIVELSE. Resultater et et udglattet billede hvor intensitetsområder der ligger ved siden af hinanden er blevet forbundet. Ud fra dette billede laver vi et binært billede med kandidatområder markeret med hvidt. (Henvisning til litteratur.)
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=10cm]{system/illu/gradienter.png} 
+\caption{Illustration af konceptet gradienter. Pilene viser hældninger i intensitetslandskabet. Da der er tale om glidende overgange fra hvid til sort, har pilene alle samme længde. Illustrationen er fra \cite{wiki_gradienter}}.
+\fixme{Eksempelbilledet skal være et der viser situationen før der sorteres fra?}
+\label{fig:gradienter}
+\end{figure}
+\end{comment}
 
 ORIG\_IM BIN\_IM.
 
