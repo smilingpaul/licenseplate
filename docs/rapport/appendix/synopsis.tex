@@ -1,0 +1,97 @@
+\subsection*{Titel}
+Projektets titel: \textbf{Automatisk identifikation og læsning af nummerplader}.
+\subsection*{Problemformulering}
+I mange sammenhænge er der behov for automatisk at kunne læse nummerplader. Det er f.eks. identifikation af en bil der ankommer til et parkeringsanlæg, identifikation af køretøjer der overtræder færdselsloven og lignende.
+
+Vi ønsker derfor at arbejde med spørgsmålene: Hvordan kan nummerplader på farvefotografier identificeres og læses af et computersystem? Hvilke kendte metoder findes der, og hvor høj genkendelsesprocent kan et system vi selv laver opnå?
+
+Det system, vi ønsker at udvikle, egner sig bedst til en situation som i det første eksempel, hvor bilen står stille eller bevæger sig meget langsomt. Systemet laves som et bachelorprojekt. Vores forventning er ikke at systemet kan opnå en effektivitet svarende til etablerede systemer til genkendelse af nummerplader. Derimod ønsker vi via arbejdet at få erfaring med praktisk anvendelse af elementære teknikker indenfor billedbehandling og mønstergenkendelse.
+
+
+\subsection*{Afgrænsning}
+Systemet udvikles som et computerprogram. Systemet skal kunne analysere farvefotografier med en opløsning på minimum 1024 x 768 pixels taget ved højlys dag uden brug af kunstigt lys. Hvert fotografi skal forestille en bil med synlig nummerplade. Fotografierne skal tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 3 - 6 meter fra bilen uden zoom. Det er ikke nødvendigt at nummerpladen skal befinde sig i midten af billedet. Nummerpladen skal fremstå vandret på billedet og skal desuden være fri for urenheder eller lignende, der gør pladen sværere at læse. Ligeledes må der heller ikke være objekter såsom anhængertræk, der hindrer frit udsyn til nummerpladen.
+
+Alle billeder skal indeholde en enkelt nummerplade og bilerne på billederne skal være parkerede. Nummerpladerne skal alle være danske privatplader som de udstedes i foråret 2008\footnote{Rød kant, hvid baggrund og sort tekst.} og af typen med en enkelt linie tekst. Formatet på nummerpladerne skal være \textit{AA XX XXX}, hvor \textit{A} er bogstaver i mængden \textit{A}-\textit{Z}\footnote{Enkelte tegn er muligvis ikke lovlige. Er dette tilfældet, skal systemet ikke tage højde for dem.}, og \textit{X} er heltal i mængden 0-9. Som eksemplet viser, skal der være mellemrum mellem de to bogstaver og de to første tal samt mellem de to første tal og de tre tal. Nummerpladerne må ikke indeholde andre tegn end de nævnte bogstaver og tal.
+
+%Der skal tages 150 fotografier med to forskellige kameraer dvs. samlet 300 billeder. 
+
+Der er intet krav til den tid det tager for systemet at analysere et fotografi.
+
+
+%Evt. begrænsning i hvilke tegn vi ønsker at genkende? Man kunne evt. begrgnse sig til tallene 0-9 og udelade A-Z.
+
+%Systemet skal ikke kunne genkende såkaldte ønskenummerplader hvor teksten er bestemt af ejeren af bilen. 
+
+
+%Billedetype og -kvalitet, farvebilleder, nummerpladetype herunder form på nummerplade, kun biler Danske nummerplader, reglerne for danske nummerplader skal undersøges. Ingen ønskenummerplader, billeder taget af biler som ikke er i bevægelse, billeder kan være taget med skæv vinkel, evt. 45 grader. Der er nummerplader i alle billeder. Belysningen på billederne skal være fuld dagslys, uden kunstig belysning som eksempelvis blitz.
+
+%Ingen real-time, brug af Matlab, programmet får et billede som inddata og returnerer en tekststreng med systemet læsning af nummerpladens tekst.
+
+%Nummerpladerne indeholder alfanumeriske tegn, ingen bindestreg, punktum osv.
+
+%Mønstergenkendelse
+
+%Softwaren skal fungere ved slutningen af projektet, men det er ikke planen at den skal implementeres i et miljø hvor den faktisk kan anvendes.
+
+
+%\subsection*{Begrundelse}
+
+	
+\subsection*{Arbejdsopgaver}
+I det følgende har vi beskrevet de overordnede arbejdsopgaver, der skal udføres i løbet af dette projekt. Efter disse beskrivelser følger vores tidsplan.
+%Et bachelorprojekt er beregnet til syv ugers fuldtidsarbejde, hvilket svarer til 250-300 timer pr. mand. I dette afsnit har vi afsat tid til de enkelte opgaver i forhold til denne tidsmængde. Følgende overordnede arbejdsopgaver skal udføres i projektforløbet (rækkefølgen af opgaverne skal ikke anses som den rækkefølge opgaverne skal udføres i; de skal i større eller mindre grad udføres parallelt):
+
+\begin{enumerate}
+\item Research: Læsning af artikler omkring nummerpladegenkendelse samt materiale omkring mønstergenkendelse og billedbehandling. %Denne opgave er estimeret til ca. 45 timer pr. mand.
+
+\item Fotografering: Fotografering af biler med nummerplader. Disse fotografier skal bruges som inddata til systemet.%Denne opgave er estimeret til ca. 10 timer pr. mand.
+
+%\item Design af system: Bestem et overordnet systemdesign. %Denne opgave er estimeret til ca. 15 timer pr. mand.
+
+\item Implementering af system, herunder:
+
+\begin{itemize}
+\item[A:] Billedbehandling: Konstruktion af et program der tager et fotografi indeholdende en nummerplade som inddata og leverer 7 billeder indeholdende de enkelte tegn på nummerpladen som uddata. Programmet implementeres i MatLab som tilgås på DIKUs maskiner via SSH samt på vores egne computere. Vi ønsker at eksperimentere med forskellige metoder indenfor billedbehandling og opfatter denne del af projektet som den mest omfattende.%Denne opgave er estimeret til ca. 90 timer pr. mand.
+
+%- Find nummerpladen i billedet
+%- Afin transformation
+%- Opdeling af tegn
+\item[B:] Mønstergenkendelse: Konstruktion af et program der tager 7 billeder, som hver indeholder et individuelt tegn som inddata og leverer en tegnfølge på 7 karakterer svarende til analysen som uddata. Programmet skal som ovenfor implementeres i MatLab. I denne del af projektet vil vi som udgangspunkt benytte simplere metoder.%Denne opgave er estimeret til ca. 90 timer pr. mand.
+
+% - Syntax analyse
+\end{itemize}
+
+
+%Søren skriver: Tilføj ovevejelse om vægtning af de to delopgaver under punkt 4. Skal der eksperimenteres med flere delmetoder, skal de sammenlignes, lægges der mere vægt på A) and på B) ????
+
+%Søren: Altså, vi ved jo ikke noget om mønstergenkendelse, derfor er det jo oplagt at lægge mest vægt på billedbehandlingen. Dog mener vi at vi skal have et system der kan udskrive et gæt på hvad der står på en nummerplade på et fotografi. Derfor SKAL vi jo have noget mønstergenkendelse. Vi har svært ved at afgøre hvornår vi lægger et for stort brød op. Du skriver at vi skal skrive om vi vil eksperimentere med delmetoder. Vil det sige at du allerede nu vil have at vi skal have et kendskab til området der gør at vi fravælger visse netoder og tilvælger andre før vi rigtigt er begyndt på projektet?
+
+
+\item Rapportskrivning: Udformning af en rapport som beskriver forløbet omkring projektet, implementering af systemet, evaluering af systemet m.m. %Denne opgave er estimeret til ca. 50 timer pr. mand.
+
+
+\end{enumerate}
+%\subsection*{Evt. metoder, information og informationskilder}
+
+%De fire pdf'er henviser til etablerede metoder og vi vil bruge nogle af dem. Hvilke noteres her.
+
+%Synopsisforsvar
+
+%Det er en god ide at afholde forsvar af synopsis, da det kan give jer mulighed for at diskutere projektet med andre, så I kan få et bedre overblik over dets stærke og svage sider.
+
+%Tal med jeres vejleder om synposisforsvar. Det kan enten ske overfor en af de andre grupper som han eller hun vejleder, eller jeres vejleder kan arrangere et synopsisforsvar overfor en anden gruppe i hans eller hendes forskningsgruppe.
+
+%I kan godt være tre grupper sammen til forsvar af synopsis. I stedet for at en gruppe kommenterer en anden, vil det så være to grupper som giver kommentarer på hver af projekterne.
+
+%Formålet med synopsisforsvar er ikke at overbevise de andre om at man har lavet et godt projekt. Formålet er at få kommentarer så kan kan finde de svage punkter i ens projektplan og få gennemført et godt projekt.
+
+%Derfor er følgende det bedste forløb i gennemgangen af en synopsis:
+
+%- Grupper introducerer kort deres projekt.
+%- Opponentgruppen fortæller hvordan de har forstået emnet. Det er for at sikre at de ikke har misforstået det.
+%- Opponentgruppen fortæller hvad de synes er specielt godt i synopsis. Det er vigtigt, da gruppen så ved hvad de kan bygge videre på og helst ikke skal pille ud af projektet.
+%- Opponentgruppen fortæller hvad de synes er svage punkter og mulige problemer, og kommer gerne med ideer til hvordan de kan løses.
+%- Derefter diskuterer man hvordan projektet kan gøres bedre.
+
+
+\end{document}
