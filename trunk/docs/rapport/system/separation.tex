@@ -2,7 +2,7 @@
 
 Separation af tegnene i en nummerplade system består i vores system af to dele: Først må billedet indeholdende nummerpladen roteres så nummerpladen står vandret i billedet, dernæst skal tegnene i nummerpladen identificeres og separeres.
 
-\fixme{indsæt separations-del af diagram over system}
+INDSÆT SEPARATIONSDEL AF DIAGRAM OVER SYSTEM
 
 Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv binære billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet som forgrund og nummerpladens hvide område som baggrund.
 
@@ -16,7 +16,8 @@ En Radon transformation beregner projektionen af et billede fra flere forskellig
 
 En Radon transformation er defineret således:
 
-\fixme{def. af radon samt cites}
+DEFINITION AF RADON SAMT CITES
+
 \begin{math}
 R[f](\alpha,s) = \int_{-\infty}^{\infty}f(x(t),y(t))dt
 \end{math}
@@ -24,11 +25,11 @@ R[f](\alpha,s) = \int_{-\infty}^{\infty}f(x(t),y(t))dt
 
 Figur ?? viser hvordan Radon transformationen findes i en enkelt vinkel, $\theta$. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier.
 
-\fixme{indsæt figur af radon transformation i en vinkel}
+INDSÆT FIGUR AF RADON FOR EN VINKEL
 
 For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $180^{\circ}$. Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
 
-\fixme{indsæt figur af radon transformation matrix}
+INDSÆT RADON TRANSFORMATIONS MATRIX
 
 Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
 
@@ -41,7 +42,7 @@ I Figur ?? er vist et eksempel på et billede af en nummerplade, et binært bill
 
 \subsubsection*{Andre metoder brugt i litteraturen}
 
-\fixme{Hough?}
+HOUGH?
 
 \subsubsection{Identifikation af tegn}
 
@@ -88,7 +89,7 @@ Til sidst udklippes de resterende komponenter. Et eksempel herpå er vist i Figu
 
 EKSEMPEL PÅ UDKLIPPEDE TEGN
 
-\fixme{beskrevet i kwas: man ku fjerne kanter før analysen}
+BESKREVET I KWAS: MAN KU FJERNE KANTER FØR ANALYSE?
 
 \subsubsection*{peak-to-valley}
 
@@ -99,8 +100,8 @@ Som i metoden med sammenhængende komponenter er det en fordel at forstærke kon
 \subsubsection{Metoder fra litteraturen}
 
 Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver især forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bl.a. bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
-\fixme{Søren: til Radon: han skriver "nej"??}
-\fixme{skal vi ha noget om testdata her?}
+
+SKAL VI HA NOGET OM TESTDATA HER?
 
 
 
