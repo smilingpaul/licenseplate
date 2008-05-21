@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,draft]{article}
+\documentclass[11pt,a4paper,final]{article}
 \usepackage[utf8]{inputenc}
 %\usepackage{ucs}
 \usepackage[danish]{babel}
@@ -84,7 +84,7 @@ I vores system har vi opdelt arbejdet med at læse nummerplader i tre dele. Før
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hvordan lokaliserer vi pladerne? %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{system/billedbehandling}
+%\include{system/billedbehandling}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hvordan separerer vi tegnene? %
@@ -232,11 +232,17 @@ Her er kode blah...
 
 %%%%%%%%%%%%%
 \subsection{Separation af tegn}
+\subsubsection{RotatePlateRadon.m}
+
+\subsubsection{CharSeparationCC.m}
+\subsubsection{CharSeparationPTV.m}
 
 \subsection{Genkendelse af tegn}
-
+\subsubsection{GetMeanVectors.m}
+\subsubsection{ReadPlateFV.m}
 
 
 \section{Synopsis}
+\include{appendix/synopsis}
 
 \end{document}
