@@ -1,12 +1,10 @@
 \subsection{Separation af tegn}
 
-Separation af tegnene i en nummerplade system består i vores system af to dele: Først må billedet indeholdende nummerpladen roteres så nummerpladen står vandret i billedet, dernæst skal tegnene fra nummerpladen identificeres og separeres.
+Separation af tegnene i en nummerplade system består i vores system af to dele: Først må billedet indeholdende nummerpladen roteres så nummerpladen står vandret i billedet, dernæst skal tegnene i nummerpladen identificeres og separeres.
 
 \fixme{indsæt separations-del af diagram over system}
 
 Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv binære billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet som forgrund og nummerpladens hvide område som baggrund.
-
-%\fixme{Hvad beskriver vi i dette afsnit? Hvilke trin udgør processen?}
 
 \subsubsection{Rotation}
 %Nogle overvejelser om hvordan billedet skal være klippet til for at rotationen fungerer ordentligt...
@@ -14,17 +12,25 @@ I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, s
 
 
 \subsubsection*{Radon transformation}
-Et billede af en nummerplade, hvor nummerpladen er let fordrejet i forhold til vandret, skal drejes før separation og genkendelse af tegn kan foregå. En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
+En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
-Billedet nedenfor viser hvordan Radon transformationen findes i en enkelt vinkel, theta. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier. Resultatet af en Radon transformation er en matrice der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
+En Radon transformation er defineret således:
 
-%SKAL NOK BYTTES UD MED HJEMMELAVET BILLEDE:
-%\begin{figure}[h]
-%\includegraphics{billedbehandling/illu/transform74.jpg}
-%\caption{Radon transformation}
-%\end{figure}
+\fixme{def. af radon samt cites}
+\begin{math}
+R[f](\alpha,s) = \int_{-\infty}^{\infty}f(x(t),y(t))dt
+\end{math}
 
-Før Radon transformationen kan foretages skal billedet kant-detekteres (ANDEN OVERSÆTTELSE), da dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
+
+Figur ?? viser hvordan Radon transformationen findes i en enkelt vinkel, $\theta$. Den grå firkant er billedet der projekteres. De grå pile er sensorer/radial linier.
+
+\fixme{indsæt figur af radon transformation i en vinkel}
+
+For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $180^{\circ}$. Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel samt radial linie.
+
+\fixme{indsæt figur af radon transformation matrix}
+
+Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
 
 I Figur ?? er vist et eksempel på et billede af en nummerplade, et binært billede udfra samme billede hvor kanterne i billedet er markeret med hvid samt det samme billede af nummerpladen, blot roteret. Bemærk at kun de horisontale kanter detekteres i kant-billedet (mere om dette i afsnit ??).
 
@@ -49,17 +55,19 @@ I det følgende beskrives to metoder til identifikation og separation af tegn i 
 
 
 \subsubsection*{Sammenhængende komponenter}
-Denne metode er bygget op omkring sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er é sammenhængende komponent. I dette tilfælde vil hver sammenhængende komponent bestå af mørke pixels mens baggrunden er lyse pixels.
+Denne metode til at identificere tegn i en nummerplade er bygget på idéen om sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. I dette tilfælde vil hver sammenhængende komponent bestå af mørke pixels (tegnene er sorte) mens baggrunden er lyse pixels (pladens baggrund er hvid).
 
-Med sandsynlighed vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, lyset på billedet kan være dårligt, billedet kan være klippet 'for løst' sådan at elementer uden for nummerpladen vil være sammenhængende etc. For at tegnene skal udskille sig klart fra den lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Figur ? viser forskellen på et billede af en nummerplade uden forarbejdning og et med hvor kontrasten i billedet er forstærket.
+Med sandsynlighed vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, lyset på billedet kan være dårligt, billedet kan være klippet 'for løst' sådan at elementer uden for nummerpladen vil være sammenhængende etc. For at tegnene skal udskille sig klart fra den lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have en intensitetsværdi nær 0.
 
-EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
+%Figur ?? viser forskellen på et billede af en nummerplade uden kontrast og et med hvor kontrasten i billedet er forstærket.
 
-Efterfølgende oprettes et binært billede med sammenhængende komponenter. I Figur ? ses et billede af en nummerplade hvor de sammen hængende komponenter er hvide.
+%EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
+
+Efterfølgende oprettes et binært billede med sammenhængende komponenter. I Figur ?? ses et billede af en nummerplade hvor de sammenhængende komponenter er hvide. Eksemplet viser en situation, hvor det ikke kun er tegnene der er sammenhængende komponenter.
 
 EKSEMPEL PÅ BILLEDE MED SAMMENHÆNGENDE KOMPONENTER
 
-Som det ses er det ikke kun tegnene der er sammenhængende komponenter. Derfor gennemføres en analyse på komponenterne for at frasortere de komponenter der ikke kan være tegn. Vi kan frasortere komponenter som ikke opfylder følgende regler:
+De komponenter der ikke kan være tegn frasorteres ud fra følgende regler:
 
 \begin{itemize}
 \item[-] Hvert tegn fylder maksimalt 1/7 del af billedet.
@@ -72,9 +80,11 @@ Som det ses er det ikke kun tegnene der er sammenhængende komponenter. Derfor g
 \item[-] Afstanden mellem tegnene 2 og 3 samt 4 og 5 i en tegnfølge på syv tegn er større end afstanden mellem de resterende tegn der støder op til hinanden.
 \end{itemize}
 
+Til sidst fås et binært billede hvor kun tegnene i nummerpladen er markeret. Figur ?? viser et eksempel.
+
 EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA
 
-De resterende komponenter må forventes at være nummerpladens tegn.
+Til sidst udklippes de resterende komponenter. Et eksempel herpå er vist i Figur ??. 
 
 EKSEMPEL PÅ UDKLIPPEDE TEGN
 
