@@ -168,13 +168,11 @@ ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
 %\paragraph*{Analyse}
 %\paragraph*{Implementation}
 
-\subsubsection{Metode: Skru op for Kontrast}
-%Lav et histogram. Lad et vindue køre hen over histogrammet. Vælg den position hvor der er mest info i vinduet. Stræk dette område så det fylder helle intensitetsspekter fra 0 til 255. Lav binært billede ud fra dette high-contrast-billede. Er det en metode eller en forberedelse af billedet før en af de andre metoder bruges?
+\subsubsection{Metode: Skru op for lokal kontrast}
+Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder. Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt.   
 
-%ORIG\_IM CONTRAST\_IM BIN\_IM.
+God på meget mørke plader.
 
-%\paragraph*{Analyse}
-%\paragraph*{Implementation}
 
 \subsubsection{Metode: Kvantifisering}
 Med denne metode forsøger vi at lokalisere nummerpladen ved at sætte antallet af gråtoner i vores inddatabillede ned fra 256 til 8. Med kun 8 intensitetsværdier vil billedet indeholde større sammenhængende områder der repræsenterer de områder i originalbilledet hvor intensiteterne ligge forholdsvis tæt på hinanden. Det er vores håb at et af disse områder er nummerpladen.
@@ -209,36 +207,10 @@ Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned
 
 \fixme{Hvor skal vi skrive at metoden er dårlig på hvide biler?}
 
-
 Metoden beskrevet i dette afsnit er implementeret i funktionen \textit{DetectQuant} hvis kildekode findes i afsnit \vref{code:DetectQuant}.
 
-\subsubsection{Metode: Histogram}
-\label{sec_histo}
-\fixme{Skal denne metode beskrives?}
-Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
-
-%Beskrevet i LicensePlateSydney.pdf
-
-%Frekvenstabel, hvordan opbygges den?
-%Frekvenstabellen indeholdende farvefrekvenserne for pixels i en række billeder af nummerplader blev lavet som følgende: Tabellen blev udformet vha. funktionen make\_freq\_table. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Eksempelvis
-
-Først oprettes en frekvenstabel udfra nogle billeder, hvor nummerpladens placering i billedet allerede er specificeret. Her itereres der gennem alle pixels i et billede og antallet af farver med en bestemt farvekombination summeres i en $255 \times 255 \times 255$ matrice, med plads til én frekvensværdi, $f$ for hver farvekombination. Når frekvenstabellen er udformet, normaliseres den. Det medfører at den RGB værdi der har den højeste frekvens, $f_{max}$ får værdien 1, mens de resterende RGB værdier får værdien $f$/$f_{max}$. Hvis RGB værdien 240, 240, 230 eksempelvis har den højeste frekvens, 55 og RGB værdien 230, 230, 220 har frekvensen $35$, får førstnævnte værdien 1 og sidstnævnte værdien $35/55 = 0,64$.
 
 
-I systemet udarbejdede vi to frekvenstabeller. Én for billederne taget med et Canon digitalkamera og én for billederne taget med et Olympus digitalkamera. Grunden til at oprette disse to adskilte tabeller er, at vi får mulighed for at undersøge forskellen på brug af kamera. Eksempelvis kan det undersøges om en frekvenstabel lavet udfra billeder fra ét kamera kan bruges til at identificere nummerplader i billeder fra et andet kamera.
-
-
-%Vi udvalgte tilfældigt hhv. 70 og 50 billeder fra de to grupper til de to frekvenstabeller og gemte disse tabeller i to seperate filer. Systemet kunne herefter bruge disse frekvenstabeller uden at skulle skabe dem først.
-
-Ved hjælp af frekvenstabellerne skabes et billede hvor hver pixel gives en værdi fra 0 til 1 afhængig af om pixelens farve fremkommer sjældent (0) eller hyppigt (1) i en nummerplade. Disse værdier svarer altså til de værdier der står i frekvenstabellerne. I eksemplet ovenfor, ville en pixel med RGB værdien 230, 230, 220 få værdien 0,64 i tilhørsbilledet. Dette tilhørsbillede vil, med værdier fra 0 til 1, være et gråtone billede hvor de pixels, der har samme farve som de farver der oftest optræder i billeder af nummerplader, vil blive lyse og omvendt vil de resterende pixels blive mørke. De pixels der har de højeste frekvenser bliver altså interesseområder.
-
-TO ILLUSTRATIONER: ORIGINAL BILLEDE OG TILHØRSBILLEDE
-
-%\paragraph{Analyse}
-
-%\paragraph{Implementation}
-
-%Omdannes dette billede til et binært billede vil vi (ved succes) få forbundne komponenter bl.a. der hvor nummerpladen befinder sig i billedet. Disse komponenters størrelse, form osv. kan herefter analyseres og man kan give et bud på hvor nummerpladen befinder sig.
 
 \subsubsection{Analyse af kandidater}
 \label{sec:kandidater}
@@ -273,8 +245,8 @@ ILLU MED TRIN I FRAVÆLGELSE AF KANDIDATER
 
 
 %detect4
-\subsubsection{Vælg nummerpladekandidat på baggrund af alle metoder.}
-
+\subsubsection{Endeligt valg af nummerpladekandidat på baggrund af alle metoder.}
+Beskriv hvordan vi sammenholder de forskellige metoders resultat.
 
 \subsubsection{Metoder fra litteraturen}
 \cite{parker} bruger kant-detektion og lokalisering af tegn til at give et bud på hvor nummerpladen er.
@@ -284,6 +256,9 @@ Identificering af nummerpladen i billedet kan gøres ved blot at søge efter hvi
 \subsubsection*{MSER}
 Først sorteres alle pixels intensiteter (stigende). Dette gøres ved brug af bucket sort.
 
+%%%%%%%%%%%%
+% COMMENTS %
+%%%%%%%%%%%%
 
 \begin{comment}
 \subsubsection{Tobias' brainstorm}
@@ -325,3 +300,30 @@ Regler:
 - Længde af linie
 
 \end{comment}
+
+\begin{comment}
+\subsubsection{Metode: Histogram}
+\label{sec_histo}
+\fixme{Skal denne metode beskrives?}
+Idéen i denne metode er at hver pixel i et fotografi stilles op mod en frekvenstabel, indeholdende farvefrekvenser for en mængde nummerplader. Hvis pixelens farve svarer til en farve med høj frekvens i denne tabel, er det sandsynligt at den er en del af en nummerplade.
+
+%Beskrevet i LicensePlateSydney.pdf
+
+%Frekvenstabel, hvordan opbygges den?
+%Frekvenstabellen indeholdende farvefrekvenserne for pixels i en række billeder af nummerplader blev lavet som følgende: Tabellen blev udformet vha. funktionen make\_freq\_table. I funktionen itereres der gennem alle pixels i et billede og deres RGB værdier noteres i en 255 x 255 x 255 matrice. Eksempelvis
+
+Først oprettes en frekvenstabel udfra nogle billeder, hvor nummerpladens placering i billedet allerede er specificeret. Her itereres der gennem alle pixels i et billede og antallet af farver med en bestemt farvekombination summeres i en $255 \times 255 \times 255$ matrice, med plads til én frekvensværdi, $f$ for hver farvekombination. Når frekvenstabellen er udformet, normaliseres den. Det medfører at den RGB værdi der har den højeste frekvens, $f_{max}$ får værdien 1, mens de resterende RGB værdier får værdien $f$/$f_{max}$. Hvis RGB værdien 240, 240, 230 eksempelvis har den højeste frekvens, 55 og RGB værdien 230, 230, 220 har frekvensen $35$, får førstnævnte værdien 1 og sidstnævnte værdien $35/55 = 0,64$.
+
+
+I systemet udarbejdede vi to frekvenstabeller. Én for billederne taget med et Canon digitalkamera og én for billederne taget med et Olympus digitalkamera. Grunden til at oprette disse to adskilte tabeller er, at vi får mulighed for at undersøge forskellen på brug af kamera. Eksempelvis kan det undersøges om en frekvenstabel lavet udfra billeder fra ét kamera kan bruges til at identificere nummerplader i billeder fra et andet kamera.
+
+
+%Vi udvalgte tilfældigt hhv. 70 og 50 billeder fra de to grupper til de to frekvenstabeller og gemte disse tabeller i to seperate filer. Systemet kunne herefter bruge disse frekvenstabeller uden at skulle skabe dem først.
+
+Ved hjælp af frekvenstabellerne skabes et billede hvor hver pixel gives en værdi fra 0 til 1 afhængig af om pixelens farve fremkommer sjældent (0) eller hyppigt (1) i en nummerplade. Disse værdier svarer altså til de værdier der står i frekvenstabellerne. I eksemplet ovenfor, ville en pixel med RGB værdien 230, 230, 220 få værdien 0,64 i tilhørsbilledet. Dette tilhørsbillede vil, med værdier fra 0 til 1, være et gråtone billede hvor de pixels, der har samme farve som de farver der oftest optræder i billeder af nummerplader, vil blive lyse og omvendt vil de resterende pixels blive mørke. De pixels der har de højeste frekvenser bliver altså interesseområder.
+
+TO ILLUSTRATIONER: ORIGINAL BILLEDE OG TILHØRSBILLEDE
+%\paragraph{Analyse}
+%\paragraph{Implementation}
+%Omdannes dette billede til et binært billede vil vi (ved succes) få forbundne komponenter bl.a. der hvor nummerpladen befinder sig i billedet. Disse komponenters størrelse, form osv. kan herefter analyseres og man kan give et bud på hvor nummerpladen befinder sig.
+\begin{comment}
