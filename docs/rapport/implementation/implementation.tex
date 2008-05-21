@@ -4,7 +4,6 @@
 
 Noget med at vi har brugt Matlabs egne metoder hvis vi kendte til komandoer for det vi gerne ville opnå. F.eks. filter og blokprocess.
 
-\fixme{beskriv hvordan koden er implementeret - dens opbygning og de fede ting ved den}
 \subsection{Lokalisering af nummerplader}
 I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. Vi har skaleret ned for at spare tid.
 
@@ -46,7 +45,7 @@ Filerne bla og bla indeholder..
 
 \subsubsection*{Sammenhængende komponenter}
 
-\fixme{Beskriv problemer med tegnet K.}
+BESKRIV PROBLEM MED TEGNET K
 
 De billeder der i denne del af systemet modtages fra metoderne til identificering af nummerplader er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på den givne bil). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen. Da nummerpladen med sandsynlighed er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen im2bw, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. På denne måde sikrer vi os, at nummerpladen vil være hvid og at den ikke bliver sort (SKRIV OM).
 

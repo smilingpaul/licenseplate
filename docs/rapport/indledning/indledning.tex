@@ -1,9 +1,9 @@
 \section{Indledning}
 
-\fixme{On March 11, 2008, the Federal Constitutional Court of Germany ruled that the laws permitting the use of automated number plate recognition systems in Germany violated the right to privacy.}
+On March 11, 2008, the Federal Constitutional Court of Germany ruled that the laws permitting the use of automated number plate recognition systems in Germany violated the right to privacy.
 
-\fixme{Skriv at det er et bachelorprojekt}
-\fixme{Skriv at vi bruger matlab}
+SKRIV AT DET ER ET BACHELORPROJEKT
+SKRIV AT VI BRUGE MATLAB
 
 
 I mange sammenhænge er det interessant, at have adgang til et system der automatisk kan genkende et køretøj ved at læse dets nummerplade. En af det mest kendte områder hvor et sådant system er relevant, er registrering af køretøjer der overskrider hastighedsbegrænsninger. Et andet eksempel er den afgift der skal betales når man kører ind i Stockholms indre by. Ved de veje der fører ind til midtbyen er der placeret kameraer der registrerer de kørertøjer der kører forbi og trækker (ER DET MED KAMERA??).
@@ -20,15 +20,16 @@ Et system der skal genkende nummerplader har brug for at kunne observere køret�
 \item Alle nummerplader skal være danske og af typen med sort skrift på hvid baggrund uden blåt EU-mærke. Alle tegn skal stå på en enkelt linje, og være to bogstaver efterfulgt af fem cifre.
 \item Billederne skal tages på en sådan måde, at nummerpladen ikke er roteret mere end 10 grader i forhold til vandret position.
 \item Billederne skal tages på en måde så perspektivisk forvrængning af nummerpladen er minimal.
-\item Billederne skal være taget fra en afstand på mellem 2 og 4 meter \fixme{"afstand til bilen"} uden brug af zoom.
+\item Billederne skal være taget fra en afstand på mellem 2 og 4 meter AFSTAND TIL BILEN uden brug af zoom.
 \end{itemize}
 
 For at sikre så skarpe billeder som muligt, har vi har valgt at arbejde med stilbilleder af biler der ikke er i bevægelse. Med denne afgrænsning minimerer vi omfanget af uskarpe nummerplader i de data vi arbejder med. Uskarpheder kan dog stadig forekomme hvis kameraet bevæger sig i det øjeblik billedet tages. En anden kilde til uskarpe billeder kan være situationer hvor kameraet ikke er stillet skarpt på bilen. For at begrænse de områder i billederne vi opfatter som potentielle nummerplader, har vi valgt at udelukkende beskæftige os med den mest udbredte danske type. Envidere har vi besluttet os for ikke at arbejde med afin transformation i forbindelse med perspektivisk forvrængning af numerplader. For at sætte en øvre og nedre grænse for størrelsen af de nummerplader vi ønsker at arbejde med, har vi valgt at alle billeder skal være taget fra en afstand som beskrevet ovenfor. 
 
-\fixme{Skær settet ned til præcis 400 billeder}
+SKÆR SÆTTET NED TIL 400 BILLEDER
+
 Vi arbejder med to set billeder. Det ene set, bestående af 407 billeder, indeholder billeder vi har taget før vi begyndte på opgaven. Dette sæt kalder vi for vores \textit{træningsæt}. Det er billeder i dette set vi har brugt i arbejdet med at udvikle vores software. F.eks. har vi på baggrund af disse billeder defineret den maksimale bredde og højde på nummerplader så vi kan se bort fra områder der, ifølge definationen, ikke kan indeholde nummerplader.
 
-Vores andet sæt, \textit{testsættet}, består af 600 \fixme{antal billeder?} billeder. Når systemet er færdigt, afprøver vi det på dette set billeder for at få en indikation af i hvilket omfang vores system kan læse numerplader på "ukendte" billeder.
+Vores andet sæt, \textit{testsættet}, består af 600 ANTAL BILLEDER???? billeder. Når systemet er færdigt, afprøver vi det på dette set billeder for at få en indikation af i hvilket omfang vores system kan læse numerplader på "ukendte" billeder.
 
 Et typisk eksempel på den type billeder vi arbejder med er vist på figur \ref{fig:typisk_billede}. Nummerpladen er stort set vandret og den perspektivisk forvrængning er minimal.
 
@@ -39,7 +40,7 @@ Et typisk eksempel på den type billeder vi arbejder med er vist på figur \ref{
 \label{fig:typisk_billede}
 \end{figure}
 
-\fixme{En oversigt over hvad vi beskriver i rapporten}
+EN OVERSIGT OVER HVAD VI BESKRIVER I RAPPORTEN
 
 \begin{comment}
 I mange sammenhænge vil det være relevant at automatisk kunne identificere og genkende køretøjers nummerplader. Et sådant system kunne eksempelvis være et system som bruges ved et parkeringsanlæg, hvor der f.eks. tages billeder af de biler der ankommer til anlægget, så man kan registrere hvilke biler der befinder sig på anlægget. Et sådant system kunne også bruges af parkeringsvagter, som eksempelvis manuelt tager billeder af parkerede biler hvorefter systemet identificere bilen.
