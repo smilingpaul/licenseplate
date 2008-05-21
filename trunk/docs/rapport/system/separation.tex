@@ -1,10 +1,10 @@
 \subsection{Separation af tegn}
 
-Separation af tegnene i en nummerplade system består i vores system af to dele: Først må billedet indeholdende nummerpladen roteres så nummerpladen står vandret i billedet, dernæst skal tegnene i nummerpladen identificeres og separeres.
+Separation af tegnene i en nummerplade system består i vores system af to dele: Først må billedet af pladen roteres så nummerpladen står vandret i billedet. Dernæst skal tegnene i nummerpladen identificeres og separeres.
 
-INDSÆT SEPARATIONSDEL AF DIAGRAM OVER SYSTEM
+INDSÆT EVT. SEPARATIONSDEL AF DIAGRAMMET OVER SYSTEMET
 
-Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv binære billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet som forgrund og nummerpladens hvide område som baggrund.
+Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet som forgrund og nummerpladens hvide område som baggrund.
 
 \subsubsection{Rotation}
 %Nogle overvejelser om hvordan billedet skal være klippet til for at rotationen fungerer ordentligt...
@@ -33,11 +33,22 @@ INDSÆT RADON TRANSFORMATIONS MATRIX
 
 Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
 
-I Figur ?? er vist et eksempel på et billede af en nummerplade, et binært billede udfra samme billede hvor kanterne i billedet er markeret med hvid samt det samme billede af nummerpladen, blot roteret. Bemærk at kun de horisontale kanter detekteres i kant-billedet (mere om dette i afsnit ??).
+I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade, et binært billede udfra samme billede hvor kanterne i billedet er markeret med hvid samt det samme billede af nummerpladen, blot roteret. Bemærk at kun de horisontale kanter detekteres i kant-billedet (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
 
-\includegraphics{system/illu/rotate_example_input.jpg}
-\includegraphics{system/illu/rotate_example_edge.jpg}
-\includegraphics{system/illu/rotate_example_output.jpg}
+\begin{figure}[htp]
+  \centering
+  \begin{minipage}[c]{6 cm}
+    \framebox{\includegraphics{system/illu/rotate_example_input.jpg}}
+  \end{minipage}\\
+  \begin{minipage}[c]{6 cm}
+    \framebox{\includegraphics{system/illu/rotate_example_edge.jpg}}
+  \end{minipage}\\
+  \begin{minipage}[c]{6 cm}
+    \framebox{\includegraphics{system/illu/rotate_example_output.jpg}}
+  \end{minipage}
+  \caption{Et billede af en nummerplade som roteres så den står vandret. Øverste billede forestiller originalbilledet, det mellemste billede forestiller kant-detektionen mens det nederste billede er den roterede plade.}
+  \label{fig:Rotation}
+\end{figure}
 
 
 \subsubsection*{Andre metoder brugt i litteraturen}
@@ -93,16 +104,30 @@ BESKREVET I KWAS: MAN KU FJERNE KANTER FØR ANALYSE?
 
 \subsubsection*{peak-to-valley}
 
-Denne metode baseres på en vertikal projektion af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er dale (de lyse områder mellem tegnene) og bakker (tegnene), hvorefter vi kan udskære tegnene.
+Denne metode baseres på en vertikal projektion (PROJEKTION ER DUMT) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (toppe), hvorefter vi kan udskærer tegnene.
 
-Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR? Nummerpladens signatur fås ved at summere intensiteterne i alle kolonnerne i billedet. En graf over signaturen vil så give toppe i de kolonner hvor der er størst inte
+Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR?
+
+Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved. Dette er illustreret i Figur \vref{fig:ptv-signatur}.
+
+FIGUR AF SIGNATUR-KONCEPT
+
+\begin{figure}[htp]
+  \centering
+  \begin{minipage}[c]{6 cm}
+    %\framebox{\includegraphics{}}
+  \end{minipage}\\
+  \caption{bla}
+  \label{fig:ptv-signatur}
+\end{figure}
+
+DER ER VIST IKKE MERE AT SIGE OM DENNE?
 
 \subsubsection{Metoder fra litteraturen}
 
 Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver især forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bl.a. bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
 
 SKAL VI HA NOGET OM TESTDATA HER?
-
 
 
 
