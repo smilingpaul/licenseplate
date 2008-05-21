@@ -179,7 +179,6 @@ Som det sidste trin laver vi et binært billede med nummerpladekandidater som vi
 Metoden beskrevet i dette afsnit er implementeret i funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}.
 
 
-
 \subsubsection{Metode: Frekvensanalyse}
 \label{sec_frekvensanalyse} 
 Ideen bag denne metode til markering af interesseområder er, at kigge på frekvensen af skift mellem lyse og mørke intensiteter i vandrette linier i et gråtonebillede. For at kunne markere områder der har en frekvens svarende til en nummerplade, skal vi først finde ud af hvad denne representative frekvens er. Derfor har vi analyseret nummerpladeområderne på vores testbilleder og udregnet den gennemsnitlige frekvens. Med denne viden kan vi skabe et binært billede hvor de markerede interesseområder er dem hvor frekvensen ligger tæt på den udregnede idealfrekvens. (ref til pdfer med signaturer)
@@ -191,10 +190,11 @@ FIGURER AF HISTOGRAMMER OG LIGN.
 %\paragraph*{Analyse}
 %\paragraph*{Implementation}
 
-\subsubsection{Metode: Skru op for lokal kontrast}
+\subsubsection{Metode: Maksimer lokal kontrast}
 Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder. Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt.   
 
-Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i en blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område med en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustrerer på figur \vref{fig:DetectCStretch-illu2}
+Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i en blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område med en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustreret på figur \vref{fig:DetectCStretch-illu2}.
+
 
 % Illu af contrast strech
 \begin{figure}[htbp]
@@ -218,13 +218,19 @@ Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}.
   \begin{minipage}[b]{5 cm}
     \framebox{\includegraphics[width=4cm]{system/illu/DetectCStretch-illu2_2.png}}  
   \end{minipage}
-  \caption{Den underbelyste nummerplade til venstre deles op i to kvadratiske blokke, og intensiteterne i dem strækkes. Resultatet til højre viser, at hele nummerpladen stadig er et sammenhængende område i modsætning til eksemplet på figur \vref{fig:DetectCStretch-illu1}.}
+  \caption{Den underbelyste nummerplade til venstre deles op i to kvadratiske blokke, og intensiteterne i dem strækkes uafhængigt af hinanden. Resultatet til højre viser, at hele nummerpladen stadig er et sammenhængende område i modsætning til eksemplet på figur \vref{fig:DetectCStretch-illu1} hvor billedet til venstre bliver delt.}
   \label{fig:DetectCStretch-illu2}
 \end{figure}
 
+Med denne metode får vi det binære billede af interesseområder der er vist på figur \ref{fig:DetectCStretch-binary}. Kildekoden til metoden er implementeret i funktionen \textit{DetectCStretch} hvis kildekode findes i afsnit \vref{code:DetectCStretch}.
 
-God på meget mørke plader.
-
+%Binary image
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=10cm]{system/illu/DetectCStretch-binary.png}}  
+  \caption{Det binære billede af interesseområder skabt af metoden der maksimerer lokal kontrast. Bemærk, at nummerpladen er et fritstående sammenhængende område.}
+  \label{fig:DetectCStretch-binary}
+\end{figure}
 
 \subsubsection{Metode: Kvantifisering}
 Med denne metode forsøger vi at lokalisere nummerpladen ved at sætte antallet af gråtoner i vores inddatabillede ned fra 256 til 8. Med kun 8 intensitetsværdier vil billedet indeholde større sammenhængende områder der repræsenterer de områder i originalbilledet hvor intensiteterne ligge forholdsvis tæt på hinanden. Det er vores håb at et af disse områder er nummerpladen.
