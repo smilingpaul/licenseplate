@@ -62,9 +62,7 @@ B_{ij} =
 \fixme{jeg ved ikke hvordan dette skrives ind i latex}
 
 \begin{comment}
-
 % Et forsøg på at skrive det anderledes. Ikke færdigt..
-
 For hver pixel $x$ i et farvebillede, hvor vi ønsker at finde nummerpladen, udregnes værdien for samme pixel $x_{b}$ i det binære billede således:
 
 \begin{equation}
@@ -169,7 +167,37 @@ ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
 %\paragraph*{Implementation}
 
 \subsubsection{Metode: Skru op for lokal kontrast}
-Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder. Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt.   
+Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder.
+
+Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i en blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område med en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustrerer på figur \vref{fig:DetectCStretch-illu2}
+
+% Illu af contrast strech
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}[b]{5 cm}
+    \framebox{\includegraphics[width=4cm]{system/illu/DetectCStretch-illu1_1.png}}
+  \end{minipage}
+  \begin{minipage}[b]{5 cm}
+    \framebox{\includegraphics[width=4cm]{system/illu/DetectCStretch-illu1_2.png}}  
+  \end{minipage}
+  \caption{Billedet til højre viser resultatet af at dele billedet til venstre op i to kvadratiske blokke og strække deres intensiteter. I hver blok bliver de mørkeste toner helt sorte, og de lyseste helt hvide når intensiteterne strækkes.}
+  \label{fig:DetectCStretch-illu1}
+\end{figure}
+
+% Illu af contrast strech på plade
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}[b]{5 cm}
+    \framebox{\includegraphics[width=4cm]{system/illu/DetectCStretch-illu2_1.png}}
+  \end{minipage}
+  \begin{minipage}[b]{5 cm}
+    \framebox{\includegraphics[width=4cm]{system/illu/DetectCStretch-illu2_2.png}}  
+  \end{minipage}
+  \caption{Den underbelyste nummerplade til venstre deles op i to kvadratiske blokke, og intensiteterne i dem strækkes. Resultatet til højre viser, at hele nummerpladen stadig er et sammenhængende område i modsætning til illustrationen på figur \vref{fig:DetectCStretch-illu2}.}
+  \label{fig:DetectCStretch-illu2}
+\end{figure}
+
+
 
 God på meget mørke plader.
 
@@ -326,4 +354,4 @@ TO ILLUSTRATIONER: ORIGINAL BILLEDE OG TILHØRSBILLEDE
 %\paragraph{Analyse}
 %\paragraph{Implementation}
 %Omdannes dette billede til et binært billede vil vi (ved succes) få forbundne komponenter bl.a. der hvor nummerpladen befinder sig i billedet. Disse komponenters størrelse, form osv. kan herefter analyseres og man kan give et bud på hvor nummerpladen befinder sig.
-\begin{comment}
+\end{comment}
