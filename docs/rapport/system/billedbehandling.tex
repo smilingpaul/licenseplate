@@ -53,9 +53,9 @@ SØREN: NÆPPE REALISTISK METODE
 
 I denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af lyse gråtoner i et farvebillede. Vi håber at en af de markerede interesseområder vil være nummerpladen da dens baggrund består af lyse gråtoner. I et farvebillede vil det sige, at området vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger forholdsvis tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0. I dette tilfælde er der altså tale om en meget skæv fordeling af intensistestvrædierne på de tre farvekanaler. Et eksempel på en jævn fordeling af intensitetsværdierne er en middelgrå pixel der vil have værdien 128 i alle tre farvekanaler.
 
-For at markere interesseområder udregner vi en gennemsnitsværdi for hver pixel i farvebilledet ved at summere værdierne for hver af de tre farvekanaler og dividere med tre. Hvis alle tre kanaler har en værdi der ligger tæt \footnote{Et parameter i programmet} på middelværdien og denne samtidig er høj, det vil sige lys, \footnote{Et parameter i programmet} farves den indeværende pixel, i det binære billede der viser interesseområderne, hvid. Figur \ref{fig:binary_DetectSameness} viser et eksempel på interesemetoder markeret med denne metode. Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. 
+For at markere interesseområder udregner vi en gennemsnitsværdi, $M$ for hver pixel i farvebilledet ved at summere værdierne for hver af de tre farvekanaler og dividere med tre. Hvis alle tre kanaler har en værdi der ligger tæt \footnote{Et parameter i programmet} på gennemsnitsværdien og denne samtidig er høj, det vil sige lys, \footnote{Et parameter i programmet} farves den indeværende pixel, i det binære billede der viser interesseområderne, hvid. Figur \ref{fig:binary_DetectSameness} viser et eksempel på interesemetoder markeret med denne metode. Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. 
 
-
+\begin{comment}
 Hvis $X$ er en nedre grænseværdi for de intensiteter vi opfatter som lyse. $Y$ er en værdi der bestemmer hvor stor afstand der må være mellem intensiteterne i de tre farvekanaler og $I_{ij}$ er pixels i et farvebillede hvis nummerplade vi ønsker at finde, er pixels i det binære billede $B_{ij}$ defineret som:
 \begin{equation}
 B_{ij} = 
@@ -69,27 +69,26 @@ B_{ij} =
 HVORDAN SKRIVES DETTE I LATEX?
 
 
+\end{comment}
 
-\begin{comment}
-
-
-% Et forsøg på at skrive det anderledes. Ikke færdigt..
 
 For hver pixel $x$ i et farvebillede, hvor vi ønsker at finde nummerpladen, udregnes værdien for samme pixel $x_{b}$ i det binære billede således:
 
 \begin{equation}
 x_{b} = 
 \begin{Bmatrix}
-1 & \text{Hvis } ((R(x)+G(x)+B(x))/3) > L\\
- & R(x) > mean - D & < D + mean\\
-0 & \delta
+1 & \text{Hvis } M > L\\
+ & M-D > R(x) < M+D\\
+  & M-D > G(x) < M+D\\
+   & M-D > B(x) < M+D\\
+0 & \text{ellers..}
 \end{Bmatrix}
 \end{equation}
 
 
-hvor $R(x)$, $G(x)$ og $B(x)$ er intensitetsværdierne for henholdsvis den røde, den grønne og den blå farvekanal i pixelen $x$, mens $L$ er den nedre grænse for middelværdien og $D$ er den maksimale afstand fra værdien i de tre farvekanaler til middelværdien.
+hvor $M = ((R(x)+G(x)+B(x))/3)$ og $R(x)$, $G(x)$ og $B(x)$ er intensitetsværdierne for henholdsvis den røde, den grønne og den blå farvekanal i pixelen $x$, mens $L$ er den nedre grænse for middelværdien og $D$ er den maksimale afstand fra værdien i de tre farvekanaler til $M$.
 
-\end{comment}
+
 
 
 \begin{figure}[htbp]

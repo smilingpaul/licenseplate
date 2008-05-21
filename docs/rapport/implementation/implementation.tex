@@ -26,7 +26,7 @@ Måske kunne vi opnå bedre resultater ved at bruge filter frem for blok, men bl
 
 \subsection{Separation}
 
-\fixme{Der er problemer med rotation hvis pladen klippes så tæt at over/under eller venstre/højre kanter ikke kommer med.}
+Der er problemer med rotation hvis pladen klippes så tæt at over/under eller venstre/højre kanter ikke kommer med.
 
 Metoden til rotation findes i filen \textit{RotatePlateRadon.m}. For at finde pladens rotation er det nødvendigt at finde kanter i billedet af en nummerplade. Matlab funktionen edge bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke, da dette ville give en større mulighed for at radon transformationen finder den tydligste kant i en vertikale linie i billedet. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Matlab funktionen radon bruges til at udføre en Radon transformation på det binære kantbillede.
 
@@ -66,7 +66,6 @@ Implementationen af metoden til tegngenkendelse ved hjælp af vektor analyse fin
 
 \textit{ReadPlateFV.m}...
 
-\fixme{Beskriv problemer med tegnet K.}
 
 \subsubsection{Syntaks analyse}
 
