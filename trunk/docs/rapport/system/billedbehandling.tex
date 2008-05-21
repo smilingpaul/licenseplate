@@ -93,7 +93,7 @@ hvor $R(x)$, $G(x)$ og $B(x)$ er intensitetsværdierne for henholdsvis den røde
 
 \subsubsection{Metode: Områder med høj kontrast}
 \fixme{Referer til artiklen med denne metode.}
-Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast på grund af de mange kanter mellem sort og hvid. Ved at lave billedet om til gråtoner og derefter opfatte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter. Gradienter beskriver hældningen i en pixel som en todimensionel vektor. Et område med en blød overgang i intensitet fra sort til hvid, har korte gradienter der alle peger den samme vej for alle pixels i området, mens et område med en brat overgang fra sort til hvid (høj kontrast) vil resultere i lange gradienter der peger mod det sorte område. Figur \vref{fig:gradienter} viser to simple eksempler på intensitetslandskaber og de tilhørende gradienter.
+Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast på grund af de mange skarpe kanter mellem de mørke tegn og den lyse baggrund. Ved at lave billedet om til gråtoner og derefter opfatte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter. Gradienter beskriver hældningen i en pixel som en todimensionel vektor. Et område med en blød overgang i intensitet fra sort til hvid, har korte gradienter der alle peger den samme vej for alle pixels i området, mens et område med en brat overgang fra sort til hvid (høj kontrast) vil resultere i lange gradienter der peger mod det sorte område. Figur \vref{fig:gradienter} viser to simple eksempler på intensitetslandskaber og de tilhørende gradienter.
 
 % Illustration af gradienter
 %\begin{comment}
@@ -193,7 +193,7 @@ Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}.
   \begin{minipage}[b]{5 cm}
     \framebox{\includegraphics[width=4cm]{system/illu/DetectCStretch-illu2_2.png}}  
   \end{minipage}
-  \caption{Den underbelyste nummerplade til venstre deles op i to kvadratiske blokke, og intensiteterne i dem strækkes. Resultatet til højre viser, at hele nummerpladen stadig er et sammenhængende område i modsætning til illustrationen på figur \vref{fig:DetectCStretch-illu2}.}
+  \caption{Den underbelyste nummerplade til venstre deles op i to kvadratiske blokke, og intensiteterne i dem strækkes. Resultatet til højre viser, at hele nummerpladen stadig er et sammenhængende område i modsætning til eksemplet på figur \vref{fig:DetectCStretch-illu1}.}
   \label{fig:DetectCStretch-illu2}
 \end{figure}
 
