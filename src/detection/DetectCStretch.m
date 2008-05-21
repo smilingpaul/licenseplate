@@ -7,8 +7,8 @@ function plateCoords = DetectCStretch(inputImage)
   filterSize = 4;
 
 
-  showImages = false;
-  %showImages = true;
+  %showImages = false;
+  showImages = true;
 
 
   % Read image from file
@@ -120,6 +120,7 @@ function plateCoords = DetectCStretch(inputImage)
 
     subplot(2,2,3);
     imshow(binImage);
+    %imwrite(binImage,'DetectCStrech-binary.png','PNG');
 
     subplot(2,2,4);
     %imshow(cleanedBinImage);
