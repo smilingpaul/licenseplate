@@ -12,8 +12,10 @@ Koordinatsystemet er matlabstyle. 1,1 er øverst til venstre. Y angives normal f
 I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{jpg}-billede som input og leverer koordinater til en enkelt nummerpladekandidat som uddate. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste x-værdi, største x-værdi, mindste y-værdi og største y-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er 0.
 
 VI SKAL HAVE BESKREVET GetBestCandidate OG BinImgCleanup DA DE KALDES AF METODERNE.
+
+
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
-Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. 
+Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. Programmet udfører følgende trin:
 
 \begin{enumerate}
 \item Indlæs billede.
@@ -23,7 +25,10 @@ Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekod
 \item Forbind områder der ligger ved siden af hinanden i det binære billede\footnote{Eng.: Dilate}.
 \item Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
 \item Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\item Returner koordinater.
 \end{enumerate}
+
+I trin nr. fire sammentrækker vi med et kvadratisk element. I trin nr. fem forbinder udvider 
 
 
 \subsubsection{Metode: Områder med høj kontrast}
