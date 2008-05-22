@@ -103,6 +103,7 @@ hvor $M = ((R(x)+G(x)+B(x))/3)$ og $R(x)$, $G(x)$ og $B(x)$ er intensitetsværdi
 
 
 \subsubsection{Metode: Områder med høj kontrast}
+\label{sec:DetectContrastAvg}
 OVERVEJ PARKERS MEDIAN FILTER
 Vi forventer at et område med en nummerplade vil indeholde områder med høj kontrast på grund af de mange skarpe kanter mellem de mørke tegn og den lyse baggrund. Ved at lave billedet om til gråtoner og derefter opfatte intensiteterne i billedet som højder i et landskab kan vi beskrive hældninger i landskabet med såkaldte gradienter. Gradienter beskriver hældningen i en pixel som en todimensionel vektor. Et område med en blød overgang i intensitet fra sort til hvid, har korte gradienter der alle peger den samme vej for alle pixels i området, mens et område med en brat overgang fra sort til hvid (høj kontrast) vil resultere i lange gradienter der peger mod det sorte område. Figur \vref{fig:gradienter} viser to simple eksempler på intensitetslandskaber og de tilhørende gradienter.
 
