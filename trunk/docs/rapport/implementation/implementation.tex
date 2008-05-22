@@ -9,6 +9,10 @@ Noget med at vi har brugt Matlabs egne metoder hvis vi kendte til komandoer for 
 
 Koordinatsystemet er matlabstyle. 1,1 er øverst til venstre. Y angives normal først så en pixel i et billede reffereres til med koordinaterne y,x i modsætning til den oftest anvendte rækkefølge x,y. 
 
+\subsection{Hjælpefunktioner}
+Vi har hjælpefunktioner... blah.. generelle.. bruges af flere funktioner.
+\subsubsection{Hjælpefunktion 1}
+\subsubsection{Hjælpefunktion 2}
 
 \subsection{Lokalisering af nummerplader}
 I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{jpg}-billede som input og leverer koordinater til en enkelt nummerpladekandidat som uddate. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste x-værdi, største x-værdi, mindste y-værdi og største y-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er 0.
@@ -30,10 +34,32 @@ Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekod
 \item Returner koordinater.
 \end{enumerate}
 
-I trin nr. fire sammentrækker vi med et kvadratisk element. I trin nr. fem forbinder udvider 
+I trin nr. 4 sammentrækker vi med et kvadratisk element. I trin nr. 5 forbinder vi områder der ligger ved siden af hinanden ved at udvide med et liggende rektangulært element. 
 
 
 \subsubsection{Metode: Områder med høj kontrast}
+Denne metode er implementeret i funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}. Programmet udfører følgende trin:
+
+\begin{enumerate}
+\item Indlæs billede.
+\item Nedskaler billede.
+\item Gør billedet lysere ved at dividere intensiteterne med en konstant.
+\item Udregn gradienter.
+\item Udregn gradienters vinkler.
+\item Udregn gradienters længder og normaliser dem så de største har længden 1,0.
+\item Udvælg gradienter hvis normaliserede længde er 0,25 eller mere.
+\item Skab et billede ved at indsætte intensitetet af punkter der har "liggende" gradienter. Det vil sige, gradienter der har en vinkel på mellem 0 og 30 i forhold til vandret. Hvis gradienten er en af de længste i billedet, indsættes den fordoblede intensitet.
+\item Kør et filter som udtværer billedet og forbinder områder der ligger ved siden af hinanden som beskrevet i afsnit \ref{sec:DetectContrastAvg}.
+\item Skab et binært billede udfra det filtrerede billede af de "liggende" gradienter. 
+\item Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
+\item Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\item Returner koordinater.
+\end{enumerate}
+
+I trin nr. 4 sammentrækker vi med et kvadratisk element. I trin nr. 5 forbinder vi områder der ligger ved siden af hinanden ved at udvide med et liggende rektangulært element. 
+
+
+
 Pladerne bliver meget lave da vi kun kigger på kontrasten. Vi får altså ikke den hvide over- og underkant med. Derfor udvider vi kandidaten med 15 pixels på over- og underkanten. 
 
 \subsubsection{Metode: Frekvensanalyse}
