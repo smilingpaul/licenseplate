@@ -40,24 +40,24 @@ I trin nr. 4 sammentrækker vi med et kvadratisk element. I trin nr. 5 forbinder
 \subsubsection{Metode: Områder med høj kontrast}
 Denne metode er implementeret i funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}. Programmet udfører følgende trin:
 
-\begin{enumerate}
-\item Indlæs billede.
-\item Nedskaler billede.
-\item Gør billedet lysere ved at dividere intensiteterne med en konstant.
-\item Udregn gradienter.
-\item Udregn gradienters vinkler.
-\item Udregn gradienters længder og normaliser dem så de største har længden 1,0.
-\item Udvælg gradienter hvis normaliserede længde er 0,25 eller mere.
-\item Skab et billede ved at indsætte intensitetet af punkter der har "liggende" gradienter. Det vil sige, gradienter der har en vinkel på mellem 0 og 30 i forhold til vandret. Hvis gradienten er en af de længste i billedet, indsættes den fordoblede intensitet.
-\item Kør et filter som udtværer billedet og forbinder områder der ligger ved siden af hinanden som beskrevet i afsnit \ref{sec:DetectContrastAvg}.
-\item Skab et binært billede udfra det filtrerede billede af de "liggende" gradienter. 
-\item Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
-\item Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
-\item Returner koordinater.
-\end{enumerate}
 
-I trin nr. 4 sammentrækker vi med et kvadratisk element. I trin nr. 5 forbinder vi områder der ligger ved siden af hinanden ved at udvide med et liggende rektangulært element. 
+\begin{description}
+\item[1.] Indlæs billede.
+\item[2.] Nedskaler billede.
+\item[3.] Gør billedet lysere ved at dividere intensiteterne med en konstant.
+\item[4.] Udregn gradienter.
+\item[5.] Udregn gradienters vinkler.
+\item[6.] Udregn gradienters længder og normaliser dem så de største har længden 1,0.
+\item[7.] Udvælg gradienter hvis normaliserede længde er 0,25 eller mere.
+\item[8.] Skab et billede ved at indsætte intensitetet af punkter der har "liggende" gradienter. Det vil sige, gradienter der har en vinkel på mellem 0 og 30 i forhold til vandret. Hvis gradienten er en af de længste i billedet, indsættes den fordoblede intensitet.
+\item[9.] Kør et filter som udtværer billedet og forbinder områder der ligger ved siden af hinanden som beskrevet i afsnit \ref{sec:DetectContrastAvg}.
+\item[10.] Skab et binært billede udfra det filtrerede billede af de "liggende" gradienter. 
+\item[11.] Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
+\item[12.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\item[13.] Returner koordinater.
+\end{description}
 
+Vi bruger Matlabs funktioner til at udregne gradienterne i punkt 4.
 
 
 Pladerne bliver meget lave da vi kun kigger på kontrasten. Vi får altså ikke den hvide over- og underkant med. Derfor udvider vi kandidaten med 15 pixels på over- og underkanten. 
