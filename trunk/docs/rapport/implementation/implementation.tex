@@ -1,30 +1,64 @@
 \section{Implementation}
+\label{sec:implementation}
+
 DET HEDDER IMPLEMENTERING
 
-\label{sec_implementation}
 Noget med at vi har brugt Matlabs egne metoder hvis vi kendte til komandoer for det vi gerne ville opnå. F.eks. filter og blokprocess.
 
-\subsection{Lokalisering af nummerplader}
-I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. Vi har skaleret ned for at spare tid.
+Koordinatsystemet er matlabstyle. 1,1 er øverst til venstre. Y angives normal først så en pixel i et billede reffereres til med koordinaterne y,x i modsætning til den oftest anvendte rækkefølge x,y. 
 
+
+\subsection{Lokalisering af nummerplader}
+I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{jpg}-billede som input og leverer koordinater til en enkelt nummerpladekandidat som uddate. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste x-værdi, største x-værdi, mindste y-værdi og største y-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er 0.
+
+VI SKAL HAVE BESKREVET GetBestCandidate OG BinImgCleanup DA DE KALDES AF METODERNE.
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
+Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. 
+
+\begin{enumerate}
+\item Indlæs billede.
+\item Nedskaler billede.
+\item Skab binært billede som beskrevet i \ref{sec:DetectSameness}.
+\item Sammentræk områder i det binære billede\footnote{Eng.: Erode}
+\item Forbind områder der ligger ved siden af hinanden i det binære billede\footnote{Eng.: Dilate}.
+\item Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
+\item Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\end{enumerate}
+
 
 \subsubsection{Metode: Områder med høj kontrast}
 Pladerne bliver meget lave da vi kun kigger på kontrasten. Vi får altså ikke den hvide over- og underkant med. Derfor udvider vi kandidaten med 15 pixels på over- og underkanten. 
 
 \subsubsection{Metode: Frekvensanalyse}
-Metoden bliver dårligere jo mere man skalerer billedet ned da tegn i nummerpladerne ikke længere er klart separeret.
+Metoden bliver dårligere jo mere man skalerer billedet ned da tegn i nummerpladerne ikke længere er klart separeret. Vi burde nok køre dette på større billeder.
+Vi bruger funktionen plateness. Den kunne være mere robust.
+ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
+
+FIGURER AF HISTOGRAMMER OG LIGN.
+
 
 \subsubsection{Metode: Skru op for Kontrast}
 Måske kunne vi opnå bedre resultater ved at bruge filter frem for blok, men blok er meget hurtigere.
 
 \subsubsection{Metode: Kvantifisering}
 
+METODEN ER DÅRLIG PÅ HVIDE BILER
+
+PÅ ET TIDSPUNKT BLIVER DER RUNDET NED. UNDERSØG OM DET SKA VÆRE SÅDAN. DET VILLE VEL VÆRE BEDRE AT BARE RUNDE AF?
+
 
 \subsubsection{Metode: Histogram}
 
+\subsubsection{Endeligt valg af nummerpladekandidat}
+Illustrer hvordan vi afgør (u)enighed. 
 
+GØR NOGET I KODEN DA RESULTATET 2 vs 2 kandidater er random.
 
+VI RETURNERER DEN STØRST MULIGE PLADE
+
+\subsubsection{Mulige forbedringer}
+Vi kunne køre GetBestCandidate når der er uenighed i DetectMain.
+Vi kunne lave et pointsystem i GetBestCandidate.
 
 \subsection{Separation}
 \label{sec:implementation/sep/rotation}
@@ -78,6 +112,10 @@ For at finde de toppe hvor der skal skæres, leder vi efter punkter, $x$ i signa
 
 NOGET OM HVORDAN VI FINDER TOP OG BUND BESKÆRING
 
+
+\subsubsection{Mulige forbedringer}
+Kunne vi separere bedre?
+
 \subsection{Genkendelse af tegn}
 
 \subsubsection{Vektor}
@@ -99,3 +137,6 @@ Som input modtager funktionen en mængde billeder af manuelt sorterede tegn.
 Implementationen af metoden til syntaks analyse findes i filen \textit{SyntaxAnalysis.m}.
 
 Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to middelvektorer: Den middelvektor der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud.
+
+\subsubsection{Mulige forbedringer}
+Kan vi forbedre den måde vi genkender tegn.
