@@ -12,7 +12,7 @@ I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, s
 
 
 \subsubsection*{Radon transformation}
-En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger/vinkler\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
+En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
 En Radon transformation er defineret således\cite{wiki_radon}:
 
@@ -32,7 +32,9 @@ Radon transformation er en integral transformation, som kan transformere et to-d
   \label{fig:radon_transform}
 \end{figure}
 
-For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $180^{\circ}$. Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie.
+Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
+
+For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $180^{\circ}$. Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie. Vist matrix i Figur \vref{fig:radon_matrix}....
 
 \begin{figure}[htp]
   \centering
@@ -40,8 +42,6 @@ For at repræsentere et helt billede med en Radon transformation, udføres disse
   \caption{}
   \label{fig:radon_matrix}
 \end{figure}
-
-Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
 
 I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade, der roteres ved hjælp af Radon transformation. Bemærk at kun de horisontale kanter detekteres i kant-billedet (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
 
@@ -72,12 +72,12 @@ IKKE FUNDET ANDRE. SKAL DET STÅ HER?
 %"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
 
 
-I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund). Metoderne er fundet i....
+I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder kaldes Sammenhængende komponenter og Peak-to-valley (da.: top-til-bund).
 
 
 
-\subsubsection*{Sammenhængende komponenter}
-Denne metode til at identificere tegn i en nummerplade er bygget på idéen om sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. I dette tilfælde vil hver sammenhængende komponent bestå af mørke pixels (tegnene er sorte) mens baggrunden er lyse pixels (pladens baggrund er hvid).
+\subsubsection*{Metode: Sammenhængende komponenter}
+Denne metode til at identificere tegn i en nummerplade er lavet ved hjælp af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. I dette tilfælde vil hver sammenhængende komponent bestå af mørke pixels (tegnene er sorte) mens baggrunden er lyse pixels (pladens baggrund er hvid). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
 
 Med sandsynlighed vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, lyset på billedet kan være dårligt, billedet kan være klippet 'for løst' sådan at elementer uden for nummerpladen vil være sammenhængende etc. For at tegnene skal udskille sig klart fra den lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have en intensitetsværdi nær 0.
 
@@ -85,60 +85,73 @@ Med sandsynlighed vil tegnene ikke være de eneste sammenhængende komponenter i
 
 %EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
 
-Efterfølgende oprettes et binært billede med sammenhængende komponenter. I Figur ?? ses et billede af en nummerplade hvor de sammenhængende komponenter er hvide. Eksemplet viser en situation, hvor det ikke kun er tegnene der er sammenhængende komponenter.
+Efter kontrastforstærkning oprettes et binært billede med sammenhængende komponenter. I Figur \vref{fig:concomp} ses et billede af en nummerplade hvor de sammenhængende komponenter er hvide. Eksemplet viser en situation, hvor det ikke kun er tegnene der er sammenhængende komponenter.
 
-EKSEMPEL PÅ BILLEDE MED SAMMENHÆNGENDE KOMPONENTER
 
-De komponenter der ikke kan være tegn frasorteres ud fra følgende regler:
+
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=3cm]{system/illu/radon_matrix.jpg}}
+  \caption{EKSEMPEL PÅ BILLEDE MED SAMMENHÆNGENDE KOMPONENTER}
+  \label{fig:concomp}
+\end{figure}
+
+Ud fra følgende regler, vælges de komponenter der kan være tegn:
 
 \begin{itemize}
-\item[-] Hvert tegn fylder maksimalt 1/7 del af billedet.
-\item[-] Hvert tegn har en maksimal bredde på 1/7 af billedets bredde.
-\item[-] Tegnenes højde er større end deres bredde
-\item[-] Tegnenes minimale højde skal være end en vis konstant (her: 5 pixels)
-\item[-] Tegnenes minimale størrelse skal være større end en vis konstant (her: 5 pixels)
+\item[-] Hvert tegn fylder maksimalt 1/7 del af billedet/pladen.
+\item[-] Hvert tegn har en maksimal bredde på 1/7 af billedets/pladens bredde.
+\item[-] Tegnenes højde er større end deres bredde. DETTE GØRES IKKE!
+\item[-] Tegnenes minimale højde skal være mindst en vis konstant (her: 5 pixels)
+\item[-] Tegnenes minimale størrelse skal være mindst en vis konstant (her: 5 pixels)
 \item[-] For hvert tegn findes der seks andre tegn som er ca. lige så højde som det pågældende tegn.
 \item[-] For hvert tegn findes der seks andre tegn som befinder sig i samme højde som det pågældende.
 \item[-] Afstanden mellem tegnene 2 og 3 samt 4 og 5 i en tegnfølge på syv tegn er større end afstanden mellem de resterende tegn der støder op til hinanden.
 \end{itemize}
 
-Til sidst fås et binært billede hvor kun tegnene i nummerpladen er markeret. Figur ?? viser et eksempel.
+Til sidst fås et binært billede hvor kun tegnene i nummerpladen er markeret. Figur \vref{fig:sorterede-concomp} viser et eksempel.
 
-EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA
 
-Til sidst udklippes de resterende komponenter. Et eksempel herpå er vist i Figur ??. 
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=3cm]{system/illu/radon_matrix.jpg}}
+  \caption{EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA}
+  \label{fig:sorterede-concomp}
+\end{figure}
 
-EKSEMPEL PÅ UDKLIPPEDE TEGN
+Til sidst udklippes de resterende komponenter. Et eksempel herpå er vist i Figur \vref{fig:tegn-udklip}.
+
+\begin{figure}[htp]
+  \centering
+  \framebox{\includegraphics[width=3cm]{system/illu/radon_matrix.jpg}}
+  \caption{EKSEMPEL PÅ UDKLIPPEDE TEGN}
+  \label{fig:tegn-udklip}
+\end{figure}
 
 BESKREVET I KWAS: MAN KU FJERNE KANTER FØR ANALYSE?
 
-\subsubsection*{peak-to-valley}
-
-Denne metode baseres på en vertikal projektion (PROJEKTION ER DUMT) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (toppe), hvorefter vi kan udskærer tegnene.
+\subsubsection*{Metode: Bjerg-til-dal}
+Denne metode baseres på en vertikal projektion (PROJEKTION ER MÅSKE DUMT?) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (bjerg), hvorefter vi kan udskærer tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
 
 Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR?
 
 Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved. Dette er illustreret i Figur \vref{fig:ptv-signatur}.
 
-FIGUR AF SIGNATUR-KONCEPT
-
 \begin{figure}[htp]
   \centering
-  \begin{minipage}[c]{6 cm}
-    %\framebox{\includegraphics{}}
-  \end{minipage}\\
-  \caption{bla}
-  \label{fig:ptv-signatur}
+  \framebox{\includegraphics[width=3cm]{system/illu/radon_matrix.jpg}}
+  \caption{FIGUR AF SIGNATUR-KONCEPT}
+  \label{fig:signatur-nummerplade}
 \end{figure}
 
-DER ER VIST IKKE MERE AT SIGE OM DENNE?
+DER ER VIST IKKE MERE AT SIGE OM DENNE METODE HER?
 
 \subsubsection{Metoder fra litteraturen}
 
+IKKE ANDRE?
+\begin{comment}
 Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver især forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bl.a. bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
-
-SKAL VI HA NOGET OM TESTDATA HER?
-
+\end{comment}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
