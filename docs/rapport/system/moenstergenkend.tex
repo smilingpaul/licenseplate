@@ -3,12 +3,18 @@
 INDSÆT GENKENDELSESDEL AF DIAGRAM OVER SYSTEM
 \label{sec_monster}
 
-Til genkendelse af tegn vil vi bruge to forskellige metoder: Den første bruger informationer fra en feature vektor mens den anden analyserer enkelte pixels i hvert tegn-billede. I dette afsnit vil vi beskrive disse to metoder samt en metode til at udføre syntaks analyse på den tegnfølge der repræsenterer et gæt på nummerpladen.
+Til genkendelse af tegn vil vi bruge to forskellige metoder: Den første bruger informationer fra en egenskabsvektor mens den anden analyserer enkelte pixels i hvert tegn-billede. I dette afsnit vil vi beskrive disse to metoder samt en metode til at udføre syntaks analyse på den tegnfølge der repræsenterer et gæt på nummerpladen.
 
 De to metoder til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv.
 
-\subsubsection{Feature vektorer}
-En feature vektor er en vektor der... Idéen i denne metode er at der oprettes en feature vektor for hvert muligt tegn der kan forekomme i en nummerplade. For et billede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med tegn-vektorerne for at se hvilken vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
+\subsubsection{Metode: Egenskabsvektorer}
+En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekt, i dette tilfælde et billede. Idéen i denne metode er at der oprettes en vektor for hvert muligt tegn der kan forekomme i en nummerplade. For et billede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med tegn-vektorerne for at se hvilken vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges. Metoden er fundet i \cite{arth}.
+
+Afstanden, $D$ fra én vektor, $P = (p_{1},p_{2},...,p_{n})$ til en anden vektor, $Q = (q_{1},q_{2},...,q_{n})$ i et $n$-dimensionelt rum beregnes ved brug af den euklidiske afstand\cite{wiki_euclid}:
+
+\begin{displaymath}
+	D = \sqrt{\sum_{i=1}^{n}(p_{i}-q_{i})^{2}}
+\end{displaymath}
 
 MAHAP AFSTAND SKAL I FØLGE SØREN BRUGE MANGE DATA. KAN IKKE HUSKE HVORFOR
 
@@ -18,17 +24,21 @@ EKSEMPEL PÅ VEKTOR?
 
 \subsubsection{Syntaks analyse}
 
-Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. Analysen sker på baggrund af at et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Der kan forekomme følgende fejl:
+Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. Analysen sker på baggrund af at et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden er lavet ud fra egen idé.
+
+Der kan forekomme følgende fejl i en tegnfølge fra en nummerplade i vores system:
 
 \begin{itemize}
-\item[-] Et tal er placeret på en af de første to pladser
-\item[-] Et bogstav er placeret på en af de sidste fem pladser
-\item[-] Bogstavkombinationen er ikke tilladt
-\item[-] Talkombinationen er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav
+\item Et tal er placeret på en af de første to pladser
+\item Et bogstav er placeret på en af de sidste fem pladser
+\item Den fundne bogstavkombination er ikke tilladt\footnote{referér til bogstav\_komb.pdf}
+\item Den fundne talkombination er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav)
 \end{itemize}
 
-Hvis en eller flere af disse muligheder er gældende itererer metoden ned igennem hitlisterne indtil et lovligt valg af tegn er fundet. Dette er illustreret i følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
+Hvis en eller flere af disse muligheder er gældende itererer (ANDET ORD FOR ITERERES) metoden ned igennem hitlisterne indtil et lovligt valg af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
 
-I systemet sætter vi en øvre grænse for hvor langt ned ad hitlisten syntaks analysen kan vælge tegn. Hvis denne grænse ikke fandtes kunne det blive gætværk...
+I systemet sættes en øvre grænse for hvor langt ned ad hitlisten syntaks analysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville der blot kunne itereres indtil en lovlig tegnfølge er fundet.
 
 \subsubsection{Metoder fra litteraturen}
+
+ER DER NOGEN?
