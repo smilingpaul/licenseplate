@@ -12,77 +12,122 @@ Koordinatsystemet er matlabstyle. 1,1 er øverst til venstre. Y angives normal f
 \subsection{Hjælpefunktioner}
 Vi har hjælpefunktioner... blah.. generelle.. bruges af flere funktioner.
 \subsubsection{Hjælpefunktion 1}
+BinImgCleanup
 \subsubsection{Hjælpefunktion 2}
+GetBestCandidate
 
 \subsection{Lokalisering af nummerplader}
 I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{jpg}-billede som input og leverer koordinater til en enkelt nummerpladekandidat som uddate. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste x-værdi, største x-værdi, mindste y-værdi og største y-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er 0.
 
-VI SKAL HAVE BESKREVET GetBestCandidate OG BinImgCleanup DA DE KALDES AF METODERNE.
+Ofte udvider vi kandidatområdet for at få hele pladen med. Det er vigtigt for at kunne rotere.
 
-
+Vi har brugt greythresh med mindre andet er beskrevet.
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
 Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. Programmet udfører følgende trin:
 
-\begin{enumerate}
-\item Indlæs billede.
-\item Nedskaler billede.
-\item Skab binært billede som beskrevet i \ref{sec:DetectSameness}.
-\item Sammentræk områder i det binære billede\footnote{Eng.: Erode}
-\item Forbind områder der ligger ved siden af hinanden i det binære billede\footnote{Eng.: Dilate}.
-\item Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
-\item Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
-\item Returner koordinater.
-\end{enumerate}
+\begin{description}
+\item[1.] Indlæs billede.
+\item[2.] Konverter til gråtoner.
+\item[3.] Nedskaler billede.
+\item[4.] Skab binært billede som beskrevet i \ref{sec:DetectSameness}.
+\item[5.] Sammentræk områder i det binære billede\footnote{Eng.: Erode}
+\item[6.] Forbind områder der ligger ved siden af hinanden i det binære billede\footnote{Eng.: Dilate}.
+\item[7.] Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
+\item[8.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\item[9.] Returner koordinater.
+\end{description}
 
-I trin nr. 4 sammentrækker vi med et kvadratisk element. I trin nr. 5 forbinder vi områder der ligger ved siden af hinanden ved at udvide med et liggende rektangulært element. 
+I trin nr. 5 sammentrækker vi med et kvadratisk element. I trin nr. 6 forbinder vi områder der ligger ved siden af hinanden ved at udvide med et liggende rektangulært element. 
 
 
 \subsubsection{Metode: Områder med høj kontrast}
 Denne metode er implementeret i funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}. Programmet udfører følgende trin:
 
-
 \begin{description}
 \item[1.] Indlæs billede.
-\item[2.] Nedskaler billede.
-\item[3.] Gør billedet lysere ved at dividere intensiteterne med en konstant.
-\item[4.] Udregn gradienter.
-\item[5.] Udregn gradienters vinkler.
-\item[6.] Udregn gradienters længder og normaliser dem så de største har længden 1,0.
-\item[7.] Udvælg gradienter hvis normaliserede længde er 0,25 eller mere.
-\item[8.] Skab et billede ved at indsætte intensitetet af punkter der har "liggende" gradienter. Det vil sige, gradienter der har en vinkel på mellem 0 og 30 i forhold til vandret. Hvis gradienten er en af de længste i billedet, indsættes den fordoblede intensitet.
-\item[9.] Kør et filter som udtværer billedet og forbinder områder der ligger ved siden af hinanden som beskrevet i afsnit \ref{sec:DetectContrastAvg}.
-\item[10.] Skab et binært billede udfra det filtrerede billede af de "liggende" gradienter. 
-\item[11.] Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
-\item[12.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
-\item[13.] Returner koordinater.
+\item[2.] Konverter til gråtoner.
+\item[3.] Nedskaler billede.
+\item[3.] SKAL DER VÆRE LOG HER? DET ER DER I KODEN!!
+\item[4.] Gør billedet lysere ved at dividere intensiteterne med en konstant.
+\item[5.] Udregn gradienter.
+\item[6.] Udregn gradienters vinkler.
+\item[7.] Udregn gradienters længder og normaliser dem så de største har længden 1,0.
+\item[8.] Udvælg gradienter hvis normaliserede længde er 0,25 eller mere.
+\item[9.] Skab et billede ved at indsætte intensitetet af punkter der har "liggende" gradienter. Det vil sige, gradienter der har en vinkel på mellem 0 og 30 i forhold til vandret. Hvis gradienten er en af de længste i billedet, indsættes den fordoblede intensitet.
+\item[10.] Kør et filter som udtværer billedet og forbinder områder der ligger ved siden af hinanden som beskrevet i afsnit \ref{sec:DetectContrastAvg}.
+\item[11.] Skab et binært billede udfra det filtrerede billede af de "liggende" gradienter. 
+\item[12.] Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
+\item[13.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\item[14.] Returner koordinater.
 \end{description}
 
-Vi bruger Matlabs funktioner til at udregne gradienterne i punkt 4.
+Vi bruger Matlabs funktioner til at udregne gradienterne samt anvende filteret.
 
 
 Pladerne bliver meget lave da vi kun kigger på kontrasten. Vi får altså ikke den hvide over- og underkant med. Derfor udvider vi kandidaten med 15 pixels på over- og underkanten. 
 
+
 \subsubsection{Metode: Frekvensanalyse}
+\begin{description}
+\item[1.] Indlæs billede.
+\item[2.] Konverter til gråtoner.
+\item[3.] Nedskaler billede.
+\item[4.] Filtrer billede som beskrevet i \ref{sec:DetectPlateness}.
+\item[5.] Skab binært billede ud fra det filtrerede billede.
+\item[6.] Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
+\item[7.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\item[8.] Returner koordinater.
+\end{description}
+
+I punkt 8 returnerer vi et kandidatområde der er gjort højere da vi ellers ofte ikke får hele pladen med, da frekvensen i det hvide område over og under tegnene i nummerpladen er lav og dermed ikke karateristisk for en nummerplade.
+
 Metoden bliver dårligere jo mere man skalerer billedet ned da tegn i nummerpladerne ikke længere er klart separeret. Vi burde nok køre dette på større billeder.
 Vi bruger funktionen plateness. Den kunne være mere robust.
-ILLU\_SVINGNINGER\_PLADE ILLU\_SVINGNINGER\_IKKE\_PLADE
 
 FIGURER AF HISTOGRAMMER OG LIGN.
 
 
 \subsubsection{Metode: Skru op for Kontrast}
+\begin{description}
+\item[1.] Indlæs billede.
+\item[2.] Konverter til gråtoner.
+\item[3.] Nedskaler billede.
+\item[4.] Filtrer billede som beskrevet i \ref{sec:DetectCStretch}.
+\item[5.] Skab binært billede ud fra det filtrerede billede.
+\item[8.] Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
+\item[7.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\item[8.] Returner koordinater.
+\end{description}
+
+I trin 4 bruger vi hjælpefunktionen \textit{ContrastStretc} i en dobbeltløkke der behandler billedet i kvadratiske blokke af 4x4 pixels. Når vi skaber det binære billede i trin 5 bruger vi en grænseværdi på 0,65 der gør at det hvide i det binære billede skal være pixels der er noget over middelværdien i det filtrerede billede. Vores erfaring er, at vi i mange tilfælde kan separere nummerpladerne bedre med denne grænseværdi.
+
+ER DET BEDRE AT GANGE GRAYTHRESH LIDT OP??    
+GØR VI KANDIDATEN STØRRE?
 Måske kunne vi opnå bedre resultater ved at bruge filter frem for blok, men blok er meget hurtigere.
 
+\begin{description}
+\item[1.] Indlæs billede.
+\end{description}
+
+
 \subsubsection{Metode: Kvantifisering}
+\begin{description}
+\item[1.] Indlæs billede.
+\end{description}
 
 METODEN ER DÅRLIG PÅ HVIDE BILER
 
 PÅ ET TIDSPUNKT BLIVER DER RUNDET NED. UNDERSØG OM DET SKA VÆRE SÅDAN. DET VILLE VEL VÆRE BEDRE AT BARE RUNDE AF?
 
 
-\subsubsection{Metode: Histogram}
+%\subsubsection{Metode: Histogram}
 
 \subsubsection{Endeligt valg af nummerpladekandidat}
+\begin{description}
+\item[1.] Indlæs billede.
+\end{description}
+
+
 Illustrer hvordan vi afgør (u)enighed. 
 
 GØR NOGET I KODEN DA RESULTATET 2 vs 2 kandidater er random.
@@ -93,6 +138,8 @@ VI RETURNERER DEN STØRST MULIGE PLADE
 Vi kunne køre GetBestCandidate når der er uenighed i DetectMain.
 Vi kunne lave et pointsystem i GetBestCandidate.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Separation}
 \label{sec:implementation/sep/rotation}
 
