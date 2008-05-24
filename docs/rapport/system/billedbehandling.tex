@@ -164,9 +164,10 @@ Som det sidste trin laver vi et binært billede med nummerpladekandidater som vi
 Metoden beskrevet i dette afsnit er baseret på systemet beskrevet i \cite{shapiro}. Vores implementation er lavet som funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}.
 
 \subsubsection{Metode: Frekvensanalyse}
-\label{sec:frekvensanalyse}
+\label{sec:DetectPlateness}
 Ved at analysere svingningen mellem lyse og mørke intensiteter i de nummerplader der indgår i vores træningsæt, forsøger vi med denne metode at lokalisere nummerplader ved at markere de områder der har en frekvens der ligger tæt på den målte middelfrekvens for nummerpladeområder.  For hver pixel i billedet analyserer vi frekvensen af en linie der begynder et givent antal pixels før den indeværende pixel og slutter det samme antal pixels efter. Metoden er inspireret af \cite{kwas} der også arbejder med frekvensanalyse for at lokalisere nummerplader. Figur \vref{fig:DetectPlateness-binary} viser et eksempel på den type binære billeder frekvensanalysen resulterer i. Denne metode er implementeret i funktionen \textit{DetectPlateness} hvis kildekode findes i afsnit \vref{code:DetectPlateness}.
-
+ILLU\_SVINGNINGER\_PLADE
+ILLU\_SVINGNINGER\_IKKE\_PLADE
 %Binary image
 \begin{figure}[htp]
   \centering
@@ -336,7 +337,7 @@ OVERVEJ OMSKRIVNING AF GETBESTCANDIDATE SÅ DEN SVARER TIL DENNE BESKRIVELSE.
 
 I det resulterende binære billede giver vi de tilbageværende områder point efter deres højde/bredde forhold og deres frekvens. Et område der udspænder et rektangel med samme shøjde/bredde-forhold som en nummerplade får 0 point og et område der afviger meget fra det ideelle højde/bredde-forhold får et højt antal point.
 
-Herefter kigger vi på en værdi der beskriver antallet af skift mellem meget lyse og meget mørke områder i kandidatområdet. Princippet er det samme som metoden beskrevet afsnittet \textbf{Frekvensanalyse} på side \pageref{sec:frekvensanalyse}. Forskellen er, at vi i det fåregående afsnit kiggede på linier der er indeholdt i nummerplader, mens vi her kigger på et helt områder der er større end selve nummerpladen. Der er en væsentlig forskel, da starten og slutningen på en nummerplade er meget karakteristisk. Udfra vores testdata har vi udregnet en gennemsnitsværdi for svingninger i nummerpladeområder. Vi sammenligner kandidaterne og giver dem point i forhold til hvor tæt de ligger på den på forhånd bestemte gennemsnitsværdi. Jo mere et område afviger fra det ideelle antal svingninger, jo flere point får det.
+Herefter kigger vi på en værdi der beskriver antallet af skift mellem meget lyse og meget mørke områder i kandidatområdet. Princippet er det samme som metoden beskrevet afsnittet \textbf{Frekvensanalyse} på side \pageref{sec:DetectPlateness}. Forskellen er, at vi i det fåregående afsnit kiggede på linier der er indeholdt i nummerplader, mens vi her kigger på et helt områder der er større end selve nummerpladen. Der er en væsentlig forskel, da starten og slutningen på en nummerplade er meget karakteristisk. Udfra vores testdata har vi udregnet en gennemsnitsværdi for svingninger i nummerpladeområder. Vi sammenligner kandidaterne og giver dem point i forhold til hvor tæt de ligger på den på forhånd bestemte gennemsnitsværdi. Jo mere et område afviger fra det ideelle antal svingninger, jo flere point får det.
 
 .... er implementeret i funktionen \textit{GetBestCandidate} hvis kildekode findes i afsnit \ref{code:GetBestCandidate}.
 
