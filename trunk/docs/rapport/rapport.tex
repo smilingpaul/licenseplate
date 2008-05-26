@@ -11,6 +11,10 @@
 %\usepackage{fixme}
 \usepackage[danish]{varioref}
 \usepackage{graphicx}
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+%\lhead[]{}
+\rhead[]{}
 
 \lstset{ %
 language=Matlab,                % choose the language of the code
@@ -259,17 +263,22 @@ Her er kode blah...
 %%%%%%%%%%%%%
 \subsection{Separation af tegn}
 \subsubsection{RotatePlateRadon.m}
+\label{code: RotatePlateRadon}
+\lstinputlisting{../../src/segmentation/RotatePlateRadon.m}
 
 \subsubsection{CharSeparationCC.m}
 \label{code:CharSeparationCC}
-\lstinputlisting{../../src/segmentation/char_segment_cc.m}
+\lstinputlisting{../../src/segmentation/CharSeparationCC.m}
+
 \subsubsection{CharSeparationPTV.m}
 \label{code:CharSeparationPTV}
-\lstinputlisting{../../src/segmentation/char_segment_ptv.m}
+\lstinputlisting{../../src/segmentation/CharSeparationPTV.m}
+
 \subsection{Genkendelse af tegn}
 \subsubsection{GetMeanVectors.m}
 \label{code:GetMeanVectors}
 \lstinputlisting{../../src/patternreg/GetMeanVectors.m}
+
 \subsubsection{ReadPlateFV.m}
 \label{code:ReadPlateFV}
 \lstinputlisting{../../src/patternreg/ReadPlateFV.m}

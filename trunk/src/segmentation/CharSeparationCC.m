@@ -13,7 +13,7 @@
 % - chars: a struct containing the images of the seven chars found. 
 % - charCoords: the coordinates of the chars
 % - foundChars: the no. of found char candidates
-function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoords, figuresOn) 
+function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoords, figuresOn) 
 
   % whether the image should be brigthened
   brigthenImg = false;
