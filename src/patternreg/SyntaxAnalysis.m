@@ -19,8 +19,7 @@ function [syntaxAnalysedStr, hits] = SyntaxAnalysis (charHitLists, distances, ma
   
   % function to find next letter char in hitlist
   function currentHit = GetNextLetterHit (hitList, currentHit)
-    while ~isempty(regexp(hitList(currentHit),'\d')) && ...
-      currentHit < 31
+    while currentHit < 31 && ~isempty(regexp(hitList(currentHit),'\d'))      
       currentHit = currentHit + 1;
     end
   end
@@ -56,7 +55,7 @@ function [syntaxAnalysedStr, hits] = SyntaxAnalysis (charHitLists, distances, ma
   
   % function to find next digit char in hitlist
   function currentHit = GetNextDigitHit (hitList, currentHit)
-    while ~isempty(regexp(hitList(currentHit),'\D')) && currentHit < 31
+    while currentHit < 31 && ~isempty(regexp(hitList(currentHit),'\D'))
       currentHit = currentHit + 1;
     end
   end
@@ -87,6 +86,9 @@ function [syntaxAnalysedStr, hits] = SyntaxAnalysis (charHitLists, distances, ma
       digit2CurrentHit = GetNextDigitHit(digit2Hitlist,digit2CurrentHit+1);
     else
       digit1CurrentHit = GetNextDigitHit(digit1Hitlist,digit1CurrentHit+1);
+    end
+    if digit1CurrentHit > 31 || digit2CurrentHit > 31
+      break;
     end
     currentValueD1D2 = str2num([digit1Hitlist(digit1CurrentHit) digit2Hitlist(digit2CurrentHit)]);
   end

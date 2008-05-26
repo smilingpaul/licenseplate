@@ -2,7 +2,7 @@
 function [] = display_plates (imgFolder)
 
 % Add folder holding functions for plate detection
-%addpath('detection');
+addpath('detection');
 
 fileList = dir([imgFolder '*.JPG']);
 noOfFiles = length(fileList);
@@ -23,7 +23,6 @@ for i = 1:noOfFiles
   % read image and display plate
   img = imread(imgFile);
   figure(1), imshow(img(yMin:yMax,xMin:xMax,:));
-  i
 
   % wait for user to press key
   pause();

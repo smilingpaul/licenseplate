@@ -141,47 +141,56 @@ Vi kunne lave et pointsystem i GetBestCandidate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Separation}
+
+\subsubsection{Rotation}
 \label{sec:implementation/sep/rotation}
 
-Der er problemer med rotation hvis pladen klippes så tæt at over/under eller venstre/højre kanter ikke kommer med.
+Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et jpg-billede samt koordinaterne for nummerpladen i billedet som input. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet.
 
-Denne metode til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}.
+\begin{description}
+\item[1.] Et billede af kun pladen, plukkes ud
+\item[2.] Kanterne findes i billedet af pladen
+\end{description}
+For at finde pladens rotation er det nødvendigt at finde kanter i billedet af en nummerplade. Matlab funktionen edge bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke, da dette ville give en større mulighed for at radon transformationen finder den tydligste kant i en vertikale linie i billedet. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel.
 
-\begin{enumerate}
-\item funktion pkt 1
-\item funktion pkt 2
-\item funktion pkt n
-\end{enumerate}
-
-For at finde pladens rotation er det nødvendigt at finde kanter i billedet af en nummerplade. Matlab funktionen edge bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke, da dette ville give en større mulighed for at radon transformationen finder den tydligste kant i en vertikale linie i billedet. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Matlab funktionen radon bruges til at udføre en Radon transformation på det binære kantbillede.
+\begin{description}
+\item[3.] Radon matricen for kant-billede findes ved brug af funktionen \textit{radon}
+\item[4.] Den maksimale værdi i Radon matricen findes og rotationsvinklen registres
+\item[5.] Billedet af nummerpladen roteres ved brug af imrotate
+\item[6.] Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix
+\end{description}
 
 EVT. ILLU AF RADON? ELLER SKAL DET VÆRE I "SYSTEM" AFSNITTET?
 
 Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
 
-Udregner nye koordinater for roteret plade vha. rotationsmatrix....
-
 \subsubsection{Separation}
 
-Filerne bla og bla indeholder..
+Metoderne til separation af tegn tager et billede af en nummerplade samt koordinaterne til denne plade i orginalbilledet som input, og returnerer syv billeder af de syv tegn (hvis syv tegn er fundet), koordinaterne til disse tegn i orginalbilledet samt antallet af fundne tegn som uddata.
 
 \subsubsection*{Sammenhængende komponenter}
 
 Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}.
 
-BESKRIV PROBLEM MED TEGNET K
-
 HENVIS TIL DET TOBIAS HAR SKREVET OM CONTRAST STRETCH
 
-\begin{enumerate}
-\item funktion pkt 1
-\item funktion pkt 2
-\item funktion pkt n
-\end{enumerate}
-
+\begin{description}
+\item[1.] Billedet af pladen omdannes til gråtone
+\item[2.] Billedet laves om til sort-hvid, "roughly" og indskrænkes til den største komponent
+\end{description}
 De billeder der i denne del af systemet modtages fra metoderne til identificering af nummerplader er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen. Da nummerpladen med sandsynlighed er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen im2bw, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. På denne måde sikrer vi os, at nummerpladen vil være hvid og at den ikke bliver sort (SKRIV OM).
 
+\begin{description}
+\item[3.] Kontrast..
+\end{description}
+
+
+
 For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal billedet kontrastforstærkes. Dette gøres i blokke så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med bestemmes eksperimentielt.
+
+\begin{description}
+\item[4.] Tynde komponenter i toppen og i siderne af billedet fjernes
+\end{description}
 
 Når det binære billede er dannet opstår der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Se et eksempel nedenfor... Når dette .... Derfor slettes alle pixels som har en tom plads på begge sider i den øverste 1/3 af billedet, samt i den yderste 1/10 i både højre og venstre side.
 
@@ -189,11 +198,39 @@ BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE 
 
 Derudover slettes alle pixels i de rækker af billedet som ikke har mindst en 1/10 eller højst 2/3 af alle pixels i billedets bredde sat. Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område.
 
-I næste del af funktionen frasorteres alle de sammenhængende komponenter der er for små eller for store. Så findes der grupper af syv sammenhængende komponenter hvor elementerne i hver gruppe skal være ca. lige høje og befinde sig i ca. samme højde. Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har de rette afstande i mellem sig, vælges elementerne i gruppen som tegnene.
+BESKRIV PROBLEM MED TEGNET K
+
+\begin{description}
+\item[5.] Horisontale linier med meget lidt hvid, eller meget hvid gøres helt sorte
+\end{description}
+
+Beskrivelse...
+
+\begin{description}
+\item[6.] Det sort-hvide billede laves til et sammenhængende-komponenter-billede
+\item[7.] For små og for store komponenter fjernes
+\end{description}
+
+I næste del af funktionen frasorteres alle de sammenhængende komponenter der er for små eller for store.
+
+\begin{description}
+\item[8.] Grupper på syv komponenter samles hvor alle syv komponenter har samme højde og er i samme højde
+\end{description}
+
+Så findes der grupper af syv sammenhængende komponenter hvor elementerne i hver gruppe skal være ca. lige høje og befinde sig i ca. samme højde.
+
+\begin{description}
+\item[9.] Afstandene mellem komponenter i hver gruppe udregnes og en "god" gruppe vælges
+\end{description}
+
+Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har de rette afstande i mellem sig, vælges elementerne i gruppen som tegnene.
 
 \subsubsection*{Bjerg-til-dal}
 
 Denne metode er implementeret i funktionen \textit{CharSeparationPTV}, hvis kildekode findes i afsnit \vref{code:CharSeparationPTV}.
+
+
+Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved.
 
 KONTRAST?
 
@@ -255,15 +292,25 @@ Som input modtager funktionen en mængde billeder af manuelt sorterede tegn.
 
 \subsubsection{Syntaks analyse}
 
-Implementationen af metoden til syntaks analyse findes i filen \textit{SyntaxAnalysis.m}.
+Metoden til syntaks analyse tager tegnhitlisterne for de syv tegn, listerne over afstandene til middelvektorerne samt et "maksimal-hit-nummer" som input. Uddata er en syntaks analyseret tegnfølge samt en vektor over hvilke hits der er blevet brugt til at lave denne tegnfølge. Implementationen af metoden til syntaks analyse findes i filen \textit{SyntaxAnalysis.m}.
 
-\begin{enumerate}
-\item funktion pkt 1
-\item funktion pkt 2
-\item funktion pkt n
-\end{enumerate}
+\begin{description}
+\item[1.] Hitlisterne for tegnene på de to første pldser gennemløbes indtil der står to bogstaver
+\item[2.] De to tegn på de første to pladser analyseres og udskiftes om nødvendigt
+\end{description}
 
 Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to middelvektorer: Den middelvektor der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud.
+
+\begin{description}
+\item[3.] Hitlisterne for tegnene på de fem sidste pladser gennemløbes indtil der står fem tal
+\item[4.] De to tegn på plads nr. tre og fire analyseres og udskiftes om nødvendigt
+\end{description}
+
+Bla bla
+
+\begin{description}
+\item[5.] De valgte hitnumre analyseres. Hvis et nummer er for højt i forhold til det maksimale, returnes et "\_" tegn på den givne plads
+\end{description}
 
 \subsubsection{Mulige forbedringer}
 Kan vi forbedre den måde vi genkender tegn? Ja, måske: i stedet for at udskifte det tegn som har den længste afstand til middelvektoren hver gang, så skal den prøve at udskifte det andet? Eksempel: tegn = AB. udskift B som ligger længst væk. Ny tegnfølge: AC er også forkert. I stedet for at udskifte C (som jo må ligge længere væk end A, da B gjorde det), udskift da A og sæt B ind i stedet. Det giver måske ingen forskel i praksis?

@@ -48,12 +48,14 @@ function [rotatedPlateImg, newPlateCoords] = plate_rotate_radon (imgFile, plateC
   theta = 0:179;
   [radonMatrix,xp] = radon(bwPlateImg,theta);
   
+  
   % display radon matrix
   if figuresOn
-    %figure(111), imagesc(theta, xp, radonMatrix); colormap(hot);
+    figure(111), imagesc(theta, xp, radonMatrix); colormap(hot);
+    %imwrite(radonMatrix,'/Users/epb/Documents/datalogi/3aar/bachelor/pics/training/part_canon/bla.jpg','jpg');
     %xlabel('\theta'); ylabel('x\prime');
     %title('Radon transformation_{\theta} {x\prime}');
-    %colorbar
+    colorbar
   end
 
   % find degree of which the largest registration in Radon transformation

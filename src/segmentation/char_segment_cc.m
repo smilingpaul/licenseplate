@@ -71,10 +71,7 @@ function [chars, charCoords, foundChars] = char_segment_cc (plateImg, plateCoord
   [y,x] = find(testing == maxComp);
   
   
-  plateImg = plateImg(min(y):max(y),min(x):max(x),:);
-  
-  % create grayscale image
-  grayImg = rgb2gray(plateImg);
+  grayImg = grayImg(min(y):max(y),min(x):max(x));
 
   % calculate width and height of images
   plateImgHeight = size(grayImg,1);
