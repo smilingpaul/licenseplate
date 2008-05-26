@@ -9,8 +9,7 @@
 function [] = locate_plate (imgFolder)
   
   % Get filelist
-  fileList = dir([imgFolder '*.jpg']);
-  %fileList = dir([imgFolder 'F_YK32567.JPG']);
+  fileList = dir([imgFolder '*.JPG']);
   noOfFiles = length(fileList);
   
   if noOfFiles < 1 
@@ -21,30 +20,49 @@ function [] = locate_plate (imgFolder)
   % iterate through files
   for i = 1:noOfFiles
   
-    % read image from file
-    img = imread([imgFolder fileList(i).name]);
+    % get file name and read image from file
+    fileName = fileList(i).name
+    img = imread([imgFolder fileName]);
 
     % display image
     figure(100), imshow(img);
 
     % get mouse input
-    [x,y] = ginput(2);
-
-    % make new filename
-    %pathLength = length(imgFile);
-    %fileNameStart = pathLength - 12;
-    %coordinates = strcat(int2str(x(1)),'-',int2str(x(2)),'-',int2str(y(1)),'-',int2str(y(2)));
-    %newName = strcat(imgFile(1:fileNameStart+1),coordinates,'_',imgFile(fileNameStart+2:pathLength));
-
-    % rename file
-    %movefile(imgFile,newName);
-
-    % rename file
-    addCoord([imgFolder fileList(i).name],x(1),x(2),y(1),y(2));
+    [x,y] = ginput(2)
     
+    % rename file
+    newFileName = GetNewFileName(fileName, x(1), x(2), y(1), y(2))
+    movefile([imgFolder fileName],[imgFolder newFileName]);
   end
   
-  % close figure with image
-  close(100);
+  close(100);  
 
-return;
+return
+
+function newFileName = GetNewFileName (fileName, xMin, xMax, yMin, yMax)
+  
+  % pad 0's in front of every coordinate
+  coords = [xMin, xMax, yMin, yMax];
+  coordStr = '';
+  
+  for c = 1:4
+    if coords(c) < 10
+      coordStr = strcat(coordStr,'000',int2str(coords(c)));
+    elseif coords(c) < 100
+      coordStr = strcat(coordStr,'00',int2str(coords(c)));
+    elseif coords(c) < 1000
+      coordStr = strcat(coordStr,'0',int2str(coords(c)));
+    else
+      coordStr = strcat(coordStr,int2str(coords(c)));
+    end
+    % if the coordinate is not the last, add a '-' afterwards
+    if c ~= 4
+      coordStr = strcat(coordStr,'-');
+    end
+  end
+  
+  
+  % create new filename
+  newFileName = strcat(fileName(1:2),coordStr,'_',fileName(3:13));
+  
+return

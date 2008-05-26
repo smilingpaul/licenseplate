@@ -14,18 +14,13 @@
 % - foundChars: 
 function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoords, figuresOn) 
 
+  % set variables
   threshFactor = 0.8;
-  
   blockSize = 17;
 
   %%%%%%%%%%%%%%%%%%
   % PRE-PROCESSING %
   %%%%%%%%%%%%%%%%%%
-  
-  % char height and - width
-  %defaultCharHeight = 8;
-  %defaultCharWidth = 5;
-  %chars = zeros(defaultCharHeight,defaultCharWidth,7);
 
   % create output elements
   chars.field1 = zeros(1,1);
@@ -53,6 +48,7 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoor
     figure(22), subplot(7,4,5:8), imshow(testing), title('testing');
   end
   
+  % find largest component and its coordinates
   maxSize = 1;
   maxComp = 1;
   for i = 1:testing2
@@ -64,10 +60,12 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoor
   end
   [y,x] = find(testing == maxComp);
   
-  plateImg = plateImg(min(y):max(y),min(x):max(x),:);
+  % shrink
+  grayImg = grayImg(min(y):max(y),min(x):max(x));
   
-  % create grayscale image
-  grayImg = rgb2gray(plateImg);
+  %%%%%%%%%%%%
+  % CONTRAST %
+  %%%%%%%%%%%%
 
   % calculate width and height of images
   plateImgHeight = size(grayImg,1);
@@ -79,6 +77,7 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoor
   % calculate 'y-middle' of image
   plateMiddle = round(plateImgHeight / 2);
   
+
   function result = BlockContrast (block)
     
     contrastedBlock = ContrastStretch(block,0);
@@ -87,15 +86,44 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoor
     
   end
   
-  %%%%% Enhance brightness and contrast %%%%%%%%
-  %brightImg = uint8((double(grayImg)/mean(mean(grayImg)))*255);
-  %brightImg = uint8((double(grayImg)/50)*255);
-  %contrastImg = ContrastStretch(brightImg,0);
-  contrastImg = ContrastStretch(grayImg,0);
-  %contrastImg = nlfilter(grayImg, [blockSize blockSize],@BlockContrast);
+  %if brigthenImg
+  %  %brightImg = uint8((double(grayImg)/180)*256);
+  %  brightImg = uint8((double(grayImg)/mean(mean(grayImg)))*256);
+  %  %contrastImg = ContrastStretch(brightImg,0);
+  %  %contrastImg = nlfilter(grayImg, [5 5],@bla);
+  %  contrastImg = blkproc(grayImg, [5 5],@bla);
+  %else
+    %contrastImg = ContrastStretch(medianFilteredImg,0);
+    %contrastImg = ContrastStretch(grayImg,0);
+    contrastImg = nlfilter(grayImg, [blockSize blockSize],@BlockContrast);
+    %contrastImg = blkproc(grayImg, [13 13],@bla);
+    %contrastImg = ContrastStretch(dilatedGrayImg,0);
+  %end
   
-  bwImg = im2bw(contrastImg,graythresh(contrastImg)*threshFactor);
+  %% MEDIAN FILTER
+  %{
+  medianFilteredImg = contrastImg;
+  windowSize = 5;
+   
+  for i = ceil(windowSize/2):plateImgHeight - floor(windowSize/2)
+    for j = ceil(windowSize/2):plateImgWidth - floor(windowSize/2);
+      medianWindow = grayImg(i-floor(windowSize/2):i+floor(windowSize/2), ...
+        j-floor(windowSize/2):j+floor(windowSize/2));
+      medianFilteredImg(i,j) = median(median(medianWindow));
+    end
+  end
+  
+  %medianFilteredImg
+  %figure(2), subplot(2,1,2), imshow(medianFiltered), title('median');
+  %}
+  
+  se = strel('line',4,90);
+  dilatedBW = imerode(contrastImg,se);
+  
+  bwImg = im2bw(dilatedBW,graythresh(dilatedBW)*threshFactor);
+  %bwImg = im2bw(contrastImg,0.2);
   %bwImg = im2bw(brightImg,graythresh(brightImg));
+  %bwImg = im2bw(grayImg,graythresh(grayImg)*threshFactor);
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % REMOVE COMPONENTS THAT MAY BE AREA OUTSIDE PLATE %
@@ -322,9 +350,9 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoor
   % plot meanSummedScanlines and found peaks
   if figuresOn
     normSummedScanlines = (meanSummedScanlines/max(meanSummedScanlines))*plateImgHeight;
-    figure(22), subplot(7,4,9:12), imshow(grayImg), title('grayImg');
+    figure(22), subplot(7,4,9:12), imshow(dilatedBW), title('dilatedBW');
     %figure(22), subplot(7,4,13:16), imshow(brightImg), title('brightImg');
-    %figure(22), subplot(7,4,13:20), imshow(contrastImg), title('contrastImg');
+    %figure(22), subplot(7,4,9:12), imshow(contrastImg), title('contrastImg');
     figure(22), subplot(7,4,13:20), imshow(bwImg), title('bwImg');
     %figure(65), imshow(contrastImg), title('contrastImg');
     hold on;
@@ -452,7 +480,7 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoor
       xMax = plateImgWidth;
     end
     
-    grayCharImg = rgb2gray(plateImg(1:plateImgHeight,xMin:xMax,:));
+    grayCharImg = grayImg(1:plateImgHeight,xMin:xMax);
     charImg = ContrastStretch(grayCharImg,0);
     charImg = ~im2bw(charImg,graythresh(charImg)*(threshFactor^2));
     
@@ -468,6 +496,21 @@ function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoor
     % remove white spaces on both sides of char
     [y, x] = find(charImg == 1);
     charImg = charImg(min(y):max(y),min(x):max(x));
+    
+    % if image contained only white space (no char), image will be empty.
+    % reset outputs and return
+    if isempty(charImg)
+      chars.field1 = zeros(1,1);
+      chars.field2 = zeros(1,1);
+      chars.field3 = zeros(1,1);
+      chars.field4 = zeros(1,1);
+      chars.field5 = zeros(1,1);
+      chars.field6 = zeros(1,1);
+      chars.field7 = zeros(1,1);
+      charCoords = zeros(7,4);
+      foundChars = 0;
+      return;
+    end
     
     % TO-DO: Remember to return logical image (im2bw at last like in cc)
     % add image of a char to the struct chars (indexed by 'char1',
