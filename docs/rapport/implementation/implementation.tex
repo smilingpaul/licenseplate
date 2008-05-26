@@ -17,7 +17,7 @@ BinImgCleanup
 GetBestCandidate
 
 \subsection{Lokalisering af nummerplader}
-I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{jpg}-billede som input og leverer koordinater til en enkelt nummerpladekandidat som uddate. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste x-værdi, største x-værdi, mindste y-værdi og største y-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er 0.
+I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{JPEG}-billede som input og leverer koordinater til en enkelt nummerpladekandidat som uddate. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste x-værdi, største x-værdi, mindste y-værdi og største y-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er 0.
 
 Ofte udvider vi kandidatområdet for at få hele pladen med. Det er vigtigt for at kunne rotere.
 
@@ -225,7 +225,7 @@ Så findes der grupper af syv sammenhængende komponenter hvor elementerne i hve
 
 Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har de rette afstande i mellem sig, vælges elementerne i gruppen som tegnene.
 
-\subsubsection*{Bjerg-til-dal}
+\subsubsection*{Bjerg/dal}
 
 Denne metode er implementeret i funktionen \textit{CharSeparationPTV}, hvis kildekode findes i afsnit \vref{code:CharSeparationPTV}.
 
@@ -255,7 +255,7 @@ NOGET OM HVORDAN VI FINDER TOP OG BUND BESKÆRING
 
 
 \subsubsection{Mulige forbedringer}
-Kunne vi separere bedre?
+DER MÅ VÆRE MANGE KOMMENTARER TIL HVORDAN VI KAN GØR BJERG/DAL BEDRE
 
 \subsection{Genkendelse af tegn}
 
@@ -313,4 +313,4 @@ Bla bla
 \end{description}
 
 \subsubsection{Mulige forbedringer}
-Kan vi forbedre den måde vi genkender tegn? Ja, måske: i stedet for at udskifte det tegn som har den længste afstand til middelvektoren hver gang, så skal den prøve at udskifte det andet? Eksempel: tegn = AB. udskift B som ligger længst væk. Ny tegnfølge: AC er også forkert. I stedet for at udskifte C (som jo må ligge længere væk end A, da B gjorde det), udskift da A og sæt B ind i stedet. Det giver måske ingen forskel i praksis?
+I stedet for at udskifte det tegn som har den længste afstand til middelvektoren hver gang, så skal den prøve at udskifte det andet? Eksempel: tegn = AB. udskift B som ligger længst væk. Ny tegnfølge: AC er også forkert. I stedet for at udskifte C (som jo må ligge længere væk end A, da B gjorde det), udskift da A og sæt B ind i stedet. Men det giver måske ingen forskel i praksis?

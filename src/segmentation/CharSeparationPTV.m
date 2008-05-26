@@ -163,12 +163,12 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   % used for smoothing plate signature
-  smoothFactor = floor(plateImgWidth / 35)
+  smoothFactor = floor(plateImgWidth / 35);
   
   % buffer to look for peaks
-  bufferSize = floor(plateImgWidth / 20)
+  bufferSize = floor(plateImgWidth / 20);
   if mod(bufferSize,2) == 1
-    bufferSize = bufferSize + 1
+    bufferSize = bufferSize + 1;
   end
 
   
@@ -459,9 +459,6 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   %%%%%%%%%%%%%%%%%%%%%%%%%
   
   foundChars = 7;
-  
-  % for removing white spaces
-  charHeight = upperCut - lowerCut + 1;
 
   % cut out chars, roughly
   plotPos = 21;
