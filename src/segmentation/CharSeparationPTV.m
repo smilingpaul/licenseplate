@@ -12,7 +12,7 @@
 % - chars: 
 % - charCoords: 
 % - foundChars: 
-function [chars, charCoords, foundChars] = char_segment_ptv (plateImg, plateCoords, figuresOn) 
+function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoords, figuresOn) 
 
   % set variables
   threshFactor = 0.8;

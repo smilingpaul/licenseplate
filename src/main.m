@@ -233,7 +233,7 @@ for i = 1:noOfImages
     % ROTATE %
     %%%%%%%%%%
 
-    [rotatedPlateImg, newPlateCoords] = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords,false);
+    [rotatedPlateImg, newPlateCoords] = RotatePlateRadon([imagesFolder fileList(i).name],plateCoords,false);
     %newPlateCoords
     
     %%%%%%%%%%%%%%%%%
@@ -241,8 +241,8 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    %[chars, charCoords, foundChars] = char_segment_cc(rotatedPlateImg,newPlateCoords,true);
-    [chars, charCoords, foundChars] = char_segment_ptv(rotatedPlateImg,newPlateCoords,true);
+    %[chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
+    [chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
     %figure(19), imshow(imread([imagesFolder fileList(i).name]));

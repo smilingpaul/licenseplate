@@ -12,7 +12,7 @@
 % Output parameters:
 % - rotatedImg: the image, rotated so the plate is horizontally placed.
 % - plateCoords: the coordinates of the plate in the rotated image.
-function [rotatedPlateImg, newPlateCoords] = plate_rotate_radon (imgFile, plateCoords, figuresOn)
+function [rotatedPlateImg, newPlateCoords] = RotatePlateRadon (imgFile, plateCoords, figuresOn)
   
   % specify the minimum rotation degree. Image will not be rotated if the
   % analysis indicates a rotation lower than this.
