@@ -8,7 +8,7 @@ Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerp
 
 \subsubsection{Rotation}
 %Nogle overvejelser om hvordan billedet skal være klippet til for at rotationen fungerer ordentligt...
-I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}.
+I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}. VIRKER MÅSKE DUMT MED DENNE INDLEDNING, NÅR DER KUN ER EN METODE?
 
 
 \subsubsection*{Radon transformation}
@@ -28,7 +28,7 @@ Radon transformation er en integral transformation, som kan transformere et to-d
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=9cm]{system/illu/radon_transform.jpg}}
-  \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ ("theta" i figurteksten). Den grå firkant er billedet der undersøges. De grå pile er sensorlinier. }
+  \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ ("theta" i figurteksten). Den grå firkant er billedet der undersøges. De grå pile er sensorlinier.\cite{matlab_radon}}
   \label{fig:radon_transform}
 \end{figure}
 
@@ -63,7 +63,7 @@ I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade
 
 \subsubsection*{Andre metoder brugt i litteraturen}
 
-IKKE FUNDET ANDRE. SKAL DET STÅ HER?
+IKKE FUNDET ANDRE: SKAL DET STÅ HER? NOGET MED HOUGH?
 
 \subsubsection{Identifikation af tegn}
 
@@ -72,8 +72,7 @@ IKKE FUNDET ANDRE. SKAL DET STÅ HER?
 %"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
 
 
-I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder kaldes Sammenhængende komponenter og Bjerg-til-dal.
-
+I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder kaldes Sammenhængende komponenter og Bjerg/dal.
 
 
 \subsubsection*{Metode: Sammenhængende komponenter}
@@ -130,7 +129,7 @@ Til sidst udklippes de resterende komponenter. Et eksempel herpå er vist i Figu
 
 BESKREVET I KWAS: MAN KU FJERNE KANTER FØR ANALYSE?
 
-\subsubsection*{Metode: Bjerg-til-dal}
+\subsubsection*{Metode: Bjerg/dal}
 Denne metode baseres på en vertikal projektion (PROJEKTION ER MÅSKE DUMT?) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (bjerg), hvorefter vi kan udskærer tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
 
 Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR?
