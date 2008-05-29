@@ -44,7 +44,7 @@ for i = 1:numConComp
   thisImage = inputImage(min(Ys):max(Ys),min(Xs):max(Xs));
 
   compSignature = GetSignature(thisImage,0);
-  compPlateness = GetPlateness(compSignature);
+  compPlateness = GetPlateness(compSignature)
   [compDistBelow, compDistAbove] = GetDistribution(thisImage);
   compWhiteLine = GetLongestLine(thisImage);
  
@@ -66,13 +66,17 @@ for i = 1:numConComp
     %if compDistAbove >= 50 && compDistAbove <= 80
     if compDistAbove >= 0 && compDistAbove <= 100
       if compWhiteLine >= 50 % Needs a white line of length 50%
-        if platenessDiff < bestPlatenessDiff && ... % Best plateness
-           compPlateness > 10 && compPlateness < 30 
- 
-            %bestRatioDiff = ratioDiff;
-            %bestRatioComponent = i
-            bestPlatenessDiff = platenessDiff;
-            bestPlatenessComponent = i;
+          if compPlateness > 5 && compPlateness < 30 % Reasonable plateness
+            if platenessDiff < bestPlatenessDiff % Best plateness so far
+              %bestRatioDiff = ratioDiff;
+              %bestRatioComponent = i
+              bestPlatenessDiff = platenessDiff;
+              bestPlatenessComponent = i;
+            end
+         else
+           [ 'A candidate has plateness out of range' ]
+           %figure(662), imshow(thisImage);
+           %title('This candidte has plateness out of range');
          end
       else
         [ 'A candidate has less than 50% white line' ]

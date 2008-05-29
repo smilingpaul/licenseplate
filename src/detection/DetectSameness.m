@@ -56,11 +56,7 @@ function plateCoords = DetectSameness(inputImage)
 
 
   % Erode to separate plates
-  %line = strel('line',10,5);
-  %line = strel('line',6,22);
-  %ball = strel('ball',1,1);
   shape = strel('square',2);
-  %se = strel('disk',2,4);
 
   newImage = imerode(newImage,shape);
 
@@ -69,15 +65,13 @@ function plateCoords = DetectSameness(inputImage)
   shape= strel('rectangle', [2,4]); % 2,5
   newImage = imdilate(newImage,shape);
 
-  % Remove smaller areas
-  % newImage = bwareaopen(newImage,1000 * scaleFactor,4);
-
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % Cleanup bin image         %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   newImage = BinImgCleanup(newImage, scaleFactor);
+  %imwrite(newImage,'DetectSameness-cleaned.png','PNG');
 
 
 
@@ -88,9 +82,9 @@ function plateCoords = DetectSameness(inputImage)
   % conComp = matrix holding components
   % numConComp = Number of connected components
   [conComp,numConComp] = (bwlabel(newImage,4));
-
+ 
   %plateCoords = GetBestCandidate(conComp, scaleFactor);
-  plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
+  [plateCoords, candidateScore] = GetBestCandidate2(conComp, resizedImage, scaleFactor);
 
 
   % Make plate a little higher

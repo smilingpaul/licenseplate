@@ -1,6 +1,7 @@
 function plateCoords = DetectMain(inputImage)
 
-  showImages = false;
+  %showImages = false;
+  showImages = true;
 
   % Read image from file
   origImage = rgb2gray(imread(inputImage));
@@ -45,7 +46,7 @@ function plateCoords = DetectMain(inputImage)
   % [ minX, maxX, minY, maxY, agreement, cand1, cand2, cand3, cand4 ]
   candCoords(:,5:9) = 0;
 
-candCoords 
+%candCoords 
 
   % How many candidates are we looking at?
   noOfCandidates = size(candCoords,1);
@@ -73,7 +74,7 @@ candCoords
     end % inner
   end % outher
 
-  candCoords
+  %candCoords
  
   %%%%%%%%%%%%%%%%%%%%%%%%%
   % Decide on a candidate %
@@ -101,10 +102,10 @@ candCoords
     agCands = nonzeros(candCoords( agRows(1), 6:9));
 
     % Get the list of coords of the candidates we'll use
-    goodCands = candCoords(agCands,1:4)
+    goodCands = candCoords(agCands,1:4);
 
     plateCoords = [ min(goodCands(:,1)) max(goodCands(:,2)) ... 
-                    min(goodCands(:,3)) max(goodCands(:,4)) ] 
+                    min(goodCands(:,3)) max(goodCands(:,4)) ]; 
 
 
   else
@@ -114,29 +115,6 @@ candCoords
 
 
 
-
-%{
-  % Are all candidate-centers whithin average candidate?
-  % If yes,  they all agree and we return avg candidate
-  
-  allAgree = true;
-
-  for i = 1:noOfCandidates
-    myMeanX = mean(candCoords(i,1:2));
-    myMeanY = mean(candCoords(i,3:4));
-    if myMeanX < avgCand(1) || myMeanX > avgCand(2) || ...
-       myMeanY < avgCand(3) || myMeanY > avgCand(4)
-      allAgree = false;
-  end  
-
-  if allAgree == true
-    % plateCoords = [];
-    % return;
-    [ 'We all agree here']
-    plateCoords = avgCand;
-  end
-  
-%}
 
   if showImages
 

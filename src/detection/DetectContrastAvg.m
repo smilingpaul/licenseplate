@@ -8,8 +8,8 @@ function plateCoords = DetetctContrastAvg(inputImage)
   brightenValue = 180; % 256 = no brighten
   %brightenValue = 256; % 256 = no brighten
 
-  %showImages = false;
-  showImages = true;
+  showImages = false;
+  %showImages = true;
 
   scaleFactor = 0.25;
 
@@ -148,8 +148,8 @@ function plateCoords = DetetctContrastAvg(inputImage)
   % Get best candidate %
   %%%%%%%%%%%%%%%%%%%%%%
 
-  plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
-
+  %plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
+  [plateCoords, candidateScore] = GetBestCandidate2(conComp, resizedImage, scaleFactor);
 
   % Make plate a little higher as we get very flat plates (only the characters)
   if sum(plateCoords) > 0
@@ -190,13 +190,10 @@ function plateCoords = DetetctContrastAvg(inputImage)
       imshow(zeros(2,2));
     end
 
-%    subplot(2,4,5);
-%    imshow(FX);
 
     subplot(2,4,5);
     imshow(filteredGradients,[]);
     title('Blurred gradients');
-    imwrite(filteredGradients,'DetectContrastAvg-blurredGrads.png','PNG');
 
     % Binary image
     subplot(2,4,6);
@@ -207,10 +204,11 @@ function plateCoords = DetetctContrastAvg(inputImage)
     subplot(2,4,7);
     imshow(binImageCleaned);
     title('Cleaned binary image');
+    %imwrite(binImageCleaned,'DetectContrastAvg-cleaned.png','PNG');
 
 
 
-  end
+  end % Show images
 
 
 
