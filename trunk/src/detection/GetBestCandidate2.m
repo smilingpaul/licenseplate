@@ -1,7 +1,7 @@
 % Takes a matrix of connected components and a grayscale image 
 % Returns best plate candidate based on frequency analysis and ratio
 
-function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
+function [plateCoords bestCandidateScore] = GetBestCandidate2(conComp, inputImage, scaleFactor)
 
   showImages = true;
   %showImages = false;
@@ -16,7 +16,7 @@ function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
 
   % optimal intensity difference
   optimalIntDiff = 180;
-  intDiffWeight = 0.5;
+  intDiffWeight = 0.25;
 
   % Optimal longest white line
   optimalLongestWhiteLine = 90;
@@ -29,7 +29,7 @@ function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
   optimalIntDist = 45;
 
   % Optimal mean intensity
-  optimalMeanInt = 130;
+  optimalMeanInt = 130; %80
   meanIntWeight = 0.4;
 
   % Optimal density percentage of candidate-area in binary image
@@ -105,6 +105,7 @@ function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
     candidates(i,9) = abs(optimalIntDist - GetDistribution(thisImage));
 
     % Insert average intensity into candidates matrix
+    %candidates(i,10) = meanIntWeight * 1.09^abs(optimalMeanInt - mean(mean(thisImage)));
     candidates(i,10) = meanIntWeight * abs(optimalMeanInt - mean(mean(thisImage)));
     
     % Insert density of candidate into candidates matrix
@@ -123,7 +124,7 @@ function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
                        round(( length(find(thisImage >= max(max(thisImage)) - 40)) / ... 
                        (compWidth*compHeight)) * 100));
     
-    % Insert length of average? gradient into candidates matrix
+    % Insert length of average gradient into candidates matrix
     candidates(i,14) = abs(optimalAvgGradient - mean(mean(sqrt(FY.^2 + FX.^2))));
 
     % Insert total score into candidates matrix
@@ -134,7 +135,22 @@ function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
     % Modifiers to total score %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   
+    % GOOD 10% off
+    % Percentage of pixels close to max intensity is larger
+    % than pixels close to min intensity
+    %if (1.3 * candidates(i,12)) < candidates(i,13)  
+    %  candidates(i,15) = 0.90 * candidates(i,15);
+    %end
+
+    % BAD
+    % Aspect ratio way off
+    %if candidates(i,5) <= 50
+    %  candidates(i,15) = 1.05 * candidates(i,15);
+    %end
+
+
+
+
   
   end %Loop
 
@@ -147,11 +163,11 @@ function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
   bestCandidateScore = inf;
   for i = 1:numConComp
     if candidates(i,15) < bestCandidateScore && ... % Lowest score
-       candidates(i,8)  <= 45  && ... % Plateness score less than this
-       candidates(i,15) <= 130 && ... % Better score than this
-       candidates(i,5) <= 20 && ... % Aspect ratio score less than this
-       candidates(i,11) <= 40 && ... % Density less than this
-       candidates(i,13) <= 31 % candidates close to max less than this
+       candidates(i,15) <= 190 %&& ... % Better score than this
+       %candidates(i,5) <= 60 %&& ... % Aspect ratio score less than this
+       %candidates(i,8)  <= 45  && ... % Plateness score less than this
+       %candidates(i,11) <= 40 && ... % Density less than this
+       %candidates(i,13) <= 31 % candidates close to max less than this
       bestCandidateScore = candidates(i,15);
       plateCoords =  (1/scaleFactor) * [ candidates(i,3:4) candidates(i,1:2) ];
     end
@@ -160,6 +176,7 @@ function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
   % We found no candidate
   if bestCandidateScore == inf
     plateCoords = [ 0 0 0 0];
+    bestCandidateScore = 0;
   end
  
   %plateCoords
@@ -186,7 +203,8 @@ function plateCoords = GetBestCandidate2(conComp, inputImage, scaleFactor)
       imshow(inputImage(candidates(i,1):candidates(i,2), ...
                         candidates(i,3):candidates(i,4)));
 
-      title(int2str(candidates(i,5:15)));
+      title(int2str(candidates(i,5:15))); % All scores
+      %title(int2str(candidates(i,10:15))); % mean int to score
       %title(int2str(candidates(i,12:15)));
     end
 

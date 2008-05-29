@@ -50,14 +50,19 @@ function plateCoords = DetectCStretch(inputImage)
 
   
   %binImage = im2bw(uint8(filteredImage),graythresh(uint8(filteredImage)));
-  binImage = im2bw(uint8(filteredImage), 0.65);
+  %binImage = im2bw(uint8(filteredImage), 0.65);
+  binImage = im2bw(uint8(filteredImage), 1.2 * graythresh(filteredImage));
 
+
+  %binImage = CutBridges(binImage,1);
+  %pause();
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % Cleanup bin image         %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   cleanedBinImage = BinImgCleanup(binImage, scaleFactor);
+
   %cleanedBinImage = [0];
 
 
@@ -100,7 +105,8 @@ function plateCoords = DetectCStretch(inputImage)
   %%%%%%%%%%%%%%%%%%%%%%
 
   
-  plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
+  %plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
+  [plateCoords, candidateScore] = GetBestCandidate2(conComp, resizedImage, scaleFactor);
   %plateCoords = [0 0 0 0];
 
 
@@ -116,10 +122,13 @@ function plateCoords = DetectCStretch(inputImage)
     imshow(resizedImage);
 
     subplot(2,2,2);
-    imshow(uint8(filteredImage));
+    %imshow(uint8(filteredImage));
+    imshow(binImage);
+
 
     subplot(2,2,3);
-    imshow(binImage);
+    imshow(cleanedBinImage);
+    %imshow(binImage);
     %imwrite(binImage,'DetectCStrech-binary.png','PNG');
 
     subplot(2,2,4);

@@ -3,7 +3,6 @@
 function plateCoords = DetectPlateness(inputImage)
 
   scaleFactor = 0.25;
-  %scaleFactor = 0.5;
 
   filterWidth = round(90*scaleFactor);
   filterHeight = 1;
@@ -20,9 +19,6 @@ function plateCoords = DetectPlateness(inputImage)
 
   showImages = false;
   %showImages = true;
-
-
-
 
 
 
@@ -123,7 +119,7 @@ function plateCoords = DetectPlateness(inputImage)
   %%%%%%%%%%%%%%%%%%%%%%
 
   
-  plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
+  [plateCoords, candidateScore] = GetBestCandidate2(conComp, resizedImage, scaleFactor);
 
 
 
@@ -162,6 +158,9 @@ function plateCoords = DetectPlateness(inputImage)
 
     subplot(2,4,8);
     imshow(cleanedBinImage);
+
+    %imwrite(binImage,'DetectPlateness-binary.png','PNG');
+    %imwrite(cleanedBinImage,'DetectPlateness-cleaned.png','PNG');
 
 
 

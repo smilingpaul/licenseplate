@@ -1,7 +1,7 @@
 % Filter out characters on plate. Turn down to 8 colors.
 % Correctness: 63,7%/72,7% 
 
-function plateCoords = DetectQuant(inputImage)
+function [plateCoords candidateScore] = DetectQuant(inputImage)
 
   scaleFactor = 0.25;
 
@@ -35,14 +35,20 @@ function plateCoords = DetectQuant(inputImage)
   filteredImage = nlfilter(resizedImage ,'indexed', [5 7], fun);
 
   
-  % Cut down number of intensities to 8
-  quantImage = (floor(filteredImage / 32))+1; % 8 colours
-  %quantImage = (floor(filteredImage / 64))+1; % 4 colours
- 
-  % Matrix to hold multi dimensional binary image
-  mDimBin = zeros(imHeight, imWidth, 16);
+  % Cut down number of intensities to 9 (range is: 1:9)
+  %quantImage = round(filteredImage / 32)+1; % 9 intensities
+  quantImage = round(filteredImage / 37)+1; % 8 intensities
+  %quantImage = round(filteredImage / 43)+1; % 7 intensities
+  %quantImage = round(filteredImage / 51)+1; % 6 intensities
 
-  % Create binary image for each color
+
+ 
+
+  % Matrix to hold multi dimensional binary image
+  % mDimBin = zeros(imHeight, imWidth, 16);
+  mDimBin = zeros(imHeight, imWidth, 9);
+
+  % Create binary image for each intensity
   for y = 1:imHeight
    for x = 1:imWidth
      mDimBin(y, x, quantImage(y,x)) = 1;
@@ -50,23 +56,24 @@ function plateCoords = DetectQuant(inputImage)
   end
   
   % Cleanup each binary image
-  for x = 1:16
+  for x = 1:9
      mDimBin(:,:,x) = BinImgCleanup(mDimBin(:,:,x), scaleFactor);
   end
 
-  % Show channels
-  %{
-  figure(800);
-  for x = 1:16
-    subplot(4, 4, x);
-    imshow(mDimBin(:,:,x));
+
+  % Show binary images
+  if showImages  
+    figure(800);
+    for x = 1:9
+      subplot(3, 3, x);
+      imshow(mDimBin(:,:,x));
+    end
   end
-  %}
 
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % Create binary image       %
+  % Colapse binary images     %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   %Collapse binary images into one
@@ -75,9 +82,9 @@ function plateCoords = DetectQuant(inputImage)
   % We need to erode each area so that they will not
   % merge when the channels are merged
   shape = strel('square',3);
-  for i = 1:16
-    %binImage = binImage + mDimBin(:,:,i);
-    binImage = binImage + imerode(mDimBin(:,:,i),shape);
+  for i = 1:9
+    binImage = binImage + mDimBin(:,:,i);
+    %binImage = binImage + imerode(mDimBin(:,:,i),shape);
   end
 
   binImage = im2bw(binImage, 0.5);
@@ -87,6 +94,7 @@ function plateCoords = DetectQuant(inputImage)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   cleanedBinImage = BinImgCleanup(binImage, scaleFactor);
+  %imwrite(cleanedBinImage,'DetectQuant-cleaned.png','PNG');
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,7 +108,8 @@ function plateCoords = DetectQuant(inputImage)
   % Get best candidate %
   %%%%%%%%%%%%%%%%%%%%%%
 
-  plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
+  [plateCoords, candidateScore] = GetBestCandidate2(conComp, resizedImage, scaleFactor)
+  %plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
 
 
   %%%%%%%%%%%%%%%
@@ -121,6 +130,7 @@ function plateCoords = DetectQuant(inputImage)
     %imwrite(32*quantImage,'DetectQuant-quantImage.png','PNG');
 
     subplot(2,2,3);
+    %imshow(binImage);
     imshow(cleanedBinImage);
     %imwrite(binImage,'DetectQuant-binary.png','PNG');
 
