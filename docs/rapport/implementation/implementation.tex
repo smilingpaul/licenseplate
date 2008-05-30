@@ -3,30 +3,16 @@
 
 I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede funktioner, hvis vi kendte til kommandoer... F.eks. filter og blokprocess. I første delafsnit gennemgås nogle hjælpefunktioner som bruges i flere elementer af systemet. Dernæst gennemgås funktionerne til lokalisering af nummerplader, separation af tegn og til sidst genkendelse af tegn.
 
-<<<<<<< .mine
-Vi gennemgår funktionerne trin for trin og kommenterer de detaljer vi finder væsentlige til sidst i hver afsnit.
-
-
-DET HEDDER IMPLEMENTERING
-=======
 Det skal bemærkes at koordinatsystemet der bruges i Matlab ikke har origo i det samme punkt som det man kender som et almindeligt koordinatsystem. Origo ligger derimod i øverste venstre hjørne (normalt ligger det i nederste venstre hjørne). Desuden er koordinaterne til origo i Matlab 1,1 og ikke 0,0. y-koordinaten til et punkt i Matlab angives normalt først, så en pixel i et billede refereres til med koordinaterne y,x i modsætning til den oftest anvendte rækkefølge x,y.
->>>>>>> .r175
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %%% HJÆLPEFUNKTIONER %%%
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Hjælpefunktioner}
-<<<<<<< .mine
-Vi har lavet funktioner der bruges af flere dele af vores system. I det følgende gennemgår vi disse funktioners virkemåde og formål.
-
-
-
-=======
 De følgende hjælpefunktioner bruges af flere funktioner.
 \subsubsection{Hjælpefunktion 1}
 BinImgCleanup
->>>>>>> .r175
 \subsubsection{Hjælpefunktion 2}
 GetBestCandidate
 \subsubsection{Hjælpefunktion 3}
@@ -36,14 +22,10 @@ WhiteLine
 \subsubsection{Hjælpefunktion 3}
 Distribution
 
-<<<<<<< .mine
-
-=======
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADER %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
->>>>>>> .r175
 \subsection{Lokalisering af nummerplader}
 I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{JPEG}-billede som inddata og leverer koordinater til en enkelt nummerpladekandidat som uddata. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste \textit{x}-værdi, største \textit{x}-værdi, mindste \textit{y}-værdi og største \textit{y}-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er $0$.
 
