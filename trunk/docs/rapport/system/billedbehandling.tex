@@ -3,28 +3,24 @@
 \subsection{Lokalisering af nummerplader}
 !Lav om så eksempelbilledet kun vises en gang, og man forstår at det er dette billede alle eksempler bruger so inddata.
 
-SKRIV AT VI IKKE BEHØVER AFFIN TRANSFORMATION PÅ GRUND AF VORES AFGRÆNSNINGER.
-%I dette afsnit beskrives de tre første elementer af vores system: identificering af nummerpladen i billedet, rotation af nummerpladen samt segmentering af tegn i nummerpladen.
 
 
 %\subsection{Identifikation af nummerplader}
-I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til lokalisering af af nummerplader. 
+I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til lokalisering af af nummerplader. I alle vores eksempler har vi brugt billedet på figur \vref{fig:typisk_billede} som ind data.
 
 %\subsubsection*{Interesseområder}
 Metoderne i dette afsnit, fungerer alle på den måde at de returnerer et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist på figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses på figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:BinImgCleanup}.
 
 Nogle metoder er baseret på materiale vi har læst, mens andre er baseret på ideer der er opstået på baggrund af vores egen anlyse af nummerpladebillederne. 
 
-SKAL DER REFERES TIL BILLEDET AF BILEN?
+%SKAL DER REFERES TIL BILLEDET AF BILEN?
 
-FJERNET FRAMEBOX - SKAL IND IGEN
-
-\begin{figure}[htp]
-\centering
-\framebox{\includegraphics[width=5cm]{illu/B_XC33139.jpg}}
-\caption{Et billede hvor vi ønsker at lokalisere nummerpladen}
-\label{fig:input_billede}
-\end{figure}
+%\begin{figure}[htp]
+%\centering
+%\framebox{\includegraphics[width=5cm]{illu/B_XC33139.jpg}}
+%\caption{Et billede hvor vi ønsker at lokalisere nummerpladen}
+%\label{fig:input_billede}
+%\end{figure}
 
 \begin{figure}[htp]
 \centering
