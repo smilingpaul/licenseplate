@@ -1,25 +1,29 @@
-\section{Implementation}
+\section{Implementering}
 \label{sec:implementation}
 
-Intro til dette afsnit.. ala "I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger..."
+I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede funktioner, hvis vi kendte til kommandoer... F.eks. filter og blokprocess. I første delafsnit gennemgås nogle hjælpefunktioner som bruges i flere elementer af systemet. Dernæst gennemgås funktionerne til lokalisering af nummerplader, separation af tegn og til sidst genkendelse af tegn.
 
-DET HEDDER IMPLEMENTERING
+Det skal bemærkes at koordinatsystemet der bruges i Matlab ikke har origo i det samme punkt som det man kender som et almindeligt koordinatsystem. Origo ligger derimod i øverste venstre hjørne (normalt ligger det i nederste venstre hjørne). Desuden er koordinaterne til origo i Matlab 1,1 og ikke 0,0. y-koordinaten til et punkt i Matlab angives normalt først, så en pixel i et billede refereres til med koordinaterne y,x i modsætning til den oftest anvendte rækkefølge x,y.
 
-Noget med at vi har brugt Matlabs egne metoder hvis vi kendte til komandoer for det vi gerne ville opnå. F.eks. filter og blokprocess.
-
-Koordinatsystemet er matlabstyle. 1,1 er øverst til venstre. Y angives normal først så en pixel i et billede reffereres til med koordinaterne y,x i modsætning til den oftest anvendte rækkefølge x,y. 
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%% HJÆLPEFUNKTIONER %%%
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Hjælpefunktioner}
-Vi har hjælpefunktioner... blah.. generelle.. bruges af flere funktioner.
+De følgende hjælpefunktioner bruges af flere funktioner.
 \subsubsection{Hjælpefunktion 1}
 BinImgCleanup
 \subsubsection{Hjælpefunktion 2}
 GetBestCandidate
 
-\subsection{Lokalisering af nummerplader}
-I de følgende afsnit gennemgår vi væsentlige implementationsdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{JPEG}-billede som input og leverer koordinater til en enkelt nummerpladekandidat som uddate. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste x-værdi, største x-værdi, mindste y-værdi og største y-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er 0.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LOKALISERING AF NUMMERPLADER %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Ofte udvider vi kandidatområdet for at få hele pladen med. Det er vigtigt for at kunne rotere.
+\subsection{Lokalisering af nummerplader}
+I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{JPEG}-billede som inddata og leverer koordinater til en enkelt nummerpladekandidat som uddata. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste \textit{x}-værdi, største \textit{x}-værdi, mindste \textit{y}-værdi og største \textit{y}-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er $0$.
+
+Ofte udvider vi kandidatområdet for at få hele pladen med. Det er vigtigt for at kunne rotere (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
 
 Vi har brugt greythresh med mindre andet er beskrevet.
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
@@ -138,14 +142,18 @@ VI RETURNERER DEN STØRST MULIGE PLADE
 Vi kunne køre GetBestCandidate når der er uenighed i DetectMain.
 Vi kunne lave et pointsystem i GetBestCandidate.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% SEPARATION AF TEGN %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Separation}
+\subsection{Separation af tegn}
+
+I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de funktioner vi bruger til separation af tegn. 
 
 \subsubsection{Rotation}
 \label{sec:implementation/sep/rotation}
 
-Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et jpg-billede samt koordinaterne for nummerpladen i billedet som input. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet.
+Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et \textit{JPEG}-billede samt koordinaterne for nummerpladen i billedet som indata. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet.
 
 \begin{description}
 \item[1.] Et billede af kun pladen, plukkes ud
@@ -166,13 +174,11 @@ Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre elle
 
 \subsubsection{Separation}
 
-Metoderne til separation af tegn tager et billede af en nummerplade samt koordinaterne til denne plade i orginalbilledet som input, og returnerer syv billeder af de syv tegn (hvis syv tegn er fundet), koordinaterne til disse tegn i orginalbilledet samt antallet af fundne tegn som uddata.
+Metoderne til separation af tegn tager et billede af en nummerplade samt koordinaterne til denne plade i orginalbilledet som inddata, og returnerer syv billeder af de syv tegn (hvis syv tegn er fundet), koordinaterne til disse tegn i orginalbilledet samt antallet af fundne tegn som uddata.
 
 \subsubsection*{Sammenhængende komponenter}
 
 Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}.
-
-HENVIS TIL DET TOBIAS HAR SKREVET OM CONTRAST STRETCH
 
 \begin{description}
 \item[1.] Billedet af pladen omdannes til gråtone
@@ -186,7 +192,7 @@ De billeder der i denne del af systemet modtages fra metoderne til identificerin
 
 
 
-For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal billedet kontrastforstærkes. Dette gøres i blokke så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med bestemmes eksperimentielt.
+For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
 
 \begin{description}
 \item[4.] Tynde komponenter i toppen og i siderne af billedet fjernes
@@ -257,13 +263,16 @@ NOGET OM HVORDAN VI FINDER TOP OG BUND BESKÆRING
 \subsubsection{Mulige forbedringer}
 DER MÅ VÆRE MANGE KOMMENTARER TIL HVORDAN VI KAN GØR BJERG/DAL BEDRE
 
-I sammenhængende komponenter er der hardcodede værdier. Disse kunne laves dynamiske men de er ret gode nu og derfor har vi ladet dem være.
+I funktionen der bruger sammenhængende komponenter er flere statiske værdier, som eksempelvis størrelsen af de blokke der kontrastforstærkes i, komponenternes minimum bredde osv. Disse variable kunne være lavet dynamisk, men de er ret gode nu og derfor har vi ladet dem være. SKRIV DET SIDSTE OM.
 
-Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. Dette giver vores system en væsentlig fordel i forhold til "de andre".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% GEKENDELSE AF TEGN %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Genkendelse af tegn}
 
-\subsubsection{Vektor}
+\subsubsection{Middelvektorer}
 
 \begin{enumerate}
 \item funktion pkt 1
@@ -288,7 +297,7 @@ Hvert billede laves til et kvadrat. Ved at lave middelvektorer på træningssæt
 \item funktion pkt n
 \end{enumerate}
 
-\subsubsection{Metode hvor der and'es}
+\subsubsection{Sum-billeder}
 
 \begin{enumerate}
 \item funktion pkt 1
@@ -298,7 +307,9 @@ Hvert billede laves til et kvadrat. Ved at lave middelvektorer på træningssæt
 
 \subsubsection{Syntaks analyse}
 
-Metoden til syntaks analyse tager tegnhitlisterne for de syv tegn, listerne over afstandene til middelvektorerne samt et "maksimal-hit-nummer" som input. Uddata er en syntaks analyseret tegnfølge samt en vektor over hvilke hits der er blevet brugt til at lave denne tegnfølge. Implementationen af metoden til syntaks analyse findes i filen \textit{SyntaxAnalysis.m}.
+Metoden til syntaks analyse tager tegnhitlisterne for de syv tegn, listerne over afstandene til middelvektorerne samt et "maksimal-hit-nummer" som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}.
+
+Funktionens forløb er som følger:
 
 \begin{description}
 \item[1.] Hitlisterne for tegnene på de to første pldser gennemløbes indtil der står to bogstaver
@@ -319,4 +330,4 @@ Bla bla
 \end{description}
 
 \subsubsection{Mulige forbedringer}
-I stedet for at udskifte det tegn som har den længste afstand til middelvektoren hver gang, så skal den prøve at udskifte det andet? Eksempel: tegn = AB. udskift B som ligger længst væk. Ny tegnfølge: AC er også forkert. I stedet for at udskifte C (som jo må ligge længere væk end A, da B gjorde det), udskift da A og sæt B ind i stedet. Men det giver måske ingen forskel i praksis?
+Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.

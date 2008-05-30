@@ -146,10 +146,11 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
     %figure(2), subplot(9,4,5:8), imshow(medianFilteredImg), title('median');
     %figure(2), subplot(8,4,5:8), imshow(grayImg), title('gray image');
     figure(2), subplot(9,4,9:12), imshow(contrastImg), title('contrast image');
-    if brigthenImg
-      figure(2), subplot(9,4,5:8), imshow(brightImg), title('brightness image');
-    end
-    figure(2), subplot(9,4,13:16), imshow(bwPlate), title('bw image');
+    %if brigthenImg
+    %  figure(2), subplot(9,4,5:8), imshow(brightImg), title('brightness image');
+    %end
+    figure(2), subplot(9,4,13:16), imshow(~bwPlate), title('bw image');
+    %imwrite(~bwPlate,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/concomp_example.png','png','BitDepth',1)
   end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%
