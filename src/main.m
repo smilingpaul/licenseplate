@@ -227,7 +227,7 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    [chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,false);
+    [chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
     %[chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
