@@ -1,7 +1,7 @@
 % Marks areas in the image based on sameness of colors
 % in an rgb image. Creates binary image from that and selects component based on size
 
-function plateCoords = DetectSameness(inputImage)
+function [plateCoords candidateScore] = DetectSameness(inputImage)
 
 
   showImages = false;

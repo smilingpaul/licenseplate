@@ -1,6 +1,6 @@
 % Marks areas with avg. intensity of surroundings
 
-function plateCoords = DetetctContrastAvg(inputImage)
+function [plateCoords candidateScore] = DetetctContrastAvg(inputImage)
 
   filterWidth = 7;
   filterHeight = 2;
