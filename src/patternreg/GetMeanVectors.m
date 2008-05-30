@@ -1,7 +1,10 @@
-function meanVectors = GetMeanVectors (folderFolder)
+function meanVectors = GetMeanVectors (folderFolder, vectorLength)
+
+  % whether figures should be displayed
+  figuresOn = false;
 
   % init meanVectors
-  meanVectors = zeros(5*3,31);
+  meanVectors = zeros(vectorLength,31);
 
   % folders must be:
   % 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,H,J,K,L,M,N,O,P,R,S,T,U,V,X,Y,Z
@@ -16,7 +19,7 @@ function meanVectors = GetMeanVectors (folderFolder)
       
       ['Creating meanVector for char ' folderList(i).name] 
       
-      meanVector = GetMeanVector(imgFolder,5,3);
+      meanVector = GetMeanVector(imgFolder);
     
       meanVectors(:,meanVectorNo) = meanVector;
 
@@ -28,28 +31,12 @@ function meanVectors = GetMeanVectors (folderFolder)
   
   % Function to be used for training in a vector-based approch to character
   % recognition. Analysis is made on a number of images of size N x M,
-  % returning a vector of length NM specifying the mean vector of the images.
-  %
-  % Input:
-  % - imgFolder: the folder containing the images to be processed. The images
-  % must be png 1-bit images.
-  % - height: the height that all the images should be scaled to.
-  % - width: the width that all the images should be scaled to.
-  %
-  % Output:
-  % - meanVector: the mean vector of length height x width
-  function meanVector = GetMeanVector (imgFolder, height, width)
-
-
-    %%%%%%%%%%%%%%%%
-    % INITIALIZING %
-    %%%%%%%%%%%%%%%%
-
-    % whether figures should be displayed
-    figuresOn = false;
+  % returning a vector of length NM specifying the mean vector of the
+  % images.
+  function meanVector = GetMeanVector (imgFolder)
 
     % create output vector
-    meanVector = zeros(height*width,1);
+    meanVector = zeros(vectorLength,1);
 
     % get list of images
     imgList = dir([imgFolder '*.PNG']);
@@ -70,14 +57,15 @@ function meanVectors = GetMeanVectors (folderFolder)
       end
 
       % resize image and display. TO-DO: OTHER RESIZE METHOD?
-      resizedImg = imresize(img, [height width]);
+      resizedImg = imresize(img, [sqrt(vectorLength) sqrt(vectorLength)]);
 
       if figuresOn
         figure(53), subplot(1,3,2), imshow(resizedImg), title('resized image');
       end
 
       % sum up image in meanVector
-      meanVector = meanVector + reshape(resizedImg,height*width,1);
+      meanVector = meanVector + reshape(resizedImg,vectorLength,1);
+      %meanVector = meanVector + resizedImg;
       %pause;
 
     end % noOfImages
@@ -87,7 +75,7 @@ function meanVectors = GetMeanVectors (folderFolder)
 
     % display meanVector as image
     if figuresOn
-        figure(53), subplot(1,3,3), imshow(reshape(meanVector,height,width)), title('meanVector as image');
+        figure(53), subplot(1,3,3), imshow(resizedImg), title('meanVector as image');
     end
 
   end % GetMeanVector
