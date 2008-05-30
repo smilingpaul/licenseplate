@@ -15,21 +15,21 @@
 % - foundChars: the no. of found char candidates
 function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoords, figuresOn) 
 
+  %%%%%%%%%%%%%%%%%%
+  % PRE-PROCCESING %
+  %%%%%%%%%%%%%%%%%%
+  
   % whether the image should be brigthened
-  brigthenImg = false;
+  %brigthenImg = false;
   
   % from 0 to 1. if high: less white in bwImg
   threshFactor = 0.8;
   
   % from 0 to 1. if low: the image will be downscaled a lot
-  downScaleFactor = 1;
+  %downScaleFactor = 1;
   
   % blocksize for contrast function
   blockSize = 17;
-
-  %%%%%%%%%%%%%%%%%%
-  % PRE-PROCCESING %
-  %%%%%%%%%%%%%%%%%%
   
   % create outputs
   chars.char1 = zeros(1,1);
@@ -42,7 +42,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   charCoords = zeros(7,4); % contains 4 coordinates for each of the 7 chars
   
   % down-scale image
-  plateImg = imresize(plateImg,downScaleFactor);
+  %plateImg = imresize(plateImg,downScaleFactor);
   
   % create grayscale image
   grayImg = rgb2gray(plateImg);
@@ -52,31 +52,33 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   grayImg2bw = im2bw(grayImg,graythresh(grayImg)*(threshFactor^2));
-  [testing, testing2] = bwlabel(grayImg2bw);
+  [areaConComp, noOfComps] = bwlabel(grayImg2bw);
   
   if figuresOn
     figure(2), subplot(9,4,1:4), imshow(plateImg), title('plateImg');
-    figure(2), subplot(9,4,5:8), imshow(testing), title('testing');
+    figure(2), subplot(9,4,5:8), imshow(areaConComp), title('areaConComp');
   end
   
   maxSize = 1;
   maxComp = 1;
-  for i = 1:testing2
-    compSize = length(find(testing == i));
+  for i = 1:noOfComps
+    compSize = length(find(areaConComp == i));
     if compSize > maxSize
       maxComp = i;
       maxSize = compSize;
     end
   end
-  [y,x] = find(testing == maxComp);
+  [y,x] = find(areaConComp == maxComp);
   
-  
+  % shrink img
   grayImg = grayImg(min(y):max(y),min(x):max(x));
 
-  % calculate width and height of images
+  % calculate width and height of shrunken image
   plateImgHeight = size(grayImg,1);
   plateImgWidth = size(grayImg,2);
   
+  % how much has the platecoordinates been moved? used when the chars are
+  % cut out
   xShrink = min(x)-1;
   yShrink = min(y)-1;
   %xShrink = 0;
@@ -114,12 +116,10 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   %  blockSize = 17;
   %end
   
+  % function to contrast stretch in blocks
   function result = BlockContrast (block)
-    
     contrastedBlock = ContrastStretch(block,0);
-    
     result = contrastedBlock(ceil(blockSize/2),ceil(blockSize/2));
-    
   end
   
   %if brigthenImg
@@ -152,25 +152,24 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
     figure(2), subplot(9,4,13:16), imshow(bwPlate), title('bw image');
   end
   
+  %%%%%%%%%%%%%%%%%%%%%%%%%%
+  % REMOVE THIN COMPONENTS %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%
+  
   % pad 0's on the edge of the image: 1 pixel wide
   plateImgHeight = plateImgHeight + 2;
   plateImgWidth = plateImgWidth + 2;  
   negBwPlate = zeros(plateImgHeight,plateImgWidth);
   negBwPlate(2:plateImgHeight-1,2:plateImgWidth-1) = ~bwPlate;
   
-  %%%%%%%%%%%%%%%%%%%%%%%%%%
-  % REMOVE THIN COMPONENTS %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+  % function to remove thin components
   function result = RemoveThinComps (area)
-
     result = area(1,2);
     if area(1,2) ~= 0
       if (area(1,1) == 0 && area(1,3) == 0)
         result = 0;
       end
     end
-
   end
   
   % remove thin components in 1/3 of top plus 1/10 of the sides
@@ -192,12 +191,12 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
     end
   end
   
-  
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % CREATE CONNECTED COMPONENTS AND DISPLAY %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  % created connected components from bwImg
+  % created connected components from bwImg. the padded edges from before
+  % are removed again
   [conComp,noOfComp] = bwlabel(negBwPlate(2:plateImgHeight-1,2:plateImgWidth-1));
   plateImgHeight = size(conComp,1);
   plateImgWidth = size(conComp,2);
@@ -251,16 +250,12 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
       noOfCandidates = noOfCandidates + 1;
       
     else
-      
       % remove from image if not a candidate
       for j = 1:compSize
         conComp(y(j), x(j)) = 0;
       end
-      
     end
-    
   end
-  
   
   
   % show connected components that haven't been removed
@@ -271,7 +266,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % REMOVE CANDIDATES WHERE                            %
   % - NOT 6 OTHER CANDIDATES HAVE SAME HEIGHT          %
-  % - NOT 6 OTHER CANDIDATES HAVE SAME AVERAGE Y-VALUE %
+  % - NOT 6 OTHER CANDIDATES IS AT SAME HEIGHT         %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   % the maximum height difference
@@ -353,7 +348,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
         dist5_6 = charGroup(6,2) - charGroup(5,2);
         dist6_7 = charGroup(7,2) - charGroup(6,2);
 
-        % check distances
+        % check distances and break if they are good
         if dist1_2 < dist2_3 && ...
             dist3_4 < dist2_3 && dist3_4 < dist4_5 && ...
             dist5_6 < dist2_3 && dist5_6 < dist4_5 && ...
@@ -393,7 +388,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   end
   
   % up-scale image again
-  conComp = imresize(conComp,downScaleFactor);
+  %conComp = imresize(conComp,downScaleFactor);
   
   % show connected components that haven't been removed
   if figuresOn

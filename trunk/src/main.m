@@ -23,40 +23,21 @@ addpath('patternreg');
 noOfPlatesFound = 0;
 noOfPlatesSegmented = 0;
 noOfPlatesRead = 0;
-%percentageOfPlatesFound = 0;
-%percentageOfPlatesSegmented = 0;
-%percentageOfPlatesRead = 0;
-%percentageOfCharsRead = 0;
-%noOfChar1sRead = 0;
-%noOfChar2sRead = 0;
-%noOfChar3sRead = 0;
-%noOfChar4sRead = 0;
-%noOfChar5sRead = 0;
-%noOfChar6sRead = 0;
-%noOfChar7sRead = 0;
-%noCharCandidate = zeros(7,1);
-%noChar1Candidate = 0;
-%noChar2Candidate = 0;
-%noChar3Candidate = 0;
-%noChar4Candidate = 0;
-%noChar5Candidate = 0;
-%noChar6Candidate = 0;
-%noChar7Candidate = 0;
-%percentageOfChar1sRead = 0;
-%percentageOfChar2sRead = 0;
-%percentageOfChar3sRead = 0;
-%percentageOfChar4sRead = 0;
-%percentageOfChar5sRead = 0;
-%percentageOfChar6sRead = 0;
-%percentageOfChar7sRead = 0;
+noOf6CharsRead = 0;
+noOf5CharsRead = 0;
+noOf4CharsRead = 0;
+noOf3CharsRead = 0;
+noOf2CharsRead = 0;
+noOf1CharsRead = 0;
 
-% for syntax analysis: how far down in the hitlist can the syntax analysis
-% go to find the right char
-maxHitNo = 6;
+% for syntax analysis: how far down the hitlist can the syntax analysis
+% go to find the right char?
+maxHitNo = 1;
 
 % the number of times each hit is used
 hitsUsed = zeros(maxHitNo,1);
-percentageOfHitsUsed = zeros(maxHitNo,1);
+correctHits = zeros(maxHitNo,1);
+%percentageOfHitsUsed = zeros(maxHitNo,1);
 
 % for saving char images
 charImgNo = 1;
@@ -224,10 +205,15 @@ for i = 1:noOfImages
   if plateFound
     
     % For testing:
-    plateCoords(1) = RPC(1) - 15;
-    plateCoords(2) = RPC(2) + 15;
-    plateCoords(3) = RPC(3) - 15;
-    plateCoords(4) = RPC(4) + 15;
+    plateCoords(1) = RPC(1) - 10;
+    plateCoords(2) = RPC(2) + 10;
+    plateCoords(3) = RPC(3) - 10;
+    plateCoords(4) = RPC(4) + 10;
+    
+    realChars = [fileList(i).name(1,23), fileList(i).name(1,24), ...
+        fileList(i).name(1,25), fileList(i).name(1,26), ...
+        fileList(i).name(1,27), fileList(i).name(1,28), ...
+        fileList(i).name(1,29)]
 
     %%%%%%%%%%
     % ROTATE %
@@ -241,68 +227,14 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    %[chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
-    [chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
+    [chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,false);
+    %[chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
     %figure(19), imshow(imread([imagesFolder fileList(i).name]));
     
     
     if foundChars == 7
-      
-      %{
-
-      % OLD METHOD: CALCULATE CHAR COORDS
-      % find vertical middle of plate and its length plus the width of a char
-      plateMiddle = realPlateCoords(4) - ...
-        (realPlateCoords(4) - realPlateCoords(3))/2;
-      plateLength = realPlateCoords(2) - realPlateCoords(1);
-
-      % set approximate char width and space widths. TO-DO!!
-      relativeCharWidth = 1/8;
-      relativeSmallSpace = 1/55;
-      relativeLargeSpace = 2 * relativeSmallSpace;
-      charWidth = relativeCharWidth * plateLength;
-      smallSpace = relativeSmallSpace * plateLength;
-      largeSpace = relativeLargeSpace * plateLength;
-
-      % find real char coordinates
-      realCharCoords = zeros(7,1); % plateMiddle is second coordinate
-      %realCharCoords(:,2) = plateMiddle;
-
-      realCharCoords(1) = realPlateCoords(1) + smallSpace + charWidth/2;
-      for c = 2:7
-        if c ~= 3 && c ~=5
-          realCharCoords(c) = realCharCoords(c-1) + smallSpace + charWidth;
-        else
-          realCharCoords(c) = realCharCoords(c-1) + largeSpace + charWidth;
-        end
-      end
-
-      % calculate char coordinates relative to entire image
-      for k = 1:7
-        charCoords(k,1:2) = charCoords(k,1:2) + plateCoords(1);
-        charCoords(k,3:4) = charCoords(k,3:4) + plateCoords(3);
-      end
-      
-      % calculate no. of correctly read chars
-      charsRead = 0;
-      for j = 1:7
-        %if charCoords(j,1) <= realCharCoords(j) && ...
-        %    charCoords(j,2) >= realCharCoords(j) && ...
-        %    charCoords(j,3) <= plateMiddle && ...
-        %    charCoords(j,4) >= plateMiddle
-        charMiddle = [(charCoords(j,1)+charCoords(j,2))/2 (charCoords(j,3)+charCoords(j,4))/2];
-        if charMiddle(1) >= realPlateCoords(1) && ...
-           charMiddle(1) <= realPlateCoords(2) && ...
-           charMiddle(2) >= realPlateCoords(3) && ...
-           charMiddle(2) <= realPlateCoords(4)
-          charsRead = charsRead + 1;
-
-        end
-      end
-      
-      %}
       
       % NEW METHOD: CHAR MIDDLES ARE SIMPLY WITHIN PLATE
       
@@ -340,14 +272,18 @@ for i = 1:noOfImages
         noOfPlatesSegmented = noOfPlatesSegmented + 1;
         
         % for pattern recognition: save images
-        %for n = 1:7
-        %  charName = strcat('char',int2str(n));
+        %{
+        for n = 1:7
+          charName = strcat('char',int2str(n));
+          %figure(91), imshow(chars.(charName));
+          %folderName = upper(input('char?','s'));
         %  posFolderName = strcat('pos',int2str(n));
-        %  imgName = strcat(imagesFolder, ...
-        %    posFolderName,'/',int2str(charImgNo),'.PNG');
-        %  imwrite (chars.(charName),imgName,'png','BitDepth',1);
-        %  charImgNo = charImgNo + 1;
-        %end
+          imgName = strcat(imagesFolder, ...
+            realChars(n),'/',int2str(charImgNo),'.PNG');
+          imwrite (chars.(charName),imgName,'png','BitDepth',1);
+          charImgNo = charImgNo + 1;
+        end
+        %}
         
       else
         ['Plate not segmented in ' fileList(i).name]
@@ -365,10 +301,12 @@ for i = 1:noOfImages
     plateAsString = '';
     %%{
     if foundChars == 7 && charsSegmented == 7
-      [charHitLists, distances] = ReadPlateFV(chars,5,3);
+      [charHitLists, distances] = ReadPlateFV(chars,9);
+      %[charHitLists, sums] = ReadPlateSUM(chars,5);
       plateAsString = [charHitLists(1,1) charHitLists(2,1) ...
         charHitLists(3,1) charHitLists(4,1) charHitLists(5,1) ...
         charHitLists(6,1) charHitLists(7,1)]
+      %plateAsString = ReadPlateAND(chars,10)
     end
     %%}
 
@@ -379,14 +317,9 @@ for i = 1:noOfImages
       %%%%%%%%%%%%%%%%%%%
 
       [plateAsString, hits] = SyntaxAnalysis(charHitLists,distances,maxHitNo)
-
-      realChars = [fileList(i).name(1,23), fileList(i).name(1,24), ...
-        fileList(i).name(1,25), fileList(i).name(1,26), ...
-        fileList(i).name(1,27), fileList(i).name(1,28), ...
-        fileList(i).name(1,29)]
+      %[plateAsString, hits] = SyntaxAnalysis(charHitLists,sums,maxHitNo)
       
-      
-      plateRead = true;
+      plateCharsRead = 0;
       for f = 1:7
         % increment the no. of each char in plate
         charIndex = find(legalChars == realChars(f),1);
@@ -394,97 +327,34 @@ for i = 1:noOfImages
         
         % check if chars are read correct
         if strcmp(plateAsString(f),realChars(f))
+          plateCharsRead = plateCharsRead + 1;
           noOfCharsRead(charIndex) = noOfCharsRead(charIndex) + 1;
+          if hits(f) <= maxHitNo
+            correctHits(hits(f)) = correctHits(hits(f)) + 1;
+          end
         else
-          plateRead = false;
+          %plateRead = false;
           if strcmp(plateAsString(f),'_')
             noCharCandidate(f) = noCharCandidate(f) + 1;
           end
         end
       end
       
-      
-      % check if the chars are read correct. TO-DO: do with matrix == less
-      % code
-      %{
-      plateRead = true;
-      if strcmp(plateAsString(1),realChars(1))
-        noOfChar1sRead = noOfChar1sRead + 1;
-        charIndex = find(legalChars == realChars(f),1);
-        noOfCharsRead(charIndex) = noOfCharsRead(charIndex) + 1;
-      else
-        plateRead = false;
-        if strcmp(plateAsString(1),'_')
-          noChar1Candidate = noChar1Candidate + 1;
-        end
-        %distances(1,hits(1))
-        %pause;
-      end
-      if strcmp(plateAsString(2),realChars(2))
-        noOfChar2sRead = noOfChar2sRead + 1;
-      else
-        plateRead = false;
-        if strcmp(plateAsString(2),'_')
-          noChar2Candidate = noChar2Candidate + 1;
-        end
-        %distances(2,hits(2))
-        %pause;
-      end
-      if strcmp(plateAsString(3),realChars(3))
-        noOfChar3sRead = noOfChar3sRead + 1;
-      else
-        plateRead = false;
-        if strcmp(plateAsString(3),'_')
-          noChar3Candidate = noChar3Candidate + 1;
-        end
-        %distances(3,hits(3))
-        %pause;
-      end
-      if strcmp(plateAsString(4),realChars(4))
-        noOfChar4sRead = noOfChar4sRead + 1;
-      else
-        plateRead = false;
-        if strcmp(plateAsString(4),'_')
-          noChar4Candidate = noChar4Candidate + 1;
-        end
-        %distances(4,hits(4))
-        %pause;
-      end
-      if strcmp(plateAsString(5),realChars(5))
-        noOfChar5sRead = noOfChar5sRead + 1;
-      else
-        plateRead = false;
-        if strcmp(plateAsString(5),'_')
-          noChar5Candidate = noChar5Candidate + 1;
-        end
-        %distances(5,hits(5))
-        %pause;
-      end
-      if strcmp(plateAsString(6),realChars(6))
-        noOfChar6sRead = noOfChar6sRead + 1;
-      else
-        plateRead = false;
-        if strcmp(plateAsString(6),'_')
-          noChar6Candidate = noChar6Candidate + 1;
-        end
-        %distances(6,hits(6))
-        %pause;
-      end
-      if strcmp(plateAsString(7),realChars(7))
-        noOfChar7sRead = noOfChar7sRead + 1;
-      else
-        plateRead = false;
-        if strcmp(plateAsString(7),'_')
-          noChar7Candidate = noChar7Candidate + 1;
-        end
-        %distances(7,hits(7))
-        %pause;
-      end
-      %}
-      
       % register if hole plate was read
-      if plateRead
+      if plateCharsRead == 7
         noOfPlatesRead = noOfPlatesRead + 1;
+      elseif plateCharsRead == 6
+        noOf6CharsRead = noOf6CharsRead + 1;
+      elseif plateCharsRead == 5
+        noOf5CharsRead = noOf5CharsRead + 1;
+      elseif plateCharsRead == 4
+        noOf4CharsRead = noOf4CharsRead + 1;
+      elseif plateCharsRead == 3
+        noOf3CharsRead = noOf3CharsRead + 1;
+      elseif plateCharsRead == 2
+        noOf2CharsRead = noOf2CharsRead + 1;
+      elseif plateCharsRead == 1
+        noOf1CharsRead = noOf1CharsRead + 1;
       end
       
       % register which hits have been used
@@ -525,11 +395,11 @@ percentageOfPlatesSegmentedAllImgs = noOfPlatesSegmented*(100/noOfImages)
 %minIntDiff
 
 if noOfPlatesSegmented == 0
+noOfImages
+noOfPlatesFound
   noOfPlatesSegmented = noOfImages
 end
 
-noOfImages
-noOfPlatesFound
 noOfPlatesSegmented
 noOfPlatesRead
 
@@ -538,71 +408,26 @@ noOfPlatesRead
 legalChars
 percentageOfCharsRead = 100*(noOfCharsRead ./ noOfChars)
 percentageOfCharsReadAllChars = 100*(sum(noOfCharsRead)/sum(noOfChars))
+percentageOfDigitsRead = 100*(sum(noOfCharsRead(1:10))/sum(noOfChars(1:10)))
+percentageOfLettersRead = 100*(sum(noOfCharsRead(11:31))/sum(noOfChars(11:31)))
 
+% plate read stats
 percentageOfPlatesReadAllPlates = noOfPlatesRead*(100/noOfPlatesFound)
 percentageOfPlatesReadAllImgs = noOfPlatesRead*(100/noOfImages)
-%{
-percentageOfChar1sReadAllImgs = noOfChar1sRead*(100/(noOfImages))
-percentageOfChar2sReadAllImgs = noOfChar2sRead*(100/(noOfImages))
-percentageOfChar3sReadAllImgs = noOfChar3sRead*(100/(noOfImages))
-percentageOfChar4sReadAllImgs = noOfChar4sRead*(100/(noOfImages))
-percentageOfChar5sReadAllImgs = noOfChar5sRead*(100/(noOfImages))
-percentageOfChar6sReadAllImgs = noOfChar6sRead*(100/(noOfImages))
-percentageOfChar7sReadAllImgs = noOfChar7sRead*(100/(noOfImages))
+percentageOf6CharsReadAllImgs = noOf6CharsRead*(100/noOfImages)
+percentageOf5CharsReadAllImgs = noOf5CharsRead*(100/noOfImages)
+percentageOf4CharsReadAllImgs = noOf4CharsRead*(100/noOfImages)
+percentageOf3CharsReadAllImgs = noOf3CharsRead*(100/noOfImages)
+percentageOf2CharsReadAllImgs = noOf2CharsRead*(100/noOfImages)
+percentageOf1CharsReadAllImgs = noOf1CharsRead*(100/noOfImages)
 
-correctnessOfChar1sReadAllImgs = noOfChar1sRead*(100/(noOfImages-noChar1Candidate))
-correctnessOfChar2sReadAllImgs = noOfChar2sRead*(100/(noOfImages-noChar2Candidate))
-correctnessOfChar3sReadAllImgs = noOfChar3sRead*(100/(noOfImages-noChar3Candidate))
-correctnessOfChar4sReadAllImgs = noOfChar4sRead*(100/(noOfImages-noChar4Candidate))
-correctnessOfChar5sReadAllImgs = noOfChar5sRead*(100/(noOfImages-noChar5Candidate))
-correctnessOfChar6sReadAllImgs = noOfChar6sRead*(100/(noOfImages-noChar6Candidate))
-correctnessOfChar7sReadAllImgs = noOfChar7sRead*(100/(noOfImages-noChar7Candidate))
+% hits stats
+hitsUsed
+correctHitsPercentage = 100*(correctHits ./ hitsUsed)
+totalNoCharCandidate = sum(noCharCandidate)
+percentageOfAllHitsUsed = hitsUsed*(100/((noOfPlatesSegmented*7)-totalNoCharCandidate))
+noCharCandidatePercentage = 100*(totalNoCharCandidate/sum(noOfChars))
 
-percentageOfChar1sReadAllPlates = noOfChar1sRead*(100/(noOfPlatesFound))
-percentageOfChar2sReadAllPlates = noOfChar2sRead*(100/(noOfPlatesFound))
-percentageOfChar3sReadAllPlates = noOfChar3sRead*(100/(noOfPlatesFound))
-percentageOfChar4sReadAllPlates = noOfChar4sRead*(100/(noOfPlatesFound))
-percentageOfChar5sReadAllPlates = noOfChar5sRead*(100/(noOfPlatesFound))
-percentageOfChar6sReadAllPlates = noOfChar6sRead*(100/(noOfPlatesFound))
-percentageOfChar7sReadAllPlates = noOfChar7sRead*(100/(noOfPlatesFound))
-
-correctnessOfChar1sReadAllPlates = noOfChar1sRead*(100/(noOfPlatesFound-noChar1Candidate))
-correctnessOfChar2sReadAllPlates = noOfChar2sRead*(100/(noOfPlatesFound-noChar2Candidate))
-correctnessOfChar3sReadAllPlates = noOfChar3sRead*(100/(noOfPlatesFound-noChar3Candidate))
-correctnessOfChar4sReadAllPlates = noOfChar4sRead*(100/(noOfPlatesFound-noChar4Candidate))
-correctnessOfChar5sReadAllPlates = noOfChar5sRead*(100/(noOfPlatesFound-noChar5Candidate))
-correctnessOfChar6sReadAllPlates = noOfChar6sRead*(100/(noOfPlatesFound-noChar6Candidate))
-correctnessOfChar7sReadAllPlates = noOfChar7sRead*(100/(noOfPlatesFound-noChar7Candidate))
-
-percentageOfChar1sReadSegmentedPlates = noOfChar1sRead*(100/(noOfPlatesSegmented))
-percentageOfChar2sReadSegmentedPlates = noOfChar2sRead*(100/(noOfPlatesSegmented))
-percentageOfChar3sReadSegmentedPlates = noOfChar3sRead*(100/(noOfPlatesSegmented))
-percentageOfChar4sReadSegmentedPlates = noOfChar4sRead*(100/(noOfPlatesSegmented))
-percentageOfChar5sReadSegmentedPlates = noOfChar5sRead*(100/(noOfPlatesSegmented))
-percentageOfChar6sReadSegmentedPlates = noOfChar6sRead*(100/(noOfPlatesSegmented))
-percentageOfChar7sReadSegmentedPlates = noOfChar7sRead*(100/(noOfPlatesSegmented))
-
-correctnessOfChar1sReadSegmentedPlates = noOfChar1sRead*(100/(noOfPlatesSegmented-noChar1Candidate))
-correctnessOfChar2sReadSegmentedPlates = noOfChar2sRead*(100/(noOfPlatesSegmented-noChar2Candidate))
-correctnessOfChar3sReadSegmentedPlates = noOfChar3sRead*(100/(noOfPlatesSegmented-noChar3Candidate))
-correctnessOfChar4sReadSegmentedPlates = noOfChar4sRead*(100/(noOfPlatesSegmented-noChar4Candidate))
-correctnessOfChar5sReadSegmentedPlates = noOfChar5sRead*(100/(noOfPlatesSegmented-noChar5Candidate))
-correctnessOfChar6sReadSegmentedPlates = noOfChar6sRead*(100/(noOfPlatesSegmented-noChar6Candidate))
-correctnessOfChar7sReadSegmentedPlates = noOfChar7sRead*(100/(noOfPlatesSegmented-noChar7Candidate))
-%}
-
-%hitsUsed
-
-% calculate percentage of total hits used
-%{
-totalNoCharCandidate = noChar1Candidate + noChar2Candidate + ...
-  noChar3Candidate + noChar4Candidate + noChar5Candidate + ...
-  noChar6Candidate + noChar7Candidate;
-for h = 1:maxHitNo
-  percentageOfHitsUsed(h) = hitsUsed(h)*(100/((noOfPlatesSegmented*7)-totalNoCharCandidate));
-end
-percentageOfHitsUsed
-%}
 
 % echo time
 datestr(now)

@@ -257,6 +257,10 @@ NOGET OM HVORDAN VI FINDER TOP OG BUND BESKÆRING
 \subsubsection{Mulige forbedringer}
 DER MÅ VÆRE MANGE KOMMENTARER TIL HVORDAN VI KAN GØR BJERG/DAL BEDRE
 
+I sammenhængende komponenter er der hardcodede værdier. Disse kunne laves dynamiske men de er ret gode nu og derfor har vi ladet dem være.
+
+Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. Dette giver vores system en væsentlig fordel i forhold til "de andre".
+
 \subsection{Genkendelse af tegn}
 
 \subsubsection{Vektor}
@@ -273,6 +277,8 @@ For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at læ
 
 \textit{GetMeanVectors.m} udarbejder en matrix bestående af middelvektorer for hvert lovligt tegn. Hver vektor vil have længden $d$. Denne matrix bruges af \textit{ReadPlateFV.m}: Hvert inputbillede omformes til en vektor af længden $d$ og herefter løbes middelvektor-matrixen igennem. Afstanden fra det omformede billede til hver middelvektor noteres og tegnhitlisten udarbejdes på baggrund af disse afstande. Sammen med denne hitliste returneres afstandene, så disse kan bruges i forbindelse med syntaks analyse.
 Som input modtager funktionen en mængde billeder af manuelt sorterede tegn.
+
+Hvert billede laves til et kvadrat. Ved at lave middelvektorer på træningssættet kan vi se at man ikke kan have vektorer af længden 4, da flere bogstavs vektorer så vil være de samme (nemlig 0 0 0 0). Afprøv med andre længder.
 
 \textit{ReadPlateFV.m}...
 

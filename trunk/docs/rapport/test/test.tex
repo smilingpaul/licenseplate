@@ -8,8 +8,6 @@ HVAD SKER DER MED GULE ETC. PLADER??
 %Til at udarbejde og teste systemet havde vi brug for nogle fotografier af biler med nummerplader. Ved fotograferingen var vi opmærksomme på følgende afgrænsninger:
 
 
-
-
 %\begin{figure}[h]
 %\begin{center}
 %\includegraphics[width=10cm]{illu/B_XC33139.jpg}
@@ -21,7 +19,7 @@ HVAD SKER DER MED GULE ETC. PLADER??
 % vi holder dem adskilt - ikke noget med histo
 Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til identificering af nummerplader (se afsnit \ref{histo}), holdt vi de to fotografisæt adskilte. På denne måde ville det f.eks. være muligt for os at teste om skift fra et kamera til et andet, vil give ændrede resultater. Billederne blev navngivet i vores database, så det, i deres filnavn, indgik om billedet forestillede en bil set forfra eller bagfra samt hvilken nummerplade bilen på nummerpladen havde. Derudover udarbejdede vi et mindre program som hjalp os til at identificere nummerpladens fire hjørnekoordinater og indskrive disse i filnavnet. Denne sidste tilføjelse ville hjælpe os i testfasen, til at undersøge om de nummerpladekandidater vores system ville udvælge er de korrekte.
  
-Vi skal ha' taget flere billeder! Skal vi have nogle billeder hvor der ikke er nummerplader i??
+Kontrolsæt: 600 billeder
 
 
 %\subsection{Fotografering}
@@ -29,6 +27,8 @@ Vi skal ha' taget flere billeder! Skal vi have nogle billeder hvor der ikke er n
 %At billederne er taget i naturligt lys for at undgå kunstige farver og genskin fra pladen som er malet med reflekterende materiale.
 %Opdeling af billeder i træning- og testsæt
 %til f.eks. histogram metode herunder adskillelse af fotos fra de to forskellige kameraer.
+
+%%% LOKALISERING AF NUMMERPLADE %%%
 
 \subsection{Lokalisering af nummerplade}
 HVOR GODE ER VI PÅ TRÆNINGSSÆT?
@@ -38,21 +38,71 @@ HVOR GODE ER VI PÅ TESTSÆT?
 HVOR GODE ER VI PÅ TRÆNINGSSÆT?
 HVOR GODE ER VI PÅ TESTSÆT?
 
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|c|}{DetectMain} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
 \subsubsection{Områder med høj kontrast}
 HVOR GODE ER VI PÅ TRÆNINGSSÆT?
 HVOR GODE ER VI PÅ TESTSÆT?
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|c|}{DetectMain} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
 
 \subsubsection{Frekvensanalyse}
 HVOR GODE ER VI PÅ TRÆNINGSSÆT?
 HVOR GODE ER VI PÅ TESTSÆT?
 
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|c|}{DetectMain} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
 \subsubsection{Maksimer lokal kontrast}
 HVOR GODE ER VI PÅ TRÆNINGSSÆT?
 HVOR GODE ER VI PÅ TESTSÆT?
 
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|c|}{DetectMain} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
 \subsubsection{Kvantifisering}
 HVOR GODE ER VI PÅ TRÆNINGSSÆT?
 HVOR GODE ER VI PÅ TESTSÆT?
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|c|}{DetectMain} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
 
 \subsubsection{endeligt valg af nummerpladekandidat}
 
@@ -77,6 +127,16 @@ Min antal enige 5:
 HVOR GODE ER VI PÅ TRÆNINGSSÆT?
 HVOR GODE ER VI PÅ TESTSÆT?
 
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|c|}{DetectMain} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
 
 VI SKAL SE HVORDAN DETECTMAIN OPFØRER SIG NÅR F.EKS. ALLE METODER SKAL VÆRE ENIGE.
  Vi har skaleret ned for at spare tid.
@@ -99,19 +159,12 @@ Hvor gode er vi på det set vi har observeret? Hvor gode er vi på et set vi ikk
 
 Confusion matrix: De elementer der ligger udenfor diagonalen er elementer der ikke er nummerplader.
 
-Eksempel på testtabel for identifikation af nummerplader:
 
-\begin{tabular}{|l|l|l|l|l|l|}
-\hline
-\multicolumn{6}{|c|}{Metode: Histogram} \\ \hline
-Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver & Bemærkninger\\ \hline
-1 & 1 & 1 & 19 \% & 19 \% & skide godt\\ \hline
-2 & 2 & 2 & 19 \% & 21 \% & vildt godt \\ \hline
-3 & 3 & 3 & 19 \% & 22 \% & diku niveau \\
-\hline
-\end{tabular}
 
-Konklussion:
+
+Delkonklussion:
+
+%%% SEPARATION AF TEGN %%%
 
 \subsection{Separation af tegn}
 Test af de to metoder.
@@ -119,50 +172,164 @@ Er alle karakteret indenfor pladen? Det er kun nødvendigt at se på om tegnene 
 
 Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information
 
-OVERVEJ NEDENSTÅENDE SOM SAMLET GRAF I ET AFSNIT
-\subsubsection{Sammenhængende komponenter}
-HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TRÆNINGSSÆT?
-HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TESTSÆT
+%OVERVEJ NEDENSTÅENDE SOM SAMLET GRAF I ET AFSNIT
+%\subsubsection{Sammenhængende komponenter}
 
-\subsubsection{Bjerg/Dal}
-HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TRÆNINGSSÆT?
-HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TESTSÆT
+%\subsubsection{Bjerg/Dal}
+%HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TRÆNINGSSÆT?
+%HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TESTSÆT
+%HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TRÆNINGSSÆT?
+%HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TESTSÆT
+%HVAD SKER DER NÅR PLADEOMRÅDET UDVIDES MED 10PIXELS PÅ ALLE SIDER?
+%HVAD SKER DER NÅR PLADEOMRÅDET UDVIDES MED 20PIXELS PÅ ALLE SIDER?
+%HVAD SKER DER NÅR PLADEOMRÅDET UDVIDES MED 30PIXELS PÅ ALLE SIDER?
 
 
+\begin{tabular}{|l|c|c|}\hline
+\multicolumn{3}{|l|}{Træningssæt} \\\hline
+Antal pixels lagt til? & Sammenhængende komponenter & Bjerg/dal \\\hline
+10 & 96\% & 3\% \\\hline
+20 & 96\% & 3\% \\\hline
+30 & 96\% & 3\% \\\hline \end{tabular}
+
+\begin{tabular}{|l|c|c|}\hline
+\multicolumn{3}{|l|}{Kontrolsæt} \\\hline
+Bla & Sammenhængende komponenter & Bjerg/dal \\\hline
+10 & 96\% & 3\% \\\hline
+20 & 96\% & 3\% \\\hline
+30 & 96\% & 3\% \\\hline \end{tabular}
+
+Delkonklusiong:
+
+
+%%% GENKENDELSE AF TEGN %%%
 
 \subsection{Genkendelse af tegn}
-Hvor gode er vi på tal. Hvor gode er vi på bogstaver. Hvor gode er vi på hele plader.
+Intro..
 
+Noget om at det er i forhold til alle plader, dvs. at procenterne nedenfor er afhængige af hvor gode vi er til separere tegn.
 
 \subsubsection{Feature vektor}
-HVOR GODE ER VI PÅ TAL I TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TAL I TESTSÆT?
 
-HVOR GODE ER VI PÅ BOGSTAVER I TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ BOGSTAVER I TESTSÆT?
+%HVOR MANGE PLADER ER KORREKT LÆST I TRÆNINGSSÆT?
+%HVOR MANGE PLADER ER KORREKT LÆST I TETSSÆT?
+%HVOR MANGE PLADER ER KORREKT LÆST PÅ 6 POSITIONER I TRÆNINGSSÆT?
+%HVOR MANGE PLADER ER KORREKT LÆST PÅ 6 POSITIONER I TETSSÆT?
+%HVOR MANGE PLADER ER KORREKT LÆST PÅ 5 POSITIONER I TRÆNINGSSÆT?
+%HVOR MANGE PLADER ER KORREKT LÆST PÅ 5 POSITIONER I TETSSÆT?
 
-HVAD ER GENKENDELSESPROCENTEN PÅ TEGN PR PLADE I TRÆNINGSÆT?
-HVAD ER GENKENDELSESPROCENTEN PÅ TEGN PR PLADE I TESTSÆT?
+Følgende tabeller viser resultaterne for at læse en hel plade, seks tegn i pladen osv. (med forskellige vektorlængder).
 
-HVOR MANGE PLADER ER KORREKT LÆST I TRÆNINGSSÆT?
-HVOR MANGE PLADER ER KORREKT LÆST I TETSSÆT?
+\begin{tabular}{|l|c|c|c|c|c|c|}\hline
+\multicolumn{7}{|l|}{Træningssæt} \\\hline
+Vektorlængde & Hele pladen læst & 6 tegn læst & 5 tegn & 4 tegn & 3 tegn & 2 tegn \\\hline
+9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
+16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
+25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline \end{tabular}
 
-HVAD SKER DER NÅR PLADEOMRÅDET UDVIDES MED 10PIXELS PÅ ALLE SIDER?
-HVAD SKER DER NÅR PLADEOMRÅDET UDVIDES MED 20PIXELS PÅ ALLE SIDER?
-HVAD SKER DER NÅR PLADEOMRÅDET UDVIDES MED 30PIXELS PÅ ALLE SIDER?
+\begin{tabular}{|l|c|c|c|c|c|c|}\hline
+\multicolumn{7}{|l|}{Kontrolsæt} \\\hline
+Vektorlængde & Hele pladen læst & 6 tegn læst & 5 tegn & 4 tegn & 3 tegn & 2 tegn \\\hline
+9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
+16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
+25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline \end{tabular}
 
-HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TRÆNING?
-HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TEST?
+%HVOR GODE ER VI PÅ TAL I TRÆNINGSSÆT?
+%HVOR GODE ER VI PÅ TAL I TESTSÆT?
+%HVOR GODE ER VI PÅ BOGSTAVER I TRÆNINGSSÆT?
+%HVOR GODE ER VI PÅ BOGSTAVER I TESTSÆT?
+%HVAD ER GENKENDELSESPROCENTEN PÅ TEGN PR PLADE I TRÆNINGSÆT?
+%HVAD ER GENKENDELSESPROCENTEN PÅ TEGN PR PLADE I TESTSÆT?
+
+Følgende tabeller viser hvor godt systemet er til at læse bogstaver hhv. tal. hhv. alle tegn
+
+\begin{tabular}{|l|c|c|c|}\hline
+\multicolumn{4}{|l|}{Træningssæt} \\\hline
+Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
+9 & 0\% & 0\% & 0\% \\\hline
+16 & 0\% & 0\% & 0\%\\\hline
+25 & 0\% & 0\% & 0\%\\\hline \end{tabular}
+
+\begin{tabular}{|l|c|c|c|}\hline
+\multicolumn{4}{|l|}{Kontrolsæt} \\\hline
+Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
+9 & 0\% & 0\% & 0\% \\\hline
+16 & 0\% & 0\% & 0\% \\\hline
+25 & 0\% & 0\% & 0\% \\\hline \end{tabular}
+
+%HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TRÆNING?
+%HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TEST?
+%MAXHITNO: HVAD GIVER DET JO LÆNGERE NED AD HITLISTEN VI KAN GÅ?
+
+Syntaks analyse: Hvilke hits bliver valgt på hitlisterne af syntaksanalysen (sæt maxhitno højt):
+
+\begin{tabular}{|l|c|}\hline
+\multicolumn{2}{|l|}{Træningssæt} \\\hline
+Hitnr. & Valgt \\\hline
+1 & 95,4\% \\\hline
+2 & 3\% \\\hline
+3 & 0\% \\\hline
+4 & 0\% \\\hline
+5 & 0\% \\\hline
+6 & 0\% \\\hline \end{tabular}
+
+\begin{tabular}{|l|c|}\hline
+\multicolumn{2}{|l|}{Kontrolsæt} \\\hline
+Hitnr. & Valgt \\\hline
+1 & 92,9\% \\\hline
+2 & 0\% \\\hline
+3 & 0\% \\\hline
+4 & 0\% \\\hline
+5 & 0\% \\\hline
+6 & 0\% \\\hline \end{tabular}
 
 UDEN SYNTAKSANALYSE - TRÆNING?
 UDEN SYNTAKSANALYSE - TEST?
 
+Evt. en tabel over de enkelte tegn A, B, C osv. Hvor gode er vi til at genkende disse? Tabellen kunne laves udfra den bedste vektorstørrelse? Måske bare en tabel over de dårligste tegn, altså dem der er sværest at genkende? På denne måde bliver det ikke en LANG tabel
 
-\subsubsection{Feature vektor}
+\begin{tabular}{|l|c|}\hline
+\multicolumn{2}{|l|}{Træningsæt} \\\hline
+Tegn & Valgt \\\hline
+0 & 92,9\% \\\hline
+1 & 0\% \\\hline
+2 & 0\% \\\hline
+3 & 0\% \\\hline
+4 & 0\% \\\hline
+5 & 0\% \\\hline
+6 & 92,9\% \\\hline
+7 & 0\% \\\hline
+8 & 0\% \\\hline
+9 & 0\% \\\hline
+A & 0\% \\\hline
+B & 0\% \\\hline
+C & 92,9\% \\\hline
+D & 0\% \\\hline
+E & 0\% \\\hline
+H & 0\% \\\hline
+J & 0\% \\\hline
+K & 0\% \\\hline 
+L & 92,9\% \\\hline
+M & 0\% \\\hline
+N & 0\% \\\hline
+O & 0\% \\\hline
+P & 0\% \\\hline
+R & 0\% \\\hline
+S & 0\% \\\hline
+T & 0\% \\\hline
+U & 0\% \\\hline
+V & 0\% \\\hline
+X & 0\% \\\hline
+Y & 0\% \\\hline
+Z & 0\% \\\hline \end{tabular}
 
 
 
-Ved klassifikation bruges en eller anden grænseværdi som bestemmer hvad et element skal klassificeres som: denne grænseværdi kan reguleres og kan derfor testes.
+\subsubsection{Summerede billeder}
+Samme tabeller som ovenfor?
 
-Konklusion:
+
+%Søren: Ved klassifikation bruges en eller anden grænseværdi som bestemmer hvad et element skal klassificeres som: denne grænseværdi kan reguleres og kan derfor testes.
+
+Delkonklusion:
 
