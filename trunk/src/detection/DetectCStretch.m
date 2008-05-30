@@ -1,6 +1,6 @@
 % Do contrast stretch on parts of the image
 
-function plateCoords = DetectCStretch(inputImage)
+function [plateCoords candidateScore] = DetectCStretch(inputImage)
 
   scaleFactor = 0.25;
 

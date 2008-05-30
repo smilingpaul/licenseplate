@@ -1,6 +1,6 @@
 % Marks areas with platelike frequency
 
-function plateCoords = DetectPlateness(inputImage)
+function [plateCoords candidateScore] = DetectPlateness(inputImage)
 
   scaleFactor = 0.25;
 

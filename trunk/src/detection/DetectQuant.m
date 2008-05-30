@@ -108,7 +108,7 @@ function [plateCoords candidateScore] = DetectQuant(inputImage)
   % Get best candidate %
   %%%%%%%%%%%%%%%%%%%%%%
 
-  [plateCoords, candidateScore] = GetBestCandidate2(conComp, resizedImage, scaleFactor)
+  [plateCoords, candidateScore] = GetBestCandidate2(conComp, resizedImage, scaleFactor);
   %plateCoords = GetBestCandidate(conComp, resizedImage, scaleFactor);
 
 

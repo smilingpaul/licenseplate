@@ -163,12 +163,12 @@ function [plateCoords bestCandidateScore] = GetBestCandidate2(conComp, inputImag
   bestCandidateScore = inf;
   for i = 1:numConComp
     if candidates(i,15) < bestCandidateScore && ... % Lowest score
-       candidates(i,15) <= 190 %&& ... % Better score than this
+       candidates(i,15) <= 300 %&& ... % Better score than this
        %candidates(i,5) <= 60 %&& ... % Aspect ratio score less than this
        %candidates(i,8)  <= 45  && ... % Plateness score less than this
        %candidates(i,11) <= 40 && ... % Density less than this
        %candidates(i,13) <= 31 % candidates close to max less than this
-      bestCandidateScore = candidates(i,15);
+      bestCandidateScore = uint16(candidates(i,15));
       plateCoords =  (1/scaleFactor) * [ candidates(i,3:4) candidates(i,1:2) ];
     end
   end  
