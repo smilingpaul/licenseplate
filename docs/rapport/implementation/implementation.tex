@@ -3,29 +3,58 @@
 
 I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede funktioner, hvis vi kendte til kommandoer... F.eks. filter og blokprocess. I første delafsnit gennemgås nogle hjælpefunktioner som bruges i flere elementer af systemet. Dernæst gennemgås funktionerne til lokalisering af nummerplader, separation af tegn og til sidst genkendelse af tegn.
 
+<<<<<<< .mine
+Vi gennemgår funktionerne trin for trin og kommenterer de detaljer vi finder væsentlige til sidst i hver afsnit.
+
+
+DET HEDDER IMPLEMENTERING
+=======
 Det skal bemærkes at koordinatsystemet der bruges i Matlab ikke har origo i det samme punkt som det man kender som et almindeligt koordinatsystem. Origo ligger derimod i øverste venstre hjørne (normalt ligger det i nederste venstre hjørne). Desuden er koordinaterne til origo i Matlab 1,1 og ikke 0,0. y-koordinaten til et punkt i Matlab angives normalt først, så en pixel i et billede refereres til med koordinaterne y,x i modsætning til den oftest anvendte rækkefølge x,y.
+>>>>>>> .r175
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %%% HJÆLPEFUNKTIONER %%%
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Hjælpefunktioner}
+<<<<<<< .mine
+Vi har lavet funktioner der bruges af flere dele af vores system. I det følgende gennemgår vi disse funktioners virkemåde og formål.
+
+
+
+=======
 De følgende hjælpefunktioner bruges af flere funktioner.
 \subsubsection{Hjælpefunktion 1}
 BinImgCleanup
+>>>>>>> .r175
 \subsubsection{Hjælpefunktion 2}
 GetBestCandidate
+\subsubsection{Hjælpefunktion 3}
+ContrastStretch
+\subsubsection{Hjælpefunktion 4}
+WhiteLine 
+\subsubsection{Hjælpefunktion 3}
+Distribution
 
+<<<<<<< .mine
+
+=======
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADER %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+>>>>>>> .r175
 \subsection{Lokalisering af nummerplader}
 I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{JPEG}-billede som inddata og leverer koordinater til en enkelt nummerpladekandidat som uddata. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste \textit{x}-værdi, største \textit{x}-værdi, mindste \textit{y}-værdi og største \textit{y}-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er $0$.
 
 Ofte udvider vi kandidatområdet for at få hele pladen med. Det er vigtigt for at kunne rotere (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
 
 Vi har brugt greythresh med mindre andet er beskrevet.
+
+\subsubsection{Analyse af interesseområder}
+Analysen af de binære billeder der markerer interesseområder varetages af funktionen \textit{BinImgCleanup} hvis kildekode findes i afsnit \vref{BinImgCleanup}. Funktionen tager et binært billede som inddata, og returner et binært billede hvor de områder der sandsynligvis ikke er nummerpladeområder er fjernet som beskrevet i afsnit \vref{sec:BinImgCleanup}. 
+
+
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
 Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. Programmet udfører følgende trin:
 
@@ -109,19 +138,28 @@ ER DET BEDRE AT GANGE GRAYTHRESH LIDT OP??
 GØR VI KANDIDATEN STØRRE?
 Måske kunne vi opnå bedre resultater ved at bruge filter frem for blok, men blok er meget hurtigere.
 
-\begin{description}
-\item[1.] Indlæs billede.
-\end{description}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Metode: Kvantifisering}
 \begin{description}
 \item[1.] Indlæs billede.
+\item[2.] Konverter til gråtoner.
+\item[3.] Nedskaler billede.
+\item[4.] Filtrer billede som beskrevet i \ref{sec:DetectQuant}.
+\item[5.] Sæt antal forskellige intensiteter i billedet ned til 7.
+\item[6.] Lav et binært billede for hver af intensiteterne.
+\item[7.] For hver intensitet, slet områder i det binære billeder der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
+\item[8.] Gør områderne i de binære billeder lidt mindre.  
+\item[9.] Slå de binære billeder sammen til et enkelt binært billede. 
+\item[10.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
+\item[11.] Udvid koordinaterne for den valgte nummerpladekandidat.
+\item[12.] Returner koordinater.
 \end{description}
+
+I trin 4 dividerer vi alle intensiteterne i billedet med 43 og runder af for at sætte antallet af mulige intensitetsværdier ned til 7 i intervallet 1 til 7. De binære billeder i trin 6 gemmer vi en matrix med dimensionerne \textit{[billedehøjde, billedbrede, antal intensiteter]}. I trin 8 gør vi områderne mindre så se ikke smelter sammen med andre områder i trin 9.
 
 METODEN ER DÅRLIG PÅ HVIDE BILER
 
-PÅ ET TIDSPUNKT BLIVER DER RUNDET NED. UNDERSØG OM DET SKA VÆRE SÅDAN. DET VILLE VEL VÆRE BEDRE AT BARE RUNDE AF?
 
 
 %\subsubsection{Metode: Histogram}
