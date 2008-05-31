@@ -8,9 +8,11 @@ Til genkendelse af tegn vil vi bruge to forskellige metoder: Den første bruger 
 De to metoder til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv.
 
 \subsubsection{Metode: Egenskabsvektorer}
-En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekt, i dette tilfælde et billede. Idéen i denne metode er at der oprettes en vektor for hvert muligt tegn der kan forekomme i en nummerplade. For et billede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med tegn-vektorerne for at se hvilken vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges. Metoden er fundet i \cite{arth}.
+En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med egenskabsvektorer (i dette tilfælde middelvektorer) for at finde ud af det tegn som billedet forestiller. Metoden er fundet i \cite{arth}.
 
-Afstanden, $D$ fra én vektor, $P = (p_{1},p_{2},...,p_{n})$ til en anden vektor, $Q = (q_{1},q_{2},...,q_{n})$ i et $n$-dimensionelt rum beregnes ved brug af den euklidiske afstand\cite{wiki_euclid}:
+Først oprettes en middelvektor for hvert tegn der kan forekomme i en nummerplade. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et slags træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). For et inddatabillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges. 
+
+I vores system findes afstanden, $D$ fra én vektor, $P = (p_{1},p_{2},...,p_{n})$ til en anden vektor, $Q = (q_{1},q_{2},...,q_{n})$ i et $n$-dimensionelt rum ved brug af den euklidiske afstand\cite{wiki_euclid}:
 
 \begin{displaymath}
 	D = \sqrt{\sum_{i=1}^{n}(p_{i}-q_{i})^{2}}
@@ -20,11 +22,15 @@ MAHAP AFSTAND SKAL I FØLGE SØREN BRUGE MANGE DATA. KAN IKKE HUSKE HVORFOR
 
 EKSEMPEL PÅ VEKTOR?
 
+\subsubsection{Sum-billeder}
+
 \subsubsection{Simpel metode hvor træningsættet andes}
+
+DENNE SKAL MÅSKE FLYTTES TIL "ANDRE METODER"?
 
 \subsubsection{Syntaks analyse}
 
-Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. Analysen sker på baggrund af at et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden er lavet ud fra egen idé.
+Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. Analysen sker på baggrund af at et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis}.
 
 Der kan forekomme følgende fejl i en tegnfølge fra en nummerplade i vores system:
 
