@@ -8,8 +8,7 @@ Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerp
 
 \subsubsection{Rotation}
 
-I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}. VIRKER MÅSKE DUMT MED DENNE INDLEDNING, NÅR DER KUN ER EN METODE?
-
+I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}.
 
 \subsubsection*{Radon transformation}
 En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
@@ -72,15 +71,14 @@ IKKE FUNDET ANDRE: SKAL DET STÅ HER? NOGET MED HOUGH?
 %"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
 
 
-I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder arbejder med henholdsvis sammenhængende komponenter og signatur.
-
+I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder arbejder med henholdsvis sammenhængende komponenter og såkaldt "signatur".
 
 \subsubsection*{Metode: Sammenhængende komponenter}
 Denne metode til at identificere tegn i en nummerplade er lavet ved hjælp af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. I en nummerplade vil hver sammenhængende komponent bestå af mørke pixels (tegnene er sorte) mens baggrunden er lyse pixels (pladens baggrund er hvid). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
 
-Med sandsynlighed vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, lyset på billedet kan være dårligt, billedet kan være klippet 'for løst' sådan at elementer uden for nummerpladen vil være sammenhængende etc.
+Med sandsynlighed vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, belysningen af nummerpladen på billedet kan være svag, billedet kan være klippet 'for løst' sådan at mørke elementer uden for nummerpladen vil være sammenhængende etc.
 
-For at tegnene skal udskille sig klart fra den lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have en intensitetsværdi nær 0.
+For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have intensitetsværdier nær 0, mens eksempelvis pixels i den hvide nummerpladebaggrund vil have intensitetsværdier nær 255.
 
 %Figur ?? viser forskellen på et billede af en nummerplade uden kontrast og et med hvor kontrasten i billedet er forstærket.
 
@@ -91,21 +89,21 @@ Efter kontrastforstærkning oprettes et binært billede med sammenhængende komp
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=8cm]{system/illu/concomp_example.png}}
-  \caption{BEDRE EKSEMPEL?}
+  \caption{Illustration af sammenhængende, mørke komponenter i en nummerplade. De sammenhængende komponenter er vist som hvide i dette binære billede.}
   \label{fig:concomp}
 \end{figure}
 
-Ud fra følgende regler, vælges de komponenter der kan være tegn:
+Ud fra følgende regler, vælges de sammenhængende komponenter der kan være tegn:
 
 \begin{itemize}
 \item Hvert tegn fylder maksimalt $\frac{1}{7}$ af billedet/pladen.
 \item Hvert tegn har en maksimal bredde på $\frac{1}{7}$ af billedets/pladens bredde.
 %\item Tegnenes højde er større end deres bredde. DETTE GØRES IKKE!
-\item Tegnenes minimale højde skal være mindst en vis konstant (her: 5 pixels)
-\item Tegnenes minimale størrelse skal være mindst en vis konstant (her: 5 pixels)
-\item For hvert tegn findes der seks andre tegn som er ca. lige så højde som det pågældende tegn.
-\item For hvert tegn findes der seks andre tegn som befinder sig i samme højde som det pågældende.
-\item Afstanden mellem tegnene 2 og 3 samt 4 og 5 i en tegnfølge på syv tegn er større end afstanden mellem de resterende tegn der støder op til hinanden.
+\item Tegnenes minimale højde skal være mindst en vis konstant.% (her: 5 pixels)
+\item Tegnenes minimale størrelse skal være mindst en vis konstant.% (her: 5 pixels)
+\item For hvert tegn findes der seks andre tegn som er omtrent ligeså høje som det pågældende tegn.
+\item For hvert tegn findes der seks andre tegn som befinder sig i omtrent samme højde som det pågældende tegn.
+\item Afstanden mellem tegnene på position 2 og 3 samt 4 og 5 i tegnfølgen på syv tegn er større end afstanden mellem de resterende tegn, der støder op til hinanden.
 \end{itemize}
 
 
