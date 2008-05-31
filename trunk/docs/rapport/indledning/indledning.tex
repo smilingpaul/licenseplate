@@ -13,17 +13,12 @@ I mange sammenhænge er det interessant, at have adgang til et system der automa
 
 %On March 11, 2008, the Federal Constitutional Court of Germany ruled that the laws permitting the use of automated number plate recognition systems in Germany violated the right to privacy.
 
-\subsection*{Rapportens afsnit}
-Vores billeder
-Vores system
-Vores implementation
-Vores resultater
-Vores konklussion
-
-%EN OVERSIGT OVER HVAD VI BESKRIVER I RAPPORTEN
+\subsection*{Rapporten}
+I denne rapport vil vi i afsnit \vref{sec:data} beskrive de data vi har arbejdet med. Dernæst vil vi i afsnit \vref{sec:system} beskrive vores system og de overvejelser der har ført til netop dette system. I afsnit \vref{sec:implementation} beskrives implementeringen af systemet, mens afsnit \vref{sec:resultater} indeholder vores resultater. Til sidst findes der i afsnit \vref{sec:konklusion} en konklusion.
 
 
 \section{Hvilken type billeder arbejder vi med?}
+\label{sec:data}
 Et system der skal genkende nummerplader har brug for at kunne observere køretøjer. Dette sker via stillbilleder eller videooptagelser. I denne opgave har vi valgt at arbejde med stilbilleder. Vi har taget vores billeder med to forskellige kameraer. Et eksempel på den type billeder vi arbejder med kan ses på figur \vref{fig:typisk_billede}.
 
 \begin{figure}[htp]
@@ -37,14 +32,14 @@ Et system der skal genkende nummerplader har brug for at kunne observere køret�
 \subsection{Afgrænsninger}
 For at begrænse opgavens omfang, har vi valgt en række afgrænsninger for de billeder vi ønsker at arbejde med. I det følgende beskriver vi de valg vi har truffet og baggrunden for dem.
 
-\paragraph{Bilerne på billederne er ikke i bevægelse}
-For at forsøge at få så skarpe billeder som muligt, har vi lagt kun at tage billeder af parkerede biler. Vi vil dog stadig kunne få uskarpe billeder i situationer hvor kameraet ikke har stillet skarpt på køretøjet. Vi har taget alle billeder med autofokus, og har således ikke selv foretaget nogle valg i den forbindelse.
+\paragraph{Bilerne på billederne er ikke i bevægelse:}
+For at forsøge at få så skarpe billeder som muligt, har vi valgt kun at tage billeder af parkerede biler. Vi vil dog stadig kunne få uskarpe billeder i situationer hvor kameraet ikke har stillet skarpt på køretøjet. Vi har taget alle billeder med autofokus, og har således ikke selv foretaget nogle valg i den forbindelse.
 
-\paragraph{Alle billeder indeholder netop en nummerplade}
-Før at gøre opgaven lettere, har vi valgt kun at kigge på billeder der indeholder en enkelt nummerplade. Hvis vi ved at billedet helt sikkert indeholder en nummerplade, kan vi kigge efter det område der ligner en nummerplade mest og være ret sikre på at dette område virkelig er en nummerplade. Vi behøver altså ikke vurdere, om det område der ligner mest ligner så meget at vi mener det er en nummerplade.
+\paragraph{Alle billeder indeholder netop en nummerplade:}
+Før at gøre opgaven begrænset, har vi valgt kun at kigge på billeder der indeholder en enkelt nummerplade. Hvis vi ved at et billede med garanti indeholder én nummerplade, kan vi kigge efter det område der ligner en nummerplade mest og være ret sikre på at dette område virkelig er en nummerplade. Vi behøver altså ikke vurdere, om det område der ligner mest ligner så meget at vi mener det er en nummerplade. MAN KUNNE VEL OGSÅ LAVE ET SYSTEM DER KIGGEDE EFTER FLERE NUMMERPLADER?
 
-\paragraph{Amindelige danske nummerplader}
-For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at arbejde med de almindelige hvide nummerplader med en linie sort tekst på hvid baggrund og rød kant som vist på figur \vref{fig:typisk_nummerplade}. Endvidere arbejder vi ikke med de såkaldte personlige nummerplader hvor man selv kan bestemme teksten på nummerpladen.
+\paragraph{Amindelige danske nummerplader:}
+For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at arbejde med de almindelige hvide nummerplader med 1 linie sort tekst på hvid baggrund og rød kant som vist på figur \vref{fig:typisk_nummerplade}. Endvidere arbejder vi ikke med de såkaldte personlige nummerplader hvor man selv kan bestemme teksten på nummerpladen.
 
 \begin{figure}[htp]
 \centering
@@ -53,28 +48,28 @@ For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at
 \label{fig:typisk_nummerplade}
 \end{figure}
 
-\paragraph{Vandrette nummerplader}
+\paragraph{Vandrette nummerplader:}
 Vores billeder er taget så nummerpladerne er roteret i begrænset omfang. Denne begrænsning gør, at vi kan antage at de områder der indeholder nummerplader har et forhold mellem bredde og højde der ligger forholdsvis tæt på danske nummerplades officielle bredde/højde-forhold.
 
-\paragraph{Ingen perspektivisk forvrængning}
+\paragraph{Ingen perspektivisk forvrængning:}
 Vi har valgt at arbejde med billeder hvor den perspektivisk forvrængning af nummerpladerne er minimal. Uden væsentlig skævvridning af nummerpladerne, vil pladernes tegn stort set være lige høje og brede og dermed nemmere at læse. Vi har derfor bestræbt os på at tage vore billeder fra en position umiddelbart foran eller bagved den bil vi fotograferer. Denne afgrænsning gør, at vi ikke arbejder med opretning af perspektiviskt forvrængning i denne opgave. 
 %Endvidere vil tegn stå på en vandret linie
 
-\paragraph{Ensartede størrelser af nummerplader}
-For på forhånd at kunne antage noget om størrelserne på de nummerplader vi ønsker at kunne genkende, har vi taget alle billeder fra en afstand på mellem to og fire meter uden brug af zoomfunktion.
+\paragraph{Ensartede størrelser af nummerplader:}
+For på forhånd at kunne antage noget om størrelserne på de nummerplader vi ønsker at kunne genkende, har vi taget alle billeder fra en afstand på mellem 2 og 4 meter uden brug af zoomfunktion.
 
-\paragraph{Billeder af god kvalitet}
+\paragraph{Billeder af god kvalitet:}
 Vores billeder er alle taget i en opløsning på $1024 \times 768$ pixels. Gode originalbilleder giver gode muligheder for at eksperimentere med billeder i forskellige opløsninger. 
 
-\paragraph{Intet kunstigt lys}
+\paragraph{Intet kunstigt lys:}
 Vi har valgt at tage alle billeder uden brug af kunstigt lys som f.eks. blitz. Det er vores ønske at arbejde med billeder taget under forskellige lysforhold så nummerpladerne kan ligge helt eller delvist i skygge.  
 
 \subsection{To sæt billeder}
-Vi har delt vores billeder op i to set. Det ene sæt, bestående af 400 billeder, kalder vi for vores \textit{træningsæt}. Det er billeder i dette sæt vi har analyseret under arbejdet med at udvikle vores software. F.eks. har vi på baggrund af dette set observeret nummerpladernes størrelser så vi har kunnet vurdere nummerpladestørrelser i den type billeder vi arbejder med.
+Vi har delt vores billeder op i to sæt. Det ene sæt, bestående af 400 billeder, kalder vi for vores \textit{træningsæt}. Det er billeder i dette sæt vi har analyseret under arbejdet med at udvikle vores software. F.eks. har vi på baggrund af dette sæt observeret nummerpladernes størrelser så vi har kunnet vurdere nummerpladestørrelser i den type billeder vi arbejder med.
 
-Vores andet sæt, \textit{kontrolsættet}, består af 600 billeder. Dette set har vi brugt til at foretage en form for kontrol af vores færdige system. Det er vores tanke at denne kontrol vi kunne sige noget om i hvor høj grad vi har formået at lave et system der fungerer på ukendte billeder taget med med vores afgrænsninger som beskrevet tidligere. 
+Vores andet sæt, \textit{kontrolsættet}, består af 600 billeder. Dette sæt har vi brugt til at foretage en form for kontrol af vores færdige system. Det er vores tanke at denne kontrol vil kunne sige noget om i hvor høj grad vi har formået at lave et system der fungerer på ukendte billeder taget med vores afgrænsninger som beskrevet tidligere. 
 
-HVIS VI HAR LAVET FLERE SET, F.EKS. MED BLITZ, SKAL DET OGSÅ NÆVNES HER.
+HVIS VI HAR LAVET FLERE SÆT, F.EKS. MED BLITZ, SKAL DET OGSÅ NÆVNES HER.
 
 \begin{comment}
 I mange sammenhænge vil det være relevant at automatisk kunne identificere og genkende køretøjers nummerplader. Et sådant system kunne eksempelvis være et system som bruges ved et parkeringsanlæg, hvor der f.eks. tages billeder af de biler der ankommer til anlægget, så man kan registrere hvilke biler der befinder sig på anlægget. Et sådant system kunne også bruges af parkeringsvagter, som eksempelvis manuelt tager billeder af parkerede biler hvorefter systemet identificere bilen.
