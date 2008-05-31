@@ -110,15 +110,15 @@ Ud fra følgende regler, vælges de sammenhængende komponenter der kan være te
 
 Til sidst fås et binært billede hvor kun tegnene i nummerpladen er markeret. Figur \vref{fig:sorterede-concomp} viser et eksempel.
 
-
 \begin{figure}[htp]
   \centering
-  \framebox{\includegraphics[width=3cm]{system/illu/radon_matrix.jpg}}
+  \framebox{\includegraphics[width=8cm]{system/illu/concomp_example.png}}
   \caption{EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA}
   \label{fig:sorterede-concomp}
 \end{figure}
 
-Til sidst udklippes de resterende komponenter. Et eksempel herpå er vist i Figur \vref{fig:tegn-udklip}.
+
+Til sidst udklippes de komponenter der resterer (tegnene). Et eksempel på syv udklippede tegn er vist i Figur \vref{fig:tegn-udklip}.
 
 \begin{figure}[htp]
   \centering
@@ -126,8 +126,6 @@ Til sidst udklippes de resterende komponenter. Et eksempel herpå er vist i Figu
   \caption{EKSEMPEL PÅ UDKLIPPEDE TEGN}
   \label{fig:tegn-udklip}
 \end{figure}
-
-BESKREVET I KWAS: MAN KU FJERNE KANTER FØR ANALYSE?
 
 \subsubsection*{Metode: Bjerg/dal}
 Denne metode baseres på en vertikal projektion (PROJEKTION ER MÅSKE DUMT?) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (bjerg), hvorefter vi kan udskærer tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
@@ -138,12 +136,10 @@ Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i bi
 
 \begin{figure}[htp]
   \centering
-  \framebox{\includegraphics[width=3cm]{system/illu/radon_matrix.jpg}}
+  \framebox{\includegraphics[width=10cm]{system/illu/signatur.png}}
   \caption{FIGUR AF SIGNATUR-KONCEPT}
-  \label{fig:signatur-nummerplade}
+  \label{fig:ptv-signatur}
 \end{figure}
-
-DER ER VIST IKKE MERE AT SIGE OM DENNE METODE HER?
 
 \subsubsection{Metoder fra litteraturen}
 

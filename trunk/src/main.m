@@ -227,8 +227,8 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    [chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
-    %[chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
+    %[chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
+    [chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
     %figure(19), imshow(imread([imagesFolder fileList(i).name]));
@@ -299,7 +299,7 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%%%%%%
     
     plateAsString = '';
-    %%{
+    %{
     if foundChars == 7 && charsSegmented == 7
       [charHitLists, distances] = ReadPlateFV(chars,9);
       %[charHitLists, sums] = ReadPlateSUM(chars,5);
@@ -308,7 +308,7 @@ for i = 1:noOfImages
         charHitLists(6,1) charHitLists(7,1)]
       %plateAsString = ReadPlateAND(chars,10)
     end
-    %%}
+    %}
 
     if ~strcmp(plateAsString,'')
       

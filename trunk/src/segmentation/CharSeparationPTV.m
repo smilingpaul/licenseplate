@@ -120,10 +120,11 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   se = strel('line',4,90);
   dilatedBW = imerode(contrastImg,se);
   
-  bwImg = im2bw(dilatedBW,graythresh(dilatedBW)*threshFactor);
+  %bwImg = im2bw(dilatedBW,graythresh(dilatedBW)*threshFactor);
   %bwImg = im2bw(contrastImg,0.2);
   %bwImg = im2bw(brightImg,graythresh(brightImg));
   %bwImg = im2bw(grayImg,graythresh(grayImg)*threshFactor);
+  bwImg = im2bw(contrastImg,graythresh(contrastImg)*threshFactor);
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % REMOVE COMPONENTS THAT MAY BE AREA OUTSIDE PLATE %
@@ -350,20 +351,20 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   % plot meanSummedScanlines and found peaks
   if figuresOn
     normSummedScanlines = (meanSummedScanlines/max(meanSummedScanlines))*plateImgHeight;
-    figure(22), subplot(7,4,9:12), imshow(dilatedBW), title('dilatedBW');
+    %figure(22), subplot(7,4,9:12), imshow(dilatedBW), title('dilatedBW');
     %figure(22), subplot(7,4,13:16), imshow(brightImg), title('brightImg');
-    %figure(22), subplot(7,4,9:12), imshow(contrastImg), title('contrastImg');
-    figure(22), subplot(7,4,13:20), imshow(bwImg), title('bwImg');
+    figure(22), subplot(7,4,9:12), imshow(contrastImg), title('contrastImg');
+    figure(22), subplot(7,4,13:20), imshow(~bwImg), title('bwImg');
     %figure(65), imshow(contrastImg), title('contrastImg');
     hold on;
-    plot(1:plateImgWidth, normSummedScanlines, 'r');
-    for j = 1:size(allPeaks)
-      plot(allPeaks(j), plateMiddle, 'gx');
-    end
-    for i = 1:8
-      line(maxPeaks(i), 1:plateImgHeight);
-      %plot(maxPeaks(i), 1:plateImgHeight, 'b-');
-    end
+    plot(1:plateImgWidth, normSummedScanlines, 'y');
+    %for j = 1:size(allPeaks)
+    %  plot(allPeaks(j), plateMiddle, 'gx');
+    %end
+    %for i = 1:8
+    %  line(maxPeaks(i), 1:plateImgHeight);
+    %  %plot(maxPeaks(i), 1:plateImgHeight, 'b-');
+    %end
     hold off;
   end
  

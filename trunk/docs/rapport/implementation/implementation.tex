@@ -175,21 +175,17 @@ I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de fu
 
 Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et \textit{JPEG}-billede samt koordinaterne for nummerpladen i billedet som indata. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet.
 
-\begin{description}
-\item[1.] Et billede af kun pladen, plukkes ud
-\item[2.] Kanterne findes i billedet af pladen
-\end{description}
+
+\paragraph{1. Et billede af kun pladen, plukkes ud}
+\paragraph{2. Kanterne findes i billedet af pladen:}
 For at finde pladens rotation er det nødvendigt at finde kanter i billedet af en nummerplade. Matlab funktionen edge bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke, da dette ville give en større mulighed for at radon transformationen finder den tydligste kant i en vertikale linie i billedet. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel.
 
-\begin{description}
-\item[3.] Radon matricen for kant-billede findes ved brug af funktionen \textit{radon}
-\item[4.] Den maksimale værdi i Radon matricen findes og rotationsvinklen registres
-\item[5.] Billedet af nummerpladen roteres ved brug af imrotate
-\item[6.] Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix
-\end{description}
+\paragraph{3. Radon matricen for kant-billede findes ved brug af funktionen\textit{radon}}
 
+\paragraph{4. Den maksimale værdi i Radon matricen findes og rotationsvinklen registres}
+\paragraph{5. Billedet af nummerpladen roteres ved brug af imrotate}
+\paragraph{6. Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix}
 EVT. ILLU AF RADON? ELLER SKAL DET VÆRE I "SYSTEM" AFSNITTET?
-
 Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
 
 \subsubsection{Separation}
@@ -200,24 +196,15 @@ Metoderne til separation af tegn tager et billede af en nummerplade samt koordin
 
 Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}.
 
-\begin{description}
-\item[1.] Billedet af pladen omdannes til gråtone
-\item[2.] Billedet laves om til sort-hvid, "roughly" og indskrænkes til den største komponent
-\end{description}
+\paragraph{1. Billedet af pladen omdannes til gråtone.}
+
+\paragraph{2. Billedet laves om til sort-hvid, "roughly" og indskrænkes til den største komponent:}
 De billeder der i denne del af systemet modtages fra metoderne til identificering af nummerplader er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen. Da nummerpladen med sandsynlighed er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen im2bw, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. På denne måde sikrer vi os, at nummerpladen vil være hvid og at den ikke bliver sort (SKRIV OM).
 
-\begin{description}
-\item[3.] Kontrast..
-\end{description}
-
-
-
+\paragraph{3. Kontrast..:}
 For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
 
-\begin{description}
-\item[4.] Tynde komponenter i toppen og i siderne af billedet fjernes
-\end{description}
-
+\paragraph{4. Tynde komponenter i toppen og i siderne af billedet fjernes:}
 Når det binære billede er dannet opstår der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Se et eksempel nedenfor... Når dette .... Derfor slettes alle pixels som har en tom plads på begge sider i den øverste 1/3 af billedet, samt i den yderste 1/10 i både højre og venstre side.
 
 BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE KOMPONENTER KAN FJERNES
@@ -226,30 +213,21 @@ Derudover slettes alle pixels i de rækker af billedet som ikke har mindst en 1/
 
 BESKRIV PROBLEM MED TEGNET K
 
-\begin{description}
-\item[5.] Horisontale linier med meget lidt hvid, eller meget hvid gøres helt sorte
-\end{description}
-
+\paragraph{5. Horisontale linier med meget lidt hvid, eller meget hvid gøres helt sorte:}
 Beskrivelse...
 
-\begin{description}
-\item[6.] Det sort-hvide billede laves til et sammenhængende-komponenter-billede
-\item[7.] For små og for store komponenter fjernes
-\end{description}
-
+\paragraph{6. Det sort-hvide billede laves til et sammenhængende-komponenter-billede.}
+\paragraph{7. For små og for store komponenter fjernes.}
 I næste del af funktionen frasorteres alle de sammenhængende komponenter der er for små eller for store.
 
-\begin{description}
-\item[8.] Grupper på syv komponenter samles hvor alle syv komponenter har samme højde og er i samme højde
-\end{description}
+\paragraph{8. Grupper på syv komponenter samles hvor alle syv komponenter har samme højde og er i samme højde.}
 
 Så findes der grupper af syv sammenhængende komponenter hvor elementerne i hver gruppe skal være ca. lige høje og befinde sig i ca. samme højde.
 
-\begin{description}
-\item[9.] Afstandene mellem komponenter i hver gruppe udregnes og en "god" gruppe vælges
-\end{description}
-
+\paragraph{9. Afstandene mellem komponenter i hver gruppe udregnes og en "god" gruppe vælges:}
 Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har de rette afstande i mellem sig, vælges elementerne i gruppen som tegnene.
+
+NOGET MED AT TEGNENE SKÆRES "TÆT"	
 
 \subsubsection*{Bjerg/dal}
 
@@ -283,7 +261,13 @@ NOGET OM HVORDAN VI FINDER TOP OG BUND BESKÆRING
 \subsubsection{Mulige forbedringer}
 DER MÅ VÆRE MANGE KOMMENTARER TIL HVORDAN VI KAN GØR BJERG/DAL BEDRE
 
-I funktionen der bruger sammenhængende komponenter er flere statiske værdier, som eksempelvis størrelsen af de blokke der kontrastforstærkes i, komponenternes minimum bredde osv. Disse variable kunne være lavet dynamisk, men de er ret gode nu og derfor har vi ladet dem være. SKRIV DET SIDSTE OM.
+I funktionen der bruger sammenhængende komponenter findes der flere statiske variable, som eksempelvis størrelsen af de blokke der kontrastforstærkes i, komponenternes minimum bredde osv. Disse variable kunne være lavet dynamisk, men de er ret gode nu og derfor har vi ladet dem være. SKRIV DET SIDSTE OM.
+
+CONCOMP: BESKREVET I KWAS: MAN KU FJERNE KANTER FØR ANALYSE?
+
+SKALERING KAN FORBEDRE HASTIGHED? PERFORMANCE?
+
+MEDIAN FILTER ELLER ANDRE FILTRE? LYSFORSTÆRKNING?
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -351,3 +335,5 @@ Bla bla
 
 \subsubsection{Mulige forbedringer}
 Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.
+
+Man kunne bruge mahalanopis afstand
