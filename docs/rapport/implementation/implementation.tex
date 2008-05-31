@@ -173,20 +173,19 @@ I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de fu
 \subsubsection{Rotation}
 \label{sec:implementation/sep/rotation}
 
-Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et \textit{JPEG}-billede samt koordinaterne for nummerpladen i billedet som indata. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet.
+Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et \textit{JPEG}-billede samt koordinaterne for nummerpladen i billedet som indata. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet. Funktionens forløb er som følger:
 
+\paragraph{1. Billedet af nummerpladen "tages ud" af originalbilledet.}
+\paragraph{2. Billedet af pladen kant-detekteres:}
+For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke. På denne måde kan vi nøjes med at analysere én dimension ved brug af Radon transformationen. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
 
-\paragraph{1. Et billede af kun pladen, plukkes ud}
-\paragraph{2. Kanterne findes i billedet af pladen:}
-For at finde pladens rotation er det nødvendigt at finde kanter i billedet af en nummerplade. Matlab funktionen edge bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke, da dette ville give en større mulighed for at radon transformationen finder den tydligste kant i en vertikale linie i billedet. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel.
+\paragraph{3. Radon matricen for kant-billedet findes ved brug af Matlab funktionen \textit{radon}.}
 
-\paragraph{3. Radon matricen for kant-billede findes ved brug af funktionen\textit{radon}}
+\paragraph{4. Den maksimale værdi i Radon matricen findes og rotationsvinklen registres:}
+Rotationsvinklen svarer til ...
 
-\paragraph{4. Den maksimale værdi i Radon matricen findes og rotationsvinklen registres}
-\paragraph{5. Billedet af nummerpladen roteres ved brug af imrotate}
-\paragraph{6. Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix}
-EVT. ILLU AF RADON? ELLER SKAL DET VÆRE I "SYSTEM" AFSNITTET?
-Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
+\paragraph{5. Billedet af nummerpladen roteres ved brug af \textit{imrotate}.}
+\paragraph{6. Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix.}
 
 \subsubsection{Separation}
 
@@ -194,7 +193,7 @@ Metoderne til separation af tegn tager et billede af en nummerplade samt koordin
 
 \subsubsection*{Sammenhængende komponenter}
 
-Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}.
+Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}. Funktionen forløber således:
 
 \paragraph{1. Billedet af pladen omdannes til gråtone.}
 
