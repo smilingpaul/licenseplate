@@ -167,13 +167,26 @@ Delkonklussion:
 %%% SEPARATION AF TEGN %%%
 
 \subsection{Separation af tegn}
-Test af de to metoder.
-Er alle karakteret indenfor pladen? Det er kun nødvendigt at se på om tegnene er indenfor pladen da blah blah. Er der forskel på succesraten i forhold til størrelsen på pladen? Er det forskel på succesraten i forhold til om vi ser på pladerne vi manuelt har plottet (med evt. et tilfældigt yderområde lagt til) eller om vi ser på de nummerplader som vores indetifikationsmetoder finder?
+I dette afsnit testes de to metoder til separation af tegn. Metoden til rotation vil ikke blive testes, blot kommenteret.
 
-Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information
+\subsubsection*{Rotation}
+Om en nummerplade står vandret i et billede kan afgøres ved at kantdetektere billedet og udføre en Radon transformation på dette kant-billede. Hvis de stærkeste linier optræder ved $0^{\circ}$ er rotation udført korrekt.
+
+Vi har ikke testet det fordi...
+
+VI KUNNE MÅSKE GODT TESTE DET?
+
+\subsubsection*{Separation}
+De to metoder til separation af tegn testes ved at se på om de finder syv objekter som optræder indenfor pladens koordinater. Denne forholdsvis enkle test mener vi er fyldestgørende, da funktionerne hvori metoderne er implementeret, bør være "skrappe" nok.
+
+Vi vil desuden se på om der er forskel på succesraten i forhold til hvilket område der repræsenterer nummerpladen: Her findes to muligheder: pladen er fundet med vores egne metoder eller defineret ved hjælp af pladekoordinaterne og et eller andet lagt til.
+%Er det forskel på succesraten i forhold til om vi ser på pladerne vi manuelt har plottet (med evt. et tilfældigt yderområde lagt til) eller om vi ser på de nummerplader som vores indetifikationsmetoder finder?
+
+Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information VI KAN IKKE SKALERE
+
+VI VIL KUN SE PÅ TEST AF DETTE NIVEAU, IKKE? 
 
 %OVERVEJ NEDENSTÅENDE SOM SAMLET GRAF I ET AFSNIT
-%\subsubsection{Sammenhængende komponenter}
 
 %\subsubsection{Bjerg/Dal}
 %HVOR GODE ER VI TIL AT FINDE 7 OMRÅDER INDEN FOR PLADEN I TRÆNINGSSÆT?
@@ -187,29 +200,31 @@ Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillad
 
 \begin{tabular}{|l|c|c|}\hline
 \multicolumn{3}{|l|}{Træningssæt} \\\hline
-Antal pixels lagt til? & Sammenhængende komponenter & Bjerg/dal \\\hline
+Metode & Sammenhængende komponenter & Bjerg/dal \\\hline
+Egne metoder & 96\% & 3\% \\\hline
 10 & 96\% & 3\% \\\hline
 20 & 96\% & 3\% \\\hline
 30 & 96\% & 3\% \\\hline \end{tabular}
 
 \begin{tabular}{|l|c|c|}\hline
 \multicolumn{3}{|l|}{Kontrolsæt} \\\hline
-Bla & Sammenhængende komponenter & Bjerg/dal \\\hline
+Metode & Sammenhængende komponenter & Bjerg/dal \\\hline
+Egne metoder & 96\% & 3\% \\\hline
 10 & 96\% & 3\% \\\hline
 20 & 96\% & 3\% \\\hline
 30 & 96\% & 3\% \\\hline \end{tabular}
 
-Delkonklusiong:
-
+Delkonklusion:
+Sammenhængende komponenter er go og bjerg/dal dårlig?
 
 %%% GENKENDELSE AF TEGN %%%
 
 \subsection{Genkendelse af tegn}
-Intro..
+I dette afsnit testes de to metoder til genkendelse af tegn i en nummerplade. Derudover vil syntaksanalysen blive testet.
 
 Noget om at det er i forhold til alle plader, dvs. at procenterne nedenfor er afhængige af hvor gode vi er til separere tegn.
 
-\subsubsection{Feature vektor}
+\subsubsection{Egenskabsvektor}
 
 %HVOR MANGE PLADER ER KORREKT LÆST I TRÆNINGSSÆT?
 %HVOR MANGE PLADER ER KORREKT LÆST I TETSSÆT?
