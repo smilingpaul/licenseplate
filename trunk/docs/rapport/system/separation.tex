@@ -11,9 +11,9 @@ Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerp
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}.
 
 \subsubsection*{Radon transformation}
-En Radon transformation beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
+En \textit{Radon transformation} beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
-En Radon transformation er defineret således\cite{wiki_radon}:
+En Radon transformation er defineret således\cite{wiki_radon}: SKAL MÅSKE IKKE MED?
 
 \begin{displaymath}
 		R[f](\alpha,s) = \int_{-\infty}^{\infty}f(x(t),y(t))dt \text{, hvor}
@@ -22,23 +22,29 @@ En Radon transformation er defineret således\cite{wiki_radon}:
 		(x(t),y(t)) = t(\sin\alpha, -\cos\alpha)+s(\cos\alpha,\sin\alpha)
 \end{displaymath}
 
-Radon transformation er en integral transformation, som kan transformere et to-domensionelt billede indeholdende linier til et andet domæne hvor liniernes placering og retninger kan beregnes\cite{toft_radon}. Vi vil dog ikke undersøge dette nærmere, blot bruge funktionen. ELLER NOGET?! Figur \vref{fig:radon_transform} viser hvordan Radon transformationen findes i en enkelt vinkel.
+VI KUNNE OGSÅ SKRIVE: Den eksakte definition af Radon transformation kommer i flere formater, som vi vil undlade at gennemgå her.
+
+%Radon transformation er en integral transformation, som kan transformere et to-domensionelt billede indeholdende linier til et andet domæne hvor liniernes placering og retninger kan beregnes\cite{toft_radon}. Vi vil dog ikke undersøge dette nærmere, blot bruge funktionen. ELLER NOGET?! Figur \vref{fig:radon_transform} viser hvordan Radon transformationen findes i en enkelt vinkel.
+
+Kilden i en Radon transformation kan være enkeltstående eller en samling af flere. Den sidstnævnte model er den der bruges i dette tilfælde. Projektionen der foretages på et givent billede er et linært integrale hvor pixelenes intensiteter summeres i hver retning. Figur \vref{fig:radon_transform} viser hvordan Radon transformationen findes i en enkelt vinkel ved brug af flere kilder.
 
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=9cm]{system/illu/radon_transform.jpg}}
-  \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ ("theta" i figurteksten). Den grå firkant er billedet der undersøges. De grå pile er sensorlinier.\cite{matlab_radon}}
+  \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ ("theta" i figurteksten) men udfra flere kilder. Den grå firkant er billedet der undersøges. De grå pile er sensorlinier (kilderne).\cite{matlab_radon}}
   \label{fig:radon_transform}
 \end{figure}
 
+I RADON.PDF ER ET GODT EKSEMPEL: VIS DET HER.
+
 Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
 
-For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $180^{\circ}$. Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie. Vist matrix i Figur \vref{fig:radon_matrix}....
+For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $179^{\circ}$ (men ikke for $180^{\circ}$ da dette vil give samme resultat som ved $0^{\circ}$). Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie. I Figur \vref{fig:radon_matrix} er vist resultatet af en Radon transformation af et billede af en nummerplade.
 
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=12cm]{system/illu/radon_matrix.jpg}}
-  \caption{}
+  \caption{Resultatet af en Radon transformation på et billede af en nummerplade. Jo lysere et område i denne matrix er, jo bla bla MANGLER DER EN SKALA???}
   \label{fig:radon_matrix}
 \end{figure}
 
@@ -61,7 +67,7 @@ I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade
 
 
 \subsubsection*{Andre metoder brugt i litteraturen}
-I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end radon-transformation som beskrevet i \cite{sharpiro}. Vi er klar over at rotationsmetoden \textit{Hough-transformation} eksisterer, men har ikke arbejdet med den da det virkede oplagt at bruge metoden fra litteraturen. 
+I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation som er beskrevet i \cite{sharpiro}. Vi er klar over at rotationsmetoden \textit{Hough transformation} eksisterer, men har ikke arbejdet med den da det virkede oplagt at bruge metoden fra litteraturen. 
 
 \subsubsection{Identifikation af tegn}
 
