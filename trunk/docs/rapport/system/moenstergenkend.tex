@@ -5,7 +5,7 @@ INDSÆT GENKENDELSESDEL AF DIAGRAM OVER SYSTEM
 
 Til genkendelse af tegn vil vi bruge to forskellige metoder: Den første bruger informationer fra en egenskabsvektor mens den anden analyserer enkelte pixels i hvert tegn-billede. I dette afsnit vil vi beskrive disse to metoder samt en metode til at udføre syntaks analyse på den tegnfølge der repræsenterer et gæt på nummerpladen.
 
-De to metoder til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv.
+De to metoder til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge.
 
 \subsubsection{Metode: Egenskabsvektorer}
 En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med egenskabsvektorer (i dette tilfælde middelvektorer) for at finde ud af det tegn som billedet forestiller. Metoden er fundet i \cite{arth}.
@@ -28,21 +28,24 @@ DENNE SKAL MÅSKE FLYTTES TIL "ANDRE METODER"?
 
 \subsubsection{Syntaks analyse}
 
-Ved syntaks analyse analyseres tegn-hitlisterne fra de to ovenstående metoder. Analysen sker på baggrund af at et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis}.
+Ved syntaks analyse analyseres tegn-hitlisterne fra de ovenstående metoder. Analysen er relevant da et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis} og \cite{kwas}.
 
 Der kan forekomme følgende fejl i en tegnfølge fra en nummerplade i vores system:
 
 \begin{itemize}
-\item Et tal er placeret på en af de første to pladser
-\item Et bogstav er placeret på en af de sidste fem pladser
-\item Den fundne bogstavkombination er ikke tilladt\footnote{referér til bogstav\_komb.pdf}
-\item Den fundne talkombination er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav)
+\item Et tal er placeret på en af de første to pladser.
+\item Et bogstav er placeret på en af de sidste fem pladser.
+\item Den fundne bogstavkombination er ikke tilladt\footnote{En oversigt over lovlige og ulovlige bogstavkombinationer er fundet i \cite{bogstav_komb}}.
+\item Den fundne talkombination er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav)\footnote{En oversigt over tilladte talværdier er fundet i \cite{nrpl}}.
 \end{itemize}
 
 Hvis en eller flere af disse muligheder er gældende itererer (ANDET ORD FOR ITERERES) metoden ned igennem hitlisterne indtil et lovligt valg af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
 
-I systemet sættes en øvre grænse for hvor langt ned ad hitlisten syntaks analysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville der blot kunne itereres indtil en lovlig tegnfølge er fundet.
+I systemet sættes en øvre grænse for hvor langt ned ad hitlisten syntaks analysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville der blot kunne itereres indtil en lovlig tegnfølge er fundet, og så ville metoderne til genkendelse af tegn give mindre mening ELLER NOGET!
 
 \subsubsection{Metoder fra litteraturen}
 
-NEURALE NETVÆRK
+\subsubsection*{Neurale netværk}
+I \cite{kwas} arbejder man med et simpelt neuralt netværk hvor antallet af neuroner i inddata-laget er lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn. Matlab understøtter oprettelse af neurale netværk, så denne metode kunne have været implementeret og undersøgt i vores system.
+
+ANDRE?
