@@ -1,46 +1,27 @@
 \section{Resultater}
 
-HVAD SKER DER MED GULE ETC. PLADER??
-\subsection{Indsamling af testdata}
+I dette afsnit vil vi afprøve vores system og give resultaterne af denne afprøvning.
+
+%\subsection{Indsamling af testdata}
 
 %Fra start var vi meget opmærksomme på at afgrænsningen af projektet skulle være klar, så det ikke blev for omfattende. Omkring valg af billedemateriale afholdt vi os eksempelvis fra at 
 
-%Til at udarbejde og teste systemet havde vi brug for nogle fotografier af biler med nummerplader. Ved fotograferingen var vi opmærksomme på følgende afgrænsninger:
-
-
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=10cm]{illu/B_XC33139.jpg}
-%\label{b_xc33139}
-%\caption{Fotografieksempel}
-%\end{center}
-%\end{figure}
 
 % vi holder dem adskilt - ikke noget med histo
-Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til identificering af nummerplader (se afsnit \ref{histo}), holdt vi de to fotografisæt adskilte. På denne måde ville det f.eks. være muligt for os at teste om skift fra et kamera til et andet, vil give ændrede resultater. Billederne blev navngivet i vores database, så det, i deres filnavn, indgik om billedet forestillede en bil set forfra eller bagfra samt hvilken nummerplade bilen på nummerpladen havde. Derudover udarbejdede vi et mindre program som hjalp os til at identificere nummerpladens fire hjørnekoordinater og indskrive disse i filnavnet. Denne sidste tilføjelse ville hjælpe os i testfasen, til at undersøge om de nummerpladekandidater vores system ville udvælge er de korrekte.
- 
-Kontrolsæt: 600 billeder
+%Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til identificering af nummerplader (se afsnit \ref{histo}), holdt vi de to fotografisæt adskilte. På denne måde ville det f.eks. være muligt for os at teste om skift fra et kamera til et andet, vil give ændrede resultater.
 
-
-%\subsection{Fotografering}
-%Hvor mange og hvilke billeder har vi taget.
-%At billederne er taget i naturligt lys for at undgå kunstige farver og genskin fra pladen som er malet med reflekterende materiale.
-%Opdeling af billeder i træning- og testsæt
-%til f.eks. histogram metode herunder adskillelse af fotos fra de to forskellige kameraer.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADE %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Lokalisering af nummerplade}
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
+\subsection{Lokalisering af nummerplader}
+Lokalisering af nummerplader kan gøres ved brug af en enkelt af systemets metoder eller ved brug af alle metoderne samtidigt. Vi vil i dette afsnit afprøve disse muligheder. Derudover vil vi se på hvordan resultaterne ændrer sig når man ændrer opløsning af billederne. I alle tilfælde vil vi afprøve metoderne på både trænings- og kontrolsæt. 
 
-\subsubsection{Områder domineret af lyse gråtoner}
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
+\subsubsection*{Områder domineret af lyse gråtoner}
 
 \begin{tabular}{|l|l|l|l|l|}
 \hline
-\multicolumn{5}{|c|}{DetectMain} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
 Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 1 & 1 & 1 & 19 \% & 19 \%\\ \hline
 2 & 2 & 2 & 19 \% & 21 \% \\ \hline
@@ -48,13 +29,9 @@ Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 \hline
 \end{tabular}
 
-\subsubsection{Områder med høj kontrast}
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
-
 \begin{tabular}{|l|l|l|l|l|}
 \hline
-\multicolumn{5}{|c|}{DetectMain} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
 Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 1 & 1 & 1 & 19 \% & 19 \%\\ \hline
 2 & 2 & 2 & 19 \% & 21 \% \\ \hline
@@ -62,13 +39,11 @@ Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 \hline
 \end{tabular}
 
-\subsubsection{Frekvensanalyse}
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
+\subsubsection*{Områder med høj kontrast}
 
 \begin{tabular}{|l|l|l|l|l|}
 \hline
-\multicolumn{5}{|c|}{DetectMain} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
 Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 1 & 1 & 1 & 19 \% & 19 \%\\ \hline
 2 & 2 & 2 & 19 \% & 21 \% \\ \hline
@@ -76,13 +51,9 @@ Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 \hline
 \end{tabular}
 
-\subsubsection{Maksimer lokal kontrast}
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
-
 \begin{tabular}{|l|l|l|l|l|}
 \hline
-\multicolumn{5}{|c|}{DetectMain} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
 Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 1 & 1 & 1 & 19 \% & 19 \%\\ \hline
 2 & 2 & 2 & 19 \% & 21 \% \\ \hline
@@ -90,13 +61,11 @@ Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 \hline
 \end{tabular}
 
-\subsubsection{Kvantifisering}
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
+\subsubsection*{Frekvensanalyse}
 
 \begin{tabular}{|l|l|l|l|l|}
 \hline
-\multicolumn{5}{|c|}{DetectMain} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
 Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 1 & 1 & 1 & 19 \% & 19 \%\\ \hline
 2 & 2 & 2 & 19 \% & 21 \% \\ \hline
@@ -104,32 +73,9 @@ Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 \hline
 \end{tabular}
 
-\subsubsection{endeligt valg af nummerpladekandidat}
-
-Min antal enige 1:
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
-
-
-Min antal enige 2:
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
-
-Min antal enige 3:
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
-
-Min antal enige 5:
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
-
-Min antal enige 5:
-HVOR GODE ER VI PÅ TRÆNINGSSÆT?
-HVOR GODE ER VI PÅ TESTSÆT?
-
 \begin{tabular}{|l|l|l|l|l|}
 \hline
-\multicolumn{5}{|c|}{DetectMain} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
 Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 1 & 1 & 1 & 19 \% & 19 \%\\ \hline
 2 & 2 & 2 & 19 \% & 21 \% \\ \hline
@@ -137,10 +83,81 @@ Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 \hline
 \end{tabular}
 
+\subsubsection*{Maksimer lokal kontrast}
 
-VI SKAL SE HVORDAN DETECTMAIN OPFØRER SIG NÅR F.EKS. ALLE METODER SKAL VÆRE ENIGE.
- Vi har skaleret ned for at spare tid.
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
 
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
+\subsubsection*{Kvantifisering}
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
+\subsubsection*{Endeligt valg af nummerpladekandidat}
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
+Param 1 & Min. antal enige & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\ \hline
+3 & 4 & 3 & 19 \% & 22 \% \\ \hline
+2 & 5 & 2 & 19 \% & 21 \% \\ 
+\hline
+\end{tabular}
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+Param 1 & Min. antal enige & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\ \hline
+3 & 4 & 3 & 19 \% & 22 \% \\ \hline
+2 & 5 & 2 & 19 \% & 21 \% \\ 
+\hline
+\end{tabular}
+
+
+
+
+
+\begin{comment} % udkommenteret da vi vel ikke skal bruge resultater på sættet med 407 billeder?
 \subsubsection*{Observeret sæt på 407 billeder}
 Scale: 0.25
 DetectMain: 96.6/99.24
@@ -153,18 +170,24 @@ DetectCStretch: 84.0/92.7
 Scale: 0.50 (Ekstremt langsomt)
 DetectPlateness: 29.7/56.5
 DetectCStretch:
+\end{comment}
 
-Der skal testet på hver metode som fritstående. Herefter på DetectMain der samler metoderne. Hvordan ændrer resultaterne sig når man ændrer opløsning af billederne?
-Hvor gode er vi på det set vi har observeret? Hvor gode er vi på et set vi ikke har observeret. Er der et mønster i de billeder hvot vi ikke finder nummerpladen? Hvile udfordringer møder vi: Mørke plader... 
+%Confusion matrix: De elementer der ligger udenfor diagonalen er elementer der ikke er nummerplader.
 
-Confusion matrix: De elementer der ligger udenfor diagonalen er elementer der ikke er nummerplader.
+Delkonklusion:
+
+VI SKAL SE HVORDAN DETECTMAIN OPFØRER SIG NÅR F.EKS. ALLE METODER SKAL VÆRE ENIGE.
+
+Vi har skaleret ned for at spare tid.
+
+Hvordan ændrer resultaterne sig når man ændrer opløsning af billederne?
+Er der et mønster i de billeder hvot vi ikke finder nummerpladen? Hvile udfordringer møder vi: Mørke plader... 
+HVAD SKER DER MED GULE ETC. PLADER??
 
 
-
-
-Delkonklussion:
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% SEPARATION AF TEGN %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Separation af tegn}
 I dette afsnit testes de to metoder til separation af tegn. Metoden til rotation vil ikke blive testes, blot kommenteret.
@@ -179,8 +202,7 @@ VI KUNNE MÅSKE GODT TESTE DET?
 \subsubsection*{Separation}
 De to metoder til separation af tegn testes ved at se på om de finder syv objekter som optræder indenfor pladens koordinater. Denne forholdsvis enkle test mener vi er fyldestgørende, da funktionerne hvori metoderne er implementeret, bør være "skrappe" nok.
 
-Vi vil desuden se på om der er forskel på succesraten i forhold til hvilket område der repræsenterer nummerpladen: Her findes to muligheder: pladen er fundet med vores egne metoder eller defineret ved hjælp af pladekoordinaterne og et eller andet lagt til.
-%Er det forskel på succesraten i forhold til om vi ser på pladerne vi manuelt har plottet (med evt. et tilfældigt yderområde lagt til) eller om vi ser på de nummerplader som vores indetifikationsmetoder finder?
+Vi vil desuden se på om der er forskel på succesraten i forhold til hvilket område der repræsenterer nummerpladen. Her findes to muligheder: pladen er fundet ved brug af identifikationsmetoderne eller defineret ved hjælp af de manuelt registrerede pladekoordinater (med evt. et yderområde lagt til).
 
 Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information VI KAN IKKE SKALERE
 
@@ -199,7 +221,7 @@ VI VIL KUN SE PÅ TEST AF DETTE NIVEAU, IKKE?
 
 
 \begin{tabular}{|l|c|c|}\hline
-\multicolumn{3}{|l|}{Træningssæt} \\\hline
+\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
 Metode & Sammenhængende komponenter & Bjerg/dal \\\hline
 Egne metoder & 96\% & 3\% \\\hline
 10 & 96\% & 3\% \\\hline
@@ -207,7 +229,7 @@ Egne metoder & 96\% & 3\% \\\hline
 30 & 96\% & 3\% \\\hline \end{tabular}
 
 \begin{tabular}{|l|c|c|}\hline
-\multicolumn{3}{|l|}{Kontrolsæt} \\\hline
+\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
 Metode & Sammenhængende komponenter & Bjerg/dal \\\hline
 Egne metoder & 96\% & 3\% \\\hline
 10 & 96\% & 3\% \\\hline
@@ -236,14 +258,14 @@ Noget om at det er i forhold til alle plader, dvs. at procenterne nedenfor er af
 Følgende tabeller viser resultaterne for at læse en hel plade, seks tegn i pladen osv. (med forskellige vektorlængder).
 
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
-\multicolumn{7}{|l|}{Træningssæt} \\\hline
+\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
 Vektorlængde & Hele pladen læst & 6 tegn læst & 5 tegn & 4 tegn & 3 tegn & 2 tegn \\\hline
 9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
 16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
 25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline \end{tabular}
 
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
-\multicolumn{7}{|l|}{Kontrolsæt} \\\hline
+\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
 Vektorlængde & Hele pladen læst & 6 tegn læst & 5 tegn & 4 tegn & 3 tegn & 2 tegn \\\hline
 9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
 16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
@@ -259,14 +281,14 @@ Vektorlængde & Hele pladen læst & 6 tegn læst & 5 tegn & 4 tegn & 3 tegn & 2 
 Følgende tabeller viser hvor godt systemet er til at læse bogstaver hhv. tal. hhv. alle tegn
 
 \begin{tabular}{|l|c|c|c|}\hline
-\multicolumn{4}{|l|}{Træningssæt} \\\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
 Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
 9 & 0\% & 0\% & 0\% \\\hline
 16 & 0\% & 0\% & 0\%\\\hline
 25 & 0\% & 0\% & 0\%\\\hline \end{tabular}
 
 \begin{tabular}{|l|c|c|c|}\hline
-\multicolumn{4}{|l|}{Kontrolsæt} \\\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
 Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
 9 & 0\% & 0\% & 0\% \\\hline
 16 & 0\% & 0\% & 0\% \\\hline
@@ -349,4 +371,6 @@ Samme tabeller som ovenfor?
 Delkonklusion:
 Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. Dette giver vores system en væsentlig fordel i forhold til "de andre".
 
+\subsection{Det samlede system}
 
+Her vil vi afprøve det samlede system... eller har vi gjort det "på vejen"?
