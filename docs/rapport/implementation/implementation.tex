@@ -1,8 +1,9 @@
 \section{Implementering}
 \label{sec:implementation}
 
-I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede funktioner, hvis vi kendte til kommandoer... F.eks. filter og blokprocess. I første delafsnit gennemgås nogle hjælpefunktioner som bruges i flere elementer af systemet. Dernæst gennemgås funktionerne til lokalisering af nummerplader, separation af tegn og til sidst genkendelse af tegn.
+I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede komandoer, frem for at skrive egne implementationer. F.eks. har vi brugt Matlabs komandoer i forbindelse arbejdet med sammenhængende komponenter og filtrering af bileder. I det første underafsnit gennemgår vi nogle egenudviklede hjælpefunktioner som bruges flere steder i systemet. Dernæst gennemgår vi funktionerne til lokalisering af nummerplader, separation af tegn og til sidst funktionerne til genkendelse af tegn.
 
+ORIGO: ER DET IKKE NÆRMERE AT VI ARBEJDER I ET ANDET KVARTIL(ELLER HVAD DET NU HEDDER).
 Det skal bemærkes at koordinatsystemet der bruges i Matlab ikke har origo i det samme punkt som det man kender som et almindeligt koordinatsystem. Origo ligger derimod i øverste venstre hjørne (normalt ligger det i nederste venstre hjørne). Desuden er koordinaterne til origo i Matlab 1,1 og ikke 0,0. y-koordinaten til et punkt i Matlab angives normalt først, så en pixel i et billede refereres til med koordinaterne y,x i modsætning til den oftest anvendte rækkefølge x,y.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -10,7 +11,8 @@ Det skal bemærkes at koordinatsystemet der bruges i Matlab ikke har origo i det
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Hjælpefunktioner}
-De følgende hjælpefunktioner bruges af flere funktioner.
+De følgende funktioner bruges af flere andre funktioner i systemet hvorfor vi har valgt at beskrive dem først. Vi har valgt kun et beskrive de funktioner vi finde særligt interesante.
+
 \subsubsection{Hjælpefunktion 1}
 BinImgCleanup
 \subsubsection{Hjælpefunktion 2}
@@ -27,43 +29,70 @@ Distribution
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Lokalisering af nummerplader}
-I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{JPEG}-billede som inddata og leverer koordinater til en enkelt nummerpladekandidat som uddata. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste \textit{x}-værdi, største \textit{x}-værdi, mindste \textit{y}-værdi og største \textit{y}-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er $0$.
+I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de funktioner vi bruger til lokalisering af nummerplader. De tager alle stien til et \textit{JPEG}-billede som inddata og leverer koordinater til en enkelt nummerpladekandidat samt dennes point som uddata. Koordinaterne der beskriver nummerpladekandidatens position i inddata-billedet angives i rækkefølgen: Mindste \textit{x}-værdi, største \textit{x}-værdi, mindste \textit{y}-værdi og største \textit{y}-værdi. Hvis en funktion ikke kan finde en nummerpladekandidat returneres et koordinatsæt hvor alle værdier er $0$.
 
-Ofte udvider vi kandidatområdet for at få hele pladen med. Det er vigtigt for at kunne rotere (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
+I metoderne til lokalisering af nummerplader, nedskalerer vi billederne til en fjerdedel. Det vil sige at opløsningen bliver $256 \times 192$ pixels i stedet for $1024 \times 768$ pixels. Den lavere opløsning gør billederne langt hurtigere at arbejde med. Da vi ikke arbejder med anaylse af teksten på nummerpladen i disse metoder, men blot forsøger at udpege områder der indeholder nummerplader, bekymrer vi os ikke om hvorvidt nummerpladens tegn kan læses i billeder med denne lave opløsning.
 
-Vi har brugt greythresh med mindre andet er beskrevet.
+
+Ofte udvider vi kandidatområdet før vi returnerer det for at få hele pladen med. Det er vigtigt for at senere at kunne rotere da dette kræver tilstædeværelsen af markante linier der markerer pladens over- og underkant. Vi vil hellere returnere områder der er lidt for store end områder der er lidt for små.% (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
+
+Når vi omdanner gråtonebilleder til binærebilleder har vi, med mindre andet er beskrevet, brugt Matlabs greythresh-kommando til at udregne den værdi der afgør hvilke pixels der bliver hvide og hvilke der bliver sorte i det binære billede.
 
 \subsubsection{Analyse af interesseområder}
-Analysen af de binære billeder der markerer interesseområder varetages af funktionen \textit{BinImgCleanup} hvis kildekode findes i afsnit \vref{BinImgCleanup}. Funktionen tager et binært billede som inddata, og returner et binært billede hvor de områder der sandsynligvis ikke er nummerpladeområder er fjernet som beskrevet i afsnit \vref{sec:BinImgCleanup}. 
+\label{sec:imp:BinImgCleanup}
+Analysen af de binære billeder der markerer interesseområder varetages af funktionen \textit{BinImgCleanup} hvis kildekode findes i afsnit \vref{BinImgCleanup}. Denne funktion bliver brugt af alle de fem metoder vi bruger til at lokalisere nummerplader.
+
+Funktionen tager et binært billede samt en skaleringsværdi som inddata, og returner et binært billede hvor de områder der sandsynligvis ikke er nummerpladeområder er fjernet som beskrevet i afsnit \vref{sec:BinImgCleanup}.
+
+Det er nødvendigt at angive en skaleringsværdien da vi i programmet har defineret hvor høje og brede nummerplader maksimalt må være som heltalsvariable. Da disse værdier er baseret på analyse af billeder med en opløsning på $1024 \times 768$ pixels har vi behov for at gøre disse variable mindre når man arbejder på billeder med en lavere opløsning. Hvis man f.eks. giver funktionen et binært billede med en opløsning på $512 \times 384$ skal skaleringsværdien være $0.50$ da billedets højde og bredde er halvt så store, hvorimod den skal være $1.0$ hvis opløsningen er $1024 \times 768$ da variablene ikke skal ændres og derfor ganges med en.
+
+DER SKAL STÅ NOGET OM CONNECTED COMPONENTS!!
+
+\subsubsection{Valg af bedste nummerpladekandidat}
+\label{sec:imp:GetBestCandidate}
+DEN SKAL JO OGSÅ BESKRIVES FØR METODERNE.
+NYT NAVN.
 
 
+%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
-Denne metode er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. Programmet udfører følgende trin:
+Metoden hvor vi førsøger at finde nummerplader ved at kigge på grå områder i farvebilleder er implementeret i funktionen \textit{DetectSameness} hvis kildekode findes i afsnit \vref{code:DetectSameness}. Funktionens eneste argument er stien til et farvebillede i \textit{JPG}-format i en opløsning på $1024 \times 768$ pixels. Programmet udfører følgende trin:
 
-\begin{description}
-\item[1.] Indlæs billede.
-\item[2.] Konverter til gråtoner.
-\item[3.] Nedskaler billede.
-\item[4.] Skab binært billede som beskrevet i \ref{sec:DetectSameness}.
-\item[5.] Sammentræk områder i det binære billede\footnote{Eng.: Erode}
-\item[6.] Forbind områder der ligger ved siden af hinanden i det binære billede\footnote{Eng.: Dilate}.
-\item[7.] Slet områder i det binære billede der sandsynligvis ikke er nummerplader ved at bruge funktionen \textit{BinImgCleanup}.
-\item[8.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
-\item[9.] Returner koordinater.
-\end{description}
+\paragraph{Klargørelse af originalbillede}
+Billedet indlæses og nedskaleres til en fjerdedel. 
 
-I trin nr. 5 sammentrækker vi med et kvadratisk element. I trin nr. 6 forbinder vi områder der ligger ved siden af hinanden ved at udvide med et liggende rektangulært element. 
+\paragraph{Skab binært billede}
+På baggrund formlen i afsnit \ref{sec:DetectSameness} danner vi et binært billede hvor de områder hvor lysere gråtoner dominerer i originalbilledet er markeret.
+
+\paragraph{Manipuler binært billede}
+For at forsøge at undgår at nummerpladeområdet er forbundet med andre områder, trækker vi alle områder i det binære billede en anelse sammen. Vi bruger Matlabs funktion \textit{imerode} med et kvadrat på $2 \times 2$ pixels som figur. Dette trin kan muligvis have delt nummerpladområdet op i flere områder. For igen at have et samlet nummerpladeområde, udvidder vi alle områder i det binære billede med Matlabs \textit{imdilate}-funktion. Denne gang bruger vi et liggende rektangel med højden 2 og bredden 4 som figur. Vi bruger denne liggende figur da vi ønsker at forbinde områder som ligger ved siden af hinanden, dele af nummerpladen, men vil undgå at forbinde områder der ligger over og under hinanden. 
+
+OVERVEJ ILLU FRA: http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Morpholo.html
+
+\paragraph{Fjern uniteressante områder fra binært billede}
+I det binære billede er der nu en masse områder som helt sikkert ikke kan være nummerpladen. Et helt oplagt eksempel er områder der kun består af ganske få pixels. Vi sletter alle de områder vi vurderer som uinteresant ved at kalde funktionen \textit{BinImgCleanup} som tidligere beskrevet i \vref{sec:imp:BinImgCleanup} med det binære billede som argument.
 
 
+\paragraph{Vælg den bedste nummerpladekandidat}
+For at finde den bedste nummerpladekandidate i det nu "rensede" binære billede kalder vi funktionen \textit{GetBestCandidate} som tidligere beskrevet i afsnit \vref{sec:imp:GetBestCandidate}. Funktionen returnerer koordinater og point for den nummerpladekandidat der har fået færrest point. 
+
+
+\paragraph{Returner resultat}
+For at forsøge at sikres os at koordinaterne dækker hele nummerpladeområdet, udvidder vi området en smule før vi returnerer det og de tilhørende point fra det tidligere trin. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Metode: Områder med høj kontrast}
-Denne metode er implementeret i funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}. Programmet udfører følgende trin:
+Metoden hvor vi forsøger at finde nummerplader ved at markere områder med høj kontrast er implementeret i funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}. Funktionens eneste argument er stien til et farvebillede i \textit{JPG}-format i en opløsning på $1024 \times 768$ pixels. Programmet udfører følgende trin:
+
+\paragraph{Klargørelse af originalbillede}
+Billedet indlæses og konverteres fra \textit{RGB} til 256 gråtoner. Herefter nedskaleres det til en fjerdedel. DER ER LOG I KODEN. VI GØR BILLEDET LYSERE. BESKRIV!
+
+\paragraph{Udregn gradienter}
+
+
 
 \begin{description}
-\item[1.] Indlæs billede.
-\item[2.] Konverter til gråtoner.
-\item[3.] Nedskaler billede.
-\item[3.] SKAL DER VÆRE LOG HER? DET ER DER I KODEN!!
-\item[4.] Gør billedet lysere ved at dividere intensiteterne med en konstant.
 \item[5.] Udregn gradienter.
 \item[6.] Udregn gradienters vinkler.
 \item[7.] Udregn gradienters længder og normaliser dem så de største har længden 1,0.
@@ -75,6 +104,25 @@ Denne metode er implementeret i funktionen \textit{DetectContrastAvg} hvis kilde
 \item[13.] Vælg nummerpladekandidat ved at bruge funktionen \textit{GetBestCandidate}.
 \item[14.] Returner koordinater.
 \end{description}
+
+
+
+\paragraph{Manipuler binært billede}
+For at forsøge at undgår at nummerpladeområdet er forbundet med andre områder, trækker vi alle områder i det binære billede en anelse sammen. Vi bruger Matlabs funktion \textit{imerode} med et kvadrat på $2 \times 2$ pixels som figur. Dette trin kan muligvis have delt nummerpladområdet op i flere områder. For igen at have et samlet nummerpladeområde, udvidder vi alle områder i det binære billede med Matlabs \textit{imdilate}-funktion. Denne gang bruger vi et liggende rektangel med højden 2 og bredden 4 som figur. Vi bruger denne liggende figur da vi ønsker at forbinde områder som ligger ved siden af hinanden, dele af nummerpladen, men vil undgå at forbinde områder der ligger over og under hinanden. 
+
+OVERVEJ ILLU FRA: http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Morpholo.html
+
+\paragraph{Fjern uniteressante områder fra binært billede}
+I det binære billede er der nu en masse områder som helt sikkert ikke kan være nummerpladen. Et helt oplagt eksempel er områder der kun består af ganske få pixels. Vi sletter alle de områder vi vurderer som uinteresant ved at kalde funktionen \textit{BinImgCleanup} som tidligere beskrevet i \vref{sec:imp:BinImgCleanup} med det binære billede som argument.
+
+
+\paragraph{Vælg den bedste nummerpladekandidat}
+For at finde den bedste nummerpladekandidate i det nu "rensede" binære billede kalder vi funktionen \textit{GetBestCandidate} som tidligere beskrevet i afsnit \vref{sec:imp:GetBestCandidate}. Funktionen returnerer koordinater og point for den nummerpladekandidat der har fået færrest point. 
+
+
+\paragraph{Returner resultat}
+For at forsøge at sikres os at koordinaterne dækker hele nummerpladeområdet, udvidder vi området en smule før vi returnerer det og de tilhørende point fra det tidligere trin. 
+
 
 Vi bruger Matlabs funktioner til at udregne gradienterne samt anvende filteret.
 
@@ -154,13 +202,12 @@ METODEN ER DÅRLIG PÅ HVIDE BILER
 
 Illustrer hvordan vi afgør (u)enighed. 
 
-GØR NOGET I KODEN DA RESULTATET 2 vs 2 kandidater er random.
-
 VI RETURNERER DEN STØRST MULIGE PLADE
 
 \subsubsection{Mulige forbedringer}
-Vi kunne køre GetBestCandidate når der er uenighed i DetectMain.
-Vi kunne lave et pointsystem i GetBestCandidate.
+Vi kunne arbejde mere med manipulation af de binære billeder før vi renser dem. Vi kunne arbejde mere med støjfiltrering etc. altså preprocessing af billederne. Citer folk der gør det. Skriv også hvad de gør.
+Man kunne have taget højde for at de forskelleige metoder returnerer områder af forskellig bredde og intensitet.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% SEPARATION AF TEGN %%%
