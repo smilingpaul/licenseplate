@@ -226,13 +226,29 @@ Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hv
 \paragraph{2. Billedet af pladen kant-detekteres:}
 For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke. På denne måde kan vi nøjes med at analysere én dimension ved brug af Radon transformationen. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
 
-\paragraph{3. Radon matricen for kant-billedet findes ved brug af Matlab funktionen \textit{radon}.}
+\paragraph{3. Radon transformation udføres for kant-billedet:} Radon transformation udføres ved brug af Matlab funktionen \textit{radon}.
 
-\paragraph{4. Den maksimale værdi i Radon matricen findes og rotationsvinklen registres:}
-Rotationsvinklen svarer til ...
+\paragraph{4. Den maksimale værdi i Radon matricen findes:} Den maksimale værdi i Radon matricen svarer til det sted i billedet hvor den mest tydelige linie findes. De polære koordinater (afstand samt vinkel) aflæses, men kun vinklen, $\theta$ bruges i den videre analyse. \textit{radon} funktionen angiver vinklerne forskudt med $90^{\circ}$ i forhold til det normale, så rotationsvinklen beregnes som $90^{\circ} - \theta$.
 
-\paragraph{5. Billedet af nummerpladen roteres ved brug af \textit{imrotate}.}
-\paragraph{6. Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix.}
+\paragraph{5. Billedet af nummerpladen roteres ved brug af \textit{imrotate}:} Rotationen foretages med pladens midte som origo.
+
+\paragraph{6. Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix:} For at rotere et todimensionelt koordinatsæt, $P=\biggl[\begin{array}{c} x\\ y\\ \end{array}\biggr]$ til nogle roterede koordinater $P'=\biggl[\begin{array}{c} x'\\ y'\\ \end{array}\biggr]$ bruges en rotationsmatrix, \textit{R} der er defineret således:
+
+\begin{displaymath} 
+R = 
+\biggl[ \begin{array}{cc} 
+\cos(\theta) & - \sin(\theta) \\
+\sin(\theta) & \cos(\theta) \\
+\end{array} \biggr] 
+\end{displaymath}
+
+Rotationen foretages ved brug af
+
+\begin{displaymath}
+P' = P \cdot R
+\end{displaymath}
+
+MÅSKE ER DETTE IKKE EN IMPLEMENTATIONSDETALJE?
 
 \subsubsection{Separation}
 
@@ -242,12 +258,12 @@ Metoderne til separation af tegn tager et billede af en nummerplade samt koordin
 
 Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}. Funktionen forløber således:
 
-\paragraph{1. Billedet af pladen omdannes til gråtone.}
+\paragraph{1. Billedet af pladen omdannes til gråtone.} IRRELEVANT?
 
-\paragraph{2. Billedet laves om til sort-hvid, "roughly" og indskrænkes til den største komponent:}
-De billeder der i denne del af systemet modtages fra metoderne til identificering af nummerplader er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen. Da nummerpladen med sandsynlighed er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen im2bw, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. På denne måde sikrer vi os, at nummerpladen vil være hvid og at den ikke bliver sort (SKRIV OM).
+\paragraph{2. Billedet indskrænkes til den største komponent:}
+De billeder der i denne del af systemet modtages fra identifikationsmetoderne er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen. Da nummerpladen sandsynligvis er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen \textit{im2bw}, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. Ved at sætte denne grænseværdi lavt mindskes risikoen for at nummerpladen ikke bliver en lys komponent.
 
-\paragraph{3. Kontrast..:}
+\paragraph{3. Billedets kontraster forstærkes:}
 For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
 
 \paragraph{4. Tynde komponenter i toppen og i siderne af billedet fjernes:}
@@ -273,7 +289,7 @@ Så findes der grupper af syv sammenhængende komponenter hvor elementerne i hve
 \paragraph{9. Afstandene mellem komponenter i hver gruppe udregnes og en "god" gruppe vælges:}
 Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har de rette afstande i mellem sig, vælges elementerne i gruppen som tegnene.
 
-NOGET MED AT TEGNENE SKÆRES "TÆT"	
+\paragraph{10. Tegnene skæres ud:} Da Matlab holder styr på de enkelte sammenhængende komponenters koordinater, udskæres hvert tegn ved brug af de minimale og maksimale $x$- og $y$-koordinater for den enkelte komponent.
 
 \subsubsection*{Bjerg/dal}
 
