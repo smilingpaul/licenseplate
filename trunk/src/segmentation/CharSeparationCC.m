@@ -423,7 +423,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
       yMin = min(y);
       yMax = max(y);
                 
-      % adjust coordinates if they point outside the image
+      % adjust coordinates if they point outside the image NOT NECESSARY?
       if xMin < 1
         xMin = 1;
       end
