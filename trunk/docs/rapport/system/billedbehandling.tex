@@ -368,15 +368,13 @@ HVORFOR ER DETTE ANDERLEDES END FORDELINGEN?
 \paragraph*{Hvor stort er det mørkeste område?}
 HVORFOR ER DETTE ANDERLEDES END FORDELINGEN?
 
+Når analysen af kandidatområderne er færdig og de har fået tildelt point, vælger systemet det kandidatområde der har færrest point. Der returneres altså samlet koordinater og point for  fem kandidatområder, et per metode.
 
-
-.... er implementeret i funktionen \textit{GetBestCandidate} hvis kildekode findes i afsnit \ref{code:GetBestCandidate}.
-
-ILLU\_PLATESIG\_M\_AVG
+%.... er implementeret i funktionen \textit{GetBestCandidate} hvis kildekode findes i afsnit \ref{code:GetBestCandidate}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Endeligt valg af nummerpladekandidat}
-Vores system vælger en endelig nummerpladekandidat ved at sammenligne de nummerpladekandidater der er blevet udpeget af de tidligere beskrevne metoder. Vi undersøger om metoderne er enige ved at se om de udpeger de samme områder. Det område som flest metoder er enige om, udpeges som værende en nummerplade. Hvis der er større uenighed, det vil sige at lige mange metoder er enige om flere forskellige områder, udregner systemet områdernes gennemsnitspoint og vælger det område med det lavese antal point. Hvis alle metoder udpeger forskellige områder vælger systemet den nummepladekandidat med det laveste antal point såfremt dette tal er tilstrækkeligt lavt. Hvis der i denne situation ikke findes en nummerpladekendidat med et lavt nok antal point, opgiver systemet at finde en nummerplade i billedet. Figur \ref{fig:DetectMain-result} viser valget af endelig nummerpladekandidat på baggrund af eksemplerne på figurene \ref{fig:DetectSameness-cleanup} til \vref{fig:DetectQuant-cleanup}. Udvælgelsen er implementeret i funktionen \textit{DetectMain} hvis kildekode findes i afsnit \ref{code:DetectMain}.
+Systemet vælger en endelig nummerpladekandidat ved at sammenligne de fem områder der er blevet udpeget af de tidligere beskrevne metoder. Vi undersøger om der er områder flere af metoderne er enige om at udpege. Hvis sådanne områder findes, udpeges det område som flest metoder er enige om, som værende en nummerplade. Hvis der er uenighed, det vil sige, at to metoder udpeger et område og to andre metoder udpeger et andet,  udregner systemet gennemsnitstpointene for de nummerpladekoordinater der peger på hver område, og vælger det område med det lavese antal point. Hvis alle metoder udpeger forskellige områder vælger systemet den nummepladekandidat med det laveste antal point såfremt dette tal er tilstrækkeligt lavt. Hvis der i denne situation ikke findes en nummerpladekendidat med et lavt nok antal point, opgiver systemet at finde en nummerplade i billedet. Figur \ref{fig:DetectMain-result} viser valget af endelig nummerpladekandidat på baggrund af eksemplerne på figurene \ref{fig:DetectSameness-cleanup} til \vref{fig:DetectQuant-cleanup}. %Udvælgelsen er implementeret i funktionen \textit{DetectMain} hvis kildekode findes i afsnit \ref{code:DetectMain}.
 
 % Billede af kandidater i MainDetect. 
 \begin{figure}[htp]
