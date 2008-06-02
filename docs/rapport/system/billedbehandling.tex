@@ -118,7 +118,7 @@ Vi forventer at et område med en nummerplade vil indeholde områder med høj ko
 \label{fig:gradienter}
 \end{figure}
 
-Efter at have udregnet billedets gradienter som vist på figur \vref{fig:DetectContrastAvg-grads}, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem 0 og 30 mellem sig selv og en vandret linie. Et eksempel på et sådant billede er vist på figur \vref{fig:DetectContrastAvg-hgrads}. HREF HER??? Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet I og seks forekomster af tallet 1 være meget synlig på vores gradientbillede medens en nummerplade hvor begge bogstaver er et O og alle seks cifre er tallet 0 være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter.
+Efter at have udregnet billedets gradienter som vist på figur \vref{fig:DetectContrastAvg-grads}, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem 0 og 30 mellem sig selv og en vandret linie. Et eksempel på et sådant billede er vist på figur \vref{fig:DetectContrastAvg-hgrads}. Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet I og seks forekomster af tallet 1 være meget synlig på vores gradientbillede medens en nummerplade hvor begge bogstaver er et O og alle seks cifre er tallet 0 være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter.
 
 % Input image & gradients
 \begin{figure}[htbp]
@@ -140,8 +140,6 @@ Efter at have udregnet billedets gradienter som vist på figur \vref{fig:DetectC
   \caption{Gradienterne fra figur \vref{fig:DetectContrastAvg-grads} med vinkler mellem 0 og 30 grader. Bemærk at de vandrette linier der er synlige over og under nummerpladen på figur \ref{fig:DetectContrastAvg-grads} ikke er synlige.}
   \label{fig:DetectContrastAvg-hgrads}  
 \end{figure}
-
-HUSK AT DER SKAL STÅ AT VI BOOSTER DE LÆNGSTE GRADIENTER
 
 
 Før vi laver det binære billede med nummerpladekandidater, forsøger vi gøre nummerpladeområdet til en sammenhængende figur ved at udtvære\footnote{Eng.: Blur} billedet med et filter der giver hver pixel en intensitet svarende til middelværdien for dens nærområde. Da vi primært er interesserede i at forbinde pixels der ligger ved siden af hinanden (tegnene i nummerpladen) og ønsker at undgå at nummerpladeområdet bliver forbundet med områder der ligger tæt på dens over- og underkant, definerer vi nærområdet som et liggende rektangel. Resultatet bliver et sammenhængende område med en højde svarende til højden på tegnene i nummerpladen og en bredde der er noget længere end nummerpladens bredde. Et eksempel er vist på figur \vref{fig:DetectContrastAvg-blurredGrads}. 
