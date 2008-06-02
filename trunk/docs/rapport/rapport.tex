@@ -12,6 +12,14 @@
 \usepackage[danish]{varioref}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
+
+% colors in tables
+\usepackage{color}
+\usepackage{array}
+\usepackage{colortbl}
+%\definecolor{light-gray}{gray}{0.9}
+
+% fancy headings
 \pagestyle{fancy}
 %\lhead[]{}
 %\rhead[]{}
@@ -140,6 +148,8 @@ Vi kan finde nummerplader på billederne selv om vi skalerer meget kraftigt ned.
 
 Vores testbilleder blev taget sent i forløbet. Vi er opmærksomme på, at vi nok burde have taget  billeder til både trænings- og testsæt fra starten, da vi ikke kan udelukke at arbejdet med opgaven kan have påvirket den måde vi har taget billederne i \textit{testsættet} på. Vi mener dog stadig, at dette andet sæt er relevant i forhold til afprøvning af vores system.
 
+Vores testbilleder er taget på en dag med høj sol i modsætning til vores træningsbilleder. Har det gjort nogen forskel? Skulle vi have gjort anderledes?
+
 Noter fra møde med Søren: Konklusion skal indeholde "Kan man gå videre med dette system efter de påviste resultater?", "Hvad gik godt? : henvisninger til testene"
 
 Blev spørgsmålene besvaret:
@@ -152,29 +162,21 @@ Konklusion af selve vores arbejde: Noget vi burde have forudset? Noget vi har v�
 
 Skal vi have arbejdsopgaverne med i rapporten og så bedømmes de?
 
+NEDENFOR: BRUGES ALLE LITTERATUR ELEMENTER??
+
 %\end{comment} % remove this later
 
 \newpage % new page before litterature
 %\include{litteratur/litteratur}
 %\section{Litteraturliste}
-\section{Litteratur}
+%\section{Litteratur}
 
 \begin{thebibliography}{99}
 %\bibliographystyle{plain}
 
+\bibitem{ron} Ron, B.-H.: \textit{A Real-time vehicle License Plate Recognition (LPR) System}, 2002. Vision and Image Science Lab - Israel. Hentet 11. februar 2008 fra http://visl.technion.ac.il/projects/2003w24/.
 
-%%%%% BELOW: DONE %%%%%
-
-% D
-\bibitem{dkplates} The Central Register of Motor Vehicles, Copenhagen: \textit{Most frequently used Danish number plates}.
-
-
-%http://visl.technion.ac.il/projects/2003w24/ (11. februar 2008)
-\bibitem{ron} Ron, B.-H.: \textit{A Real-time vehicle License Plate Recognition (LPR) System}.
-
-%Hentet 11. februar 2008:
-\bibitem{nijhuis} Nijhuis, J. A. G., ter Brugge, M. H., Helmholt, K. A., Pluim, J. P. W., Spaanenburg, L., Venema, R. S., Westenberg, M. A.: \textit{Car License Plate Recognition with Neural Networks and Fuzzy Logic}.
-%http://www.it.lth.se/users/lambert/leftovers/LicenseplateSydney.pdf
+\bibitem{nijhuis} Nijhuis, J. A. G., ter Brugge, M. H., Helmholt, K. A., Pluim, J. P. W., Spaanenburg, L., Venema, R. S., Westenberg, M. A.: \textit{Car License Plate Recognition with Neural Networks and Fuzzy Logic}, årstal ukendt. University of Groningen, Department of Computing Science. Hentet 11. februar 2008 fra http://www.it.lth.se/users/lambert/leftovers/LicenseplateSydney.pdf.
 
 % 17. april
 \bibitem{shapiro} Shapiro, V., Dimov, D., Bonchev, S., Velichkov, V., Gluhchev, G.: \textit{Adaptive License Plate Image Extraction}
@@ -209,6 +211,9 @@ Skal vi have arbejdsopgaverne med i rapporten og så bedømmes de?
 
 
 \bibitem{wiki_gradienter} Ukendt forfatter: \textit{http://en.wikipedia.org/wiki/Gradient}.
+
+% D
+\bibitem{dkplates} The Central Register of Motor Vehicles, Copenhagen: \textit{Most frequently used Danish number plates}.
 
 \bibitem{wiki_radon} Ukendt forfatter: \textit{http://en.wikipedia.org/wiki/Radon\_transform}.
 \bibitem{toft_radon} Peter Toft: \textit{http://eivind.imm.dtu.dk/staff/ptoft/Radon/Radon.html}.
