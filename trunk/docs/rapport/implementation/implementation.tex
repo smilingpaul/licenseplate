@@ -276,20 +276,13 @@ Når det binære billede er dannet er der igen en mulighed for at minimere tilf�
 \label{fig:tynd_linie}
 \end{figure}
 
-Derudover slettes alle pixels i de rækker af billedet som ikke har mindst en 1/10 eller højst 2/3 af alle pixels i billedets bredde sat. Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område.
-
-BESKRIV PROBLEM MED TEGNET K
-
 \paragraph{5. Horisontale linier med meget lidt hvid, eller meget hvid gøres helt sorte:}
-Beskrivelse...
+Derudover slettes alle pixels i de rækker af billedet som ikke har mindst $\frac{1}{10}$ eller højst $\frac{2}{3}$ af alle pixels i billedets bredde markeret. Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område, alle andre linier kan derfor sorteres fra. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
 
-\paragraph{6. Det sort-hvide billede laves til et sammenhængende-komponenter-billede.}
-\paragraph{7. For små og for store komponenter fjernes.}
-I næste del af funktionen frasorteres alle de sammenhængende komponenter der er for små eller for store.
+\paragraph{6. Det sort-hvide billede laves til sammenhængende-komponenter-billede.}
+\paragraph{7. For små og for store komponenter fjernes:} Alle komponenter som er over $\frac{1}{7}$ af billedet, 
 
-\paragraph{8. Grupper på syv komponenter samles hvor alle syv komponenter har samme højde og er i samme højde.}
-
-Så findes der grupper af syv sammenhængende komponenter hvor elementerne i hver gruppe skal være ca. lige høje og befinde sig i ca. samme højde.
+\paragraph{8. Grupper på syv komponenter samles hvor alle syv komponenter har samme højde og er i samme højde:} Bla bla
 
 \paragraph{9. Afstandene mellem komponenter i hver gruppe udregnes og en "god" gruppe vælges:}
 Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har de rette afstande i mellem sig, vælges elementerne i gruppen som tegnene.
@@ -363,31 +356,47 @@ Funktionen \textit{GetMeanVectors.m} er opbygget som følger:
 
 %\textit{GetMeanVectors.m} udarbejder en matrix bestående af middelvektorer for hvert lovligt tegn. Hver vektor vil have længden $d$. Denne matrix bruges af \textit{ReadPlateFV.m}: Hvert inputbillede omformes til en vektor af længden $d$ og herefter løbes middelvektor-matrixen igennem. Afstanden fra det omformede billede til hver middelvektor noteres og tegnhitlisten udarbejdes på baggrund af disse afstande. Sammen med denne hitliste returneres afstandene, så disse kan bruges i forbindelse med syntaks analyse. Som input modtager funktionen en mængde billeder af sorterede tegn.
 
-\paragraph{1. Hvert billede af et givent tegn skaleres:} Størrelsen af disse skalerede billeder er $\sqrt{L} \times \sqrt{L}$.
+\paragraph{1. Hvert billede af et givent tegn skaleres:} Størrelsen af disse skalerede billeder er $\sqrt{L} \times \sqrt{L}$, hvor $L$ er middelvektorlængden.
 
 \paragraph{2. De skalerede billeder omformes til en vektor af længden, $L$.}
 
 \paragraph{3. Middelværdien af alle vektorerne findes:} Først summeres alle vektorerne i en vektor hvor hvert element efterfølgende divideres med antallet af vektorer.
 
-\paragraph{4. Alle middelvektorerne samles i én matrix.}
+\paragraph{4. Alle middelvektorerne samles i én matrix.} Bla bla
 
 %For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
 
 Funktionen \textit{ReadPlateFV.m} er opbygget som følger:
 
-\paragraph{1. Bla:}
+\paragraph{1. Hvert billede skaleres}
 
 \paragraph{2. Bla:}
 
-\paragraph{3. Bla:}
+\paragraph{3. De euklidiske afstande beregnes.}
+
+\paragraph{4. Listen af alle tegn sorteres efter euklidiske afstande:} De tegn hvortil der er den korteste afstand placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
 \subsubsection{Sum-billeder}
 
-\paragraph{1. Bla:}
+\textit{GetSumImgs}...
+
+\paragraph{1. Hvert billede af et givent tegn skaleres.}
+
+\paragraph{2. Summerne af alle billederne findes.}
+
+\paragraph{3. Sum-billederne normaliseres.} Bla bla
+
+\paragraph{4. Alle sum-billederne samles i én matrix.} Bla bla
+
+\textit{ReadPlateSUM}...
+
+\paragraph{1. Hvert billede skaleres}
 
 \paragraph{2. Bla:}
 
-\paragraph{3. Bla:}
+\paragraph{3. De euklidiske afstande beregnes.}
+
+\paragraph{4. Listen af alle tegn sorteres efter summer:} De tegn hvor den største sum er fundet placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
 \subsubsection{And-billeder}
 
@@ -397,9 +406,9 @@ Funktionen \textit{ReadPlateFV.m} er opbygget som følger:
 
 \paragraph{3. Bla:}
 
-\subsubsection{Syntaks analyse}
+\subsubsection{Syntaksanalyse}
 
-Metoden til syntaks analyse tager tegnhitlisterne for de syv tegn, listerne over afstandene til middelvektorerne samt et "maksimal-hit-nummer" som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}.
+Metoden til syntaksanalyse tager tegnhitlisterne for de syv tegn, listerne over afstandene til middelvektorerne samt et "maksimal-hit-nummer" som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}.
 
 Funktionens forløb er som følger:
 
