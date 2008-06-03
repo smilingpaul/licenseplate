@@ -3,30 +3,71 @@
 INDSÆT GENKENDELSESDEL AF DIAGRAM OVER SYSTEM
 \label{sec_monster}
 
-Til genkendelse af tegn vil vi bruge to forskellige metoder: Den første bruger informationer fra en egenskabsvektor mens den anden analyserer enkelte pixels i hvert tegn-billede. I dette afsnit vil vi beskrive disse to metoder samt en metode til at udføre syntaks analyse på den tegnfølge der repræsenterer et gæt på nummerpladen.
+Til genkendelse af tegn vil vi bruge tre forskellige metoder: Den første bruger informationer fra en egenskabsvektor mens den anden analyserer enkelte pixels i hvert tegn-billede. I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaks analyse på den tegnfølge der repræsenterer et gæt på nummerpladen.
 
-De to metoder til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge.
+Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge.
 
 \subsubsection{Metode: Egenskabsvektorer}
 En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med egenskabsvektorer (i dette tilfælde middelvektorer) for at finde ud af det tegn som billedet forestiller. Metoden er fundet i \cite{arth}.
 
-Først oprettes en middelvektor for hvert tegn der kan forekomme i en nummerplade. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et slags træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). For et inddatabillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges. 
-
-I vores system findes afstanden, $D$ fra én vektor, $P = (p_{1},p_{2},...,p_{n})$ til en anden vektor, $Q = (q_{1},q_{2},...,q_{n})$ i et $n$-dimensionelt rum ved brug af den euklidiske afstand\cite{wiki_euclid}:
+Først oprettes en middelvektor for hvert tegn der kan forekomme i en nummerplade. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). Vi har defineret en middelvektor, $M$ for et antal billeder $(B_{1},B_{2},...,B_{n})$ i et træningssæt for et givent tegn således:
 
 \begin{displaymath}
-	D = \sqrt{\sum_{i=1}^{n}(p_{i}-q_{i})^{2}}
+	M = (\sum_{i=1}^{n}B_i)/n
 \end{displaymath}
 
-EKSEMPEL PÅ VEKTOR?
+hvor summen er en elementvis sum. For et inddatabillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
+
+I vores system findes afstanden, $D$ fra én (middel)vektor, $M = (m_{1},m_{2},...,m_{n})$ til en anden vektor, $P = (p_{1},p_{2},...,p_{n})$ i et $n$-dimensionelt rum ved brug af den euklidiske afstand\cite{wiki_euclid}:
+
+\begin{displaymath}
+	D = \sqrt{\sum_{i=1}^{n}(m_{i}-p_{i})^{2}}
+\end{displaymath}
 
 \subsubsection{Sum-billeder}
 
+Denne metode minder om metoden med egenskabsvektorer. Her er idéen dog, at der oprettes såkaldet "sum-billeder" for hvert tegn i stedet for middelvektorer. Metoden er opstået af egen idé.
+
+Hvert binære billede i træningssættet for et givent tegn skaleres til en defineret størrelse, $I \times J$ og summeres med de andre billeder i sættet. Et sum-billede, $S$ konstrueres af billederne $(B_{1},B_{2},...,B_{n})$ altså således:
+
+\begin{displaymath}
+	S = \sum_{x=1}^n{B_x}
+\end{displaymath}
+
+hvor summen er en elementvis sum. Efter denne summering normaliseres $S$, ved at dividere alle elementer i $S$ med $\max{(S)}$. Alle værdier i $S$ vil nu være mellem $0$ og $1$.
+
+For hvert binære testbillede, $T$, der først skaleres til samme størrelse som $S$, multipliceres alle elementerne i $T$ med de tilsvarende elementer i $S$ og summen, $v$ tages af disse:
+
+\begin{displaymath}
+	v = \sum_{i=1}^I{\sum_{j=1}^J{T_{ij} \cdot S_{ij}}}
+\end{displaymath}
+
+$v$ svarer altså til summen af elementer fra $S$ hvor elementet med samme koordinater i $T$ er markeret. Når $v$ er fundet for alle tegn for et testbillede, vælges klassen hvor $v$ er maksimal.
+
+NOGET OMKRING HVORDAN IDEEN ER OPSTÅET?
+
 \subsubsection{Simpel metode hvor træningsættet andes}
 
-DENNE SKAL MÅSKE FLYTTES TIL "ANDRE METODER"?
+ANDET NAVN TIL METODEN
 
-\subsubsection{Syntaks analyse}
+Denne metode svarer til 
+Metoden er en egen idé.
+
+And-billedet, $A$ laves ud fra billederne $(B_{1},B_{2},...,B_{n})$ af et givent tegn som følger:
+
+\begin{displaymath}
+A = B_1 \wedge B_2 \wedge ... \wedge B_n
+\end{displaymath}
+
+hvor AND'INGEN er elementvis. Et testbillede, $T$ and'es så med hvert enkelt $A$:
+
+\begin{displaymath}
+K = T \wedge A
+\end{displaymath}
+
+og antallet af 1'taller i $K$ optælles. Det tegn, hvor antallet af 1'taller i $K$ er maksimalt blandt alle tegnene, vælges som tegnet der repræsenteres af testbilledet.
+
+\subsubsection{Syntaksanalyse}
 
 Ved syntaks analyse analyseres tegn-hitlisterne fra de ovenstående metoder. Analysen er relevant da et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis} og \cite{kwas}.
 

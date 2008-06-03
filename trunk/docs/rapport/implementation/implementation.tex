@@ -293,18 +293,19 @@ Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har 
 
 Denne metode er implementeret i funktionen \textit{CharSeparationPTV}, hvis kildekode findes i afsnit \vref{code:CharSeparationPTV}.
 
+\paragraph{1. Billedet af pladen omdannes til gråtone.} IRRELEVANT?
 
-Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved.
+\paragraph{2. Billedet indskrænkes til den største komponent:}
+Hvorfor?
 
-KONTRAST?
+\paragraph{3. Billedets kontraster forstærkes:}
+Hvorfor?
 
-\begin{enumerate}
-\item funktion pkt 1
-\item funktion pkt 2
-\item funktion pkt n
-\end{enumerate}
+\paragraph{4. Nummerpladens signatur udregnes:}
+Pladens signatur findes ved at opsummere intensitetsværdierne i billedet af nummerpladen omdannet til gråtone.
 
-Pladens signatur findes ved at opsummere intensitetsværdierne i billedet af nummerpladen omdannet til gråtone. Hvis man betragter signaturen som en graf vil den være "hakket" på grund af støj i billedet (dvs. det er kun i teorien at billedet kun indeholder en hvid baggrund og nogle mørke bogstaver, hvilket ville give en perfekt graf). Signaturen skal derfor udglattes. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde. EKSEMPEL PÅ UDREGNING? Et eksempel på en "rå" graf og samme graf, udglattet ses i Figur \vref{fig:smoothSig}.
+\paragraph{5. Signaturen udglattes:}
+Hvis man betragter signaturen som en graf vil den være "hakket" på grund af støj i billedet (dvs. det er kun i teorien at billedet kun indeholder en hvid baggrund og nogle mørke bogstaver, hvilket ville give en perfekt graf). Signaturen skal derfor udglattes. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde. EKSEMPEL PÅ UDREGNING? Et eksempel på en "rå" graf og samme graf, udglattet ses i Figur \vref{fig:smoothSig}.
 
 EKSEMPEL PÅ HAKKET SIGNATUR OG UDGLATTET SIGNATUR
 
@@ -313,9 +314,20 @@ EKSEMPEL PÅ HAKKET SIGNATUR OG UDGLATTET SIGNATUR
 \caption{bla}
 \end{figure}
 
+\paragraph{6. "Bjergene" i signaturen findes:}
 For at finde de toppe hvor der skal skæres, leder vi efter punkter, $x$ i signaturgrafen hvor de $n$ forrige punkter har haft stigende værdier op til $x$ og hvor de efterfølgende $n$ punkter har faldende værdier. DETTE GØR VI IKKE I PRAKSIS! SKAL LAVES OM. De otte $x$'er som har de otte højeste værdier vælges som de otte skæringspunkter.
 
+\paragraph{7. De otte højeste bjerge findes:}
+De otte højeste bjerge i signaturen svarer til de otte steder i nummerpladen, hvor hele nummerpladen fra top til bund er lys. Det er disse otte steder der skal skæres.
+
+\paragraph{8. Top- og bund-beskæring findes:}
 NOGET OM HVORDAN VI FINDER TOP OG BUND BESKÆRING
+
+\paragraph{9. Tegnene skæres ud.}
+
+%Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved.
+
+
 
 
 \subsubsection{Mulige forbedringer}
@@ -338,36 +350,45 @@ MEDIAN FILTER ELLER ANDRE FILTRE? LYSFORSTÆRKNING?
 
 \subsubsection{Middelvektorer}
 
-\begin{enumerate}
-\item funktion pkt 1
-\item funktion pkt 2
-\item funktion pkt n
-\end{enumerate}
-
 Implementationen af metoden til tegngenkendelse ved hjælp af vektor analyse findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}.
 
-For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
+Funktionen \textit{GetMeanVectors.m} er opbygget som følger:
 
-\textit{GetMeanVectors.m} udarbejder en matrix bestående af middelvektorer for hvert lovligt tegn. Hver vektor vil have længden $d$. Denne matrix bruges af \textit{ReadPlateFV.m}: Hvert inputbillede omformes til en vektor af længden $d$ og herefter løbes middelvektor-matrixen igennem. Afstanden fra det omformede billede til hver middelvektor noteres og tegnhitlisten udarbejdes på baggrund af disse afstande. Sammen med denne hitliste returneres afstandene, så disse kan bruges i forbindelse med syntaks analyse.
-Som input modtager funktionen en mængde billeder af manuelt sorterede tegn.
+%\textit{GetMeanVectors.m} udarbejder en matrix bestående af middelvektorer for hvert lovligt tegn. Hver vektor vil have længden $d$. Denne matrix bruges af \textit{ReadPlateFV.m}: Hvert inputbillede omformes til en vektor af længden $d$ og herefter løbes middelvektor-matrixen igennem. Afstanden fra det omformede billede til hver middelvektor noteres og tegnhitlisten udarbejdes på baggrund af disse afstande. Sammen med denne hitliste returneres afstandene, så disse kan bruges i forbindelse med syntaks analyse. Som input modtager funktionen en mængde billeder af sorterede tegn.
 
-Hvert billede laves til et kvadrat. Ved at lave middelvektorer på træningssættet kan vi se at man ikke kan have vektorer af længden 4, da flere bogstavs vektorer så vil være de samme (nemlig 0 0 0 0). Afprøv med andre længder.
+\paragraph{1. Hvert billede af et givent tegn skaleres:} Størrelsen af disse skalerede billeder er $\sqrt{L} \times \sqrt{L}$.
 
-\textit{ReadPlateFV.m}...
+\paragraph{2. De skalerede billeder omformes til en vektor af længden, $L$.}
 
-\begin{enumerate}
-\item funktion pkt 1
-\item funktion pkt 2
-\item funktion pkt n
-\end{enumerate}
+\paragraph{3. Middelværdien af alle vektorerne findes:} Først summeres alle vektorerne i en vektor hvor hvert element efterfølgende divideres med antallet af vektorer.
+
+\paragraph{4. Alle middelvektorerne samles i én matrix.}
+
+%For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
+
+Funktionen \textit{ReadPlateFV.m} er opbygget som følger:
+
+\paragraph{1. Bla:}
+
+\paragraph{2. Bla:}
+
+\paragraph{3. Bla:}
 
 \subsubsection{Sum-billeder}
 
-\begin{enumerate}
-\item funktion pkt 1
-\item funktion pkt 2
-\item funktion pkt n
-\end{enumerate}
+\paragraph{1. Bla:}
+
+\paragraph{2. Bla:}
+
+\paragraph{3. Bla:}
+
+\subsubsection{And-billeder}
+
+\paragraph{1. Bla:}
+
+\paragraph{2. Bla:}
+
+\paragraph{3. Bla:}
 
 \subsubsection{Syntaks analyse}
 
@@ -375,23 +396,16 @@ Metoden til syntaks analyse tager tegnhitlisterne for de syv tegn, listerne over
 
 Funktionens forløb er som følger:
 
-\begin{description}
-\item[1.] Hitlisterne for tegnene på de to første pldser gennemløbes indtil der står to bogstaver
-\item[2.] De to tegn på de første to pladser analyseres og udskiftes om nødvendigt
-\end{description}
-
+\paragraph{1. Hitlisterne for tegnene på de to første pldser gennemløbes indtil der står to bogstaver.}
+\paragraph{2. De to tegn på de første to pladser analyseres og udskiftes om nødvendigt:}
 Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to middelvektorer: Den middelvektor der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud.
 
-\begin{description}
-\item[3.] Hitlisterne for tegnene på de fem sidste pladser gennemløbes indtil der står fem tal
-\item[4.] De to tegn på plads nr. tre og fire analyseres og udskiftes om nødvendigt
-\end{description}
+\paragraph{3. Hitlisterne for tegnene på de fem sidste pladser gennemløbes indtil der står fem tal.}
+\paragraph{4. De to tegn på plads nr. tre og fire analyseres og udskiftes om nødvendigt:}
 
 Bla bla
 
-\begin{description}
-\item[5.] De valgte hitnumre analyseres. Hvis et nummer er for højt i forhold til det maksimale, returnes et "\_" tegn på den givne plads
-\end{description}
+\paragraph{5. De valgte hitnumre analyseres. Hvis et nummer er for højt i forhold til det maksimale, returnes et "\_" tegn på den givne plads.}
 
 \subsubsection{Mulige forbedringer}
 Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.
