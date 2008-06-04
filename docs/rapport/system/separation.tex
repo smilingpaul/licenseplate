@@ -1,65 +1,60 @@
 \subsection{Separation af tegn}
 
-Separation af tegnene i en nummerplade system består i vores system af to trin: Først må billedet af pladen roteres så den står vandret i billedet. Dernæst skal tegnene i nummerpladen identificeres og separeres.
+Separation af tegnene i en nummerplade system består i vores system af to trin: Først må billedet af pladen roteres så den står vandret i billedet. På denne måde vil det vil blive lettere at genkende tegnene, da de alle har samme position. Vi har tidligere beskrevet at de billeder vi arbejder på skal have minimal rotation, men det er i praksis svært at placere alle nummerplader vandret i billedet. I andet trin skal tegnene i nummerpladen separeres.
 
-HVORFOR SKAL DEN VÆRE VANDRET?
-DER ER TO TRIN, MEN DER NÆVNES TRE?
+%HVORFOR SKAL DEN VÆRE VANDRET?
+%DER ER TO TRIN, MEN DER NÆVNES TRE?
 
-Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet markeret (hvidt) og nummerpladens hvide område umarkeret (sort). OMSKRIV.
+Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv billeder. Hvert billede er et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede hvori selve tegnet er markeret.
 
-HVILKE SYV BILLEDER? FORESTILLER ET TEGN = ER ET TEGN.
+%HVILKE SYV BILLEDER? FORESTILLER ET TEGN = ER ET TEGN.
 
 \subsubsection{Rotation}
 
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}.
 
 \subsubsection*{Radon transformation}
-HELE DETTE AFSNIT ER MEGET TEKNISK. BURDE NOK VÆRE I IMPLEMENTATION. HER SKAL VEL IKKE STÅ SÅ MEGET MERE AND AT VI FINDER UD AF HVOR MEGET PLADEN ER VINKLET OG KORIGERER FOR DET.
+%HELE DETTE AFSNIT ER MEGET TEKNISK. BURDE NOK VÆRE I IMPLEMENTATION. HER SKAL VEL IKKE STÅ SÅ MEGET MERE AND AT VI FINDER UD AF HVOR MEGET PLADEN ER VINKLET OG KORIGERER FOR DET.
 
-En \textit{Radon transformation} beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
+En \textit{Radon transformation} beregner projektionen af et billede i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
-En Radon transformation er defineret således\cite{wiki_radon}: SKAL MÅSKE IKKE MED?
+%En Radon transformation er defineret således\cite{wiki_radon}: SKAL MÅSKE IKKE MED?
 
-UD MED DENNE:
+%UD MED DENNE:
 
-\begin{displaymath}
-		R[f](\alpha,s) = \int_{-\infty}^{\infty}f(x(t),y(t))dt \text{, hvor}
-\end{displaymath}
-\begin{displaymath}
-		(x(t),y(t)) = t(\sin\alpha, -\cos\alpha)+s(\cos\alpha,\sin\alpha)
-\end{displaymath}
+%\begin{displaymath}
+%		R[f](\alpha,s) = \int_{-\infty}^{\infty}f(x(t),y(t))dt \text{, hvor}
+%\end{displaymath}
+%\begin{displaymath}
+%		(x(t),y(t)) = t(\sin\alpha, -\cos\alpha)+s(\cos\alpha,\sin\alpha)
+%\end{displaymath}
 
-VI KUNNE OGSÅ SKRIVE: Den eksakte definition af Radon transformation kommer i flere formater, som vi vil undlade at gennemgå her. OK, SKRIV DET.
 
 %Radon transformation er en integral transformation, som kan transformere et to-domensionelt billede indeholdende linier til et andet domæne hvor liniernes placering og retninger kan beregnes\cite{toft_radon}. Vi vil dog ikke undersøge dette nærmere, blot bruge funktionen. ELLER NOGET?! Figur \vref{fig:radon_transform} viser hvordan Radon transformationen findes i en enkelt vinkel.
 
-Kilden i en Radon transformation kan være enkeltstående eller en samling af flere. Den sidstnævnte model er den der bruges i dette tilfælde. Projektionen der foretages på et givent billede er et linært integrale hvor pixelenes intensiteter summeres i hver retning. Figur \vref{fig:radon_transform} viser hvordan Radon transformationen findes i en enkelt vinkel ved brug af flere kilder.
+Vi vil undlade at gennemgå definitionen af Radon transformation. Idéen i en Radon transformation er dog illustreret i figur \vref{fig:radon_transform}. I denne ses det hvordan Radon transformationen laver en projektion af et billede i enkelt vinkel, $\theta$. 
+
+%Kilden i en Radon transformation kan være enkeltstående eller en samling af flere. Den sidstnævnte model er den der bruges i dette tilfælde. Projektionen der foretages på et givent billede er et linært integrale hvor pixelenes intensiteter summeres i hver retning. %Figur \vref{fig:radon_transform} viser hvordan Radon transformationen findes i en enkelt vinkel ved brug af flere kilder.
 
 \begin{figure}[htp]
   \centering
-  \framebox{\includegraphics[width=9cm]{system/illu/radon_transform.jpg}}
-  \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ ("theta" i figurteksten) men udfra flere kilder. Den grå firkant er billedet der undersøges. De grå pile er sensorlinier (kilderne).\cite{matlab_radon}}
+  \framebox{\includegraphics[width=8cm]{system/illu/radon.png}}
+  \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ udfra flere kilder (sources). Den blå firkant er billedet der undersøges. Pilene er sensorlinier (kilderne).\cite{matlab_radon}}
   \label{fig:radon_transform}
 \end{figure}
 
-I RADON.PDF ER ET GODT EKSEMPEL: VIS DET HER.
+Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
 
-Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
+For at repræsentere et helt billede med en Radon transformation, udføres projektioner for alle vinkler mellem $0^{\circ}$ og $179^{\circ}$ (men ikke for $180^{\circ}$ da dette vil give samme resultat som ved $0^{\circ}$). Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie. %I Figur \vref{fig:radon_matrix} er vist resultatet af en Radon transformation af et billede af en nummerplade.
 
-"HVILKEN ROTATION"? DET ER VEL HVOR MEGET DER SKAL ROTERES. DER ER IKKE FLERE TYPER ROTATION?
+%\begin{figure}[htp]
+%  \centering
+%  \framebox{\includegraphics[width=12cm]{system/illu/radon_matrix.jpg}}
+%  \caption{Resultatet af en Radon transformation på et billede af en nummerplade. Jo lysere et område i denne matrix er, jo bla bla MANGLER DER EN SKALA???}
+%  \label{fig:radon_matrix}
+%\end{figure}
 
-For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $179^{\circ}$ (men ikke for $180^{\circ}$ da dette vil give samme resultat som ved $0^{\circ}$). Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie. I Figur \vref{fig:radon_matrix} er vist resultatet af en Radon transformation af et billede af en nummerplade.
-
-\begin{figure}[htp]
-  \centering
-  \framebox{\includegraphics[width=12cm]{system/illu/radon_matrix.jpg}}
-  \caption{Resultatet af en Radon transformation på et billede af en nummerplade. Jo lysere et område i denne matrix er, jo bla bla MANGLER DER EN SKALA???}
-  \label{fig:radon_matrix}
-\end{figure}
-
-I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade, der roteres ved hjælp af Radon transformation. Bemærk at kun de horisontale kanter detekteres i kant-billedet (ELLER "ET BINÆRT BILLEDE DER VISER KANTER") (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
-
-MÅSKE SKAL ILLU LÆNGERE OP?
+I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade, der roteres ved hjælp af Radon transformation. Bemærk at kun de horisontale kanter detekteres i det binære billede der viser kanter (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
 
 \begin{figure}[htp]
   \centering
@@ -78,7 +73,7 @@ MÅSKE SKAL ILLU LÆNGERE OP?
 
 
 \subsubsection*{Andre metoder brugt i litteraturen}
-I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation som anvendt af \cite{sharpiro}. Vi er klar over at rotationsmetoden \textit{Hough transformation} eksisterer, men har ikke arbejdet med den da det virkede oplagt at bruge den etablerede fremgangsmåde fra litteraturen. 
+I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation som er anvendt i \cite{sharpiro}. Vi er klar over at den lignende \textit{Hough transformation} eksisterer og at den også kan bruges til rotation, men vi har ikke arbejdet med den, da det virkede oplagt at bruge den åbenbart etablerede fremgangsmåde fra litteraturen. 
 
 \subsubsection{Identifikation af tegn}
 
@@ -87,22 +82,22 @@ I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder ti
 %"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
 
 
-I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder arbejder med henholdsvis sammenhængende komponenter og såkaldt "signatur".
+I det følgende beskrives to metoder til separation af tegn i en nummerplade. Disse to metoder arbejder med henholdsvis sammenhængende komponenter og såkaldt "signatur". I forbindelse med uarbejdelsen af metoden der bruger signatur viste det sig, at denne metode giver dårlige resultater. Derfor er kun metoden med sammenhængende komponenter blevet brugt i vores færdige system.
 
-HER BESKRIVER VI JO VORES SYSTEM, SÅ DET SKAL VÆRE KLART AT VI KUN BENYTTER EN METODE.
+%HER BESKRIVER VI JO VORES SYSTEM, SÅ DET SKAL VÆRE KLART AT VI KUN BENYTTER EN METODE.
+
 \subsubsection*{Metode: Sammenhængende komponenter}
-Denne metode til at identificere tegn i en nummerplade fungerer ved brug af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. I en nummerplade vil hver sammenhængende komponent bestå af mørke pixels (tegnene er sorte) mens baggrunden er lyse pixels (pladens baggrund er hvid). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
-MAN LAVER IKKE EN METODE.
+Denne metode til at identificere tegn i en nummerplade fungerer ved brug af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. De sammenhængende komponenter der arbejdes med her består altså af mørke pixels i originalbilledet (tegnene er sorte). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
 
-Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, belysningen af nummerpladen på billedet kan være svag, billedet kan være klippet 'for løst' sådan at mørke elementer uden for nummerpladen vil være sammenhængende etc.
+Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt eller der kan være mørke elementer uden for nummerpladen der vil være sammenhængende. Desuden kan 
 
 EKSEMPEL MED SKYGGER: DER ER TO SLAGS!
 
 SVAG BELYSNING OVENFOR ER IKKE RIGTI TIL AT FORSTÅ. FOR LØST? VI KAN VEL BARE SIGE AT DER ER ANDRE MØRKE OMRÅDER UDEN FOR PLADEN.
 
-For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have intensitetsværdier nær 0, mens eksempelvis pixels i den hvide nummerpladebaggrund vil have intensitetsværdier nær 255.
+For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have intensitetsværdier som er meget mørke, mens eksempelvis pixels i den hvide nummerpladebaggrund vil have intensitetsværdier meget lyse.
 
-DET ER LETTERE AT FORSTÅ HVIS MAN TALER OM SORT OG HVID I STEDET FOR SPECIFIKKE INTENSITETSVÆRDIER. DER STÅR JO IKKE NOGEN FORKLARING TIL DEM.
+%DET ER LETTERE AT FORSTÅ HVIS MAN TALER OM SORT OG HVID I STEDET FOR SPECIFIKKE INTENSITETSVÆRDIER. DER STÅR JO IKKE NOGEN FORKLARING TIL DEM.
 %Figur ?? viser forskellen på et billede af en nummerplade uden kontrast og et med hvor kontrasten i billedet er forstærket.
 
 %EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
