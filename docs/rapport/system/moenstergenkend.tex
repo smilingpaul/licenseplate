@@ -1,17 +1,18 @@
 \subsection{Genkendelse af tegn}
 
-INDSÆT GENKENDELSESDEL AF DIAGRAM OVER SYSTEM
+NY NAVNGIVNING AF METODER.
+
 \label{sec_monster}
 DET PASSER JO IKKE AT VI BRUGER TRE FORSKELLIGE METODER I VORES SYSTEM. VI HAR VALGT EN MEN ARBEJDET MED TRE.
 
-Til genkendelse af tegn vil vi bruge tre forskellige metoder: Den første bruger informationer fra en egenskabsvektor (HVAD ER DET?) mens den anden analyserer enkelte pixels i hvert tegn-billede (VEKTOREN ER, SELVFØLGELIG, OGSÅ BASERET PÅ PIXELS, SÅ DET GØR DEN JO OGSÅ). I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaks analyse (HVAD VIL VI MON MED DET?) på den tegnfølge der repræsenterer et gæt på nummerpladen.
+Til genkendelse af tegn vil vi bruge tre forskellige metoder: Den første bruger informationer fra en såkaldt egenskabsvektor (HVAD ER DET?) mens den anden analyserer enkelte pixels i hvert tegn-billede (VEKTOREN ER, SELVFØLGELIG, OGSÅ BASERET PÅ PIXELS, SÅ DET GØR DEN JO OGSÅ). I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaks analyse (HVAD VIL VI MON MED DET? IDEEN) på den tegnfølge der repræsenterer et gæt på nummerpladen.
 
 Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge.
 
-SKAL DER IKKE STÅ AT VI HAR LAVET ET TRÆNINGSÆT BESTÅENDE AF TEGN?
+SKAL DER IKKE STÅ AT VI HAR LAVET ET TRÆNINGSÆT BESTÅENDE AF TEGN? VEKTORERNE I DET FØLGENDE BLIVER DANNET PÅ BAGGRUND AF DETTE SÆT.
 
 \subsubsection{Metode: Egenskabsvektorer}
-En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med egenskabsvektorer (i dette tilfælde middelvektorer) for at finde ud af det tegn som billedet forestiller. Metoden er fundet i \cite{arth}. DET LYDER SOM OM DER ER EN UNIVERSAL VEKTOR??
+En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med egenskabsvektorer (i dette tilfælde middelvektorer) for at finde ud af det tegn som billedet forestiller. Metoden er fundet i \cite{arth}. DET LYDER SOM OM DER ER EN UNIVERSAL VEKTOR?? DET SKAL STÅ AT DER ER EN VEKTOR PR TEGN.
 
 Først oprettes en middelvektor for hvert tegn der kan forekomme i en nummerplade. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). Vi har defineret en middelvektor, $M$ for et antal billeder $(B_{1},B_{2},...,B_{n})$ i et træningssæt for et givent tegn således:
 
@@ -19,7 +20,9 @@ Først oprettes en middelvektor for hvert tegn der kan forekomme i en nummerplad
 	M = (\sum_{i=1}^{n}B_i)/n
 \end{displaymath}
 
-hvor summen er en elementvis sum. For et inddatabillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
+ILLU AF 2D-AFSTANDE MELLEM VEKTORER.
+
+hvor summen er en elementvis sum DVIVSION ER VEL OGSÅ ELEMENTVIS FODNOTE OM ELEMENTVISE. For et inddatabillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
 
 I vores system findes afstanden, $D$ fra én (middel)vektor, $M = (m_{1},m_{2},...,m_{n})$ til en anden vektor, $P = (p_{1},p_{2},...,p_{n})$ i et $n$-dimensionelt rum ved brug af den euklidiske afstand\cite{wiki_euclid}:
 
@@ -28,6 +31,8 @@ I vores system findes afstanden, $D$ fra én (middel)vektor, $M = (m_{1},m_{2},.
 \end{displaymath}
 
 \subsubsection{Sum-billeder}
+
+ILLU AF ET SUM-BILLEDE FOR ET TEGN
 
 Denne metode minder om metoden med egenskabsvektorer. Her er idéen dog, at der oprettes såkaldet "sum-billeder" for hvert tegn i stedet for middelvektorer. Metoden er opstået af egen idé.
 
@@ -46,7 +51,7 @@ For hvert binære testbillede, $T$, der først skaleres til samme størrelse som
 	v = \sum_{i=1}^I{\sum_{j=1}^J{T_{ij} \cdot S_{ij}}}
 \end{displaymath}
 
-$v$ svarer altså til summen af elementer fra $S$ hvor elementet med samme koordinater i $T$ er markeret. Når $v$ er fundet for alle tegn for et testbillede, vælges klassen hvor $v$ er maksimal.
+$v$ svarer altså til summen af elementer fra $S$ hvor elementet med samme koordinater i $T$ er markeret. Når $v$ er fundet for alle tegn for et testbillede, vælges tegnet hvor $v$ er maksimal.
 
 NOGET OMKRING HVORDAN IDEEN ER OPSTÅET?
 
@@ -54,7 +59,7 @@ NOGET OMKRING HVORDAN IDEEN ER OPSTÅET?
 
 ANDET NAVN TIL METODEN
 
-Denne metode svarer til at man tager alle de binære billeder i et træningssæt for et givent tegn og ser på hvilke pixels der altid er markeret i billeder af det givne tegn. Metoden er hjemmelavet.
+I denne metode tager man alle de binære billeder i et træningssæt for et givent tegn og ser på hvilke pixels der altid er markeret i billeder af det givne tegn. Metoden er hjemmelavet.
 
 And-billedet, $A$ laves ud fra billederne $(B_{1},B_{2},...,B_{n})$ af et givent tegn som følger:
 
@@ -72,7 +77,7 @@ og antallet af 1'taller i $K$ optælles. Det tegn, hvor antallet af 1'taller i $
 
 \subsubsection{Syntaksanalyse}
 
-Ved syntaksanalyse analyseres tegn-hitlisterne (HAVD ER DET FOR NOGEN LISTER?) fra de ovenstående metoder. Analysen er relevant da et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis} og \cite{kwas}.
+Ved syntaksanalyse analyseres tegn-hitlisterne fra de ovenstående metoder. Analysen er relevant da et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis} og \cite{kwas}.
 
 Der kan forekomme følgende fejl i en tegnfølge fra en nummerplade i vores system:
 
@@ -83,14 +88,13 @@ Der kan forekomme følgende fejl i en tegnfølge fra en nummerplade i vores syst
 \item Den fundne talkombination er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav)\footnote{En oversigt over tilladte talværdier er fundet i \cite{nrpl}}.
 \end{itemize}
 
-Hvis en eller flere af disse muligheder er gældende itererer (ANDET ORD FOR ITERERES. DEN KIGGER GENNEM LISTEN?) metoden ned igennem hitlisterne indtil et lovligt valg af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
+Hvis en eller flere af disse muligheder er gældende itererer (DEN KIGGER GENNEM LISTEN?) metoden ned igennem hitlisterne indtil et lovligt valg af en kombination af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
 
-I systemet sættes en øvre grænse for hvor langt ned ad hitlisten syntaks analysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville der blot kunne itereres indtil en lovlig tegnfølge er fundet, og så ville metoderne til genkendelse af tegn give mindre mening ELLER NOGET!
+I systemet sættes en øvre grænse for hvor langt ned ad hitlisten syntaksanalysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville der blot kunne itereres indtil en lovlig tegnfølge er fundet, og så ville metoderne til genkendelse af tegn give mindre mening HVIS MAN KOMMER LANGT NED I LISTERNE ER USIKKERHEDEN HØJ, DER SKAL ALTSÅ VÆLGES NOGET DER LIGNER RET MEGET. ELLER NOGET!
 
 \subsubsection{Metoder fra litteraturen}
 
 \subsubsection*{Neurale netværk}
-I \cite{kwas} arbejder man med et simpelt neuralt netværk hvor antallet af neuroner i inddata-laget er lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn. Matlab understøtter oprettelse af neurale netværk, så denne metode kunne have været implementeret og undersøgt i vores system.
+I \cite{kwas} arbejder man med et simpelt neuralt netværk hvor antallet af neuroner i inddata-laget er lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn.
 
-ALT KUNNE VEL HAVE VÆRET IMPLEMENTERET? DET ER VEL IKKE VÆSENTLIGT?
 ANDRE?

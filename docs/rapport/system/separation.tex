@@ -4,9 +4,10 @@ Separation af tegnene i en nummerplade system består i vores system af to trin:
 
 HVORFOR SKAL DEN VÆRE VANDRET?
 DER ER TO TRIN, MEN DER NÆVNES TRE?
-INDSÆT EVT. SEPARATIONSDEL AF DIAGRAMMET OVER SYSTEMET
 
-Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet markeret (hvidt) og nummerpladens hvide område umarkeret (sort).
+Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet markeret (hvidt) og nummerpladens hvide område umarkeret (sort). OMSKRIV.
+
+HVILKE SYV BILLEDER? FORESTILLER ET TEGN = ER ET TEGN.
 
 \subsubsection{Rotation}
 
@@ -19,6 +20,8 @@ En \textit{Radon transformation} beregner projektionen af et billede fra flere f
 
 En Radon transformation er defineret således\cite{wiki_radon}: SKAL MÅSKE IKKE MED?
 
+UD MED DENNE:
+
 \begin{displaymath}
 		R[f](\alpha,s) = \int_{-\infty}^{\infty}f(x(t),y(t))dt \text{, hvor}
 \end{displaymath}
@@ -26,7 +29,7 @@ En Radon transformation er defineret således\cite{wiki_radon}: SKAL MÅSKE IKKE
 		(x(t),y(t)) = t(\sin\alpha, -\cos\alpha)+s(\cos\alpha,\sin\alpha)
 \end{displaymath}
 
-VI KUNNE OGSÅ SKRIVE: Den eksakte definition af Radon transformation kommer i flere formater, som vi vil undlade at gennemgå her.
+VI KUNNE OGSÅ SKRIVE: Den eksakte definition af Radon transformation kommer i flere formater, som vi vil undlade at gennemgå her. OK, SKRIV DET.
 
 %Radon transformation er en integral transformation, som kan transformere et to-domensionelt billede indeholdende linier til et andet domæne hvor liniernes placering og retninger kan beregnes\cite{toft_radon}. Vi vil dog ikke undersøge dette nærmere, blot bruge funktionen. ELLER NOGET?! Figur \vref{fig:radon_transform} viser hvordan Radon transformationen findes i en enkelt vinkel.
 
@@ -43,7 +46,7 @@ I RADON.PDF ER ET GODT EKSEMPEL: VIS DET HER.
 
 Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
 
-HVILKEN ROTATION? DET ER VEL HVOR MEGET DER SKAL ROTERES. DER ER IKKE FLERE TYPER ROTATION?
+"HVILKEN ROTATION"? DET ER VEL HVOR MEGET DER SKAL ROTERES. DER ER IKKE FLERE TYPER ROTATION?
 
 For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $179^{\circ}$ (men ikke for $180^{\circ}$ da dette vil give samme resultat som ved $0^{\circ}$). Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie. I Figur \vref{fig:radon_matrix} er vist resultatet af en Radon transformation af et billede af en nummerplade.
 
@@ -54,7 +57,9 @@ For at repræsentere et helt billede med en Radon transformation, udføres disse
   \label{fig:radon_matrix}
 \end{figure}
 
-I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade, der roteres ved hjælp af Radon transformation. Bemærk at kun de horisontale kanter detekteres i kant-billedet (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
+I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade, der roteres ved hjælp af Radon transformation. Bemærk at kun de horisontale kanter detekteres i kant-billedet (ELLER "ET BINÆRT BILLEDE DER VISER KANTER") (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
+
+MÅSKE SKAL ILLU LÆNGERE OP?
 
 \begin{figure}[htp]
   \centering
@@ -67,7 +72,7 @@ I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade
   \begin{minipage}[c]{6 cm}
     \framebox{\includegraphics{illu/plate.jpg}}
   \end{minipage}
-  \caption{Et billede af en nummerplade som roteres så den står vandret. Øverste billede forestiller originalbilledet, det mellemste billede forestiller kant-detektionen mens det nederste billede er den roterede plade.}
+  \caption{Et billede af en nummerplade som roteres så den står vandret. Øverste billede forestiller originalbilledet, det midterste billede forestiller kant-detektionen mens det nederste billede er den roterede plade.}
   \label{fig:Rotation}
 \end{figure}
 
@@ -86,10 +91,12 @@ I det følgende beskrives to metoder til identifikation og separation af tegn i 
 
 HER BESKRIVER VI JO VORES SYSTEM, SÅ DET SKAL VÆRE KLART AT VI KUN BENYTTER EN METODE.
 \subsubsection*{Metode: Sammenhængende komponenter}
-Denne metode til at identificere tegn i en nummerplade er lavet ved hjælp af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. I en nummerplade vil hver sammenhængende komponent bestå af mørke pixels (tegnene er sorte) mens baggrunden er lyse pixels (pladens baggrund er hvid). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
+Denne metode til at identificere tegn i en nummerplade fungerer ved brug af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. I en nummerplade vil hver sammenhængende komponent bestå af mørke pixels (tegnene er sorte) mens baggrunden er lyse pixels (pladens baggrund er hvid). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
 MAN LAVER IKKE EN METODE.
 
 Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, belysningen af nummerpladen på billedet kan være svag, billedet kan være klippet 'for løst' sådan at mørke elementer uden for nummerpladen vil være sammenhængende etc.
+
+EKSEMPEL MED SKYGGER: DER ER TO SLAGS!
 
 SVAG BELYSNING OVENFOR ER IKKE RIGTI TIL AT FORSTÅ. FOR LØST? VI KAN VEL BARE SIGE AT DER ER ANDRE MØRKE OMRÅDER UDEN FOR PLADEN.
 
@@ -105,7 +112,7 @@ Efter kontrastforstærkning oprettes et binært billede med sammenhængende komp
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=8cm]{system/illu/concomp_example.png}}
-  \caption{Illustration af sammenhængende, mørke komponenter i en nummerplade. De sammenhængende komponenter er vist som hvide i dette binære billede.}
+  \caption{Illustration af sammenhængende områder i en nummerplade. De sammenhængende områder er vist som hvide i dette binære billede.}
   \label{fig:concomp}
 \end{figure}
 
@@ -119,10 +126,9 @@ Ud fra følgende regler, vælges de sammenhængende komponenter der kan være te
 \item Tegnenes minimale størrelse skal være mindst en vis konstant.% (her: 5 pixels)
 \item For hvert tegn findes der seks andre tegn som er omtrent ligeså høje som det pågældende tegn.
 \item For hvert tegn findes der seks andre tegn som befinder sig i omtrent samme højde som det pågældende tegn.
-\item Afstanden mellem tegnene på position 2 og 3 samt 4 og 5 er længere end afstanden mellem de resterende tegn, der støder op til hinanden.
+\item Afstanden mellem tegnene på position 2 og 3 samt 4 og 5 er længere end afstanden mellem de resterende tegn, der støder op til hinanden. MÅSKE NOGET MED TRE GRUPPER.
 \end{itemize}
 VI BØR NOK LAVE LISTEN OM TIL NUMMEREREDE PARAGRAFER MED MERE UDFØRLIGE BESKRIVELSER.
-SIDSTE PUNKT: BEDRE?
 
 
 Til sidst fås et binært billede hvor kun tegnene i nummerpladen er markeret. Figur \vref{fig:sorterede-concomp} viser et eksempel.
@@ -134,7 +140,6 @@ Til sidst fås et binært billede hvor kun tegnene i nummerpladen er markeret. F
   \label{fig:sorterede-concomp}
 \end{figure}
 
-DET ER IKKE TIL AT SE FORSKEL PÅ DENNE FIGUR OG DEN BLEV VIS LIDT TIDLIGERE.
 Til sidst udklippes de komponenter der resterer (tegnene). Et eksempel på syv udklippede tegn er vist i Figur \vref{fig:tegn-udklip}.
 
 \begin{figure}[htp]
@@ -147,6 +152,8 @@ Til sidst udklippes de komponenter der resterer (tegnene). Et eksempel på syv u
 \subsubsection*{Metode: Bjerg/dal}
 Denne metode baseres på en vertikal projektion (PROJEKTION ER MÅSKE DUMT? JA, JEG FORSTÅR I HVERTFALD IKKE HVAD DU MENER. DER ER INGEN GRUND TIL AT FÅ DET TIL AT LYDE MERE KOMPLICERET) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (bjerg), hvorefter vi kan udskærer tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
 
+OMSKRIV PROJEKTION. TIDLIGERE REF. TIL FIGUR
+
 Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR?
 
 Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved. Dette er illustreret i Figur \vref{fig:ptv-signatur}.
@@ -157,6 +164,8 @@ Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i bi
   \caption{FIGUR AF SIGNATUR-KONCEPT}
   \label{fig:ptv-signatur}
 \end{figure}
+
+DEN HER HAR VI IKKE VALGT.... HVORFOR
 
 \subsubsection{Metoder fra litteraturen}
 
