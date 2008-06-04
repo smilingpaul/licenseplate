@@ -256,8 +256,8 @@ I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de fu
 Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et \textit{JPEG}-billede samt koordinaterne for nummerpladen i billedet som indata. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet. Funktionens forløb er som følger:
 
 \paragraph{1. Billedet af nummerpladen "tages ud" af originalbilledet.}
-\paragraph{2. Billedet af pladen kant-detekteres:}
-For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke. På denne måde kan vi nøjes med at analysere én dimension ved brug af Radon transformationen. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
+\paragraph{2. Billedet af pladen kant-detekteres(VI UDREGNER HVOR EGET PLADEN ER ROTERET):}
+For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke(LYDER SOM OM edge-FUNKTIONEN KUN kan MARKERE VANDRETTE LINIER?). På denne måde kan vi nøjes med at analysere én dimension ved brug af Radon transformationen. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
 
 \paragraph{3. Radon transformation udføres for kant-billedet:} Radon transformation udføres ved brug af Matlab funktionen \textit{radon}.
 
@@ -294,26 +294,31 @@ Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kilde
 \paragraph{1. Billedet af pladen omdannes til gråtone.} IRRELEVANT?
 
 \paragraph{2. Billedet indskrænkes til den største komponent:}
-De billeder der i denne del af systemet modtages fra identifikationsmetoderne er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen. Da nummerpladen sandsynligvis er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen \textit{im2bw}, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. Ved at sætte denne grænseværdi lavt mindskes risikoen for at nummerpladen ikke bliver en lys komponent.
+De billeder der i denne del af systemet modtages fra identifikationsmetoderne er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen (DET ER JO FoRDI VI KAN ANTAGE EN HEL DEL TING OM BILLEDET HVIS VI VED AT DET KUN INDEHOLDER PLADEN). Da nummerpladen sandsynligvis er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen \textit{im2bw}, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. Ved at sætte denne grænseværdi lavt mindskes risikoen for at nummerpladen ikke bliver en lys komponent.
 
 \paragraph{3. Billedets kontraster forstærkes:}
-For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
+For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal(SKAL?) billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke (HVAD ER DET MON FOR NOGEN BLOKKE?) så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
 
-\paragraph{4. Tynde komponenter i toppen og i siderne af billedet fjernes:}
+HER ER BRIG FOR EN ILLUSTRATION
+
+\paragraph{4. Tynde komponenter i toppen og i siderne af billedet fjernes (DET ER DA IKKE HELE FORBUNDNE KOMPONENTER DU SLETTER HER?):}
 Når det binære billede er dannet er der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Dette eer illustreret i Figur \vref{fig:tynd_linie}. Derfor slettes alle pixels som har en tom plads på begge sider i den øverste $\frac{1}{3}$ af billedet, samt i den yderste $\frac{1}{10}$ i både højre og venstre side. Grunden til at det gøres i yderkanterne af billedet er at det "brækker" tynde elementer over, som kan forveksles med tegn i den senere analyse.
+
+BESKRIV TYDLIGERE HVORFOR DU IKKE TØR KLIPPE SMÅ "BROER" INDE I PLADEN
 
 %BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE KOMPONENTER KAN FJERNES
 
 \begin{figure}[htp]
 \centering
 \framebox{\includegraphics{implementation/illu/cc_remove_thin_line.png}} 
-\caption{En illustration af hvordan et tegn i en nummerplade kan gro sammen med nogle elementer i pladens kant. Det øverste hvide område (over den røde pixel) er nummerpladens kant mens det nederset hvide område er en tegnet. Det sorte er pladens baggrund. Den røde pixel illustrerer et punkt hvor de to hvide elementer er groet sammen. Denne sammenhæng kan fjernes ved at slette alle pixels som har en tom plads på begge sider.}
+\caption{En illustration af hvordan et tegn i en nummerplade kan gro sammen med nogle elementer i pladens kant. Det øverste hvide område (over den røde pixel) er nummerpladens kant mens det nederset hvide område er en tegnet. Det sorte er pladens baggrund. Den røde pixel illustrerer et punkt hvor de to hvide elementer er groet sammen. Denne sammenhæng kan fjernes ved at slette alle pixels som har en tom plads på begge sider. MANGLER DER IKKE EN HENVISNING TIL DENNE FIGUR?}
 \label{fig:tynd_linie}
 \end{figure}
 
 \paragraph{5. Horisontale linier med meget lidt hvid, eller meget hvid gøres helt sorte:}
-Derudover slettes alle pixels i de rækker af billedet som ikke har mindst $\frac{1}{10}$ eller højst $\frac{2}{3}$ af alle pixels i billedets bredde markeret. Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område, alle andre linier kan derfor sorteres fra. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
+Derudover(UDOVER HVAD?) slettes alle pixels i de rækker af billedet som ikke har mindst $\frac{1}{10}$ eller højst $\frac{2}{3}$ af alle pixels i billedets bredde markeret (MENER AT DU SLETTER LANGE LINIER IKKE?) . Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område, alle andre linier kan derfor sorteres fra. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
 
+VIS SITUATIONEN PÅ EN ILLU
 \paragraph{6. Det sort-hvide billede laves til sammenhængende-komponenter-billede.}
 \paragraph{7. For små og for store komponenter fjernes:} Alle komponenter som er over $\frac{1}{7}$ af billedet, 
 
