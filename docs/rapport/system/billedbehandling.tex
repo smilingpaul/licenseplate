@@ -4,9 +4,9 @@
 
 %\subsection{Identifikation af nummerplader}
 I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til lokalisering af af nummerplader. I alle vores eksempler har vi brugt billedet på figur \vref{fig:typisk_billede} som inddata.
-
+TYDELIGERE AT VI BRUGER ALLE FEM METODER PÅ EN GANG.
 %\subsubsection*{Interesseområder}
-Metoderne i dette afsnit, fungerer alle på den måde at de arbejder med et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist på figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses på figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:BinImgCleanup}.
+Metoderne i dette afsnit, fungerer alle på den måde at de arbejder med et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist på figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses på figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:BinImgCleanup}. UNDGÅ AT REFFERERE FREM 
 
 Nogle af de metoder vi bruger til at lokalisere nummerplader er baseret på materiale vi har læst, mens andre er baseret på ideer der er opstået på baggrund af vores egen anlyse af nummerpladebillederne.
 
@@ -53,9 +53,9 @@ SKAL DER VÆRE ET BILLEDE DER VISER SITUATIONEN FØR DER SORTERES FRA?
 
 \subsubsection{Metode: Områder domineret af lyse gråtoner}
 \label{sec:DetectSameness}
-I denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af lyse gråtoner i et farvebillede. Vi håber at en af de markerede interesseområder vil være nummerpladen da dens baggrund består af lyse gråtoner. I et farvebillede vil det sige, at området vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger forholdsvis tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0. I dette tilfælde er der altså tale om en meget skæv fordeling af intensistestvrædierne på de tre farvekanaler. Et eksempel på en jævn fordeling af intensitetsværdierne er en middelgrå pixel der vil have værdien 128 i alle tre farvekanaler. Denne metode er inspireret af metoder beskrevet af \cite{ron} og \cite{nijhuis}, der dog begge forsøger at lokalisere nummerplader med en mere karakteristisk, gul, baggrund.
+I denne metode forsøger vi at finde nummerpladen i et billede ved at lede efter områder der domineres af lyse gråtoner i et farvebillede. Vi håber at en af de markerede interesseområder vil være nummerpladen da dens baggrund består af lyse gråtoner. I et farvebillede vil det sige, at området vil være domineret af pixels hvor de tre farvekanaler, rød, grøn og blå har intensitetsværdier der ligger forholdsvis tæt på hinanden. F.eks. vil en helt rød pixel have værdien 256 i den røde farvekanal mens værdierne i den grønne og blå farvekanal være 0. I dette tilfælde er der altså tale om en meget skæv fordeling af intensistestvrædierne på de tre farvekanaler. Et eksempel på en jævn fordeling af intensitetsværdierne er en middelgrå pixel der vil have værdien 128 i alle tre farvekanaler. Denne metode er inspireret af metoder beskrevet af \cite{ron} og \cite{nijhuis}, der dog begge forsøger at lokalisere nummerplader med en mere karakteristisk, gul, baggrund.UNDGÅ AT SKRIVE SPÆCIFIKE INTENSITETER I AFSNITE OVENFOR.
 
-For at markere interesseområder udregner vi en gennemsnitsværdi, $M$ for hver pixel i farvebilledet ved at summere værdierne for hver af de tre farvekanaler og dividere med tre. Hvis alle tre kanaler har en værdi der ligger tæt på gennemsnitsværdien og denne samtidig er høj, det vil sige lys, farves den indeværende pixel, i det binære billede der viser interesseområderne, hvid. Figur \ref{fig:DetectSameness-binary} viser et eksempel på intereseområder markeret med denne metode. 
+For at markere interesseområder udregner vi en gennemsnitsværdi, $M$ for hver pixel i farvebilledet ved at summere værdierne for hver af de tre farvekanaler og dividere med tre. Hvis alle tre kanaler har en værdi der ligger tæt på gennemsnitsværdien og denne samtidig er høj, det vil sige lys, markeres den indeværende pixels position i det binære billede der viser interesseområderne. Figur \ref{fig:DetectSameness-binary} viser et eksempel på intereseområder markeret med denne metode. 
 
 \begin{comment}
 Hvis $X$ er en nedre grænseværdi for de intensiteter vi opfatter som lyse. $Y$ er en værdi der bestemmer hvor stor afstand der må være mellem intensiteterne i de tre farvekanaler og $I_{ij}$ er pixels i et farvebillede hvis nummerplade vi ønsker at finde, er pixels i det binære billede $B_{ij}$ defineret som:
@@ -114,12 +114,12 @@ Vi forventer at et område med en nummerplade vil indeholde områder med høj ko
 \begin{figure}[htp]
 \centering
 \includegraphics[width=10cm]{system/illu/gradienter.png} 
-\caption{Illustration af konceptet gradienter. Pilene viser hældninger i intensitetslandskabet. Da der er tale om glidende overgange fra hvid til sort, har pilene alle samme længde. Illustrationen er fra \cite{wiki_gradienter}.}.
+\caption{Illustration af konceptet gradienter. Pilene viser hældninger i intensitetslandskabet. Da der er tale om glidende overgange fra hvid til sort, har pilene alle samme længde. Hvis der havde været områder med pludselige skift i intensitet, ville gradienterne i disse områder have været de længste. OVERVEJ ILLU. Illustrationen er fra \cite{wiki_gradienter}.}
 \label{fig:gradienter}
 \end{figure}
 
-Efter at have udregnet billedets gradienter som vist på figur \vref{fig:DetectContrastAvg-grads}, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem 0 og 30 mellem sig selv og en vandret linie. Et eksempel på et sådant billede er vist på figur \vref{fig:DetectContrastAvg-hgrads}. Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet I og seks forekomster af tallet 1 være meget synlig på vores gradientbillede medens en nummerplade hvor begge bogstaver er et O og alle seks cifre er tallet 0 være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter.
-
+Efter at have udregnet billedets gradienter som vist på figur \vref{fig:DetectContrastAvg-grads}, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem $0^{\circ}$ og $30^{\circ}$ mellem sig selv og en vandret linie. Et eksempel på et sådant billede er vist på figur \vref{fig:DetectContrastAvg-hgrads}. Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet \textbf{I} og seks forekomster af tallet \textbf{1} være meget synlig på vores gradientbillede mens en nummerplade hvor begge bogstaver er et \textbf{O} og alle seks cifre er tallet \textbf{0} være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter.
+OVERVEJ ILLU DER VISER LODRET KANT OG LIGGENDE GRADIENT.
 % Input image & gradients
 \begin{figure}[htbp]
   \centering
@@ -174,12 +174,12 @@ ILLU\_SVINGNINGER\_IKKE\_PLADE
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=10cm]{system/illu/DetectPlateness-binary.png}}  
-  \caption{Det binære billede med nummerpladekandidater der er afledt af billedet på figur \vref{fig:DetectPlateness-binary}.}
+  \caption{Interesseområder som udpeget ved frekvensanalyse.}
   \label{fig:DetectPlateness-binary}
 \end{figure}
 
 \subsubsection{Metode: Maksimer lokal kontrast}
-Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder. Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt.   
+Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder.
 
 Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i en blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område med en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustreret på figur \vref{fig:DetectCStretch-illu2}.
 
@@ -263,7 +263,7 @@ Ud fra de binære billeder der viser interesseområder, skal vi forsøge at udv�
 \begin{itemize}
 \item Området er meget lille.
 \item Området er meget stort.
-\item Området er højere end det er bredt.
+\item Området er højere end det er bredt (Skriv størrelsesforhold).
 \item Området er for bredt i forhold til højden\footnote{I forhold til højde/bredde forholdet for en nummerplade}.
 \item Området har få markerede pixels i forhold til det rektangel det udspænder\footnote{F.eks. en streg med en vinkel på 45 grader}.
 \end{itemize}
