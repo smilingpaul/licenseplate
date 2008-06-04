@@ -34,7 +34,10 @@ I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de fu
 
 I metoderne til lokalisering af nummerplader, nedskalerer vi billederne til en fjerdedel. Det vil sige at opløsningen bliver $256 \times 192$ pixels i stedet for $1024 \times 768$ pixels. Den lavere opløsning gør billederne langt hurtigere at arbejde med. Da vi ikke arbejder med anaylse af teksten på nummerpladen i disse metoder, men blot forsøger at udpege områder der indeholder nummerplader, bekymrer vi os ikke om hvorvidt nummerpladens tegn kan læses i billeder med denne lave opløsning.
 
-Ofte udvider vi kandidatområdet før vi returnerer det for at få hele pladen med. Det er vigtigt for at senere at kunne rotere da dette kræver tilstædeværelsen af markante linier der markerer pladens over- og underkant. Vi vil hellere returnere områder der er lidt for store end områder der er lidt for små.% (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
+Ofte udvider vi kandidatområdet før vi returnerer det for at få hele pladen med. Det er vigtigt for at senere at kunne rotere da dette kræver tilstædeværelsen af markante linier der markerer pladens over- og underkant. Vi vil hellere returnere områder der er lidt for store end områder der er lidt for små.
+
+SKRIV EVT. AT RÆKKEFØLGEN ER EN ANDEN END I SYSTEM.
+% (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
 
 %Når vi omdanner gråtonebilleder til binærebilleder har vi, med mindre andet er beskrevet, brugt Matlabs greythresh-kommando til at udregne den værdi der afgør hvilke pixels der bliver hvide og hvilke der bliver sorte i det binære billede.
 
@@ -48,8 +51,8 @@ Det er nødvendigt at angive en skaleringsværdien da vi i programmet har define
 
 Behandlingen af det binære billede foregår i de følgende trin:
 
-\paragraph{1. Udregn forbundne komponenter}
-Med Matlabs funktion \textit{bwlabel()} udregner og nummererer vi de forbundne komponenter i inddata-billedet. Vi opfatter pixels der ligger direkte ved siden af hinanden eller over hinanden som værende sammenhængende. Øvrige pixels opfatter vi som selvstændige områder. Figur \vref{fig:con_comp-connections} illustrerer disse forhold.
+\paragraph{1. Udregn sammenhængende komponenter}
+Med Matlabs funktion \textit{bwlabel} udregner og nummererer vi de forbundne komponenter i inddata-billedet. Vi opfatter pixels der ligger direkte ved siden af hinanden eller over hinanden som værende sammenhængende. Øvrige pixels opfatter vi som selvstændige områder. Figur \vref{fig:con_comp-connections} illustrerer disse forhold.
 
 \begin{figure}[htp]
 \centering
@@ -74,6 +77,8 @@ Vi bruger Matlabs funktion \textit{im2bw()} for at skabe det binære billede vi 
 \subsubsection{Valg af bedste nummerpladekandidat}
 \label{sec:imp:GetBestCandidate}
 Programmet der udvælger den bedste nummerpladekandidat er implementeret i funktionen \textit{GetBestCandidate} hvis kildekode findes i afsnit \vref{code:GetBestCandidate}. Funktionen tager en liste med forbundne komponenter, et gråtonebillede og den skaleringsfaktor der er anvendt på gråtonebilledet som argumenter og returnerer den bedste nummerpladekandidats point samt dens koordinater som de er i et billede med en opløsning på $1024 \times 768$. 
+
+HVAD ER NOGLE TYPISKE POINT
 
 Pointgivningen sker ved at måle nummerpladekandidaternes afvigelser i forhold til optimale for en række karakteristika for nummerpladeområder som tidligere beskrevet i afsnit \vref{sec:GetBestCandidate}.
 Programmet udfører følgende trin:
@@ -149,6 +154,7 @@ Vi filtrerer billedet ved at for hver pixel i originalbilledet at kigge på ræk
 
 Da filteret ikke er defineret for de første og sidste 11 pixels i billedets linier\footnote{Der er f.eks. ikke 11 pixels til venstre for den første pixel i billedets linier ligesom der ikke er 11 pixels til højre for den sidste pixel i en linie i billedet.}, vil denne metode ikke kunne lokalisere nummerplader der er i "kontakt" med disse områder.
 
+HVORFOR 11 PIXELS
 \paragraph{3. Lav binært billede}
 Med en grænseværdi udregnet af Matlabs \textit{graythresh()}-funktion laver vi et binært billede på baggrund af det filtrerede område. Da de områder vi er interesserede i har værdier der er meget tæt på 0, de adskiller sig meget lidt fra den ideelle frekvens, inverterer vi det binære billede så interesseområderne bliver de hvide markerede områder. 
 
@@ -256,7 +262,7 @@ I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de fu
 Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et \textit{JPEG}-billede samt koordinaterne for nummerpladen i billedet som indata. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet. Funktionens forløb er som følger:
 
 \paragraph{1. Billedet af nummerpladen "tages ud" af originalbilledet.}
-\paragraph{2. Billedet af pladen kant-detekteres(VI UDREGNER HVOR EGET PLADEN ER ROTERET):}
+\paragraph{2. Find vandrette kanter i billedet.}
 For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke(LYDER SOM OM edge-FUNKTIONEN KUN kan MARKERE VANDRETTE LINIER?). På denne måde kan vi nøjes med at analysere én dimension ved brug af Radon transformationen. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
 
 \paragraph{3. Radon transformation udføres for kant-billedet:} Radon transformation udføres ved brug af Matlab funktionen \textit{radon}.
@@ -288,6 +294,7 @@ MÅSKE ER DETTE IKKE EN IMPLEMENTATIONSDETALJE?
 Metoderne til separation af tegn tager et billede af en nummerplade samt koordinaterne til denne plade i orginalbilledet som inddata, og returnerer syv billeder af de syv tegn (hvis syv tegn er fundet), koordinaterne til disse tegn i orginalbilledet samt antallet af fundne tegn som uddata.
 
 \subsubsection*{Sammenhængende komponenter}
+BRUGER DU 8 ELLER 4 SAMMENHÆNG?
 
 Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}. Funktionen forløber således:
 
