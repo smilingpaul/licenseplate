@@ -6,9 +6,9 @@
 I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til lokalisering af af nummerplader. I alle vores eksempler har vi brugt billedet på figur \vref{fig:typisk_billede} som inddata.
 
 %\subsubsection*{Interesseområder}
-Metoderne i dette afsnit, fungerer alle på den måde at de returnerer et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist på figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses på figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:BinImgCleanup}.
+Metoderne i dette afsnit, fungerer alle på den måde at de arbejder med et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist på figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses på figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:BinImgCleanup}.
 
-Nogle metoder er baseret på materiale vi har læst, mens andre er baseret på ideer der er opstået på baggrund af vores egen anlyse af nummerpladebillederne. 
+Nogle af de metoder vi bruger til at lokalisere nummerplader er baseret på materiale vi har læst, mens andre er baseret på ideer der er opstået på baggrund af vores egen anlyse af nummerpladebillederne.
 
 %SKAL DER REFERES TIL BILLEDET AF BILEN?
 
@@ -267,6 +267,8 @@ Ud fra de binære billeder der viser interesseområder, skal vi forsøge at udv�
 \item Området er for bredt i forhold til højden\footnote{I forhold til højde/bredde forholdet for en nummerplade}.
 \item Området har få markerede pixels i forhold til det rektangel det udspænder\footnote{F.eks. en streg med en vinkel på 45 grader}.
 \end{itemize}
+
+LAV LISTEN OM TIL NUMMEREREDE PARAGRAFER HVOR DER ER EN FORKLARING TIL HVERT PUNKT.
 
 Denne frasortering af interesseområder er implementeret i funktionen \textit{BinImgCleanup} hvis kildekode findes i afsnit \ref{code:BinImgCleanup}. Figurene \ref{fig:DetectSameness-cleanup} til \ref{fig:DetectQuant-cleanup} viser frasorteringen anvendt på de binære billeder med interesseområder som vi brugte som eksempler i beskrivelsen af de forskellige metoder til lokalisering af nummerplader. 
 

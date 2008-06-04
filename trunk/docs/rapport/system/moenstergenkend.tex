@@ -2,13 +2,16 @@
 
 INDSÆT GENKENDELSESDEL AF DIAGRAM OVER SYSTEM
 \label{sec_monster}
+DET PASSER JO IKKE AT VI BRUGER TRE FORSKELLIGE METODER I VORES SYSTEM. VI HAR VALGT EN MEN ARBEJDET MED TRE.
 
-Til genkendelse af tegn vil vi bruge tre forskellige metoder: Den første bruger informationer fra en egenskabsvektor mens den anden analyserer enkelte pixels i hvert tegn-billede. I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaks analyse på den tegnfølge der repræsenterer et gæt på nummerpladen.
+Til genkendelse af tegn vil vi bruge tre forskellige metoder: Den første bruger informationer fra en egenskabsvektor (HVAD ER DET?) mens den anden analyserer enkelte pixels i hvert tegn-billede (VEKTOREN ER, SELVFØLGELIG, OGSÅ BASERET PÅ PIXELS, SÅ DET GØR DEN JO OGSÅ). I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaks analyse (HVAD VIL VI MON MED DET?) på den tegnfølge der repræsenterer et gæt på nummerpladen.
 
 Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerede. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge.
 
+SKAL DER IKKE STÅ AT VI HAR LAVET ET TRÆNINGSÆT BESTÅENDE AF TEGN?
+
 \subsubsection{Metode: Egenskabsvektorer}
-En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med egenskabsvektorer (i dette tilfælde middelvektorer) for at finde ud af det tegn som billedet forestiller. Metoden er fundet i \cite{arth}.
+En egenskabsvektor (eng.: feature vector) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med egenskabsvektorer (i dette tilfælde middelvektorer) for at finde ud af det tegn som billedet forestiller. Metoden er fundet i \cite{arth}. DET LYDER SOM OM DER ER EN UNIVERSAL VEKTOR??
 
 Først oprettes en middelvektor for hvert tegn der kan forekomme i en nummerplade. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). Vi har defineret en middelvektor, $M$ for et antal billeder $(B_{1},B_{2},...,B_{n})$ i et træningssæt for et givent tegn således:
 
@@ -28,6 +31,7 @@ I vores system findes afstanden, $D$ fra én (middel)vektor, $M = (m_{1},m_{2},.
 
 Denne metode minder om metoden med egenskabsvektorer. Her er idéen dog, at der oprettes såkaldet "sum-billeder" for hvert tegn i stedet for middelvektorer. Metoden er opstået af egen idé.
 
+SVARER TIL? DET ER VEL LIGE PRÆCIS DET VI GØR ER DET IKKE?
 Hvert binære billede i træningssættet for et givent tegn skaleres til en defineret størrelse, $I \times J$ og summeres med de andre billeder i sættet. Et sum-billede, $S$ konstrueres af billederne $(B_{1},B_{2},...,B_{n})$ altså således:
 
 \begin{displaymath}
@@ -68,7 +72,7 @@ og antallet af 1'taller i $K$ optælles. Det tegn, hvor antallet af 1'taller i $
 
 \subsubsection{Syntaksanalyse}
 
-Ved syntaks analyse analyseres tegn-hitlisterne fra de ovenstående metoder. Analysen er relevant da et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis} og \cite{kwas}.
+Ved syntaksanalyse analyseres tegn-hitlisterne (HAVD ER DET FOR NOGEN LISTER?) fra de ovenstående metoder. Analysen er relevant da et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis} og \cite{kwas}.
 
 Der kan forekomme følgende fejl i en tegnfølge fra en nummerplade i vores system:
 
@@ -79,7 +83,7 @@ Der kan forekomme følgende fejl i en tegnfølge fra en nummerplade i vores syst
 \item Den fundne talkombination er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav)\footnote{En oversigt over tilladte talværdier er fundet i \cite{nrpl}}.
 \end{itemize}
 
-Hvis en eller flere af disse muligheder er gældende itererer (ANDET ORD FOR ITERERES) metoden ned igennem hitlisterne indtil et lovligt valg af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
+Hvis en eller flere af disse muligheder er gældende itererer (ANDET ORD FOR ITERERES. DEN KIGGER GENNEM LISTEN?) metoden ned igennem hitlisterne indtil et lovligt valg af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
 
 I systemet sættes en øvre grænse for hvor langt ned ad hitlisten syntaks analysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville der blot kunne itereres indtil en lovlig tegnfølge er fundet, og så ville metoderne til genkendelse af tegn give mindre mening ELLER NOGET!
 
@@ -88,4 +92,5 @@ I systemet sættes en øvre grænse for hvor langt ned ad hitlisten syntaks anal
 \subsubsection*{Neurale netværk}
 I \cite{kwas} arbejder man med et simpelt neuralt netværk hvor antallet af neuroner i inddata-laget er lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn. Matlab understøtter oprettelse af neurale netværk, så denne metode kunne have været implementeret og undersøgt i vores system.
 
+ALT KUNNE VEL HAVE VÆRET IMPLEMENTERET? DET ER VEL IKKE VÆSENTLIGT?
 ANDRE?

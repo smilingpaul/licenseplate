@@ -1,7 +1,9 @@
 \subsection{Separation af tegn}
 
-Separation af tegnene i en nummerplade system består i vores system af to dele: Først må billedet af pladen roteres så nummerpladen står vandret i billedet. Dernæst skal tegnene i nummerpladen identificeres og separeres.
+Separation af tegnene i en nummerplade system består i vores system af to trin: Først må billedet af pladen roteres så den står vandret i billedet. Dernæst skal tegnene i nummerpladen identificeres og separeres.
 
+HVORFOR SKAL DEN VÆRE VANDRET?
+DER ER TO TRIN, MEN DER NÆVNES TRE?
 INDSÆT EVT. SEPARATIONSDEL AF DIAGRAMMET OVER SYSTEMET
 
 Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv billeder. Hvert billede forestiller et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede med selve tegnet markeret (hvidt) og nummerpladens hvide område umarkeret (sort).
@@ -11,6 +13,8 @@ Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerp
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}.
 
 \subsubsection*{Radon transformation}
+HELE DETTE AFSNIT ER MEGET TEKNISK. BURDE NOK VÆRE I IMPLEMENTATION. HER SKAL VEL IKKE STÅ SÅ MEGET MERE AND AT VI FINDER UD AF HVOR MEGET PLADEN ER VINKLET OG KORIGERER FOR DET.
+
 En \textit{Radon transformation} beregner projektionen af et billede fra flere forskellige steder og i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare mht. rotation af et billede af en nummerplade, så denne plade står vandret i billedet.
 
 En Radon transformation er defineret således\cite{wiki_radon}: SKAL MÅSKE IKKE MED?
@@ -38,6 +42,8 @@ Kilden i en Radon transformation kan være enkeltstående eller en samling af fl
 I RADON.PDF ER ET GODT EKSEMPEL: VIS DET HER.
 
 Før en Radon transformation bruges til at finde linier og deres vinkler i et billede af en nummerplade og dermed hvilken rotation der er brug for, for at få pladen vandret i billedet, må kanterne i billedet detekteres. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet. Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
+
+HVILKEN ROTATION? DET ER VEL HVOR MEGET DER SKAL ROTERES. DER ER IKKE FLERE TYPER ROTATION?
 
 For at repræsentere et helt billede med en Radon transformation, udføres disse projektioner for alle vinkler mellem $0^{\circ}$ og $179^{\circ}$ (men ikke for $180^{\circ}$ da dette vil give samme resultat som ved $0^{\circ}$). Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie. I Figur \vref{fig:radon_matrix} er vist resultatet af en Radon transformation af et billede af en nummerplade.
 
@@ -67,7 +73,7 @@ I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade
 
 
 \subsubsection*{Andre metoder brugt i litteraturen}
-I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation som er beskrevet i \cite{sharpiro}. Vi er klar over at rotationsmetoden \textit{Hough transformation} eksisterer, men har ikke arbejdet med den da det virkede oplagt at bruge metoden fra litteraturen. 
+I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation som anvendt af \cite{sharpiro}. Vi er klar over at rotationsmetoden \textit{Hough transformation} eksisterer, men har ikke arbejdet med den da det virkede oplagt at bruge den etablerede fremgangsmåde fra litteraturen. 
 
 \subsubsection{Identifikation af tegn}
 
@@ -78,15 +84,18 @@ I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder ti
 
 I det følgende beskrives to metoder til identifikation og separation af tegn i en nummerplade. Disse to metoder arbejder med henholdsvis sammenhængende komponenter og såkaldt "signatur".
 
+HER BESKRIVER VI JO VORES SYSTEM, SÅ DET SKAL VÆRE KLART AT VI KUN BENYTTER EN METODE.
 \subsubsection*{Metode: Sammenhængende komponenter}
 Denne metode til at identificere tegn i en nummerplade er lavet ved hjælp af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. I en nummerplade vil hver sammenhængende komponent bestå af mørke pixels (tegnene er sorte) mens baggrunden er lyse pixels (pladens baggrund er hvid). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
+MAN LAVER IKKE EN METODE.
 
 Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt, belysningen af nummerpladen på billedet kan være svag, billedet kan være klippet 'for løst' sådan at mørke elementer uden for nummerpladen vil være sammenhængende etc.
 
-SVAG BELYSNING OVENFOR ER IKKE RIGTI TIL AT FORSTÅ
+SVAG BELYSNING OVENFOR ER IKKE RIGTI TIL AT FORSTÅ. FOR LØST? VI KAN VEL BARE SIGE AT DER ER ANDRE MØRKE OMRÅDER UDEN FOR PLADEN.
 
 For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have intensitetsværdier nær 0, mens eksempelvis pixels i den hvide nummerpladebaggrund vil have intensitetsværdier nær 255.
 
+DET ER LETTERE AT FORSTÅ HVIS MAN TALER OM SORT OG HVID I STEDET FOR SPECIFIKKE INTENSITETSVÆRDIER. DER STÅR JO IKKE NOGEN FORKLARING TIL DEM.
 %Figur ?? viser forskellen på et billede af en nummerplade uden kontrast og et med hvor kontrasten i billedet er forstærket.
 
 %EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
@@ -112,7 +121,7 @@ Ud fra følgende regler, vælges de sammenhængende komponenter der kan være te
 \item For hvert tegn findes der seks andre tegn som befinder sig i omtrent samme højde som det pågældende tegn.
 \item Afstanden mellem tegnene på position 2 og 3 samt 4 og 5 er længere end afstanden mellem de resterende tegn, der støder op til hinanden.
 \end{itemize}
-
+VI BØR NOK LAVE LISTEN OM TIL NUMMEREREDE PARAGRAFER MED MERE UDFØRLIGE BESKRIVELSER.
 SIDSTE PUNKT: BEDRE?
 
 
@@ -125,7 +134,7 @@ Til sidst fås et binært billede hvor kun tegnene i nummerpladen er markeret. F
   \label{fig:sorterede-concomp}
 \end{figure}
 
-
+DET ER IKKE TIL AT SE FORSKEL PÅ DENNE FIGUR OG DEN BLEV VIS LIDT TIDLIGERE.
 Til sidst udklippes de komponenter der resterer (tegnene). Et eksempel på syv udklippede tegn er vist i Figur \vref{fig:tegn-udklip}.
 
 \begin{figure}[htp]
@@ -136,7 +145,7 @@ Til sidst udklippes de komponenter der resterer (tegnene). Et eksempel på syv u
 \end{figure}
 
 \subsubsection*{Metode: Bjerg/dal}
-Denne metode baseres på en vertikal projektion (PROJEKTION ER MÅSKE DUMT?) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (bjerg), hvorefter vi kan udskærer tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
+Denne metode baseres på en vertikal projektion (PROJEKTION ER MÅSKE DUMT? JA, JEG FORSTÅR I HVERTFALD IKKE HVAD DU MENER. DER ER INGEN GRUND TIL AT FÅ DET TIL AT LYDE MERE KOMPLICERET) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (bjerg), hvorefter vi kan udskærer tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
 
 Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR?
 
@@ -151,6 +160,7 @@ Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i bi
 
 \subsubsection{Metoder fra litteraturen}
 
+NOGEN FINDER LOKALISERER NUMMERPLADERNE VED HJÆLP AF ANALYSE AF CONNECTED COMPONENTS. DET MINDER JO OMDET DU GØR, MEN DE GØR DET BARE TIDLIGERE.
 IKKE ANDRE?
 \begin{comment}
 Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver især forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bl.a. bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
