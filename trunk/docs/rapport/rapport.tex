@@ -19,6 +19,11 @@
 \usepackage{colortbl}
 %\definecolor{light-gray}{gray}{0.9}
 
+% different font in captions
+\newcommand{\captionfonts}{\small}
+
+\makeatletter  % Allow the use of @ in command names\long\def\@makecaption#1#2{%  \vskip\abovecaptionskip  \sbox\@tempboxa{{\captionfonts #1: #2}}%  \ifdim \wd\@tempboxa >\hsize    {\captionfonts #1: #2\par}  \else    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%  \fi  \vskip\belowcaptionskip}\makeatother   % Cancel the effect of \makeatletter
+
 % fancy headings
 \pagestyle{fancy}
 %\lhead[]{}
@@ -165,6 +170,8 @@ Vi har ikke så mange bogstaver i vores træningsæt.
 Konklusion af selve vores arbejde: Noget vi burde have forudset? Noget vi har været dårlige til? Hvad har vi været gode til?
 
 Skal vi have arbejdsopgaverne med i rapporten og så bedømmes de?
+
+Godt at vi kan bruge simple metoder, det er spændende med pointsystem, det med at bruge flere metoder sammen har vi selv fundet på.
 
 NEDENFOR: BRUGES ALLE LITTERATUR ELEMENTER??
 
