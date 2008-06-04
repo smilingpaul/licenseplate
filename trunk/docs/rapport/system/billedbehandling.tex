@@ -3,10 +3,10 @@
 \subsection{Lokalisering af nummerplader}
 
 %\subsection{Identifikation af nummerplader}
-I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til lokalisering af af nummerplader. I alle vores eksempler har vi brugt billedet på figur \vref{fig:typisk_billede} som inddata.
+I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til lokalisering af af nummerplader. I alle vores eksempler har vi brugt billedet i figur \vref{fig:typisk_billede} som inddata.
 TYDELIGERE AT VI BRUGER ALLE FEM METODER PÅ EN GANG.
 %\subsubsection*{Interesseområder}
-Metoderne i dette afsnit, fungerer alle på den måde at de arbejder med et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist på figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses på figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:BinImgCleanup}. UNDGÅ AT REFFERERE FREM 
+Metoderne i dette afsnit, fungerer alle på den måde at de arbejder med et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist i figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses i figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:BinImgCleanup}. UNDGÅ AT REFFERERE FREM 
 
 Nogle af de metoder vi bruger til at lokalisere nummerplader er baseret på materiale vi har læst, mens andre er baseret på ideer der er opstået på baggrund af vores egen anlyse af nummerpladebillederne.
 
@@ -22,12 +22,12 @@ Nogle af de metoder vi bruger til at lokalisere nummerplader er baseret på mate
   \centering
   \begin{minipage}[b]{5 cm}
     \framebox{\includegraphics[width=4cm]{system/illu/binary_ideal.png}}
-    \caption{Det bedst tænkelige billede af nummerpladekandidater i billedet på figur \ref{fig:typisk_billede}}
+    \caption{Det bedst tænkelige billede af nummerpladekandidater i billedet i figur \ref{fig:typisk_billede}}
     \label{fig:binary_ideal} 
   \end{minipage}
   \begin{minipage}[b]{5 cm}
     \framebox{\includegraphics[width=4cm]{system/illu/binary_real.png}}  
-  \caption{Et mere realistisk eksempel på nummerpladekandidater for billedet på figur \ref{fig:typisk_billede}}
+  \caption{Et mere realistisk eksempel på nummerpladekandidater for billedet i figur \ref{fig:typisk_billede}}
   \label{fig:binary_real} 
   \end{minipage}
 \end{figure}
@@ -37,14 +37,14 @@ Nogle af de metoder vi bruger til at lokalisere nummerplader er baseret på mate
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5cm]{system/illu/binary_ideal.png} 
-\caption{Det bedst tænkelige billede af nummerpladekandidater i billedet på figur \ref{fig:input_billede}}
+\caption{Det bedst tænkelige billede af nummerpladekandidater i billedet i figur \ref{fig:input_billede}}
 \label{fig:binary_ideal}
 \end{figure}
 SKAL DER VÆRE ET BILLEDE DER VISER SITUATIONEN FØR DER SORTERES FRA?
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5cm]{system/illu/binary_real.png} 
-\caption{Et mere realistisk eksempel på nummerpladekandidater for billedet på figur \ref{fig:input_billede}}
+\caption{Et mere realistisk eksempel på nummerpladekandidater for billedet i figur \ref{fig:input_billede}}
 \label{fig:binary_real}
 \end{figure}
 
@@ -118,7 +118,7 @@ Vi forventer at et område med en nummerplade vil indeholde områder med høj ko
 \label{fig:gradienter}
 \end{figure}
 
-Efter at have udregnet billedets gradienter som vist på figur \vref{fig:DetectContrastAvg-grads}, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem $0^{\circ}$ og $30^{\circ}$ mellem sig selv og en vandret linie. Et eksempel på et sådant billede er vist på figur \vref{fig:DetectContrastAvg-hgrads}. Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet \textbf{I} og seks forekomster af tallet \textbf{1} være meget synlig på vores gradientbillede mens en nummerplade hvor begge bogstaver er et \textbf{O} og alle seks cifre er tallet \textbf{0} være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter.
+Efter at have udregnet billedets gradienter som vist i figur \vref{fig:DetectContrastAvg-grads}, kan vi udregne deres vinkler. Vi vælger at lave et nyt billede der viser gradienter med en vinkel på mellem $0^{\circ}$ og $30^{\circ}$ mellem sig selv og en vandret linie. Et eksempel på et sådant billede er vist i figur \vref{fig:DetectContrastAvg-hgrads}. Grunden til at vi kun tager disse "liggende" gradienter med, er at vi på den måde undgår at markere evt. vandrette kanter i billedet der måtte forbinde nummerpladen med bilens lygter eller andet. Vores håb er, at der er nok lodrette kanter i nummerpladeområdet til at det stadig bliver markeret på billedet der viser de vandrette gradienter. F.eks. ville en plade med to forekomster af bogstavet \textbf{I} og seks forekomster af tallet \textbf{1} være meget synlig på vores gradientbillede mens en nummerplade hvor begge bogstaver er et \textbf{O} og alle seks cifre er tallet \textbf{0} være mindre synlig på grund af det lavere antal lodrette kanter og deraf følgende lave antal vandrette gradienter.
 OVERVEJ ILLU DER VISER LODRET KANT OG LIGGENDE GRADIENT.
 % Input image & gradients
 \begin{figure}[htbp]
@@ -137,29 +137,29 @@ OVERVEJ ILLU DER VISER LODRET KANT OG LIGGENDE GRADIENT.
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=10cm]{system/illu/DetectContrastAvg-hgrads.png}}
-  \caption{Gradienterne fra figur \vref{fig:DetectContrastAvg-grads} med vinkler mellem 0 og 30 grader. Bemærk at de vandrette linier der er synlige over og under nummerpladen på figur \ref{fig:DetectContrastAvg-grads} ikke er synlige.}
+  \caption{Gradienterne fra figur \vref{fig:DetectContrastAvg-grads} med vinkler mellem 0 og 30 grader. Bemærk at de vandrette linier der er synlige over og under nummerpladen i figur \ref{fig:DetectContrastAvg-grads} ikke er synlige.}
   \label{fig:DetectContrastAvg-hgrads}  
 \end{figure}
 
 
-Før vi laver det binære billede med nummerpladekandidater, forsøger vi gøre nummerpladeområdet til en sammenhængende figur ved at udtvære\footnote{Eng.: Blur} billedet med et filter der giver hver pixel en intensitet svarende til middelværdien for dens nærområde. Da vi primært er interesserede i at forbinde pixels der ligger ved siden af hinanden (tegnene i nummerpladen) og ønsker at undgå at nummerpladeområdet bliver forbundet med områder der ligger tæt på dens over- og underkant, definerer vi nærområdet som et liggende rektangel. Resultatet bliver et sammenhængende område med en højde svarende til højden på tegnene i nummerpladen og en bredde der er noget længere end nummerpladens bredde. Et eksempel er vist på figur \vref{fig:DetectContrastAvg-blurredGrads}. 
+Før vi laver det binære billede med nummerpladekandidater, forsøger vi gøre nummerpladeområdet til en sammenhængende figur ved at udtvære\footnote{Eng.: Blur} billedet med et filter der giver hver pixel en intensitet svarende til middelværdien for dens nærområde. Da vi primært er interesserede i at forbinde pixels der ligger ved siden af hinanden (tegnene i nummerpladen) og ønsker at undgå at nummerpladeområdet bliver forbundet med områder der ligger tæt på dens over- og underkant, definerer vi nærområdet som et liggende rektangel. Resultatet bliver et sammenhængende område med en højde svarende til højden på tegnene i nummerpladen og en bredde der er noget længere end nummerpladens bredde. Et eksempel er vist i figur \vref{fig:DetectContrastAvg-blurredGrads}. 
 
 % Blured horizontal gradients
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=10cm]{system/illu/DetectContrastAvg-blurredGrads.png}}
-  \caption{De markerede områder i nummerpladen på figur \vref{fig:DetectContrastAvg-hgrads} forbindes ved at give hver pixel en intensitet der er proportional med gennemsnittet i nærområdet.}
+  \caption{De markerede områder i nummerpladen i figur \vref{fig:DetectContrastAvg-hgrads} forbindes ved at give hver pixel en intensitet der er proportional med gennemsnittet i nærområdet.}
   \label{fig:DetectContrastAvg-blurredGrads}  
 \end{figure}
 
 
-Som det sidste trin laver vi et binært billede med nummerpladekandidater som vist på figur \vref{fig:DetectContrastAvg-binary}. Vi bruger en forholdsvis lav grænseværdi når vi laver dette billede. Det vil sige, vi opfatter forholdsvis mørke områder som potentielle nummerpladeområder.
+Som det sidste trin laver vi et binært billede med nummerpladekandidater som vist i figur \vref{fig:DetectContrastAvg-binary}. Vi bruger en forholdsvis lav grænseværdi når vi laver dette billede. Det vil sige, vi opfatter forholdsvis mørke områder som potentielle nummerpladeområder.
 
 %Binary image
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=10cm]{system/illu/DetectContrastAvg-binary.png}}  
-  \caption{Det binære billede med nummerpladekandidater der er afledt af billedet på figur \vref{fig:DetectContrastAvg-blurredGrads}.}
+  \caption{Det binære billede med nummerpladekandidater der er afledt af billedet i figur \vref{fig:DetectContrastAvg-blurredGrads}.}
   \label{fig:DetectContrastAvg-binary}
 \end{figure}
 
@@ -181,7 +181,7 @@ ILLU\_SVINGNINGER\_IKKE\_PLADE
 \subsubsection{Metode: Maksimer lokal kontrast}
 Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder.
 
-Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i en blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område med en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustreret på figur \vref{fig:DetectCStretch-illu2}.
+Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}. Da spredningen af intensiteter i en blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte når intensitetsværdierne blive strakt. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område med en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustreret i figur \vref{fig:DetectCStretch-illu2}.
 
 
 % Illu af contrast strech
@@ -206,11 +206,11 @@ Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}.
   \begin{minipage}[b]{5 cm}
     \framebox{\includegraphics[width=4cm]{system/illu/DetectCStretch-illu2_2.png}}  
   \end{minipage}
-  \caption{Den underbelyste nummerplade til venstre deles op i to kvadratiske blokke, og intensiteterne i dem strækkes uafhængigt af hinanden. Resultatet til højre viser, at hele nummerpladen stadig er et sammenhængende lyst område i modsætning til eksemplet på figur \vref{fig:DetectCStretch-illu1} hvor billedet bliver delt.}
+  \caption{Den underbelyste nummerplade til venstre deles op i to kvadratiske blokke, og intensiteterne i dem strækkes uafhængigt af hinanden. Resultatet til højre viser, at hele nummerpladen stadig er et sammenhængende lyst område i modsætning til eksemplet i figur \vref{fig:DetectCStretch-illu1} hvor billedet bliver delt.}
   \label{fig:DetectCStretch-illu2}
 \end{figure}
 
-Med denne metode får vi det binære billede af interesseområder der er vist på figur \ref{fig:DetectCStretch-binary}. Kildekoden til metoden er implementeret i funktionen \textit{DetectCStretch} hvis kildekode findes i afsnit \vref{code:DetectCStretch}.
+Med denne metode får vi det binære billede af interesseområder der er vist i figur \ref{fig:DetectCStretch-binary}. Kildekoden til metoden er implementeret i funktionen \textit{DetectCStretch} hvis kildekode findes i afsnit \vref{code:DetectCStretch}.
 
 %Binary image
 \begin{figure}[htp]
@@ -223,7 +223,7 @@ Med denne metode får vi det binære billede af interesseområder der er vist p�
 \subsubsection{Metode: Kvantifisering}
 Med denne metode forsøger vi at lokalisere nummerpladen ved at sætte antallet af gråtoner i vores inddatabillede ned fra 256 til 7. Med færre intensitetsværdier vil billedet indeholde større sammenhængende områder der repræsenterer de områder i originalbilledet hvor intensiteterne ligge forholdsvis tæt på hinanden. Det er vores forventning at et af disse områder er nummerpladen.
 
-Som det første trin i denne metode, kører vi et filter der giver en pixel den maksimale intensitet fra dens nærområde. Vi forventer at dette vil udviske tegnene på nummerpladen og efterlade et lyst rektangel i billedet der hvor nummerpladen findes. Formen på vores filter er et liggende rektangel da vi vil forsøge at undgå at nummerpladen forbindes med lyse områder der ligger over og under nummerpladen. Et eksempel på hvordan resultatet af at anvende dette filter er vist på figur \vref{fig:DetectQuant-filteredImage}.
+Som det første trin i denne metode, kører vi et filter der giver en pixel den maksimale intensitet fra dens nærområde. Vi forventer at dette vil udviske tegnene på nummerpladen og efterlade et lyst rektangel i billedet der hvor nummerpladen findes. Formen på vores filter er et liggende rektangel da vi vil forsøge at undgå at nummerpladen forbindes med lyse områder der ligger over og under nummerpladen. Et eksempel på hvordan resultatet af at anvende dette filter er vist i figur \vref{fig:DetectQuant-filteredImage}.
 
 BILLEDET SKAL OPDATERES DA METODEN ER BLEVET ÆNDRET EN LILLE SMULE.
 % Filtered image
@@ -234,13 +234,13 @@ BILLEDET SKAL OPDATERES DA METODEN ER BLEVET ÆNDRET EN LILLE SMULE.
   \label{fig:DetectQuant-filteredImage}  
 \end{figure}
 
-Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned Det giver os større sammenhængende områder som vist på figur \vref{fig:DetectQuant-quantImage}. På baggrund af dette billede danner vi et binært billede der viser vores interresseområder. Et eksempel er vist på figur \vref{fig:DetectQuant-binary}.
+Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned Det giver os større sammenhængende områder som vist i figur \vref{fig:DetectQuant-quantImage}. På baggrund af dette billede danner vi et binært billede der viser vores interresseområder. Et eksempel er vist i figur \vref{fig:DetectQuant-binary}.
 
 % Quant image
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=10cm]{system/illu/DetectQuant-quantImage.png}}
-  \caption{Resultatet af at sætte antallet af intensitetet i billedet på figur \vref{fig:DetectQuant-filteredImage} ned til otte.}
+  \caption{Resultatet af at sætte antallet af intensitetet i billedet i figur \vref{fig:DetectQuant-filteredImage} ned til otte.}
   \label{fig:DetectQuant-quantImage}  
 \end{figure}
 
@@ -248,7 +248,7 @@ Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=10cm]{system/illu/DetectQuant-binary.png}}
-  \caption{Interesseområde valgt på baggrund af billedet på figur \vref{fig:DetectQuant-quantImage}}
+  \caption{Interesseområde valgt på baggrund af billedet i figur \vref{fig:DetectQuant-quantImage}}
   \label{fig:DetectQuant-binary}  
 \end{figure}
 
@@ -376,7 +376,7 @@ Når analysen af kandidatområderne er færdig og de har fået tildelt point, v�
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Endeligt valg af nummerpladekandidat}
-Systemet vælger en endelig nummerpladekandidat ved at sammenligne de fem områder der er blevet udpeget af de tidligere beskrevne metoder. Vi undersøger om der er områder flere af metoderne er enige om at udpege. Hvis sådanne områder findes, udpeges det område som flest metoder er enige om, som værende en nummerplade. Hvis der er uenighed, det vil sige, at to metoder udpeger et område og to andre metoder udpeger et andet,  udregner systemet gennemsnitstpointene for de nummerpladekoordinater der peger på hver område, og vælger det område med det lavese antal point. Hvis alle metoder udpeger forskellige områder vælger systemet den nummepladekandidat med det laveste antal point såfremt dette tal er tilstrækkeligt lavt. Hvis der i denne situation ikke findes en nummerpladekendidat med et lavt nok antal point, opgiver systemet at finde en nummerplade i billedet. Figur \ref{fig:DetectMain-result} viser valget af endelig nummerpladekandidat på baggrund af eksemplerne på figurene \ref{fig:DetectSameness-cleanup} til \vref{fig:DetectQuant-cleanup}. %Udvælgelsen er implementeret i funktionen \textit{DetectMain} hvis kildekode findes i afsnit \ref{code:DetectMain}.
+Systemet vælger en endelig nummerpladekandidat ved at sammenligne de fem områder der er blevet udpeget af de tidligere beskrevne metoder. Vi undersøger om der er områder flere af metoderne er enige om at udpege. Hvis sådanne områder findes, udpeges det område som flest metoder er enige om, som værende en nummerplade. Hvis der er uenighed, det vil sige, at to metoder udpeger et område og to andre metoder udpeger et andet,  udregner systemet gennemsnitstpointene for de nummerpladekoordinater der peger på hver område, og vælger det område med det lavese antal point. Hvis alle metoder udpeger forskellige områder vælger systemet den nummepladekandidat med det laveste antal point såfremt dette tal er tilstrækkeligt lavt. Hvis der i denne situation ikke findes en nummerpladekendidat med et lavt nok antal point, opgiver systemet at finde en nummerplade i billedet. Figur \ref{fig:DetectMain-result} viser valget af endelig nummerpladekandidat på baggrund af eksemplerne i figurene \ref{fig:DetectSameness-cleanup} til \vref{fig:DetectQuant-cleanup}. %Udvælgelsen er implementeret i funktionen \textit{DetectMain} hvis kildekode findes i afsnit \ref{code:DetectMain}.
 
 % Billede af kandidater i MainDetect. 
 \begin{figure}[htp]
