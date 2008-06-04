@@ -123,10 +123,10 @@ Metoden hvor vi forsøger at finde nummerplader ved at markere områder med høj
 Billedet indlæses og konverteres fra \textit{RGB} til 256 gråtoner. Herefter nedskaleres det til en fjerdedel. DER ER LOG I KODEN. VI GØR BILLEDET LYSERE. BESKRIV!
 
 \paragraph{2. Udregn gradienter}
-Vi udregner gradienterne for gråtonebilledet med Matlabs kommando \textit{gradient()}. Herefter finder vi gradienternes længder og deres vinkler målt som forskel til vandret. Det vil sige at gradtallet går fra 0 til 90 og så til 0 igen. Vi normaliserer gradienternes længder til $1$ og danner et nyt billede bestående af de gradienter der har en vinkel med det vandrette plan på mellem $0$ og $30$ grader. Hvis en gradient har en størrelse på $0.25$ eller mere, fordobler vi den værdi der sættes ind. Vi giver altså de største gradienter, svarende til områder med høj kontrast, mere vægt i billedet. De pixels der svarer til de øvrige gradienter i originalbilledet får værdien $0$ i det nye billede. Et eksempel på dette billede er vist på figur \vref{fig:DetectContrastAvg-hgrads}.
+Vi udregner gradienterne for gråtonebilledet med Matlabs kommando \textit{gradient()}. Herefter finder vi gradienternes længder og deres vinkler målt som forskel til vandret. Det vil sige at gradtallet går fra 0 til 90 og så til 0 igen. Vi normaliserer gradienternes længder til $1$ og danner et nyt billede bestående af de gradienter der har en vinkel med det vandrette plan på mellem $0$ og $30$ grader. Hvis en gradient har en størrelse på $0.25$ eller mere, fordobler vi den værdi der sættes ind. Vi giver altså de største gradienter, svarende til områder med høj kontrast, mere vægt i billedet. De pixels der svarer til de øvrige gradienter i originalbilledet får værdien $0$ i det nye billede. Et eksempel på dette billede er vist i figur \vref{fig:DetectContrastAvg-hgrads}.
 
 \paragraph{3. Filtrer billedet}
-For at forsøge at forbinde de mange markeringer i nummerpladeområdet som vist på figur \vref{fig:DetectContrastAvg-blurredGrads} filtrerer vi billedet. Filteret udregner gennemsnitsværdien for hver pixels nærområde og giver den indeværende pixel 80\% af denne værdi som foreslået af \cite{shapiro}. Da vi kun ønsker at forbinde områder der ligger ved siden af hinanden anvender vi et filter der er 3 pixels højt, og 7 pixels bredt. Vi anvender Matlabs funktion \textit{nlfilter()} for at foretage filtreringen.
+For at forsøge at forbinde de mange markeringer i nummerpladeområdet som vist i figur \vref{fig:DetectContrastAvg-blurredGrads} filtrerer vi billedet. Filteret udregner gennemsnitsværdien for hver pixels nærområde og giver den indeværende pixel 80\% af denne værdi som foreslået af \cite{shapiro}. Da vi kun ønsker at forbinde områder der ligger ved siden af hinanden anvender vi et filter der er 3 pixels højt, og 7 pixels bredt. Vi anvender Matlabs funktion \textit{nlfilter()} for at foretage filtreringen.
 
 \paragraph{4. Lav binært billede}
 På baggrund af det filtrerede villede danner vi et binært billede. Som grænseværdi bruger vi halvdelen af resultatet af Matlabs funktion \textit{graythresh()}. På denne måde får vi større, mere sammenhængende, områder i det binære billede end dem vi ville have fået hvis vi direkte havde benytte resultatet af \textit{graythresh()}.
@@ -311,7 +311,7 @@ For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide 
 HER ER BRIG FOR EN ILLUSTRATION
 
 \paragraph{4. Tynde komponenter i toppen og i siderne af billedet fjernes (DET ER DA IKKE HELE FORBUNDNE KOMPONENTER DU SLETTER HER?):}
-Når det binære billede er dannet er der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Dette eer illustreret i Figur \vref{fig:tynd_linie}. Derfor slettes alle pixels som har en tom plads på begge sider i den øverste $\frac{1}{3}$ af billedet, samt i den yderste $\frac{1}{10}$ i både højre og venstre side. Grunden til at det gøres i yderkanterne af billedet er at det "brækker" tynde elementer over, som kan forveksles med tegn i den senere analyse. HVORFOR VIL JEG GERNE HAVE DEM BRÆKKET OVER? HVORFOR KUN I SIDERNE? PGA. "1" BESKRIV TYDLIGERE HVORFOR DU IKKE TØR KLIPPE SMÅ "BROER" INDE I PLADEN
+Når det binære billede er dannet er der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Dette eer illustreret i figur \vref{fig:tynd_linie}. Derfor slettes alle pixels som har en tom plads på begge sider i den øverste $\frac{1}{3}$ af billedet, samt i den yderste $\frac{1}{10}$ i både højre og venstre side. Grunden til at det gøres i yderkanterne af billedet er at det "brækker" tynde elementer over, som kan forveksles med tegn i den senere analyse. HVORFOR VIL JEG GERNE HAVE DEM BRÆKKET OVER? HVORFOR KUN I SIDERNE? PGA. "1" BESKRIV TYDLIGERE HVORFOR DU IKKE TØR KLIPPE SMÅ "BROER" INDE I PLADEN
 
 %BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE KOMPONENTER KAN FJERNES
 
@@ -354,7 +354,7 @@ Hvorfor?
 Pladens signatur findes ved at opsummere intensitetsværdierne i billedet af nummerpladen omdannet til gråtone.
 
 \paragraph{5. Signaturen udglattes:}
-Hvis man betragter signaturen som en graf vil den være "hakket" på grund af støj i billedet (dvs. det er kun i teorien at billedet kun indeholder en hvid baggrund og nogle mørke bogstaver, hvilket ville give en perfekt graf). Signaturen skal derfor udglattes. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde. EKSEMPEL PÅ UDREGNING? Et eksempel på en "rå" graf og samme graf, udglattet ses i Figur \vref{fig:smoothSig}.
+Hvis man betragter signaturen som en graf vil den være "hakket" på grund af støj i billedet (dvs. det er kun i teorien at billedet kun indeholder en hvid baggrund og nogle mørke bogstaver, hvilket ville give en perfekt graf). Signaturen skal derfor udglattes. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde. EKSEMPEL PÅ UDREGNING? Et eksempel på en "rå" graf og samme graf, udglattet ses i figur \vref{fig:smoothSig}.
 
 EKSEMPEL PÅ HAKKET SIGNATUR OG UDGLATTET SIGNATUR
 
