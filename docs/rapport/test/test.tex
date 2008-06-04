@@ -18,6 +18,29 @@ I dette afsnit vil vi afprøve vores system og give resultaterne af denne afprø
 \subsection{Lokalisering af nummerplader}
 Lokalisering af nummerplader kan gøres ved brug af en enkelt af systemets metoder eller ved brug af alle metoderne samtidigt. Vi vil i dette afsnit afprøve disse muligheder. Derudover vil vi se på hvordan resultaterne ændrer sig når man ændrer opløsning af billederne. I alle tilfælde vil vi afprøve metoderne på både trænings- og kontrolsæt. 
 
+KUN EN TABEL MED DE SEKS METODER
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{5}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
+1 & 1 & 1 & 19 \% & 19 \%\\ \hline
+2 & 2 & 2 & 19 \% & 21 \% \\ \hline
+3 & 3 & 3 & 19 \% & 22 \% \\
+\hline
+\end{tabular}
+
+\begin{comment}
 \subsubsection*{Områder domineret af lyse gråtoner}
 
 \begin{tabular}{|l|l|l|l|l|}
@@ -39,6 +62,7 @@ Param 1 & Param 2 & Skalering & Overordnet resultat & Sande positiver\\ \hline
 3 & 3 & 3 & 19 \% & 22 \% \\
 \hline
 \end{tabular}
+
 
 \subsubsection*{Områder med høj kontrast}
 
@@ -154,7 +178,7 @@ Param 1 & Min. antal enige & Skalering & Overordnet resultat & Sande positiver\\
 \hline
 \end{tabular}
 
-
+\end{comment}
 
 
 
@@ -191,14 +215,17 @@ HVAD SKER DER MED GULE ETC. PLADER??
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Separation af tegn}
+
+DETTE AFSNIT SKRIVES SAMMEN MED GENKENDELSE.
+
 I dette afsnit testes de to metoder til separation af tegn. Metoden til rotation vil ikke blive testes, blot kommenteret.
 
 \subsubsection*{Rotation}
-Om en nummerplade står vandret i et billede kan afgøres ved at kantdetektere billedet og udføre en Radon transformation på dette kant-billede. Hvis de stærkeste linier optræder ved $0^{\circ}$ er rotation udført korrekt.
+%Om en nummerplade står vandret i et billede kan afgøres ved at kantdetektere billedet og udføre en Radon transformation på dette kant-billede. Hvis de stærkeste linier optræder ved $0^{\circ}$ er rotation udført korrekt.
 
-Vi har ikke testet det fordi...
+Vi kan ikke teste det fordi det ville være noget med at vi skulle sidde og angive alle rotationer manuelt..
 
-VI KUNNE MÅSKE GODT TESTE DET?
+Vi kan ikke teste en matlab-metode..
 
 \subsubsection*{Separation}
 De to metoder til separation af tegn testes ved at se på om de finder syv objekter som optræder indenfor pladens koordinater. Denne forholdsvis enkle test mener vi er fyldestgørende, da funktionerne hvori metoderne er implementeret, bør være "skrappe" nok.
@@ -247,7 +274,7 @@ I dette afsnit testes de to metoder til genkendelse af tegn i en nummerplade. De
 
 Noget om at det er i forhold til alle plader, dvs. at procenterne nedenfor er afhængige af hvor gode vi er til separere tegn.
 
-\subsubsection{Egenskabsvektor}
+\subsubsection{Middelvektor}
 
 %HVOR MANGE PLADER ER KORREKT LÆST I TRÆNINGSSÆT?
 %HVOR MANGE PLADER ER KORREKT LÆST I TETSSÆT?
@@ -257,6 +284,10 @@ Noget om at det er i forhold til alle plader, dvs. at procenterne nedenfor er af
 %HVOR MANGE PLADER ER KORREKT LÆST PÅ 5 POSITIONER I TETSSÆT?
 
 Følgende tabeller viser resultaterne for at læse en hel plade, seks tegn i pladen osv. (med forskellige vektorlængder).
+
+DE FØLGENDE GRAFER SKAL EKSISTERE FOR MED OG UDEN SYNTAKS ANALYSE
+
+INKL. 1 og 0
 
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
@@ -299,6 +330,7 @@ Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
 %HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TEST?
 %MAXHITNO: HVAD GIVER DET JO LÆNGERE NED AD HITLISTEN VI KAN GÅ?
 
+\begin{comment}
 Syntaks analyse: Hvilke hits bliver valgt på hitlisterne af syntaksanalysen (sæt maxhitno højt):
 
 \begin{tabular}{|l|c|}\hline
@@ -320,6 +352,8 @@ Hitnr. & Valgt \\\hline
 4 & 0\% \\\hline
 5 & 0\% \\\hline
 6 & 0\% \\\hline \end{tabular}
+
+\end{comment}
 
 UDEN SYNTAKSANALYSE - TRÆNING?
 UDEN SYNTAKSANALYSE - TEST?
@@ -378,6 +412,10 @@ Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. 
 \subsection{Det samlede system}
 
 Her vil vi afprøve det samlede system... eller har vi gjort det "på vejen"?
+KUN MED DEN BEDSTE KONFIGURATION:
+
+pcT. AF ALLE TEGN
+PCT. AF ALLE PLADER
 
 \subsection{Sammenligning med andres resultater}
 

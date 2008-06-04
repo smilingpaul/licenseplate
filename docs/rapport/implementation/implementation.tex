@@ -259,6 +259,8 @@ I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de fu
 \subsubsection{Rotation}
 \label{sec:implementation/sep/rotation}
 
+VIS EKSEMPEL MED AT DEN IKKE KAN ROTERERE HVOR PLADEN ER KLIPPET FOR TÆT
+
 Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et \textit{JPEG}-billede samt koordinaterne for nummerpladen i billedet som indata. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet. Funktionens forløb er som følger:
 
 \paragraph{1. Billedet af nummerpladen "tages ud" af originalbilledet.}
@@ -309,25 +311,25 @@ For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide 
 HER ER BRIG FOR EN ILLUSTRATION
 
 \paragraph{4. Tynde komponenter i toppen og i siderne af billedet fjernes (DET ER DA IKKE HELE FORBUNDNE KOMPONENTER DU SLETTER HER?):}
-Når det binære billede er dannet er der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Dette eer illustreret i Figur \vref{fig:tynd_linie}. Derfor slettes alle pixels som har en tom plads på begge sider i den øverste $\frac{1}{3}$ af billedet, samt i den yderste $\frac{1}{10}$ i både højre og venstre side. Grunden til at det gøres i yderkanterne af billedet er at det "brækker" tynde elementer over, som kan forveksles med tegn i den senere analyse.
-
-BESKRIV TYDLIGERE HVORFOR DU IKKE TØR KLIPPE SMÅ "BROER" INDE I PLADEN
+Når det binære billede er dannet er der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Dette eer illustreret i Figur \vref{fig:tynd_linie}. Derfor slettes alle pixels som har en tom plads på begge sider i den øverste $\frac{1}{3}$ af billedet, samt i den yderste $\frac{1}{10}$ i både højre og venstre side. Grunden til at det gøres i yderkanterne af billedet er at det "brækker" tynde elementer over, som kan forveksles med tegn i den senere analyse. HVORFOR VIL JEG GERNE HAVE DEM BRÆKKET OVER? HVORFOR KUN I SIDERNE? PGA. "1" BESKRIV TYDLIGERE HVORFOR DU IKKE TØR KLIPPE SMÅ "BROER" INDE I PLADEN
 
 %BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE KOMPONENTER KAN FJERNES
 
 \begin{figure}[htp]
 \centering
 \framebox{\includegraphics{implementation/illu/cc_remove_thin_line.png}} 
-\caption{En illustration af hvordan et tegn i en nummerplade kan gro sammen med nogle elementer i pladens kant. Det øverste hvide område (over den røde pixel) er nummerpladens kant mens det nederset hvide område er en tegnet. Det sorte er pladens baggrund. Den røde pixel illustrerer et punkt hvor de to hvide elementer er groet sammen. Denne sammenhæng kan fjernes ved at slette alle pixels som har en tom plads på begge sider. MANGLER DER IKKE EN HENVISNING TIL DENNE FIGUR?}
+\caption{En illustration af hvordan et tegn i en nummerplade kan gro sammen med nogle elementer i pladens kant. Det øverste hvide område (over den røde pixel) er nummerpladens kant mens det nederset hvide område er en tegnet. Det sorte er pladens baggrund. Den røde pixel illustrerer et punkt hvor de to hvide elementer er groet sammen. Denne sammenhæng kan fjernes ved at slette alle pixels som har en tom plads på begge sider.}
 \label{fig:tynd_linie}
 \end{figure}
 
-\paragraph{5. Horisontale linier med meget lidt hvid, eller meget hvid gøres helt sorte:}
-Derudover(UDOVER HVAD?) slettes alle pixels i de rækker af billedet som ikke har mindst $\frac{1}{10}$ eller højst $\frac{2}{3}$ af alle pixels i billedets bredde markeret (MENER AT DU SLETTER LANGE LINIER IKKE?) . Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område, alle andre linier kan derfor sorteres fra. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
+\paragraph{5. Meget eller lidt hvide horisontale linier slettes:}
+OPSUMMERE RÆKKER, HVILKE RÆKKER KAN VI GØRE SORTE. Derudover(UDOVER HVAD?) slettes alle pixels i de rækker af billedet som har mindst $\frac{9}{10}$ eller højst $\frac{2}{3}$ af alle pixels i billedets bredde markeret (MENER AT DU SLETTER LANGE LINIER IKKE?) . Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område, alle andre linier kan derfor sorteres fra. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
+
+HVORFOR GØR VI DET?
 
 VIS SITUATIONEN PÅ EN ILLU
-\paragraph{6. Det sort-hvide billede laves til sammenhængende-komponenter-billede.}
-\paragraph{7. For små og for store komponenter fjernes:} Alle komponenter som er over $\frac{1}{7}$ af billedet, 
+\paragraph{6. Lav det sort-hvide billede til sammenhængende-komponenter-billede.}
+\paragraph{7. For små og for store komponenter fjernes:} Alle komponenter som er over $\frac{1}{7}$ af billedet, FORKLARET TIDLIGERE MEN BØR NOK SKRIVES IGEN.
 
 \paragraph{8. Grupper på syv komponenter samles hvor alle syv komponenter har samme højde og er i samme højde:} Bla bla
 
@@ -337,7 +339,7 @@ Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har 
 \paragraph{10. Tegnene skæres ud:} Da Matlab holder styr på de enkelte sammenhængende komponenters koordinater, udskæres hvert tegn ved brug af de minimale og maksimale $x$- og $y$-koordinater for den enkelte komponent.
 
 \subsubsection*{Bjerg/dal}
-
+s
 Denne metode er implementeret i funktionen \textit{CharSeparationPTV}, hvis kildekode findes i afsnit \vref{code:CharSeparationPTV}.
 
 \paragraph{1. Billedet af pladen omdannes til gråtone.} IRRELEVANT?
