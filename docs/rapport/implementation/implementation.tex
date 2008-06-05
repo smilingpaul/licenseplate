@@ -4,6 +4,8 @@
 I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede komandoer, frem for at skrive egne implementationer. F.eks. har vi brugt Matlabs komandoer i forbindelse arbejdet med sammenhængende komponenter og filtrering af bileder. I det første underafsnit gennemgår vi nogle egenudviklede hjælpefunktioner som bruges flere steder i systemet. Dernæst gennemgår vi funktionerne til lokalisering af nummerplader, separation af tegn og til sidst funktionerne til genkendelse af tegn.
 
 ORIGO: ER DET IKKE NÆRMERE AT VI ARBEJDER I ET ANDET KVARTIL(ELLER HVAD DET NU HEDDER). UNDERSØG HVAD KVARTIL ER.
+
+AKSERNE ER VENDT OM
 Det skal bemærkes at koordinatsystemet der bruges i Matlab ikke har origo i det samme punkt som det man kender som et almindeligt koordinatsystem. Origo ligger derimod i øverste venstre hjørne (normalt ligger det i nederste venstre hjørne). Desuden er koordinaterne til origo i Matlab 1,1 og ikke 0,0. y-koordinaten til et punkt i Matlab angives normalt først, så en pixel i et billede refereres til med koordinaterne y,x i modsætning til den traditionelt anvendte rækkefølge x,y.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -140,8 +142,6 @@ For at finde den bedste nummerpladekandidate i det nu "rensede" binære billede 
 \paragraph{7. Returner resultat}
 De nummerpladekandidater der rent faktisk indeholder nummerplader, bliver fladere end pladen rent faktisk er, da der jo ikke er nogle stærke kontraster over og under nummerpladernes tekst og disse områder derfor ikke bliver markeret. For at forsøge at få hele pladen med, udvider vi kandidaten med 15 pixels på over- og underkanten. 
 
-RET I KODEN SÅ VI OGSÅ UDVIDDER HØJDEN. DET SER UD SOM OM VI LAVER DEN BERDERE NÅR MAN KIGGER I KODEN. HUSK AT LAVE ET RUN PÅ HELE TESTSÆTTET EFTER RETTELSEN!!
-
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Metode: Frekvensanalyse}
 Metoden hvor vi forsøger at finde nummerplader ved at markere områder på baggrund af frekvensanalyse er implementeret i funktionen \textit{DetectPlateness} hvis kildekode findes i afsnit \vref{code:DetectPlateness}. Funktionens eneste argument er stien til et farvebillede i \textit{JPG}-format i en opløsning på $1024 \times 768$ pixels. Programmet udfører følgende trin:
@@ -223,10 +223,17 @@ Funktionen der sammenligner resultaterne for samtlige metoder til lokalisering a
 Vi kalder de fem metoder til lokalisering af nummerplader og modtager koordinater og point for hver metodes nummerpladekandidat. Vi ignorerer svaret fra metoder der returnerer koordinaterne $(0,0,0,0)$ som indikation på at en nummerpladekandidat ikke kunne findes.
 
 \paragraph{2. Afgør eventuel enighed om nummerpladekandidater}
-Vi undersøger om flere metoder har udpeget de samme områder. For hver nummerpladekandidat ser vi om dens center ligger inden for de midterste 80\% af nogle andre nummerpladekandidater for at afgøre om de er enige om det samme område. Figur XX illustrerer måden vi afgører enighed på.
+Vi undersøger om flere metoder har udpeget de samme områder. For hver nummerpladekandidat ser vi om dens centrum ligger inden for de midterste 80\% af andre nummerpladekandidater for at afgøre om de er enige om det samme område. Figur \vref{fig:enighed} illustrerer dette princip.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=8cm]{implementation/illu/illu_enighed.png} 
+\caption{Enighed blandt nummerpladekandidater: Nummerpladekandidat \textbf{A} er enig med nummerpladekandidat \textbf{B} da dens centrum \textbf{a} ligger inde i \textbf{B}s midterste område som indikeret af den stiplede linie. \textbf{C} er uenig med \textbf{D} da dens centrum \textbf{c} ligger uden for \textbf{D}s midterste område.}
+\label{fig:enighed}
+\end{figure}
 
 \paragraph{3. Vælg den endelige nummerpladekandidat}
-Vi kigger på omfanget af enighed blandt de udpegede nummerpladekandidater. GØR FÆRDIG! 
+Vi kigger på omfanget af enighed blandt de udpegede nummerpladekandidater. Det kan være mellem et og fem. Hvis tre, ud af maksimalt fem, metoder har udpeget den samme nummerpladekandidat er det den vi vælger. Hvis  
 
 
   
