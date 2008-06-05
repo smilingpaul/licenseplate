@@ -3,8 +3,20 @@
 \subsection{Lokalisering af nummerplader}
 
 %\subsection{Identifikation af nummerplader}
+<<<<<<< .mine
+I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med fem forskellige metoder til at udpege interesseområder i vores billeder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til lokalisering af af nummerplader. I alle vores eksempler har vi brugt billedet på figur \vref{fig:typisk_billede} som inddata. Figur \vref{fig:dia_trin1} viser hvordan de fem metoder  arbejder sammen om at udpeje interesseområder, og hvordan der efterfølgende bliver valgt en enkelt nummerpladekandidat som bliver sendt videre i systemet.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{system/illu/dia_trin1.png} 
+\caption{Inddata, i form af et billede, kommer ind i systemet i systemet fra højre. De fem metoder udpeger interesseområder og resultaterne sammenlignes. Uddata er en nummerpladekandidat.}
+\label{fig:dia_trin1}
+\end{figure}
+
+=======
 I arbejdet med at lokalisere nummerplader, har vi valgt at arbejde med flere forskellige metoder. Det er vores tanke, at vi ved at bruge metoderne sammen kan opnå et bedre resultat end ved at bruge metoderne hver for sig. F.eks. vil et område som udpeges som værende en nummerplade af flere metoder have en høj grad af troværdighed mens det i en situation hvor metoderne alle udpeger forskellige områder vil være meget usikkert hvor nummerpladen befinder sig. I dette afsnit beskriver vi de forskellige metoder vi benytter os af, samt hvordan disse fungerer som et samlet system til lokalisering af af nummerplader. I alle vores eksempler har vi brugt billedet i figur \vref{fig:typisk_billede} som inddata.
 TYDELIGERE AT VI BRUGER ALLE FEM METODER PÅ EN GANG.
+>>>>>>> .r204
 %\subsubsection*{Interesseområder}
 Metoderne i dette afsnit, fungerer alle på den måde at de arbejder med et binært\footnote{Et billede der kun består af farverne hvid og sort} billede hvor områder der opfattes som interessante, det vil sige potentielle nummerplader, er markeret med farven hvid. I den bedst tænkelige, og meget urealistske, situation er nummerpladeområdet markeret med hvidt mens resten af billedet er sort som vist i figur \vref{fig:binary_ideal}. I den realistiske situation er der mange interesseområder markeret i det binære billede som det kan ses i figur \vref{fig:binary_real}. Vi kalder disse områder for kandidater, og beskriver hvordan vi vælger mellem dem i det senere afsnit \textbf{Analyse af kandidater} der begynder på side \pageref{sec:BinImgCleanup}. UNDGÅ AT REFFERERE FREM 
 
