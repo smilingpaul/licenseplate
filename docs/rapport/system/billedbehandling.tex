@@ -149,7 +149,7 @@ OVERVEJ ILLU DER VISER LODRET KANT OG LIGGENDE GRADIENT.
 \end{figure}
 
 
-Før vi laver det binære billede med nummerpladekandidater, forsøger vi gøre nummerpladeområdet til en sammenhængende figur ved at udtvære\footnote{Eng.: Blur} billedet med et filter der giver hver pixel en intensitet svarende til middelværdien for dens nærområde. Da vi primært er interesserede i at forbinde pixels der ligger ved siden af hinanden (tegnene i nummerpladen) og ønsker at undgå at nummerpladeområdet bliver forbundet med områder der ligger tæt på dens over- og underkant, definerer vi nærområdet som et liggende rektangel. Resultatet bliver et sammenhængende område med en højde svarende til højden på tegnene i nummerpladen og en bredde der er noget længere end nummerpladens bredde. Et eksempel er vist i figur \vref{fig:DetectContrastAvg-blurredGrads}. 
+Før vi laver det binære billede med nummerpladekandidater, forsøger vi gøre nummerpladeområdet til en sammenhængende figur ved at udtvære (\textit{eng.: to blur}) billedet med et filter der giver hver pixel en intensitet svarende til middelværdien for dens nærområde. Da vi primært er interesserede i at forbinde pixels der ligger ved siden af hinanden (tegnene i nummerpladen) og ønsker at undgå at nummerpladeområdet bliver forbundet med områder der ligger tæt på dens over- og underkant, definerer vi nærområdet som et liggende rektangel. Resultatet bliver et sammenhængende område med en højde svarende til højden på tegnene i nummerpladen og en bredde der er noget længere end nummerpladens bredde. Et eksempel er vist i figur \vref{fig:DetectContrastAvg-blurredGrads}. 
 
 % Blured horizontal gradients
 \begin{figure}[htp]

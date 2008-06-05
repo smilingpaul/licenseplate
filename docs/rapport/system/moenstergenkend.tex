@@ -18,21 +18,29 @@ Til de tre genkendelsesmetoder har vi uarbejdet et træningssæt betående af bi
 \subsubsection{Metode: Middelvektorer}
 En egenskabsvektor (\textit{eng.: feature vector}) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede og egenskabsvektorne kaldes middelvektorer. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med middelvektorer for at finde det tegn som er i billedet. Der oprettes altså en middelvektor for hvert tegn. Metoden er fundet i \cite{arth}.
 
-Først oprettes en middelvektor for hvert tegn der kan forekomme i en nummerplade. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). Vi har defineret en middelvektor, $M$ for et antal billeder $(B_{1},B_{2},...,B_{n})$ i et træningssæt for et givent tegn således:
+Først oprettes middelvektorerne. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). Vi har defineret en middelvektor, $M$ for et antal billeder $(B_{1},B_{2},...,B_{n})$ i et træningssæt for et givent tegn således:
 
 \begin{displaymath}
 	M = (\sum_{i=1}^{n}B_i)/n
 \end{displaymath}
 
-ILLU AF 2D-AFSTANDE MELLEM VEKTORER.
 
-hvor summen er en elementvis sum DVIVSION ER VEL OGSÅ ELEMENTVIS FODNOTE OM ELEMENTVISE. For et inddatabillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
+hvor både summen og divisionen er elementvise\footnote{Ved en elementvis operation forstås at operationen udføres på alle elementer i en vektor eller matrix.}. For et testbillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
 
 I vores system findes afstanden, $D$ fra én (middel)vektor, $M = (m_{1},m_{2},...,m_{n})$ til en anden vektor, $P = (p_{1},p_{2},...,p_{n})$ i et $n$-dimensionelt rum ved brug af den euklidiske afstand\cite{wiki_euclid}:
 
 \begin{displaymath}
 	D = \sqrt{\sum_{i=1}^{n}(m_{i}-p_{i})^{2}}
 \end{displaymath}
+
+... er illustreret i figur \vref{fig:middelvektor_afstand}.
+
+\begin{figure}[htp]
+\centering
+\includegraphics{system/illu/middelvektor_afstand.png} 
+\caption{En illustration af hvordan afstandene, $D1$ og $D2$ fra et testbillede, $x$ til nogle middelvektorer, $M$ og $N$ findes. Dette eksempel er lavet i et to-dimensionelt rum, hvor mængderne $S$ og $T$ angiver de to træningssæt af billeder hvoraf $M$ og $N$ er lavet. Prikkerne i $S$ og $T$ symboliserer trænningsbillederne. I dette tilfælde er afstanden $D1$ kortere end $D2$, hvorfor $x$ vil blive klassificeret som det tegn der hører til $S$.}
+\label{fig:middelvektor_afstand}
+\end{figure}
 
 \subsubsection{Metode: Sum-billeder}
 
