@@ -75,7 +75,9 @@ I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade
 \subsubsection*{Andre metoder brugt i litteraturen}
 I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation som er anvendt i \cite{sharpiro}. Vi er klar over at den lignende \textit{Hough transformation} eksisterer og at den også kan bruges til rotation, men vi har ikke arbejdet med den, da det virkede oplagt at bruge den åbenbart etablerede fremgangsmåde fra litteraturen. 
 
-\subsubsection{Identifikation af tegn}
+\subsubsection{Separation af tegn}
+
+HEDDER DET SAMME SOM AFSNITTET OVENFOR
 
 %Se nrpl.dk: Hvert af de op til 7 tegn på nummerpladen har et imaginært "felt" de kan brede sig i. Ikke alle tegn er lige brede, og generelt er bogstaver bredere end tal. "Feltet" til bogstaver er derfor bredere end feltet til tegn. Enkelte tegn er for smalle til at udfylde deres "felt", så designeren har fundet det hensigtsmæssigt at placere disse tegn visuelt centreret inden for deres "felt".
 
@@ -87,51 +89,80 @@ I det følgende beskrives to metoder til separation af tegn i en nummerplade. Di
 %HER BESKRIVER VI JO VORES SYSTEM, SÅ DET SKAL VÆRE KLART AT VI KUN BENYTTER EN METODE.
 
 \subsubsection*{Metode: Sammenhængende komponenter}
-Denne metode til at identificere tegn i en nummerplade fungerer ved brug af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. De sammenhængende komponenter der arbejdes med her består altså af mørke pixels i originalbilledet (tegnene er sorte). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
 
-Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt eller der kan være mørke elementer uden for nummerpladen der vil være sammenhængende. Desuden kan 
+MANGLER MÅSKE REFERENCER MELLEM BILLEDERNE.
+Denne metode til at separere tegn i en nummerplade fungerer ved brug af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. De sammenhængende komponenter der arbejdes med her består altså af mørke pixels i originalbilledet (tegnene er sorte). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
 
-EKSEMPEL MED SKYGGER: DER ER TO SLAGS!
+For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have intensitetsværdier som er meget mørke, mens eksempelvis pixels i den hvide nummerpladebaggrund vil have intensitetsværdier som er meget lyse. Et eksempel på kontrastforstærkning ses i figur \vref{fig:kontrast}.
 
-SVAG BELYSNING OVENFOR ER IKKE RIGTI TIL AT FORSTÅ. FOR LØST? VI KAN VEL BARE SIGE AT DER ER ANDRE MØRKE OMRÅDER UDEN FOR PLADEN.
+% kontrast eksempel
+\begin{figure}[htp]
+  \centering
+  \begin{minipage}[c]{8 cm}
+    \framebox{\includegraphics{system/illu/eksempel_plade_gray.png}}
+  \end{minipage}\\
+  \begin{minipage}[c]{8 cm}
+    \framebox{\includegraphics{system/illu/eksempel_plade_kontrast.png}}
+  \end{minipage}
+  \caption{Kontrast.}
+  \label{fig:kontrast}
+\end{figure}
 
-For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have intensitetsværdier som er meget mørke, mens eksempelvis pixels i den hvide nummerpladebaggrund vil have intensitetsværdier meget lyse.
+Efter kontrastforstærkning oprettes et binært billede med sammenhængende komponenter. Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt eller der kan være mørke elementer uden for nummerpladen der vil være sammenhængende. Desuden kan det forekomme at tegn i nummerpladen "gror" sammen med pladens kant hvis der er snavs eller skruer mellem tegnet og kanten. Et eksempel på en nummerplade hvor nogle tegn er groet sammen med kanten ses i figur \vref{fig:skygge}.
+
+MANGLER EKSEMPEL PÅ KOMPONENTER UDENFOR BILLEDET.
+
+\begin{figure}[htp]
+  \centering
+  \begin{minipage}[c]{8 cm}
+  	  \framebox{\includegraphics[width=7.75cm]{system/illu/skygge.png}}
+	\end{minipage}\\
+  \begin{minipage}[c]{8 cm}
+  	  \framebox{\includegraphics[width=3.7cm, height=3.5cm]{system/illu/skygge-y.png}}
+  	  \framebox{\includegraphics[width=3.7cm, height=3.5cm]{system/illu/skygge-6.png}}
+	\end{minipage}
+	\caption{Et eksempel på et billede af en nummerplade, som er repræsenteret ved sammenhængende komponenter (de hvide områder repræsenterer komponenter), hvor tegnene \textbf{Y} og \textbf{6} er groet sammen med pladens kant. Det øverste billede er hele nummerpladen mens de to nederste er forstørrelser af henholdsvis området omkring \textbf{Y}'et og \textbf{6}-tallet. Bemærk de tynde hvide streger der forbinder de to tegn med kanten af pladen.}
+  \label{fig:skygge}
+\end{figure}
+
+%EKSEMPEL MED SKYGGER: DER ER TO SLAGS!
+
+%SVAG BELYSNING OVENFOR ER IKKE RIGTI TIL AT FORSTÅ. FOR LØST? VI KAN VEL BARE SIGE AT DER ER ANDRE MØRKE OMRÅDER UDEN FOR PLADEN.
 
 %DET ER LETTERE AT FORSTÅ HVIS MAN TALER OM SORT OG HVID I STEDET FOR SPECIFIKKE INTENSITETSVÆRDIER. DER STÅR JO IKKE NOGEN FORKLARING TIL DEM.
 %Figur ?? viser forskellen på et billede af en nummerplade uden kontrast og et med hvor kontrasten i billedet er forstærket.
 
-%EKSEMPEL PÅ BILLEDE MED FORSTÆRKEDE KONTRASTER.
+ %I figur \vref{fig:concomp} ses et billede af en nummerplade hvor de sammenhængende komponenter er hvide. Eksemplet viser en situation som beskrevet ovenfor, hvor det ikke kun er tegnene der er sammenhængende komponenter.
 
-Efter kontrastforstærkning oprettes et binært billede med sammenhængende komponenter. I Figur \vref{fig:concomp} ses et billede af en nummerplade hvor de sammenhængende komponenter er hvide. Eksemplet viser en situation som beskrevet ovenfor, hvor det ikke kun er tegnene der er sammenhængende komponenter.
+%DETTE SKAL MÅSKE UD, DA VI JO TIDLIGERE HAR VIST ET LIGNENDE EKSEMPEL?
 
-\begin{figure}[htp]
-  \centering
-  \framebox{\includegraphics[width=8cm]{system/illu/concomp_example.png}}
-  \caption{Illustration af sammenhængende områder i en nummerplade. De sammenhængende områder er vist som hvide i dette binære billede.}
-  \label{fig:concomp}
-\end{figure}
+%\begin{figure}[htp]
+%  \centering
+%  \framebox{\includegraphics[width=8cm]{system/illu/concomp_example.png}}
+%  \caption{Illustration af sammenhængende områder i en nummerplade. De sammenhængende områder er vist som hvide i dette binære billede.}
+%  \label{fig:concomp}
+%\end{figure}
 
 Ud fra følgende regler, vælges de sammenhængende komponenter der kan være tegn:
 
-\begin{itemize}
-\item Hvert tegn fylder maksimalt $\frac{1}{7}$ af billedet/pladen.
-\item Hvert tegn har en maksimal bredde på $\frac{1}{7}$ af billedets/pladens bredde.
+\paragraph{1. Hvert tegn fylder maksimalt $\frac{1}{7}$ af billedet/pladen:} Da en nummerplade består af syv tegn og noget baggrund vil ingen tegn fylde mere end $\frac{1}{7}$ af pladen. 
+\paragraph{2. Hvert tegn har en maksimal bredde på $\frac{1}{7}$ af billedets/pladens bredde:} Denne regel er lavet ud fra samme argument som ovenfor.
 %\item Tegnenes højde er større end deres bredde. DETTE GØRES IKKE!
-\item Tegnenes minimale højde skal være mindst en vis konstant.% (her: 5 pixels)
-\item Tegnenes minimale størrelse skal være mindst en vis konstant.% (her: 5 pixels)
-\item For hvert tegn findes der seks andre tegn som er omtrent ligeså høje som det pågældende tegn.
-\item For hvert tegn findes der seks andre tegn som befinder sig i omtrent samme højde som det pågældende tegn.
-\item Afstanden mellem tegnene på position 2 og 3 samt 4 og 5 er længere end afstanden mellem de resterende tegn, der støder op til hinanden. MÅSKE NOGET MED TRE GRUPPER.
-\end{itemize}
-VI BØR NOK LAVE LISTEN OM TIL NUMMEREREDE PARAGRAFER MED MERE UDFØRLIGE BESKRIVELSER.
+\paragraph{3. Tegnenes minimale højde skal være mindst en vis konstant:} Da der vil være støj i form af meget små komponenter, sættes der en grænse for hvor lavt et tegn kan være.% (her: 5 pixels)
+\paragraph{4. Tegnenes minimale størrelse skal være mindst en vis konstant:} Samme som ovenfor: en grænse for hvor lille et tegn kan være.% (her: 5 pixels)
+\paragraph{5. For hvert tegn findes der seks andre tegn som er omtrent ligeså høje som det pågældende tegn:} Alle tegnene i pladen er lige høje.
+\paragraph{6. For hvert tegn findes der seks andre tegn som befinder sig i omtrent samme højde som det pågældende tegn:} Hvis nummerpladen står vandret i billedet, vil alle tegn være i samme højde.
+\paragraph{7. De syv tegn er opdelt i tre grupper:} I forhold til afstanden mellem tegnene danner de to bogstaver, de to første tal samt de tre sidste tal hver især en gruppe.
+
+%VI BØR NOK LAVE LISTEN OM TIL NUMMEREREDE PARAGRAFER MED MERE UDFØRLIGE BESKRIVELSER.
 
 
-Til sidst fås et binært billede hvor kun tegnene i nummerpladen er markeret. Figur \vref{fig:sorterede-concomp} viser et eksempel.
+Når de sammenhængende komponenter der ikke kan være er sorteret fra fås et binært billede hvor kun tegnene i nummerpladen er markeret. Figur \vref{fig:sorterede-concomp} viser et eksempel.
 
 \begin{figure}[htp]
   \centering
-  \framebox{\includegraphics[width=8cm]{system/illu/concomp_example.png}}
-  \caption{EKSEMPEL PÅ BILLEDE HVOR IKKE-TEGN KOMPONENTER ER SORTERET FRA}
+  \framebox{\includegraphics[width=8cm]{system/illu/concomp_kun_bogstaver.png}}
+  \caption{Et eksempel på et binært billede af en nummerplade, hvor kun tegnene er markeret.}
   \label{fig:sorterede-concomp}
 \end{figure}
 
@@ -139,8 +170,16 @@ Til sidst udklippes de komponenter der resterer (tegnene). Et eksempel på syv u
 
 \begin{figure}[htp]
   \centering
-  \framebox{\includegraphics[width=3cm]{system/illu/radon_matrix.jpg}}
-  \caption{EKSEMPEL PÅ UDKLIPPEDE TEGN}
+  \begin{minipage}[c]{8 cm}
+  	  \framebox{\includegraphics[height=1cm]{system/illu/char1.png}}
+  	  \framebox{\includegraphics[height=1cm]{system/illu/char2.png}}
+	  \framebox{\includegraphics[height=1cm]{system/illu/char3.png}}
+  	  \framebox{\includegraphics[height=1cm]{system/illu/char4.png}}
+	  \framebox{\includegraphics[height=1cm]{system/illu/char5.png}}
+  	  \framebox{\includegraphics[height=1cm]{system/illu/char6.png}}
+	  \framebox{\includegraphics[height=1cm]{system/illu/char7.png}}
+	\end{minipage}
+  \caption{Et eksempel på syv billeder af syv tegn, som er klippet ud fra en nummerplade.}
   \label{fig:tegn-udklip}
 \end{figure}
 
