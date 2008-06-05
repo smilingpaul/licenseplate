@@ -236,13 +236,7 @@ Vi undersøger om flere metoder har udpeget de samme områder. For hver nummerpl
 \end{comment}
 
 \paragraph{3. Vælg den endelige nummerpladekandidat}
-Vi kigger på omfanget af enighed blandt de udpegede nummerpladekandidater. Det kan være mellem et og fem. Hvis tre, ud af maksimalt fem, metoder har udpeget den samme nummerpladekandidat er det den vi vælger. Hvis  
-
-
-  
-
-
-Illustrer hvordan vi afgør (u)enighed. 
+Vi kigger på omfanget af enighed blandt de udpegede nummerpladekandidater. Niveauet af enighed kan være mellem et og fem. Hvis tre eller flere metoder er enige returnerer vi den nummerpladekandidat de er enige om. Hvis nivauet af enighed er to, er der to mulige situationer. Den ene er, at to metoder har udpeget et område mens to andre metoder har udpeget et andet. I dette tilfælde udregner vi gennemsnits pointene for hver gruppe af enige områder, og returnerer det område med lavest point som nummerplade. Den anden mulighed er at der kun er et område som to metoder er enige om. I dette tilfælde returnerer vi det område uden yderligere overvejelser. Hvis niveauet af enighed er et, er situationen enten at flere metoder har udpeget forskellige områder, eller at kun en enkelt af de fem metoder har returneret en nummerpladekandidat. I disse situationer kigger vi på hver nummerpladekandidats antal point. Vi returnerer den kandidat med lavest antal point, såfremt dette er under 100. Har alle kandidater mere end 100 point returnerer vi ingen nummerplade for det aktuelle billede.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Mulige forbedringer}

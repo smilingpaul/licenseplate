@@ -230,7 +230,7 @@ Med denne metode får vi det binære billede af interesseområder der er vist i 
 \subsubsection{Metode: Kvantifisering}
 Med denne metode forsøger vi at lokalisere nummerpladen ved at sætte antallet af gråtoner i vores inddatabillede ned fra 256 til 7. Med færre intensitetsværdier vil billedet indeholde større sammenhængende områder der repræsenterer de områder i originalbilledet hvor intensiteterne ligge forholdsvis tæt på hinanden. Det er vores forventning at et af disse områder er nummerpladen.
 
-Som det første trin i denne metode, kører vi et filter der giver en pixel den maksimale intensitet fra dens nærområde. Vi forventer at dette vil udviske tegnene på nummerpladen og efterlade et lyst rektangel i billedet der hvor nummerpladen findes. Formen på vores filter er et liggende rektangel da vi vil forsøge at undgå at nummerpladen forbindes med lyse områder der ligger over og under nummerpladen. Et eksempel på hvordan resultatet af at anvende dette filter er vist i figur \vref{fig:DetectQuant-filteredImage}.
+Som det første trin i denne metode, kører vi et filter der giver en pixel den maksimale intensitet fra dens nærområde. Vi forventer at dette vil udviske tegnene på nummerpladen og efterlade et lyst rektangel i billedet der hvor nummerpladen findes. Formen på vores filter er et liggende rektangel da vi vil forsøge at undgå at nummerpladen forbindes med lyse områder der ligger over og under nummerpladen. Et eksempel på hvordan resultatet af at anvende dette filter er vist i figur \vref{fig:DetectQuant-filteredImage}. 
 
 BILLEDET SKAL OPDATERES DA METODEN ER BLEVET ÆNDRET EN LILLE SMULE.
 % Filtered image
