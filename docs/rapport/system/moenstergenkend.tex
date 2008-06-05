@@ -1,5 +1,7 @@
 \subsection{Genkendelse af tegn}
 
+TJEK VARIABELNAVNE
+
 \label{sec_monster}
 Til genkendelse af tegn har vi arbejdet med tre forskellige metoder: Den første bruger informationer fra en såkaldt middelvektor, den anden arbejder med såkaldte sum-billeder mens den tredje er en simpel metode. I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaksanalyse på den tegnfølge der repræsenterer nummerpladens indhold.
 
@@ -38,18 +40,24 @@ I vores system findes afstanden, $D$ fra én (middel)vektor, $M = (m_{1},m_{2},.
 \begin{figure}[htp]
 \centering
 \includegraphics{system/illu/middelvektor_afstand.png} 
-\caption{En illustration af hvordan afstandene, $D1$ og $D2$ fra et testbillede, $x$ til nogle middelvektorer, $M$ og $N$ findes. Dette eksempel er lavet i et to-dimensionelt rum, hvor mængderne $S$ og $T$ angiver de to træningssæt af billeder hvoraf $M$ og $N$ er lavet. Prikkerne i $S$ og $T$ symboliserer trænningsbillederne. I dette tilfælde er afstanden $D1$ kortere end $D2$, hvorfor $x$ vil blive klassificeret som det tegn der hører til $S$.}
+\caption{En illustration af konceptet omkring afstande mellem vektorer i vores system. Dette eksempel er lavet i et to-dimensionelt rum, hvor mængderne $S$ og $T$ angiver to træningssæt af billeder. Prikkerne i $S$ og $T$ symboliserer trænningsbillederne i hvert af de to sæt. $x$ er en vektor der repræsenterer et testbillede. I dette tilfælde er afstanden fra $x$ til $S$ kortere end afstanden fra $x$ til $T$, hvorfor $x$ vil blive klassificeret som det tegn der hører til $S$. I vores system arbejder vi med middelvektorer, som ville være placeret i midten af de to ellipser.}
 \label{fig:middelvektor_afstand}
 \end{figure}
 
 \subsubsection{Metode: Sum-billeder}
 
-ILLU AF ET SUM-BILLEDE FOR ET TEGN
+Denne metode arbejder også med egenskabsvektorer. Her er idéen dog, at der oprettes såkaldte "sum-billeder" for hvert tegn i stedet for middelvektorer. Metoden er opstået af egen idé.
 
-Denne metode minder om metoden med egenskabsvektorer. Her er idéen dog, at der oprettes såkaldet "sum-billeder" for hvert tegn i stedet for middelvektorer. Metoden er opstået af egen idé.
+Hvert binære billede i træningssættet for et givent tegn skaleres til en defineret størrelse, $I \times J$ og summeres med de andre billeder i sættet. Et eksempel på et sum-billede ses i figur \vref{fig:sumimg}.
 
-SVARER TIL? DET ER VEL LIGE PRÆCIS DET VI GØR ER DET IKKE?
-Hvert binære billede i træningssættet for et givent tegn skaleres til en defineret størrelse, $I \times J$ og summeres med de andre billeder i sættet. Et sum-billede, $S$ konstrueres af billederne $(B_{1},B_{2},...,B_{n})$ altså således:
+\begin{figure}[htp]
+\centering
+\includegraphics[width=2cm]{system/illu/sumimg.png} 
+\caption{Inddata, i form af syv billeder af syv tegn kommer ind i systemet fra venstre. ..... Uddata er .... De grå kasser...}
+\label{fig:sumimg}
+\end{figure}
+
+Et sum-billede, $S$ konstrueres af billederne $(B_{1},B_{2},...,B_{n})$ således:
 
 \begin{displaymath}
 	S = \sum_{x=1}^n{B_x}
@@ -98,9 +106,11 @@ Der kan forekomme følgende fejl i en tegnfølge fra en nummerplade i vores syst
 \item Den fundne talkombination er ikke tilladt (den samlede værdi af tallene er enten for høj eller for lav)\footnote{En oversigt over tilladte talværdier er fundet i \cite{nrpl}}.
 \end{itemize}
 
-Hvis en eller flere af disse muligheder er gældende itererer (DEN KIGGER GENNEM LISTEN?) metoden ned igennem hitlisterne indtil et lovligt valg af en kombination af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
+Hvis en eller flere af disse muligheder er gældende gennemser metoden hitlisterne indtil et lovligt valg af en kombination af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
 
-I systemet sættes en øvre grænse for hvor langt ned ad hitlisten syntaksanalysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville der blot kunne itereres indtil en lovlig tegnfølge er fundet, og så ville metoderne til genkendelse af tegn give mindre mening HVIS MAN KOMMER LANGT NED I LISTERNE ER USIKKERHEDEN HØJ, DER SKAL ALTSÅ VÆLGES NOGET DER LIGNER RET MEGET. ELLER NOGET!
+I systemet sættes en grænse for hvor langt ned ad hitlisten syntaksanalysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville syntaksanalysen kunne vælge tegn som lå langt nede af hitlisten og derfor med større usikkerhed ville være det korrekte tegn.
+
+% blot kunne itereres indtil en lovlig tegnfølge er fundet, og så ville metoderne til genkendelse af tegn give mindre mening HVIS MAN KOMMER LANGT NED I LISTERNE ER USIKKERHEDEN HØJ, DER SKAL ALTSÅ VÆLGES NOGET DER LIGNER RET MEGET. ELLER NOGET!
 
 \subsubsection{Metoder fra litteraturen}
 

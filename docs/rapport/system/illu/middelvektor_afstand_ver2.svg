@@ -15,59 +15,10 @@
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
    sodipodi:docbase="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu"
-   sodipodi:docname="middelvektor_afstand.svg"
+   sodipodi:docname="middelvektor_afstand_ver2.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs4">
-    <marker
-       inkscape:stockid="StopM"
-       orient="auto"
-       refY="0.0"
-       refX="0.0"
-       id="StopM"
-       style="overflow:visible">
-      <path
-         id="path3256"
-         d="M 0.0,5.65 L 0.0,-5.65"
-         style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
-         transform="scale(0.4)" />
-    </marker>
-    <marker
-       inkscape:stockid="StopL"
-       orient="auto"
-       refY="0.0"
-       refX="0.0"
-       id="StopL"
-       style="overflow:visible">
-      <path
-         id="path3253"
-         d="M 0.0,5.65 L 0.0,-5.65"
-         style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
-         transform="scale(0.8)" />
-    </marker>
-    <marker
-       style="overflow:visible"
-       id="DistanceIn"
-       refX="0.0"
-       refY="0.0"
-       orient="auto"
-       inkscape:stockid="DistanceIn">
-      <g
-         id="g2300">
-        <path
-           style="fill:none;stroke:#ffffff;stroke-width:1.15;stroke-linecap:square"
-           d="M 0,0 L 2,0"
-           id="path2306" />
-        <path
-           style="fill:#000000;fill-rule:evenodd;stroke:none"
-           d="M 0,0 L 13,4 L 9,0 13,-4 L 0,0 z "
-           id="path2302" />
-        <path
-           style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:square"
-           d="M 0,-4 L 0,40"
-           id="path2304" />
-      </g>
-    </marker>
     <linearGradient
        inkscape:collect="always"
        id="linearGradient19946">
@@ -161,7 +112,7 @@
      showguides="true"
      inkscape:window-width="1280"
      inkscape:window-height="752"
-     inkscape:window-x="3"
+     inkscape:window-x="0"
      inkscape:window-y="22"
      inkscape:guide-bbox="true" />
   <metadata
@@ -181,14 +132,14 @@
      id="layer1">
     <path
        style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.1651597px;stroke-linecap:butt;stroke-linejoin:miter;marker-start:url(#Arrow2Lstart);marker-end:none;stroke-opacity:1"
-       d="M 468.45265,337.53191 L 140.65141,337.53744"
+       d="M 468.38382,351.7507 L 140.58258,351.75623"
        id="path2166"
        inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.18044829;stroke-linecap:butt;stroke-linejoin:miter;marker-start:url(#Arrow2Lstart);marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 294.71127,163.89317 L 294.7207,361.77196"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.22125375;stroke-linecap:butt;stroke-linejoin:miter;marker-start:url(#Arrow2Lstart);marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 294.71118,163.98403 L 294.72057,376.68246"
        id="path2168"
        inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
        inkscape:export-xdpi="90"
@@ -209,16 +160,42 @@
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="249.88222"
-       y="249.87965"
+       x="151.02715"
+       y="335.90619"
        id="text5281"
        inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
          sodipodi:role="line"
          id="tspan5283"
-         x="249.88222"
-         y="249.87965">x</tspan></text>
+         x="151.02715"
+         y="335.90619">x</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="199.5199"
+       y="239.25478"
+       id="text6284"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan6286"
+         x="199.5199"
+         y="239.25478">M</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="405.69739"
+       y="256.53848"
+       id="text7265"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan7267"
+         x="405.69739"
+         y="256.53848">T</tspan></text>
     <path
        sodipodi:type="arc"
        style="fill:#b3b3b3;fill-opacity:0;stroke:#d2d2d2;stroke-width:1.25572765;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -235,16 +212,16 @@
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="405.69739"
-       y="256.53848"
-       id="text7265"
+       x="373.90036"
+       y="292.0444"
+       id="text11167"
        inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
          sodipodi:role="line"
-         id="tspan7267"
-         x="405.69739"
-         y="256.53848">T</tspan></text>
+         id="tspan11169"
+         x="373.90036"
+         y="292.0444">N</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
@@ -258,6 +235,34 @@
          id="tspan12144"
          x="222.35243"
          y="192.3756">S</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="158.82227"
+       y="285.05112"
+       id="text16997"
+       inkscape:transform-center-y="-4.3740234"
+       inkscape:transform-center-x="-7.2919922"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan16999"
+         x="158.82227"
+         y="285.05112">D1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="264.30649"
+       y="326.65295"
+       id="text17001"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan17003"
+         x="264.30649"
+         y="326.65295">D2</tspan></text>
     <path
        sodipodi:type="arc"
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -467,43 +472,15 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       sodipodi:type="arc"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path27757"
-       sodipodi:cx="80.366898"
-       sodipodi:cy="76.640091"
-       sodipodi:rx="25.27973"
-       sodipodi:ry="21.129326"
-       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
-       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,366.205,284.10852)"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend);marker-start:url(#Arrow2Lstart)"
+       d="M 170,332.36218 L 370,292.36218"
+       id="path21928"
        inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       sodipodi:type="arc"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path27759"
-       sodipodi:cx="80.366898"
-       sodipodi:cy="76.640091"
-       sodipodi:rx="25.27973"
-       sodipodi:ry="21.129326"
-       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
-       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,242.53956,247.77397)"
-       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       sodipodi:type="arc"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path27761"
-       sodipodi:cx="80.366898"
-       sodipodi:cy="76.640091"
-       sodipodi:rx="25.27973"
-       sodipodi:ry="21.129326"
-       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
-       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,201.47172,235.4278)"
-       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow2Lstart);marker-end:url(#Arrow2Lend)"
+       d="M 160,322.36218 L 200,242.36218"
+       id="path25810" />
   </g>
 </svg>
