@@ -45,7 +45,7 @@ Vi vil undlade at gennemgå definitionen af Radon transformation. Idéen i en Ra
 
 \begin{figure}[htp]
   \centering
-  \framebox{\includegraphics[width=8cm]{system/illu/radon.png}}
+  \includegraphics[width=8cm]{system/illu/radon.png}
   \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ udfra flere kilder (sources). Den blå firkant er billedet der undersøges. Pilene er sensorlinier (kilderne).\cite{matlab_radon}}
   \label{fig:radon_transform}
 \end{figure}
@@ -98,7 +98,7 @@ I det følgende beskrives to metoder til separation af tegn i en nummerplade. Di
 \subsubsection*{Metode: Sammenhængende komponenter}
 
 MANGLER MÅSKE REFERENCER MELLEM BILLEDERNE.
-Denne metode til at separere tegn i en nummerplade fungerer ved brug af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. De sammenhængende komponenter der arbejdes med her består altså af mørke pixels i originalbilledet (tegnene er sorte). Metoden bruges blandt andet i \cite{nijhuis} og \cite{parker} og tildels i \cite{kwas}.
+Denne metode til at separere tegn i en nummerplade fungerer ved brug af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i billedet af nummerpladen er én sammenhængende komponent. De sammenhængende komponenter der arbejdes med her består altså af mørke pixels i originalbilledet (tegnene er sorte). Metoden bruges i \cite{nijhuis} og i \cite{kwas}.
 
 For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have intensitetsværdier som er meget mørke, mens eksempelvis pixels i den hvide nummerpladebaggrund vil have intensitetsværdier som er meget lyse. Et eksempel på kontrastforstærkning ses i figur \vref{fig:kontrast}.
 
@@ -106,9 +106,7 @@ For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det n�
 \begin{figure}[htp]
   \centering
   \begin{minipage}[c]{8 cm}
-    \framebox{\includegraphics{system/illu/eksempel_plade_gray.png}}
-  \end{minipage}\\
-  \begin{minipage}[c]{8 cm}
+    \framebox{\includegraphics{system/illu/eksempel_plade_gray.png}}\\
     \framebox{\includegraphics{system/illu/eksempel_plade_kontrast.png}}
   \end{minipage}
   \caption{Kontrast.}
@@ -152,8 +150,8 @@ MANGLER EKSEMPEL PÅ KOMPONENTER UDENFOR BILLEDET.
 
 Ud fra følgende regler, vælges de sammenhængende komponenter der kan være tegn:
 
-\paragraph{1. Hvert tegn fylder maksimalt $\frac{1}{7}$ af billedet/pladen:} Da en nummerplade består af syv tegn og noget baggrund vil ingen tegn fylde mere end $\frac{1}{7}$ af pladen. 
-\paragraph{2. Hvert tegn har en maksimal bredde på $\frac{1}{7}$ af billedets/pladens bredde:} Denne regel er lavet ud fra samme argument som ovenfor.
+\paragraph{1. Hvert tegn fylder maksimalt $\frac{1}{7}$ af billedets areal:} Da en nummerplade består af syv tegn og noget baggrund vil ingen tegn fylde mere end $\frac{1}{7}$ af billedets areal. 
+\paragraph{2. Hvert tegn har en maksimal bredde på $\frac{1}{7}$ af billedets bredde:} Denne regel er lavet ud fra samme argument som ovenfor.
 %\item Tegnenes højde er større end deres bredde. DETTE GØRES IKKE!
 \paragraph{3. Tegnenes minimale højde skal være mindst en vis konstant:} Da der vil være støj i form af meget små komponenter, sættes der en grænse for hvor lavt et tegn kan være.% (her: 5 pixels)
 \paragraph{4. Tegnenes minimale størrelse skal være mindst en vis konstant:} Samme som ovenfor: en grænse for hvor lille et tegn kan være.% (her: 5 pixels)
@@ -191,11 +189,9 @@ Til sidst udklippes de komponenter der resterer (tegnene). Et eksempel på syv u
 \end{figure}
 
 \subsubsection*{Metode: Bjerg/dal}
-Denne metode baseres på en vertikal projektion (PROJEKTION ER MÅSKE DUMT? JA, JEG FORSTÅR I HVERTFALD IKKE HVAD DU MENER. DER ER INGEN GRUND TIL AT FÅ DET TIL AT LYDE MERE KOMPLICERET) af nummerpladen. Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (dale) og de lyse områder mellem tegnene (bjerg), hvorefter vi kan udskærer tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
+Denne metode baseres på en projektion af kolonnerne i en nummerpladen. Det vil sige at intensitetsværdierne i hver kolonne summeres og udfra disse summer laves en "signatur". Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (bjerge) og de lyse områder mellem tegnene (dale), hvorefter vi kan udskærer tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
 
-OMSKRIV PROJEKTION. TIDLIGERE REF. TIL FIGUR
-
-Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR?
+%Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR?
 
 Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved. Dette er illustreret i figur \vref{fig:ptv-signatur}.
 
@@ -206,16 +202,11 @@ Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i bi
   \label{fig:ptv-signatur}
 \end{figure}
 
-DEN HER HAR VI IKKE VALGT.... HVORFOR
-
 \subsubsection{Metoder fra litteraturen}
 
-NOGEN FINDER LOKALISERER NUMMERPLADERNE VED HJÆLP AF ANALYSE AF CONNECTED COMPONENTS. DET MINDER JO OMDET DU GØR, MEN DE GØR DET BARE TIDLIGERE.
-IKKE ANDRE?
-\begin{comment}
-Segmentering af nummerpladens tegn kan gøres ved brug af peak-to-valley (dansk: top-til-bund) \cite{ron}, \cite{kwas} eller ved brug af såkaldte sammenhængende komponenter (hvert enkelt tegn i nummerpladen må hver især forventes at være én sammenhængende figur) \cite{nijhuis}. I alle tilfælde er det en god idé at kombinere de enkelte elementer af systemet med viden om størrelsesforhold, antal (én nummerplade pr. billede, syv tegn pr. nummerplade osv.) og lign \cite{nijhuis}, \cite{parker}, \cite{kwas}. Til aflæsning af tegn kan man bl.a. bruge neurale netværk \cite{nijhuis}, \cite{kwas} eller klassifikations vektorer \cite{arth}.
-\end{comment}
+Vi har ikke fundet andre metoder til separation af tegn end de to nævnte. Det kan dog nævnes at man i \cite{parker} og \cite{kwas} bruger sammenhængende komponenter i arbejdet med at lokalisere nummerpladen. I denne proces ses det på om der er et vist antal sammenhængende komponenter inde i den nummerpladekandidat man har fundet.
 
+%NOGEN FINDER LOKALISERER NUMMERPLADERNE VED HJÆLP AF ANALYSE AF CONNECTED COMPONENTS. DET MINDER JO OMDET DU GØR, MEN DE GØR DET BARE TIDLIGERE. IKKE ANDRE?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Note fra segmentering af tegn
