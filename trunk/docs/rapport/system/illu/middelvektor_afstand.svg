@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu"
+   sodipodi:docname="middelvektor_afstand.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient19946">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop19948" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop19950" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="Dot_l"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Dot_l"
+       style="overflow:visible">
+      <path
+         id="path3208"
+         d="M -2.5,-1.0 C -2.5,1.7600000 -4.7400000,4.0 -7.5,4.0 C -10.260000,4.0 -12.5,1.7600000 -12.5,-1.0 C -12.5,-3.7600000 -10.260000,-6.0 -7.5,-6.0 C -4.7400000,-6.0 -2.5,-3.7600000 -2.5,-1.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;marker-end:none"
+         transform="scale(0.8) translate(7.4, 1)" />
+    </marker>
+    <marker
+       inkscape:stockid="Dot_m"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Dot_m"
+       style="overflow:visible">
+      <path
+         id="path3211"
+         d="M -2.5,-1.0 C -2.5,1.7600000 -4.7400000,4.0 -7.5,4.0 C -10.260000,4.0 -12.5,1.7600000 -12.5,-1.0 C -12.5,-3.7600000 -10.260000,-6.0 -7.5,-6.0 C -4.7400000,-6.0 -2.5,-3.7600000 -2.5,-1.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;marker-end:none"
+         transform="scale(0.4) translate(7.4, 1)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lend"
+       style="overflow:visible;">
+      <path
+         id="path3167"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) rotate(180) translate(1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lstart"
+       style="overflow:visible">
+      <path
+         id="path3164"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) translate(1,0)" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient19946"
+       id="linearGradient19952"
+       x1="386.95627"
+       y1="117.3895"
+       x2="393.31955"
+       y2="117.3895"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.3251724"
+     inkscape:cx="321.33066"
+     inkscape:cy="719.92789"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     showguides="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="752"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.1651597px;stroke-linecap:butt;stroke-linejoin:miter;marker-start:url(#Arrow2Lstart);marker-end:none;stroke-opacity:1"
+       d="M 468.38382,351.7507 L 140.58258,351.75623"
+       id="path2166"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.22125375;stroke-linecap:butt;stroke-linejoin:miter;marker-start:url(#Arrow2Lstart);marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 294.71118,163.98403 L 294.72057,376.68246"
+       id="path2168"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#b3b3b3;fill-opacity:0;stroke:#d2d2d2;stroke-width:1.25572765;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path2170"
+       sodipodi:cx="182.24043"
+       sodipodi:cy="151.34735"
+       sodipodi:rx="45.654438"
+       sodipodi:ry="33.203228"
+       d="M 227.89487 151.34735 A 45.654438 33.203228 0 1 1  136.58599,151.34735 A 45.654438 33.203228 0 1 1  227.89487 151.34735 z"
+       transform="matrix(1.1905924,0,0,0.8841258,158.02592,153.483)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="157.0641"
+       y="339.67929"
+       id="text5281"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5283"
+         x="157.0641"
+         y="339.67929">x</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="199.5199"
+       y="239.25478"
+       id="text6284"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan6286"
+         x="199.5199"
+         y="239.25478">M</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="405.69739"
+       y="256.53848"
+       id="text7265"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan7267"
+         x="405.69739"
+         y="256.53848">T</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#b3b3b3;fill-opacity:0;stroke:#d2d2d2;stroke-width:1.25572765;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path11165"
+       sodipodi:cx="182.24043"
+       sodipodi:cy="151.34735"
+       sodipodi:rx="45.654438"
+       sodipodi:ry="33.203228"
+       d="M 227.89487 151.34735 A 45.654438 33.203228 0 1 1  136.58599,151.34735 A 45.654438 33.203228 0 1 1  227.89487 151.34735 z"
+       transform="matrix(0,1.0817277,-0.8850246,0,337.7755,42.941648)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="373.90036"
+       y="292.0444"
+       id="text11167"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan11169"
+         x="373.90036"
+         y="292.0444">N</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="222.35243"
+       y="192.3756"
+       id="text12142"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan12144"
+         x="222.35243"
+         y="192.3756">S</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="159.57689"
+       y="297.12503"
+       id="text16997"
+       inkscape:transform-center-y="-4.3740234"
+       inkscape:transform-center-x="-7.2919922"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan16999"
+         x="159.57689"
+         y="297.12503">D1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="264.30649"
+       y="326.65295"
+       id="text17001"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan17003"
+         x="264.30649"
+         y="326.65295">D2</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path19956"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,187.50355,196.77421)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21896"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,181.10646,211.83847)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21898"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,202.7171,199.29897)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21900"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,182.70725,225.71197)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21902"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,213.92263,248.65661)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21904"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,200.58273,263.86409)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21906"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,205.38509,213.17246)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21908"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,179.23889,244.12104)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21910"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,336.53582,271.34781)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21912"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,356.81247,261.47628)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21914"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,379.49031,261.20949)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21916"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,368.28479,301.22919)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21918"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,386.16026,291.35767)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21920"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,397.53956,277.70488)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21922"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,404.83613,290.55728)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21924"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(-7.0025309e-2,0,0,8.3780436e-2,340.85883,283.3539)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 170,332.36218 L 200,242.36218"
+       id="path21926"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 170,332.36218 L 370,292.36218"
+       id="path21928"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>
