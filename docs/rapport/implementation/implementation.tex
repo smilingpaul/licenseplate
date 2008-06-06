@@ -229,7 +229,7 @@ Vi undersøger om flere metoder har udpeget de samme områder. For hver nummerpl
 \begin{comment}
 \begin{figure}[htp]
 \centering
-\includegraphics[width=8cm]{implementation/illu/illu_enighed.png} 
+\includegraphics[width=8cm]{implementation/illu/illu_enighed.png}
 \caption{Enighed blandt nummerpladekandidater: Nummerpladekandidat \textbf{A} er enig med nummerpladekandidat \textbf{B} da dens centrum \textbf{a} ligger inde i \textbf{B}s midterste område som indikeret af den stiplede linie. \textbf{C} er uenig med \textbf{D} da dens centrum \textbf{c} ligger uden for \textbf{D}s midterste område.}
 \label{fig:enighed}
 \end{figure}
@@ -313,10 +313,10 @@ For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide 
 
 HER ER BRUG FOR EN ILLUSTRATION: VIS ILLU MED TEGN OG SNAVS GROET SAMMEN.
 
-\paragraph{4. Smalle komponenter i toppen og i siderne af billedet fjernes (DET ER DA IKKE HELE FORBUNDNE KOMPONENTER DU SLETTER HER?):}
-Når det binære billede er dannet er der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Dette eer illustreret i figur \vref{fig:tynd_linie}. Derfor slettes alle pixels som har en tom plads på begge sider i den øverste $\frac{1}{3}$ af billedet, samt i den yderste $\frac{1}{10}$ i både højre og venstre side. Grunden til at det gøres i yderkanterne af billedet er at det "brækker" tynde elementer over, som kan forveksles med tegn i den senere analyse. HVORFOR VIL JEG GERNE HAVE DEM BRÆKKET OVER? ILLU! HVORFOR KUN I SIDERNE? PGA. "1". BESKRIV TYDLIGERE HVORFOR DU IKKE TØR KLIPPE SMÅ "BROER" INDE I PLADEN
+\paragraph{4. Fjern smalle elementer i toppen og i siderne af billedet:}
+Når det binære billede er dannet er der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Dette eer illustreret i figur \vref{fig:tynd_linie}. Derfor slettes alle pixels som har en tom plads på begge sider i den øverste $\frac{1}{3}$ af billedet, samt i den yderste $\frac{1}{10}$ i både højre og venstre side. Grunden til at det gøres i yderkanterne af billedet er at det "brækker" tynde elementer over, som kan forveksles med tegn i den senere analyse. Det er dog en dårlig idé at brække tynde elementer over i hele billedet, da der så er chance for at nogle af tegnene brækkes over (eksempelvis er tegnet \textbf{1} forholdsvis smalt) og derfor ikke længere er en sammenhængende komponent.
 
-%BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE KOMPONENTER KAN FJERNES
+BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE KOMPONENTER KAN FJERNES
 
 \begin{figure}[htp]
 \centering
@@ -325,10 +325,7 @@ Når det binære billede er dannet er der igen en mulighed for at minimere tilf�
 \label{fig:tynd_linie}
 \end{figure}
 
-\paragraph{5. Meget eller lidt hvide horisontale linier slettes:}
-OPSUMMERE RÆKKER, HVILKE RÆKKER KAN VI GØRE SORTE. Derudover(UDOVER HVAD?) slettes alle pixels i de rækker af billedet som har mindst $\frac{9}{10}$ eller højst $\frac{2}{3}$ af alle pixels i billedets bredde markeret (MENER AT DU SLETTER LANGE LINIER IKKE?) . Dette gøres fordi en linie som går i gennem alle tegn vil ligge i dette område, alle andre linier kan derfor sorteres fra. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
-
-HVORFOR GØR VI DET?
+\paragraph{5. Fjern al markering i meget eller lidt hvide horisontale linier:} En horisontal linie der går igennem tegnene i en nummerplade vil have mellem $\frac{1}{10}$ og $\frac{2}{3}$ af linien markeret. Derfor kan vi slette alle pixels i de rækker af billedet som har mindre end $\frac{1}{10}$ eller mere end $\frac{2}{3}$ af alle pixels i billedets bredde markeret. Dette vil fjerne flere muligheder for at tegn og pladens kant kan gro sammen. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
 
 VIS SITUATIONEN PÅ EN ILLU
 
@@ -336,50 +333,49 @@ VIS SITUATIONEN PÅ EN ILLU
 
 ILLU ELLER HENVISNING TIL TOBIAS' TIDLIGERE FIGUR.
 
-\paragraph{7. For små og for store komponenter fjernes:} Alle komponenter som er over $\frac{1}{7}$ af billedet, FORKLARET TIDLIGERE MEN BØR NOK SKRIVES IGEN.
+\paragraph{7. Fjern for små og for store komponenter:} Komponenter som fylder over $\frac{1}{7}$ af billedets areal, komponenter der har en bredde på mere end $\frac{1}{7}$ af billedets bredde, komponenter som er lavere end en vis konstant samt komponenter som har et areal som er mindre end en vis konstant kan fjernes fra billedet, da de ikke kan være tegn. Det er vores erfaring at det ville være svært at sætte de omtalte konstanter dynamisk i forhold til pladens størrelse, så de er fastlagt på baggrund af skøn ELLER!?. Man kunne desuden have en regel om at hvert tegn skal være højere end det er bredt, men vores undersøgelser viste at eksempelvis nogle \textbf{8}-taller ville blive sorteret fra ved denne regel. 
 
-\paragraph{8. Grupper på syv komponenter samles hvor alle syv komponenter har samme højde og er i samme højde:} Bla bla HVIS DER ER 8 ELLER 9 FJERNES DE YDERSTE
+\paragraph{8. Undersøg om der findes grupper på syv komponenter hvor alle syv komponenter har samme højde og er i samme højde:} For hvert komponent undersøges det om der findes andre komponenter med samme højde og i samme højde som den pågældende komponent. Sådanne komponenter samles i "grupper". Hvis der findes færre end syv komponenter i en gruppe, kan gruppen ikke være tegnene i nummerpladen. Hvis der findes syv komponenter i en gruppe kan gruppen vælges som de syv tegn. Hvis der findes en gruppe med otte eller ni komponenter fjernes det/de yderste ene/to tegn hvorefter gruppen kan vælges som de syv tegn. Dette gøres fordi...
 
-\paragraph{9. Afstandene mellem komponenter i hver gruppe udregnes og en "god" gruppe vælges:}
-Til sidst analyseres disse grupper og hvis komponenterne i én af grupperne har de rette afstande i mellem sig, vælges elementerne i gruppen som tegnene.
+ILLU
 
-\paragraph{10. Tegnene skæres ud:} Da Matlab holder styr på de enkelte sammenhængende komponenters koordinater, udskæres hvert tegn ved brug af de minimale og maksimale $x$- og $y$-koordinater for den enkelte komponent.
+\paragraph{9. Udregn afstandene mellem komponenter i en gruppe på syv komponenter:} Hvis en gruppe består af syv komponenter udregnes afstandene mellem komponenterne. Hvis disse målinger viser at afstanden mellem tegnene på position 2 og 3 samt på position 4 og 5 er større end afstandene mellem de resterende tegn, som støder op til hinanden, vælges elementerne i gruppen som nummerpladens syv tegn. Der tages ikke højde for at der kan være flere grupper med syv komponenter med de rette indbyrdes afstande, da vi anser funktionen som værende "skrap", og dette fænomen derfor højst sandsynligt ikke vil opstå.
+
+\paragraph{10. Skær tegnene ud:} Hvis en gruppe er valgt som de syv tegn i nummerpladen skal disse tegn udskæres. Da Matlab holder styr på de enkelte sammenhængende komponenters koordinater, udskæres hvert tegn ved brug af henholdsvis de minimale og maksimale $x$- og $y$-koordinater for den enkelte komponent.
 
 \subsubsection*{Bjerg/dal}
-s
 Denne metode er implementeret i funktionen \textit{CharSeparationPTV}, hvis kildekode findes i afsnit \vref{code:CharSeparationPTV}.
 
-\paragraph{1. Billedet af pladen omdannes til gråtone.} IRRELEVANT?
+\paragraph{1. Omdan billedet af pladen til gråtone.} IRRELEVANT?
 
-\paragraph{2. Billedet indskrænkes til den største komponent:}
-Hvorfor?
+\paragraph{2. Indskrænk billedet til den største komponent:} Som i metoden med sammenhængende komponenter indskrænkes billedet til den største komponent. I denne metode er det dog for at nummerpladens signatur ikke skal blive påvirket af "støj" udenfor nummerpladen. Ved at indskænke billedet kan man derimod være mere sikker på, at signaturen kun vil repræsentere pladen.
 
-\paragraph{3. Billedets kontraster forstærkes:}
-Hvorfor?
+\paragraph{3. Forstærk billedets kontraster:}
+HVORFOR?
 
-\paragraph{4. Nummerpladens signatur udregnes:}
-Pladens signatur findes ved at opsummere intensitetsværdierne i billedet af nummerpladen omdannet til gråtone.
+\paragraph{4. Udregn nummerpladens signatur:} Nummerpladens signatur findes ved at opsummere intensitetsværdierne i billedets kolonner.
 
-\paragraph{5. Signaturen udglattes:}
-Hvis man betragter signaturen som en graf vil den være "hakket" på grund af støj i billedet (dvs. det er kun i teorien at billedet kun indeholder en hvid baggrund og nogle mørke bogstaver, hvilket ville give en perfekt graf). Signaturen skal derfor udglattes. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde. EKSEMPEL PÅ UDREGNING? Et eksempel på en "rå" graf og samme graf, udglattet ses i figur \vref{fig:smoothSig}.
+\paragraph{5. Udglat signaturen:} Hvis man betragter signaturen som en graf vil den være "hakket" på grund af støj i billedet. Signaturen skal derfor udglattes, så det er nemmere at finde bjerge og dale i denne. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde. EKSEMPEL PÅ UDREGNING? Et eksempel på en "rå" graf og samme graf, udglattet ses i figur \vref{fig:smoothSig}.
 
 EKSEMPEL PÅ HAKKET SIGNATUR OG UDGLATTET SIGNATUR
 
 \begin{figure}[htp]
-\label{fig:smoothSig}
+\centering
+\framebox{\includegraphics{implementation/illu/cc_remove_thin_line.png}} 
 \caption{bla}
+\label{fig:smoothSig}
 \end{figure}
 
-\paragraph{6. "Bjergene" i signaturen findes:}
-For at finde de toppe hvor der skal skæres, leder vi efter punkter, $x$ i signaturgrafen hvor de $n$ forrige punkter har haft stigende værdier op til $x$ og hvor de efterfølgende $n$ punkter har faldende værdier. DETTE GØR VI IKKE I PRAKSIS! SKAL LAVES OM. De otte $x$'er som har de otte højeste værdier vælges som de otte skæringspunkter.
+\paragraph{6. Find "bjergene" i signaturen:}
+For at finde de bjerge hvor der skal skæres, leder vi efter punkter, $x$ i signaturgrafen hvor de $n$ forrige punkter har haft stigende værdier op til $x$ og hvor de efterfølgende $n$ punkter har faldende værdier. DETTE GØR VI IKKE I PRAKSIS! SKAL LAVES OM. De otte $x$'er som har de otte højeste værdier vælges som de otte skæringspunkter.
 
-\paragraph{7. De otte højeste bjerge findes:}
+\paragraph{7. Find de otte højeste bjerge:}
 De otte højeste bjerge i signaturen svarer til de otte steder i nummerpladen, hvor hele nummerpladen fra top til bund er lys. Det er disse otte steder der skal skæres.
 
-\paragraph{8. Top- og bund-beskæring findes:}
+\paragraph{8. Find top- og bund-beskæring:}
 NOGET OM HVORDAN VI FINDER TOP OG BUND BESKÆRING
 
-\paragraph{9. Tegnene skæres ud.}
+\paragraph{9. Skær tegnene ud.}
 
 %Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved.
 
@@ -387,17 +383,17 @@ MEGET FØLSOM OVERFOR STØJ, VI HAR VALGT DEN FRA.
 
 
 \subsubsection{Mulige forbedringer}
-DER MÅ VÆRE MANGE KOMMENTARER TIL HVORDAN VI KAN GØR BJERG/DAL BEDRE
+%DER MÅ VÆRE KOMMENTARER TIL HVORDAN VI KAN GØR BJERG/DAL BEDRE
 
-I funktionen der bruger sammenhængende komponenter findes der flere statiske variable, som eksempelvis størrelsen af de blokke der kontrastforstærkes i, komponenternes minimum bredde osv. Disse variable kunne være lavet dynamisk, men de er ret gode nu og derfor har vi ladet dem være. SKRIV DET SIDSTE OM.
+I funktionen der bruger sammenhængende komponenter findes der flere statiske variable, som eksempelvis størrelsen af de blokke der kontrastforstærkes i, komponenternes minimum bredde osv. Disse variable kunne være lavet dynamisk, men de er ret gode nu og derfor har vi ladet dem være. SKRIV DET SIDSTE OM. ER BESKREVET TIDLIGERE!
 
 CONCOMP: BESKREVET I KWAS: MAN KU FJERNE KANTER FØR ANALYSE?
 
-Concomp: at tegnene skal stå i samme højde bevirker at vi ikke kan læse skæve plader. Måske man kunne gøre den mindre skrap.
+I metoden der bruger sammenhængende komponenter er det et krav at de syv komponenter der vælges som tegnene skal stå i samme højde. Det bevirker at vi ikke kan læse nummerplader som er skæve eller fordrejede. Ved at justere parametrene, kunne man gøre funktionen mindre skrap og derved være i stand til at læse disse plader.
 
-SKALERING KAN FORBEDRE HASTIGHED? PERFORMANCE?
+Ved at skalere billederne kunne man forbedre hastigheden for funktionen. Vores undersøgelser viste dog at dette umiddelbart er en dårlig idé, da der går for meget information tabt til at metoderne kan separere tegnene.
 
-MEDIAN FILTER ELLER ANDRE FILTRE? LYSFORSTÆRKNING?
+I vores arbejde med separationsmetoderne forsøgte vi også at anvende et medianfilter på billederne af nummerplader. Dette havde vi dog ikke held med, men hvis det kunne virke ville det være en forbedring SKAL OMSKRIVES!
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -408,33 +404,31 @@ MEDIAN FILTER ELLER ANDRE FILTRE? LYSFORSTÆRKNING?
 
 \subsubsection{Middelvektorer}
 
-Implementationen af metoden til tegngenkendelse ved hjælp af vektor analyse findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}.
+Implementationen af metoden til tegngenkendelse ved hjælp af middelvektorer findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}. Den første funktion udarbejder middelvektorerne for træningssættet mens den anden behandler testbillederne ved brug af middelvektorerne.
 
 Funktionen \textit{GetMeanVectors.m} er opbygget som følger:
 
-%\textit{GetMeanVectors.m} udarbejder en matrix bestående af middelvektorer for hvert lovligt tegn. Hver vektor vil have længden $d$. Denne matrix bruges af \textit{ReadPlateFV.m}: Hvert inputbillede omformes til en vektor af længden $d$ og herefter løbes middelvektor-matrixen igennem. Afstanden fra det omformede billede til hver middelvektor noteres og tegnhitlisten udarbejdes på baggrund af disse afstande. Sammen med denne hitliste returneres afstandene, så disse kan bruges i forbindelse med syntaks analyse. Som input modtager funktionen en mængde billeder af sorterede tegn.
+\paragraph{1. Skaler hvert billede af et givent tegn:} Billederne skaleres til en størrelse på $\sqrt{L} \times \sqrt{L}$, hvor $L$ er middelvektorlængden. På denne måde laves middelvektorerne udfra billeder med samme forudsætninger.
 
-\paragraph{1. Hvert billede af et givent tegn skaleres:} Størrelsen af disse skalerede billeder er $\sqrt{L} \times \sqrt{L}$, hvor $L$ er middelvektorlængden.
+\paragraph{2. Omform de skalerede billeder til en vektor af længden, $L$:} BLA BLA
 
-\paragraph{2. De skalerede billeder omformes til en vektor af længden, $L$.}
+\paragraph{3. Find middelvektoren for alle vektorerne:} Først summeres alle vektorerne i én vektor hvorefter hvert element divideres med antallet af vektorer. Dette resulterer i en middelvektor.
 
-\paragraph{3. Middelværdien af alle vektorerne findes:} Først summeres alle vektorerne i en vektor hvor hvert element efterfølgende divideres med antallet af vektorer.
-
-\paragraph{4. Alle middelvektorerne samles i én matrix.} Bla bla
+\paragraph{4. Saml elle middelvektorerne i én matrix:} ER DET LIGEGYLDIGT?
 
 %For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
 
 Funktionen \textit{ReadPlateFV.m} er opbygget som følger:
 
-\paragraph{1. Hvert billede skaleres}
+\paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som det, træningsbillederne blev skaleret til.
 
-\paragraph{2. Bla:}
+\paragraph{2. Beregn de euklidiske afstande:}
 
-\paragraph{3. De euklidiske afstande beregnes.}
-
-\paragraph{4. Listen af alle tegn sorteres efter euklidiske afstande:} De tegn hvortil der er den korteste afstand placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
+\paragraph{3. Sorter listen af alle lovlige tegn efter euklidiske afstande:} De tegn hvortil der er den korteste afstand placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
 \subsubsection{Sum-billeder}
+
+Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder findes i filerne \textit{GetSumImgs.m} og \textit{ReadPlateSUM.m}. Den første funktion udarbejder sum-billederne for træningssættet mens den anden behandler testbillederne ved brug af sum-billederne.
 
 \textit{GetSumImgs}...
 
@@ -457,6 +451,8 @@ Funktionen \textit{ReadPlateFV.m} er opbygget som følger:
 \paragraph{4. Listen af alle tegn sorteres efter summer:} De tegn hvor den største sum er fundet placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
 \subsubsection{And-billeder}
+
+Implementationen af metoden til tegngenkendelse ved hjælp af middelvektorer findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}. Den første funktion udarbejder middelvektorerne for træningssættet mens den anden behandler testbillederne ved brug af middelvektorerne.
 
 \paragraph{1. Bla:}
 
