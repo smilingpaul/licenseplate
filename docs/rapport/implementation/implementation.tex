@@ -475,4 +475,6 @@ Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavk
 \subsubsection{Mulige forbedringer}
 Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.
 
-Man kunne bruge mahalanopis afstand
+Man kunne bruge mahalanopis afstand i middelvektorer
+
+skalering: Vi bruger imresize med standardindstillinger, men vi ved ikke om det er den bedste måde at gøre det på.
