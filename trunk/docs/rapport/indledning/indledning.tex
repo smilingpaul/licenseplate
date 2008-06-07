@@ -23,23 +23,27 @@ Nævn i system/implementation hvorfor vi har fravalgt nogle metoder som vi fakti
 
 Metoderne i system-diagrammerne skal nogle steder navngives (hedder nu eksempelvis Genkendelse af tegn 1.
 
-\subsubsection*{Formalia}
+Slå conjunction op.
 
-TITEL: "GENKENDELSE" I STEDET FOR "LÆSNING"?
 KAN MAN BRUGE DANSK TEGNOPDELING I TEX?
 
-Denne rapport beskriver et system til automatisk identifikation og læsning af danske nummerplader. Systemet er udviklet som bachelorprojekt på Københavns Universitet i 2008.
+\subsubsection*{Formalia}
 
+Denne rapport beskriver et system til automatisk lokalisering og læsning af danske nummerplader. Systemet og rapporten er udviklet som bachelorprojekt på Københavns Universitet i 2008.
 
-Systemet er udviklet i Matlab. Vi har ikke haft nogen ambitioner om at kunne læse nummerplader i realtid, og har ikke foretaget os noget væsentligt for at optimere hastigheden på systemet.
+Systemet er udviklet i \textit{Matlab}. Vi har ikke haft nogen ambitioner om at kunne læse nummerplader i realtid, og har ikke foretaget os noget væsentligt for at optimere hastigheden på systemet.
 
 HVEM ER LÆSEREN?
 
+HER SKAL VEL STÅ AT TOBIAS HAR ARBEJDET MEST MED LOKALISERING, ESBEN MEST MED SEP. OG GENKEND.
+
 \subsubsection*{Læringsmål}
-Ved arbejdet med denne opgave har vi ønsket at få praktisk erfaring med grundlæggende metoder og teknikker indenfor billedbehandling og mønstergenkendelse som anvendt i et system til nummerpladegenkendelse. Findes der etablerede metoder? Kan vi selv udvikle teknikker der fungerer tilfredsstillende? I hvor høj grad vil et system vi selv bygger kunne identificere nummerplader og læse deres indhold?
+Ved arbejdet med denne opgave har vi ønsket at få praktisk erfaring med grundlæggende metoder og teknikker indenfor billedbehandling og mønstergenkendelse som anvendt i et system til nummerpladegenkendelse. Findes der etablerede metoder? Kan vi selv udvikle teknikker der fungerer tilfredsstillende? I hvor høj grad vil et system vi selv bygger kunne lokalisere nummerplader og læse deres indhold?
 
 \subsubsection*{Rapportens opbygning}
-Vi begynder i det følgende afsnit med at beskrive den type data vi arbejder med. Vi beskriver hvordan vi har delt materialet i forskellige sæt samt hvilke afgrænsninger vi har foretaget. Derefter følger afsnittet \textit{Vores system} hvor vi beskriver det system vi har udviklet. Vi forsøger at holde os fra tekniske detaljer og fokuserer på den mere intuitive forståelse af systemets virkemåde. I afsnittet \textit{Implementation} beskriver vi vores kildekodes virkemåde og uddyber emner som vi kun har forsøgt at give en intuitiv forståelse af i afsnittet \textit{Vores system}. Efter at have beskrevet systemet, præsenterer vi resultaterne af afprøvning af systemet i afsnittet \textit{Resultater}.
+MANGLER NOGET OM BAGGRUNDSAFSNIT HER.
+
+Vi begynder i det følgende afsnit med at beskrive den type data vi arbejder med. Vi beskriver hvordan vi har delt materialet i forskellige sæt samt hvilke afgrænsninger vi har foretaget. Derefter følger afsnittet \textit{Vores system} hvor vi beskriver det system vi har udviklet. Vi forsøger at holde os fra tekniske detaljer og fokuserer på den mere intuitive forståelse af systemets virkemåde. I afsnittet \textit{Implementering} beskriver vi vores kildekodes virkemåde og uddyber emner som vi kun har forsøgt at give en intuitiv forståelse af i afsnittet \textit{Vores system}. Efter at have beskrevet systemet, præsenterer vi resultaterne af afprøvning af systemet i afsnittet \textit{Resultater}.
 
 SKRIV OM APPENDIKS.
 
@@ -48,16 +52,16 @@ Systemer til automatisk genkendelse af nummerplader blev opfundet af det engelsk
 
 I dag anvendes automatisk registrering i mange forskellige sammenhænge. Nogle af de mest kendte områder er: 
 \paragraph{Hastighedsmåling}
-Ved at følge en bil fra et sted til et andet på en motorvej kan man ved at analysere gennemsnitshastigheden afsløre fartsyndere. Denne metode er mere robust end metoden hvor man blot foretager en enkelt måling, da billisten kortvarigt kan sætte hstigheden ned hvis vedkommende er opmærksom på at der lokalt bliver foretaget hastigskontrol.
+Ved at følge en bil fra et sted til et andet på en motorvej kan man ved at analysere gennemsnitshastigheden afsløre fartsyndere. Denne metode er mere robust end metoden hvor man blot foretager en enkelt måling, da billisten kortvarigt kan sætte hstigheden ned hvis vedkommende er opmærksom på at der lokalt bliver foretaget hastighedskontrol.
 
 \paragraph{Statistik}
-Brug af veje og andre faciliteter kan analyseres. Hvor mange biler passerer et givet sted i løbet af et døgn? Hvor mange af disse er pendlere der kører den ene vej om morgenen og den anden om aftenen? Hvordan bevæger trafikken sig igenem en by? Hvordan fordeler trafikken sig fra en dens indfaldsveje?
+Brug af veje og andre faciliteter kan analyseres. Hvor mange biler passerer et givent sted i løbet af et døgn? Hvor mange af disse er pendlere der kører den ene vej om morgenen og den anden om aftenen? Hvordan bevæger trafikken sig igenem en by? Hvordan fordeler trafikken sig fra dens indfaldsveje?
 
 \paragraph{Trafikafgift}\footnote{Eng.: Roadpricing}
-Både London og Stockholm har i skrivende stund systemer der registrerer køretøjer der kører ind og ud a byen. Ejerne af køretøjer der bevæger sig i den indre by, får tilsendt en bøde hvis de ikke betaler for den tid de bruger i midtbyen.
+Både London og Stockholm har i skrivende stund systemer der registrerer køretøjer der kører ind og ud ad byen. Ejerne af køretøjer der bevæger sig i den indre by, får tilsendt en bøde hvis de ikke betaler for den tid de bruger i midtbyen.
 
 \paragraph{Patruljering}
-Med kameraer monteret på patruljevogne kan politiet registrere om de passerer f.eks. efterlyste køretøjer. Demonstrationen af et sådan system kan ses i \cite{canada_demo}. 
+Med kameraer monteret på patruljevogne kan politiet registrere om de passerer for eksempel efterlyste køretøjer. Demonstrationen af et sådan system kan ses i \cite{canada_demo}. 
 
 Automatisk registrering og overvågning er et kontroversielt emne, hvor folk oftest er meget for eller meget imod. I det overvågningsentusiastiske England har man i dag et meget omfattende overvågningssytem der tillader politiet at følge køretøjers bevægelser rundt i hele landet\cite{wiki_baggrund}. Som et eksempel på det modsatte, fik man i Tyskland i marts 2008 rettens ord for, at automatisk registrering af nummerplader ovetræder landets love om privatlivets fred\cite{tysk_ulovlig}.
 
