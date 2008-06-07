@@ -170,11 +170,12 @@ Som det sidste trin laver vi et binært billede med nummerpladekandidater som vi
   \label{fig:DetectContrastAvg-binary}
 \end{figure}
 
-Metoden beskrevet i dette afsnit er baseret på systemet beskrevet i \cite{shapiro}. Vores implementation er lavet som funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}.
+Metoden beskrevet i dette afsnit er baseret på systemet beskrevet i \cite{shapiro}.
 
 \subsubsection{Metode: Frekvensanalyse}
 \label{sec:DetectPlateness}
-Ved at analysere svingningen mellem lyse og mørke intensiteter i de nummerplader der indgår i vores træningsæt, forsøger vi med denne metode at lokalisere nummerplader ved at markere de områder der har en frekvens der ligger tæt på den målte middelfrekvens for nummerpladeområder.  For hver pixel i billedet analyserer vi frekvensen af en linie der begynder et givent antal pixels før den indeværende pixel og slutter det samme antal pixels efter. Metoden er inspireret af \cite{kwas} der også arbejder med frekvensanalyse for at lokalisere nummerplader. Figur \vref{fig:DetectPlateness-binary} viser et eksempel på den type binære billeder frekvensanalysen resulterer i. Denne metode er implementeret i funktionen \textit{DetectPlateness} hvis kildekode findes i afsnit \vref{code:DetectPlateness}.
+Ved at analysere svingningen mellem lyse og mørke intensiteter i de nummerplader der indgår i vores træningsæt, forsøger vi med denne metode at lokalisere nummerplader ved at markere de områder der har en frekvens der ligger tæt på den målte middelfrekvens for nummerpladeområder.  For hver pixel i billedet analyserer vi frekvensen af en linie der begynder et givent antal pixels før den indeværende pixel og slutter det samme antal pixels efter. Metoden er inspireret af \cite{kwas} der også arbejder med frekvensanalyse for at lokalisere nummerplader. Figur \vref{fig:DetectPlateness-binary} viser et eksempel på den type binære billeder frekvensanalysen resulterer i.
+
 ILLU\_SVINGNINGER\_PLADE
 ILLU\_SVINGNINGER\_IKKE\_PLADE
 %Binary image
@@ -217,7 +218,7 @@ Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching}.
   \label{fig:DetectCStretch-illu2}
 \end{figure}
 
-Med denne metode får vi det binære billede af interesseområder der er vist i figur \ref{fig:DetectCStretch-binary}. Kildekoden til metoden er implementeret i funktionen \textit{DetectCStretch} hvis kildekode findes i afsnit \vref{code:DetectCStretch}.
+Med denne metode får vi det binære billede af interesseområder der er vist i figur \ref{fig:DetectCStretch-binary}.
 
 %Binary image
 \begin{figure}[htp]
@@ -259,10 +260,6 @@ Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned
   \label{fig:DetectQuant-binary}  
 \end{figure}
 
-Metoden beskrevet i dette afsnit er implementeret i funktionen \textit{DetectQuant} hvis kildekode findes i afsnit \vref{code:DetectQuant}.
-
-
-
 
 \subsubsection{Analyse af interesseområder}
 \label{sec:BinImgCleanup}
@@ -277,7 +274,7 @@ Ud fra de binære billeder der viser interesseområder, skal vi forsøge at udv�
 
 LAV LISTEN OM TIL NUMMEREREDE PARAGRAFER HVOR DER ER EN FORKLARING TIL HVERT PUNKT.
 
-Denne frasortering af interesseområder er implementeret i funktionen \textit{BinImgCleanup} hvis kildekode findes i afsnit \ref{code:BinImgCleanup}. Figurene \ref{fig:DetectSameness-cleanup} til \ref{fig:DetectQuant-cleanup} viser frasorteringen anvendt på de binære billeder med interesseområder som vi brugte som eksempler i beskrivelsen af de forskellige metoder til lokalisering af nummerplader. 
+Figurene \ref{fig:DetectSameness-cleanup} til \ref{fig:DetectQuant-cleanup} viser frasorteringen anvendt på de binære billeder med interesseområder som vi brugte som eksempler i beskrivelsen af de forskellige metoder til lokalisering af nummerplader. 
 
 % SAMENESS
 \begin{figure}[htbp]
@@ -372,18 +369,16 @@ Vi undersøger hvor mange pixels der er markerede i det binære billede i det re
 
 
 \paragraph*{Hvor stort er det lyseste ormråde?}
-HVORFOR ER DETTE ANDERLEDES END FORDELINGEN?
+Vi finder ud af hvor mange pixels der har intensiteter der der ligger meget tæt på den lyseste pixel. Det skulle gerne være en ikke uvæsentlig del, da det ellers vil betyde at det lyseste område i billedet er meget lille. I billeder af nummerplader er det lyseste område ganske stort. 
 
 \paragraph*{Hvor stort er det mørkeste område?}
-HVORFOR ER DETTE ANDERLEDES END FORDELINGEN?
+Her analyserer vi billedet svarende til punktet ovenfor, dog kigger vi her på området der er dækket af pixels der har intensitetsværdier i nærheden af den mørkeste pixel i billedet.
 
 Når analysen af kandidatområderne er færdig og de har fået tildelt point, vælger systemet det kandidatområde der har færrest point. Der returneres altså samlet koordinater og point for  fem kandidatområder, et per metode.
 
-%.... er implementeret i funktionen \textit{GetBestCandidate} hvis kildekode findes i afsnit \ref{code:GetBestCandidate}.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Endeligt valg af nummerpladekandidat}
-Systemet vælger en endelig nummerpladekandidat ved at sammenligne de fem områder der er blevet udpeget af de tidligere beskrevne metoder. Vi undersøger om der er områder flere af metoderne er enige om at udpege. Hvis sådanne områder findes, udpeges det område som flest metoder er enige om, som værende en nummerplade. Hvis der er uenighed, det vil sige, at to metoder udpeger et område og to andre metoder udpeger et andet,  udregner systemet gennemsnitstpointene for de nummerpladekoordinater der peger på hver område, og vælger det område med det lavese antal point. Hvis alle metoder udpeger forskellige områder vælger systemet den nummepladekandidat med det laveste antal point såfremt dette tal er tilstrækkeligt lavt. Hvis der i denne situation ikke findes en nummerpladekendidat med et lavt nok antal point, opgiver systemet at finde en nummerplade i billedet. Figur \ref{fig:DetectMain-result} viser valget af endelig nummerpladekandidat på baggrund af eksemplerne i figurene \ref{fig:DetectSameness-cleanup} til \vref{fig:DetectQuant-cleanup}. %Udvælgelsen er implementeret i funktionen \textit{DetectMain} hvis kildekode findes i afsnit \ref{code:DetectMain}.
+Systemet vælger en endelig nummerpladekandidat ved at sammenligne de fem områder der er blevet udpeget af de tidligere beskrevne metoder. Vi undersøger om der er områder flere af metoderne er enige om at udpege. Hvis sådanne områder findes, udpeges det område som flest metoder er enige om, som værende en nummerplade. Hvis der er uenighed, det vil sige, at to metoder udpeger et område og to andre metoder udpeger et andet,  udregner systemet gennemsnitstpointene for de nummerpladekoordinater der peger på hver område, og vælger det område med det lavese antal point. Hvis alle metoder udpeger forskellige områder vælger systemet den nummepladekandidat med det laveste antal point såfremt dette tal er tilstrækkeligt lavt. Hvis der i denne situation ikke findes en nummerpladekendidat med et lavt nok antal point, opgiver systemet at finde en nummerplade i billedet. Figur \ref{fig:DetectMain-result} viser valget af endelig nummerpladekandidat på baggrund af eksemplerne i figurene \ref{fig:DetectSameness-cleanup} til \vref{fig:DetectQuant-cleanup}.
 
 % Billede af kandidater i MainDetect. 
 \begin{figure}[htp]

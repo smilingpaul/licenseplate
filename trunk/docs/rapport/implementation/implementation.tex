@@ -225,15 +225,12 @@ Vi kalder de fem metoder til lokalisering af nummerplader og modtager koordinate
 \paragraph{2. Afgør eventuel enighed om nummerpladekandidater}
 Vi undersøger om flere metoder har udpeget de samme områder. For hver nummerpladekandidat ser vi om dens centrum ligger inden for de midterste 80\% af andre nummerpladekandidater for at afgøre om de er enige om det samme område. Figur \vref{fig:enighed} illustrerer dette princip.
 
-% udkommenteret da den mangler i svn
-\begin{comment}
 \begin{figure}[htp]
 \centering
 \includegraphics[width=8cm]{implementation/illu/illu_enighed.png}
 \caption{Enighed blandt nummerpladekandidater: Nummerpladekandidat \textbf{A} er enig med nummerpladekandidat \textbf{B} da dens centrum \textbf{a} ligger inde i \textbf{B}s midterste område som indikeret af den stiplede linie. \textbf{C} er uenig med \textbf{D} da dens centrum \textbf{c} ligger uden for \textbf{D}s midterste område.}
 \label{fig:enighed}
 \end{figure}
-\end{comment}
 
 \paragraph{3. Vælg den endelige nummerpladekandidat}
 Vi kigger på omfanget af enighed blandt de udpegede nummerpladekandidater. Niveauet af enighed kan være mellem et og fem. Hvis tre eller flere metoder er enige returnerer vi den nummerpladekandidat de er enige om. Hvis nivauet af enighed er to, er der to mulige situationer. Den ene er, at to metoder har udpeget et område mens to andre metoder har udpeget et andet. I dette tilfælde udregner vi gennemsnits pointene for hver gruppe af enige områder, og returnerer det område med lavest point som nummerplade. Den anden mulighed er at der kun er et område som to metoder er enige om. I dette tilfælde returnerer vi det område uden yderligere overvejelser. Hvis niveauet af enighed er et, er situationen enten at flere metoder har udpeget forskellige områder, eller at kun en enkelt af de fem metoder har returneret en nummerpladekandidat. I disse situationer kigger vi på hver nummerpladekandidats antal point. Vi returnerer den kandidat med lavest antal point, såfremt dette er under 100. Har alle kandidater mere end 100 point returnerer vi ingen nummerplade for det aktuelle billede.
@@ -242,7 +239,9 @@ Vi kigger på omfanget af enighed blandt de udpegede nummerpladekandidater. Nive
 \subsubsection{Mulige forbedringer}
 Vi kunne arbejde mere med manipulation af de binære billeder før vi renser dem. Vi kunne arbejde mere med støjfiltrering etc. altså preprocessing af billederne. Citer folk der gør det. Skriv også hvad de gør.
 Man kunne have taget højde for at de forskelleige metoder returnerer områder af forskellig bredde og intensitet.
-Mere tuning af vægte etc i pointsystem.
+
+Mere tuning af vægte etc i pointsystem. Arbejde med kriterier der skal vær opfyld. Vis nogle billeder fra kontrolsættet som er blevet valgt som kandidater men tydeligvis, visuelt, ligger langt fra noget man ville forveksle med en nummerplade. Mere skrap med enighed.
+
 
 DetectPlateness:
 Metoden bliver dårligere jo mere man skalerer billedet ned da tegn i nummerpladerne ikke længere er klart separeret. Vi burde nok køre dette på større billeder.
@@ -263,21 +262,21 @@ I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de fu
 \subsubsection{Rotation}
 \label{sec:implementation/sep/rotation}
 
+VIS EKSEMPEL MED AT DEN IKKE KAN ROTERERE HVOR PLADEN ER KLIPPET FOR TÆT
+
 Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hvis kildekode findes i afsnit \vref{code:RotatePlateRadon}. Metoden tager stien til et \textit{JPEG}-billede samt koordinaterne for nummerpladen i billedet som indata. Funktionen returnerer billedet af den roterede plade samt dennes (roterede) koordinater i original billedet. Funktionens forløb er som følger:
 
-\paragraph{1. Tag billedet af nummerpladen ud af originalbilledet.}
+\paragraph{1. Billedet af nummerpladen "tages ud" af originalbilledet.}
 \paragraph{2. Find vandrette kanter i billedet.}
-For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} kan bruges til at lave et binært billede hvor alle horisontale kanter er markeret. Vi undlader at bruge \textit{edge} til at markere de vertikale kanter. På denne måde kan vi nøjes med at analysere én dimension ved brug af Radon transformationen. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da dette med stor sandsynlighed er de "liggende" kanter i nummerpladens rektangel. Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant. DET ER FAKTISK IKKE ET PROBLEM! SKRIV AT DET GÅR GODT MED TÆT-KLIPPEDE?
+For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til at lave et binært billede hvor alle horisontale kanter er markeret. De vertikale kanter markeres ikke(LYDER SOM OM edge-FUNKTIONEN KUN kan MARKERE VANDRETTE LINIER?). På denne måde kan vi nøjes med at analysere én dimension ved brug af Radon transformationen. I denne sammenhæng er vi interesseret i de kanter der er (næsten) horisontale, da det med stor sandsynlighed er de "lange" kanter i nummerpladens rektangel. Det vil være et problem, hvis nummerpladen "klippes" så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det meget usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til at Radon transformationen vil "bruge" disse kanter til at finde den tydeligste kant.
 
-\paragraph{3. Udfør Radon transformation for kant-billedet:} Radon transformation udføres ved brug af Matlab funktionen \textit{radon}.
+\paragraph{3. Radon transformation udføres for kant-billedet:} Radon transformation udføres ved brug af Matlab funktionen \textit{radon}.
 
-\paragraph{4. Find den maksimale værdi i Radon matricen:} Den maksimale værdi i Radon matricen svarer til det sted i billedet hvor den mest tydelige linie findes. De polære koordinater for denne linie (afstand samt vinkel) aflæses, men kun vinklen, $\theta$ bruges i den videre analyse. \textit{radon} funktionen angiver vinklerne forskudt med $90^{\circ}$ i forhold til det normale, så rotationsvinklen beregnes som $90^{\circ} - \theta$.
+\paragraph{4. Den maksimale værdi i Radon matricen findes:} Den maksimale værdi i Radon matricen svarer til det sted i billedet hvor den mest tydelige linie findes. De polære koordinater (afstand samt vinkel) aflæses, men kun vinklen, $\theta$ bruges i den videre analyse. \textit{radon} funktionen angiver vinklerne forskudt med $90^{\circ}$ i forhold til det normale, så rotationsvinklen beregnes som $90^{\circ} - \theta$.
 
-\paragraph{5. Roter billedet af nummerpladen ved brug af \textit{imrotate}:} Rotationen foretages med pladens midte som omdrejningspunkt.
+\paragraph{5. Billedet af nummerpladen roteres ved brug af \textit{imrotate}:} Rotationen foretages med pladens midte som origo.
 
-\paragraph{6. Find koordinaterne til den roterede plade ved brug af en rotationsmatrix:} For at rotere et todimensionelt koordinatsæt, $P$ multipliceres dette sæt med en rotationsmatrix, \textit{R} der er defineret således:
-
-%=\biggl[\begin{array}{c} x\\ y\\ \end{array}\biggr]$ til nogle roterede koordinater $P'=\biggl[\begin{array}{c} x'\\ y'\\ \end{array}\biggr]$ 
+\paragraph{6. Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix:} For at rotere et todimensionelt koordinatsæt, $P=\biggl[\begin{array}{c} x\\ y\\ \end{array}\biggr]$ til nogle roterede koordinater $P'=\biggl[\begin{array}{c} x'\\ y'\\ \end{array}\biggr]$ bruges en rotationsmatrix, \textit{R} der er defineret således:
 
 \begin{displaymath} 
 R = 
@@ -287,31 +286,32 @@ R =
 \end{array} \biggr] 
 \end{displaymath}
 
-Pladens fire koordinater deles op i to sæt og roteres med denne metode.
+Rotationen foretages ved brug af
 
-%\begin{displaymath}
-%P' = P \cdot R
-%\end{displaymath}
+\begin{displaymath}
+P' = P \cdot R
+\end{displaymath}
 
-%MÅSKE ER DETTE IKKE EN IMPLEMENTATIONSDETALJE?
+MÅSKE ER DETTE IKKE EN IMPLEMENTATIONSDETALJE?
 
 \subsubsection{Separation}
 
 Metoderne til separation af tegn tager et billede af en nummerplade samt koordinaterne til denne plade i orginalbilledet som inddata, og returnerer syv billeder af de syv tegn (hvis syv tegn er fundet), koordinaterne til disse tegn i orginalbilledet samt antallet af fundne tegn som uddata.
 
 \subsubsection*{Sammenhængende komponenter}
+BRUGER DU 8 ELLER 4 SAMMENHÆNG?
 
 Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}. Funktionen forløber således:
 
-\paragraph{1. Omdan billedet af pladen til gråtone.} IRRELEVANT?
+\paragraph{1. Billedet af pladen omdannes til gråtone.} IRRELEVANT?
 
-\paragraph{2. Indskrænk billedet til den største komponent:}
+\paragraph{2. Billedet indskrænkes til den største komponent:}
 De billeder der i denne del af systemet modtages fra identifikationsmetoderne er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen (DET ER JO FoRDI VI KAN ANTAGE EN HEL DEL TING OM BILLEDET HVIS VI VED AT DET KUN INDEHOLDER PLADEN). Da nummerpladen sandsynligvis er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen \textit{im2bw}, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. Ved at sætte denne grænseværdi lavt mindskes risikoen for at nummerpladen ikke bliver en lys komponent.
 
-\paragraph{3. Forstærk billedets kontraster:}
-For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund forstærkes kontrasterne i billedet. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i mindre blokke over hele billedet, så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
+\paragraph{3. Billedets kontraster forstærkes:}
+For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal(SKAL?) billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke (HVAD ER DET MON FOR NOGEN BLOKKE?) så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
 
-HER ER BRUG FOR EN ILLUSTRATION: VIS ILLU MED TEGN OG SNAVS GROET SAMMEN.
+HER ER BRIG FOR EN ILLUSTRATION
 
 \paragraph{4. Fjern smalle elementer i toppen og i siderne af billedet:}
 Når det binære billede er dannet er der igen en mulighed for at minimere tilfælde hvor tegn er groet sammen med eksempelvis nummerpladens kant. Dette eer illustreret i figur \vref{fig:tynd_linie}. Derfor slettes alle pixels som har en tom plads på begge sider i den øverste $\frac{1}{3}$ af billedet, samt i den yderste $\frac{1}{10}$ i både højre og venstre side. Grunden til at det gøres i yderkanterne af billedet er at det "brækker" tynde elementer over, som kan forveksles med tegn i den senere analyse. Det er dog en dårlig idé at brække tynde elementer over i hele billedet, da der så er chance for at nogle af tegnene brækkes over (eksempelvis er tegnet \textbf{1} forholdsvis smalt) og derfor ikke længere er en sammenhængende komponent.
@@ -328,11 +328,7 @@ BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE 
 \paragraph{5. Fjern al markering i meget eller lidt hvide horisontale linier:} En horisontal linie der går igennem tegnene i en nummerplade vil have mellem $\frac{1}{10}$ og $\frac{2}{3}$ af linien markeret. Derfor kan vi slette alle pixels i de rækker af billedet som har mindre end $\frac{1}{10}$ eller mere end $\frac{2}{3}$ af alle pixels i billedets bredde markeret. Dette vil fjerne flere muligheder for at tegn og pladens kant kan gro sammen. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
 
 VIS SITUATIONEN PÅ EN ILLU
-
-\paragraph{6. Lav det sort-hvide billede til et sammenhængende-komponenter-billede:} Billedet med de sammenhængede komponenter laves ved hjælp af Matlab funktionen \textit{bwlabel}. De sammenhængende komponenter er såkaldte \textit{8-sammenhængede objekter}, hvor en komponent kan bestå af pixels der støder diagonalt op til hinanden.
-
-ILLU ELLER HENVISNING TIL TOBIAS' TIDLIGERE FIGUR.
-
+\paragraph{6. Lav det sort-hvide billede til sammenhængende-komponenter-billede.}
 \paragraph{7. Fjern for små og for store komponenter:} Komponenter som fylder over $\frac{1}{7}$ af billedets areal, komponenter der har en bredde på mere end $\frac{1}{7}$ af billedets bredde, komponenter som er lavere end en vis konstant samt komponenter som har et areal som er mindre end en vis konstant kan fjernes fra billedet, da de ikke kan være tegn. Det er vores erfaring at det ville være svært at sætte de omtalte konstanter dynamisk i forhold til pladens størrelse, så de er fastlagt på baggrund af skøn ELLER!?. Man kunne desuden have en regel om at hvert tegn skal være højere end det er bredt, men vores undersøgelser viste at eksempelvis nogle \textbf{8}-taller ville blive sorteret fra ved denne regel. 
 
 \paragraph{8. Undersøg om der findes grupper på syv komponenter hvor alle syv komponenter har samme højde og er i samme højde:} For hvert komponent undersøges det om der findes andre komponenter med samme højde og i samme højde som den pågældende komponent. Sådanne komponenter samles i "grupper". Hvis der findes færre end syv komponenter i en gruppe, kan gruppen ikke være tegnene i nummerpladen. Hvis der findes syv komponenter i en gruppe kan gruppen vælges som de syv tegn. Hvis der findes en gruppe med otte eller ni komponenter fjernes det/de yderste ene/to tegn hvorefter gruppen kan vælges som de syv tegn. Dette gøres fordi...
