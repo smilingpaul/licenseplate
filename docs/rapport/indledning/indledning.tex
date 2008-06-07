@@ -41,29 +41,9 @@ HER SKAL VEL STÅ AT TOBIAS HAR ARBEJDET MEST MED LOKALISERING, ESBEN MEST MED S
 Ved arbejdet med denne opgave har vi ønsket at få praktisk erfaring med grundlæggende metoder og teknikker indenfor billedbehandling og mønstergenkendelse som anvendt i et system til nummerpladegenkendelse. Findes der etablerede metoder? Kan vi selv udvikle teknikker der fungerer tilfredsstillende? I hvor høj grad vil et system vi selv bygger kunne lokalisere nummerplader og læse deres indhold?
 
 \subsubsection*{Rapportens opbygning}
-MANGLER NOGET OM BAGGRUNDSAFSNIT HER.
-
-Vi begynder i det følgende afsnit med at beskrive den type data vi arbejder med. Vi beskriver hvordan vi har delt materialet i forskellige sæt samt hvilke afgrænsninger vi har foretaget. Derefter følger afsnittet \textit{Vores system} hvor vi beskriver det system vi har udviklet. Vi forsøger at holde os fra tekniske detaljer og fokuserer på den mere intuitive forståelse af systemets virkemåde. I afsnittet \textit{Implementering} beskriver vi vores kildekodes virkemåde og uddyber emner som vi kun har forsøgt at give en intuitiv forståelse af i afsnittet \textit{Vores system}. Efter at have beskrevet systemet, præsenterer vi resultaterne af afprøvning af systemet i afsnittet \textit{Resultater}.
+Vi begynder i det følgende afsnit rapporten med en kort introduktion til opgavens emne. I det næste afsnit beskriver vi den type data vi arbejder med. Vi beskriver hvordan vi har delt materialet i forskellige sæt samt hvilke afgrænsninger vi har foretaget. Derefter følger afsnittet \textit{Vores system} hvor vi beskriver det system vi har udviklet. Vi forsøger at holde os fra detaljer og fokuserer på den mere intuitive forståelse af systemets virkemåde. I afsnittet \textit{Implementation} beskriver vi mere detaljeret systemets virkemåde og uddyber emner som vi kun har forsøgt at give en intuitiv forståelse af i afsnittet \textit{Vores system}. Efter at have beskrevet systemet, præsenterer vi resultaterne af afprøvning af systemet i afsnittet \textit{Resultater}.
 
 SKRIV OM APPENDIKS.
-
-\section{Baggrund}
-Systemer til automatisk genkendelse af nummerplader blev opfundet af det engelske politis forskingsafdeling i 1976. Fungerende prototyper var klar i 1979. Afprøvninger blev foretaget på englands længste vej A1 der løber fra London til Edinburgh i Skotland samt tunnelsystemet Dartford Crossings\cite{wiki_baggrund}. 
-
-I dag anvendes automatisk registrering i mange forskellige sammenhænge. Nogle af de mest kendte områder er: 
-\paragraph{Hastighedsmåling}
-Ved at følge en bil fra et sted til et andet på en motorvej kan man ved at analysere gennemsnitshastigheden afsløre fartsyndere. Denne metode er mere robust end metoden hvor man blot foretager en enkelt måling, da billisten kortvarigt kan sætte hstigheden ned hvis vedkommende er opmærksom på at der lokalt bliver foretaget hastighedskontrol.
-
-\paragraph{Statistik}
-Brug af veje og andre faciliteter kan analyseres. Hvor mange biler passerer et givent sted i løbet af et døgn? Hvor mange af disse er pendlere der kører den ene vej om morgenen og den anden om aftenen? Hvordan bevæger trafikken sig igenem en by? Hvordan fordeler trafikken sig fra dens indfaldsveje?
-
-\paragraph{Trafikafgift}\footnote{Eng.: Roadpricing}
-Både London og Stockholm har i skrivende stund systemer der registrerer køretøjer der kører ind og ud ad byen. Ejerne af køretøjer der bevæger sig i den indre by, får tilsendt en bøde hvis de ikke betaler for den tid de bruger i midtbyen.
-
-\paragraph{Patruljering}
-Med kameraer monteret på patruljevogne kan politiet registrere om de passerer for eksempel efterlyste køretøjer. Demonstrationen af et sådan system kan ses i \cite{canada_demo}. 
-
-Automatisk registrering og overvågning er et kontroversielt emne, hvor folk oftest er meget for eller meget imod. I det overvågningsentusiastiske England har man i dag et meget omfattende overvågningssytem der tillader politiet at følge køretøjers bevægelser rundt i hele landet\cite{wiki_baggrund}. Som et eksempel på det modsatte, fik man i Tyskland i marts 2008 rettens ord for, at automatisk registrering af nummerplader ovetræder landets love om privatlivets fred\cite{tysk_ulovlig}.
 
 
 \section{Hvilken type billeder arbejder vi med?}
@@ -114,69 +94,15 @@ Figur \vref{fig:typisk_billede} viser et eksempel på den type billeder vi arbej
 \label{fig:typisk_billede}
 \end{figure}
 
-\subsection{To sæt billeder}
-Vi har delt vores billeder op i to sæt. Det ene sæt, bestående af 400 billeder, kalder vi for vores \textit{træningsæt}. Det er billeder i dette sæt vi har analyseret under arbejdet med at udvikle vores software. F.eks. har vi på baggrund af dette sæt observeret nummerpladernes størrelser så vi har kunnet vurdere nummerpladestørrelser i den type billeder vi arbejder med.
+\subsection{Opdeling af billeder}
+Vi har delt vores billeder op i flere sæt. Vi har to primære sæt og to sekundære set. Det første primære sæt, der består af 400 billeder, kalder vi for vores \textit{træningsæt}. Det er billeder i dette sæt vi har analyseret under arbejdet med at udvikle vores software. F.eks. har vi på baggrund af dette sæt observeret størrelserne på nummerpladerne så vi har kunnet vurdere nummerpladestørrelser i den type billeder vi arbejder med.
 
-Vores andet sæt, \textit{kontrolsættet}, består af 600 billeder. Dette sæt har vi brugt til at foretage en form for kontrol af vores færdige system. Det er vores tanke at denne kontrol vil kunne sige noget om i hvor høj grad vi har formået at lave et system der fungerer på ukendte billeder der overholder vores  tidligere beskrevne afgrænsninger. 
+Vores andet primære sæt, \textit{kontrolsættet}, består af 600 billeder. Dette sæt har vi brugt til at foretage en form for kontrol af vores færdige system. Det er vores tanke at denne kontrol vil kunne sige noget om i hvor høj grad vi har formået at lave et system der fungerer på ukendte billeder der overholder vores tidligere beskrevne afgrænsninger. 
 
-For at kunne automatisere afprøvning af vores system, har vi navngivet vores billedfiler så vi kan aflæse nummerpladens koordinater samt nummerpladens tekst. HVORDAN?
+De to sekundære sæt består af billeder der ikke overholder vores afgrænsninger, men dog kun på et enkelt område. I det første sæt, der består af 130 billeder, er alle billeder taget med blitz. Det andet sekundære sæt indeholder billeder af biler med gule numerplader. Sætter der består af XX billeder overholder alle øvrige afgrænsninger. Vi kalder disse to sæt for henholdsvis \textit{blitzsættet} og det \textit{gule sæt}.
 
-TAG 50 BILLEDER AF HVIDE PLADER M. BILTZ
-TAG 50 BILLEDER AF GULE PLADER U. BILTZ
+TAG 50 BILLEDER AF GULE PLADER U. BLITZ
 
+Vi har valgt at medtage de to sekundære set for at få en indikation af hvordan vores system opfører sig når det arbejder på data der ikke er taget højde for. Vil den gule farve gøre at vi slet ikke kan finde nummerpladerne? Vil blitzlyset gøre det lettere at finde nummerpladerne? Vil bogstaverne på de blitzoplyste nummerplader kunne genkendes af vores system?
 
-%Billederne blev navngivet i vores database, så det, i deres filnavn, indgik om billedet forestillede en bil set forfra eller bagfra samt hvilken nummerplade bilen på nummerpladen havde. Derudover udarbejdede vi et mindre program som hjalp os til at identificere nummerpladens fire hjørnekoordinater og indskrive disse i filnavnet. Denne sidste tilføjelse ville hjælpe os i testfasen, til at undersøge om de nummerpladekandidater vores system ville udvælge er de korrekte.
-
-\begin{comment}
-I mange sammenhænge vil det være relevant at automatisk kunne identificere og genkende køretøjers nummerplader. Et sådant system kunne eksempelvis være et system som bruges ved et parkeringsanlæg, hvor der f.eks. tages billeder af de biler der ankommer til anlægget, så man kan registrere hvilke biler der befinder sig på anlægget. Et sådant system kunne også bruges af parkeringsvagter, som eksempelvis manuelt tager billeder af parkerede biler hvorefter systemet identificere bilen.
-
-I dette projekt vil vi arbejde med netop dette emne: automatisk identificering og genkendelse af nummerplader i billeder ved hjælp af et computersystem. Det system, vi ønsker at udvikle og afprøve, egner sig bedst til en situation, hvor bilen står stille eller bevæger sig meget langsomt.
-
-Dette projekt laves som bachelorprojekt på Københavns Universitet. Vores forventning er ikke at systemet kan opnå en effektivitet svarende til etablerede systemer til genkendelse af nummerplader. Derimod ønsker vi via arbejdet at få erfaring med praktisk anvendelse af elementære teknikker indenfor billedbehandling og mønstergenkendelse.
-
-
-\subsection{Problemformulering}
-Opgavens problemformulering blev som følger:
-
-\fixme{Skal det være spørgsmål}
-\begin{itemize}
-\item[-] Hvordan kan nummerplader på farvefotografier identificeres og læses af et computersystem?
-\item[-] Hvilke kendte metoder til identifikation og læsning af nummerplader findes der?
-\item[-] Hvor høj genkendelsesprocent kan et system, vi selv laver, opnå?
-\end{itemize}
-%\fixme{Søren: opdel sidste spørgsmål i flere}
-
-\subsection{Afgrænsning}
-
-\fixme{Søren: ikke sigende titel}
-\fixme{Mere argumentation i dette afsnit}
-\fixme{VI behøver ikke at lave afin transformation.}
-
-
-På grund af projektets omfang var det nødvendigt at lave visse afgrænsninger. Disse afgrænsninger blev som følger:
-
-\fixme{Bør ikke være punktopstilling når den er så lang}
-\begin{itemize}
-\item[-] Billederne skulle tages ved højlys dag uden brug af kunstig lys. På denne måde vurderede vi at man ville opnå fotografier hvor nummerpladerne havde nogenlunde ens farvemønstre. Ved brug af kunstigt lys ville man risikere at nummerpladen ville fremstå med en unartulig farve eller at det reflekterende materiale, som nummerplader er lavet af, ville skabe genskin og på denne måde unaturlige farver. \fixme{forklaring på farvemønster}
-\item[-] Hvert fotografi skulle forestille en bil med netop én synlig nummerplade.
-\item[-] Fotografierne skulle tages fra en position direkte foran bilen og i en højde på mellem 160 og 190 cm i en afstand på 3-6 meter fra bilen uden zoom. På denne måde må det forventes at nummerpladen bliver tilpas stor i billedet til at computersystem kan finde den, samt at man med det menneskelige øje kan aflæse nummerpladen udfra fotografierne. \fixme{evt. figur af hvordan vi stod da vi fotograferede}
-\item[-] Nummerpladen skulle ikke nødvendigvis befinde sig midt i billedet. \fixme{midt i billede: er den en afgrænsning?} %Dette ville skabe lidt udfordring for vores system, som dermed ikke nødvendigvis kan udelukke objekter som ikke er i midten af fotografiet.
-\item[-] Nummerpladen skulle fremstå vandret i billedet og skulle desuden være fri for urenheder eller lignende, der gjorde pladen sværere at læse. \fixme{hvad vil det sige at nummerpladen er vandret}
-\item[-] Nummerpladerne skal alle være danske privatplader som de udstedtes i foråret 2008\footnote{Rød kant, hvid baggrund og sort tekst.} Formatet på nummerpladerne skal være \textit{AA XX XXX}, hvor \textit{A} er bogstaver i mængden \textit{A}-\textit{Z}\footnote{Enkelte tegn er muligvis ikke lovlige. Er dette tilfældet, skal systemet ikke tage højde for dem.}, og \textit{X} er heltal i mængden 0-9. Som eksemplet viser, skal der være mellemrum mellem de to bogstaver og de to første tal samt mellem de to første tal og de tre tal. Nummerpladerne må ikke indeholde andre tegn end de nævnte bogstaver og tal.
-\end{itemize}
-
-\fixme{har vi udelukket kvadratiske nummerplader?}
-
-
-
-
-
-\subsection{Metoder fra litteraturen}
-
-\fixme{Hvilken litteratur har vi og vi har vi den fra? Let at finde metoder? Hvorfor har vi kun beskrevet disse metoder? Mangler henvisninger til teoriafsnit. Argumentér for hvorfor der er fire elementer. Hvorfor er rotation et element når vi har vandrette billeder.}
-
-I forbindelse med dette projekt har vi identificeret følgende fire dele, som et system der skal kunne identificere og aflæse nummerplade kunne indeholde: identificering af nummerpladen i billedet, eventuel rotation af nummerpladen, hvis denne ikke er vandret i billedet, opdeling af tegnene i nummerpladen samt aflæsning af de enkelte tegn. De første tre elementer har vi defineret som værende billedbehandling mens det fjerde element er mønstergenkendelse. Metoderne til billedbehandlingsdelene diskuteres i afsnit \ref{sec_billed} mens metoderne til mønstergenkendelse diskuteres i afsnit \ref{sec_monster}.
-
-\end{comment}
-
-
+For at kunne automatisere afprøvning af vores system, har vi navngivet vores billedfiler så vi kan aflæse nummerpladens koordinater samt nummerpladens tekst. Vi har angiver koordinaterne så hele nummerpladen er indeholdt i det specificerede område.
