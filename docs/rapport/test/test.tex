@@ -1,8 +1,7 @@
 \section{Resultater}
 \label{sec:resultater}
 
-I dette afsnit vil vi afprøve vores system og give resultaterne af denne afprøvning.
-TO SÆT!
+I dette afsnit vil vi beskrive afprøvningen af vores system og give resultaterne af denne afprøvning. Alle afprøvninger vil blive udført på både trænings- og kontrolsættet.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADE %%%
@@ -114,7 +113,7 @@ I dette afsnit testes alle metoderne der bruges til at separere og genkende tegn
 Da vi har lavet funktionen til rotation primært ved brug af en Matlab funktion (\textit{radon}), vil det ikke være relevant at teste funktionen. Derudover vil en test af funktionen betyde at alle pladernes rotation skulle bestemmes manuelt. Vi har i stedet besluttet at funktionen testes i forbindelse med test af de andre funktioner i dette afsnit, hvliket vil sige at rotation indgår som en del af separation og genkendelse af tegn og ikke er "sin egen" funktion. ER SKREVET TIDLIGER. OMSKRIVES.
 
 \subsubsection{Separation}
-De to metoder til separation af tegn testes ved at se på om de finder syv objekter som optræder indenfor pladens koordinater. Denne forholdsvis enkle test mener vi er fyldestgørende, da funktionerne hvori metoderne er implementeret, bør være "skrappe" nok.
+De to metoder til separation af tegn testes ved at se på om de finder syv objekter som optræder indenfor pladens koordinater. Denne forholdsvis enkle test mener vi er fyldestgørende, da funktionerne hvori metoderne er implementeret, bør være "skrappe" nok. TESTEN ER EN INDIKATION!
 
 Vi vil desuden se på om der er forskel på succesraten i forhold til hvilket område der repræsenterer nummerpladen. Her findes to muligheder: pladen er fundet ved brug af identifikationsmetoderne eller defineret ved hjælp af de manuelt registrerede pladekoordinater (med evt. et yderområde lagt til).
 
@@ -134,33 +133,39 @@ Vi vil desuden se på om der er forskel på succesraten i forhold til hvilket om
 
 \begin{tabular}{|l|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Metode & Sammenhængende komponenter & Bjerg/dal \\\hline
+Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 10 & 96,5\% & 0\% \\\hline
 20 & 95,75\% & 0\% \\\hline
-30 & 0\% & 0\% \\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Bedste udklip & Sammenhængende komponenter & Bjerg/dal \\\hline
- & 0\% & 0\% \\\hline
-\end{tabular}
+30 & 91\% & 0\% \\\hline \end{tabular}
 
 \begin{tabular}{|l|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
-Metode & Sammenhængende komponenter & Bjerg/dal \\\hline
+Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 10 & 0\% & 0\% \\\hline
 20 & 0\% & 0\% \\\hline
 30 & 0\% & 0\% \\\hline \end{tabular}
 
 \begin{tabular}{|l|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
-Bedste udklip & Sammenhængende komponenter & Bjerg/dal \\\hline
- & 0\% & 0\% \\\hline
+\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Automatisk lokalisering}} \\ \hline
+Sæt & Sammenhængende komponenter & Bjerg/dal \\\hline
+Træningssæt & 0\% & 0\% \\\hline
+Kontrolsæt & 0\% & 0\% \\\hline
 \end{tabular}
+
+%\begin{tabular}{|l|c|c|}\hline
+%\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+%Bedste udklip & Sammenhængende komponenter & Bjerg/dal \\\hline
+% & 0\% & 0\% \\\hline
+%\end{tabular}
 
 Problemer ved 10: tegn der er smeltet sammen pga. søm skruer: OE26906 og ----290. Godt udskåret: UX33152, skæve plader et problem. go kontrast: YE39734.
 
 Problemer ved 20: for stort område giver komponenter der ikke klippes bort, fordi kontrastforstærkning giver et andet resultat, her ville dynamisk kontrast-blok størrelse måske hjælpe. Dårlig indskrænk XK29750. TS57793: GOD(?) 
+
+Problemer ve 30: stadig for stort område: giver komponenter udenfor der vælges. dårlig indskrænk, især foran? eksempler.
+
+
+
 %Delkonklusion:
 %Sammenhængende komponenter er go og bjerg/dal dårlig?
 
@@ -388,9 +393,54 @@ Z & 0\% & 0\% & 0\%\\\hline
 \end{tabular}
 
 
+\begin{tabular}{|l|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+Tegn & Middelvektor & Sum-billeder & And-billeder\\\hline
+0 & 0\% & 0\% & 0\%\\\hline
+1 & 0\%  & 0\% & 0\%\\\hline
+2 & 0\% & 0\% & 0\%\\\hline
+3 & 0\% & 0\% & 0\%\\\hline
+4 & 0\% & 0\% & 0\%\\\hline
+5 & 0\% & 0\% & 0\%\\\hline
+6 & 0\% & 0\% & 0\%\\\hline
+7 & 0\% & 0\% & 0\%\\\hline
+8 & 0\% & 0\% & 0\%\\\hline
+9 & 0\% & 0\% & 0\%\\\hline
+\end{tabular}
+
+\begin{tabular}{|l|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+Tegn & Middelvektor & Sum-billeder & And-billeder\\\hline
+A & 0\% & 0\% & 0\%\\\hline
+B & 0\% & 0\% & 0\%\\\hline
+C & 0\% & 0\% & 0\%\\\hline
+D & 0\% & 0\% & 0\%\\\hline
+E & 0\% & 0\% & 0\%\\\hline
+H & 0\% & 0\% & 0\%\\\hline
+J & 0\% & 0\% & 0\%\\\hline
+K & 0\% & 0\% & 0\%\\\hline 
+L & 0\% & 0\% & 0\%\\\hline
+M & 0\% & 0\% & 0\%\\\hline
+N & 0\% & 0\% & 0\%\\\hline
+O & 0\% & 0\% & 0\%\\\hline
+P & 0\% & 0\% & 0\%\\\hline
+R & 0\% & 0\% & 0\%\\\hline
+S & 0\% & 0\% & 0\%\\\hline
+T & 0\% & 0\% & 0\%\\\hline
+U & 0\% & 0\% & 0\%\\\hline
+V & 0\% & 0\% & 0\%\\\hline
+X & 0\% & 0\% & 0\%\\\hline
+Y & 0\% & 0\% & 0\%\\\hline
+Z & 0\% & 0\% & 0\%\\\hline
+\end{tabular}
+
+Ovenstående med og uden syntaksanalyse? kun med? kun uden?
+
 %Søren: Ved klassifikation bruges en eller anden grænseværdi som bestemmer hvad et element skal klassificeres som: denne grænseværdi kan reguleres og kan derfor testes.
 
 Delkonklusion:
+
+Vi kunne også have testet hvilke tegn der bliver valgt i stedet for, når et forkert tegn vælges. Vælges 8 f.eks. når B burde ha været valgt??
 
 Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. Dette giver vores system en væsentlig fordel i forhold til "de andre".
 

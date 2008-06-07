@@ -1,21 +1,20 @@
 \subsection{Genkendelse af tegn}
+\label{sec_monster}
 
 TJEK VARIABELNAVNE
 
-\label{sec_monster}
 Til genkendelse af tegn har vi arbejdet med tre forskellige metoder: Den første bruger informationer fra en såkaldt middelvektor, den anden arbejder med såkaldte sum-billeder mens den tredje er en simpel metode. I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaksanalyse på den tegnfølge der repræsenterer nummerpladens indhold.
 
-Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerer. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge.
-
-Til de tre genkendelsesmetoder har vi uarbejdet et træningssæt betående af billeder af tegn, sorteret efter tegnets type (\textbf{A}, \textbf{B}, \textbf{C} etc.). Udfra dette træningssæt laver vi de enkelte træningsbilleder.
-%SKAL DER IKKE STÅ AT VI HAR LAVET ET TRÆNINGSÆT BESTÅENDE AF TEGN? VEKTORERNE I DET FØLGENDE BLIVER DANNET PÅ BAGGRUND AF DETTE SÆT.
+Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerer. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin3}.
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{system/illu/dia_trin3.png} 
-\caption{Inddata, i form af syv billeder af syv tegn kommer ind i systemet fra venstre. ..... Uddata er .... De grå kasser...}
+\caption{Inddata, i form af syv billeder af syv tegn kommer ind i denne del af systemet fra venstre. Funktionerne genkender tegnene på billederne og opretter en tegnfølge som repræsenterer nummerpladens tekst. Uddata er denne tegnfølge. De grå kasser...}
 \label{fig:dia_trin3}
 \end{figure}
+
+Til de tre genkendelsesmetoder har vi uarbejdet et træningssæt betående af billeder af tegn, sorteret efter tegnets type (\textbf{A}, \textbf{B}, \textbf{C} et cetera). Udfra dette træningssæt laver vi de enkelte træningsbilleder.
 
 \subsubsection{Metode: Middelvektorer}
 En egenskabsvektor (\textit{eng.: feature vector}) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede og egenskabsvektorne kaldes middelvektorer. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med middelvektorer for at finde det tegn som er i billedet. Der oprettes altså en middelvektor for hvert tegn. Metoden er fundet i \cite{arth}.
@@ -114,7 +113,4 @@ I systemet sættes en grænse for hvor langt ned ad hitlisten syntaksanalysen ka
 
 \subsubsection{Metoder fra litteraturen}
 
-\subsubsection*{Neurale netværk}
-I \cite{kwas} arbejder man med et simpelt neuralt netværk hvor antallet af neuroner i inddata-laget er lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn.
-
-ANDRE?
+I \cite{kwas} arbejder man med et simpelt, kunstigt neuralt netværk. Et kunstigt neuralt netværk er en matematisk model, som er baseret på biologiske neurale netværk\cite{wiki_nn}. I \cite{kwas} sættes antallet af neuroner i inddata-laget lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn. Det neurale netværk vil derved returnerer det genkendte tegn.
