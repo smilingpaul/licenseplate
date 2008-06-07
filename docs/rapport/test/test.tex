@@ -2,23 +2,14 @@
 \label{sec:resultater}
 
 I dette afsnit vil vi afprøve vores system og give resultaterne af denne afprøvning.
-
-%\subsection{Indsamling af testdata}
-
-%Fra start var vi meget opmærksomme på at afgrænsningen af projektet skulle være klar, så det ikke blev for omfattende. Omkring valg af billedemateriale afholdt vi os eksempelvis fra at 
-
-
-% vi holder dem adskilt - ikke noget med histo
-%Da vi bl.a. havde planer om udarbejdelse af en histogrambaseret metode til identificering af nummerplader (se afsnit \ref{histo}), holdt vi de to fotografisæt adskilte. På denne måde ville det f.eks. være muligt for os at teste om skift fra et kamera til et andet, vil give ændrede resultater.
+TO SÆT!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADE %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Lokalisering af nummerplader}
-Lokalisering af nummerplader kan gøres ved brug af en enkelt af systemets metoder eller ved brug af alle metoderne samtidigt. Vi vil i dette afsnit afprøve disse muligheder. Derudover vil vi se på hvordan resultaterne ændrer sig når man ændrer opløsning af billederne. I alle tilfælde vil vi afprøve metoderne på både trænings- og kontrolsæt. 
-
-KUN EN TABEL MED DE SEKS METODER
+I dette afsnit afprøver vi vores systems evne til at lokalisere nummerplader. Vi kigger altså ikke på nummerpladens tegn, men blot på om vi kan afgøre dens position i inddata-billedet. Vi har foretaget afprøvning af det samlede system som beskrevet i \vref{sec:system:lokalisering} samt individuelle afprøvninger af de fem metoder til lokalisering som beskrevet i samme afsnit.
 
 Hvis vi skal have test med flere forskellige parametre, kan vi jo også køre en gang hvor vi siger at mindst to metoder skal være enige før vi udpeger et område.s
 Trainingset
@@ -42,7 +33,7 @@ Kvantifisering &  0 \% & 0 \%\\
 
 
 \subsubsection{Afprøvning af metoderne som et system}
-I dette afsnit afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med to forskellige indstillinger for minimal enighed. Hvor god er softwaren når det ikke er et krav at flere metoder skal udpege samme område? Hvor god er softwaren når mindst to metoder skal udpege samme område for at vi betragter det som en nummerplade? Resultaterne for afprøvningerne på træningsættet er vist på figur \vref{fig:test:lokalisering_traening_samlet} og de tilsvarende resultater for kontrolsættet er vist i figur \ref{fig:test:lokalisering_kontrol_samlet}
+Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på f.eks. vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et numerpladeområde og sender det videre i systemet til seperation og genkendelse. Resultaterne for afprøvningerne på træningsættet er vist på figur \vref{fig:test:lokalisering_traening_samlet} og de tilsvarende resultater for kontrolsættet er vist i figur \ref{fig:test:lokalisering_kontrol_samlet}
 
 DER VAR EN FEJL HVIS KUN EN METODE RETURNEREDE EN KANDIDAT. KØR RESULTATER FOR ENIGHED 1 IGEN.
 
@@ -54,8 +45,8 @@ DER VAR EN FEJL HVIS KUN EN METODE RETURNEREDE EN KANDIDAT. KØR RESULTATER FOR 
     \hline
     Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
     1 &  97.5\% & 99.2\%\\ \hline
-    2 &  95.8\% & 99.5\%\\
-    \hline
+    2 &  95.8\% & 99.5\%\\ \hline
+    3 &  0\% & 0\%\\ \hline
   \end{tabular}
 \caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningsættet når alle fem metoder arbejde sammen.}
 \label{fig:test:lokalisering_traening_samlet}
@@ -70,8 +61,8 @@ DER VAR EN FEJL HVIS KUN EN METODE RETURNEREDE EN KANDIDAT. KØR RESULTATER FOR 
     \hline
     Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
     1 &  93.5\% & 95.6\%\\ \hline
-    2 &  92.0\% & 97.7\%\\
-    \hline
+    2 &  92.0\% & 97.7\%\\ \hline
+	3 &  0.0\% & 0.0\%\\ \hline
   \end{tabular}
 \caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i kontrolsættet når alle fem metoder arbejde sammen.}
 \label{fig:test:lokalisering_kontrol_samlet}
