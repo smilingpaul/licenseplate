@@ -1,6 +1,9 @@
 \section{Indledning}
 
 \subsubsection*{TODO}
+
+Støt begrundelse af div. valg i koden med testresultater. Er det rimeligt at klippe de største område ud når vi finder nummerplader? 
+
 Overvej at skrive noget om hvordan man udregner gradienter.
 Sig noget om at pladerne ofte er forsænkede når de sidder bag på bilerne.
 
@@ -40,7 +43,7 @@ Vi begynder i det følgende afsnit med at beskrive den type data vi arbejder med
 
 SKRIV OM APPENDIKS.
 
-\subsubsection*{Baggrund}
+\section{Baggrund}
 Systemer til automatisk genkendelse af nummerplader blev opfundet af det engelske politis forskingsafdeling i 1976. Fungerende prototyper var klar i 1979. Afprøvninger blev foretaget på englands længste vej A1 der løber fra London til Edinburgh i Skotland samt tunnelsystemet Dartford Crossings\cite{wiki_baggrund}. 
 
 I dag anvendes automatisk registrering i mange forskellige sammenhænge. Nogle af de mest kendte områder er: 
@@ -51,13 +54,15 @@ Ved at følge en bil fra et sted til et andet på en motorvej kan man ved at ana
 Brug af veje og andre faciliteter kan analyseres. Hvor mange biler passerer et givet sted i løbet af et døgn? Hvor mange af disse er pendlere der kører den ene vej om morgenen og den anden om aftenen? Hvordan bevæger trafikken sig igenem en by? Hvordan fordeler trafikken sig fra en dens indfaldsveje?
 
 \paragraph{Trafikafgift\footnote{Eng.: Roadpricing}}
-Både London og Stockholm har i skrivende stund systemer der registrerer køretøjer der kører ind og ud a byen. Ejerne af   
+Både London og Stockholm har i skrivende stund systemer der registrerer køretøjer der kører ind og ud a byen. Ejerne af køretøjer der bevæger sig i den indre by, får tilsendt en bøde hvis de ikke betaler for den tid de bruger i midtbyen.
+
+\paragraph{Patruljering}
+Med kameraer monteret på patruljevogne kan politiet registrere om de passerer f.eks. efterlyste køretøjer. Demonstrationen af et sådan system kan ses i \cite{canada_demo}. 
+
+Automatisk registrering og overvågning er et kontroversielt emne, hvor folk oftest er meget for eller meget imod. I det overvågningsentusiastiske England har man i dag et meget omfattende overvågningssytem der tillader politiet at følge køretøjers bevægelser rundt i hele landet\cite{wiki_baggrund}. Som et eksempel på det modsatte, fik man i Tyskland i marts 2008 rettens ord for, at automatisk registrering af nummerplader ovetræder landets love om privatlivets fred\cite{tysk_ulovlig}.
 
 
-Automatisk registrering og overvågning er et kontroversielt emne, hvor folk oftest er meget for eller meget imod. I det overvågningsentusiastiske England har man i dag et meget omfattende overvågningssytem der tillader politiet at følge køretøjers bevægelser rundt i hele landet\cite{wiki_baggrund}. Som et eksempel på det modsatte, fik man i Tyskland i marts 2008 rettens ord for at automatisk registrering af nummerplader ovetræder landets love om privatlivets fred\cite{tysk_ulovlig}.
-
-
-\section{Hvilken type inddata arbejder vi med?}
+\section{Hvilken type billeder arbejder vi med?}
 \label{sec:data}
 Et system der skal genkende nummerplader har brug for at kunne observere køretøjer. Dette sker via stillbilleder eller videooptagelser. I denne opgave har vi valgt at arbejde med stilbilleder.
 
