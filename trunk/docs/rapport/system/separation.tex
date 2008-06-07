@@ -1,12 +1,7 @@
 \subsection{Separation af tegn}
+Separation af tegnene i nummerpladerne forgår i to trin: Først roterer vi billedet så nummerpladen ligger vandret. På denne måde blir det lettere at separere tegnene, da de kommer til at stå på en vandret linie med flugtende over- og underkanter. Selvom vi i vores afgrænsning af billedmaterialet har valgt at bruge billeder hvor nummerpladerne tilnærmelsesvis ligger vandret, har det vist sig, at de i praksis ofte er roteret så meget ,mellem $1^{\circ}$ og $3^{\circ}$, at vi får væsentligt mere ensartede nummerplader at arbejde med hvis vi korrigerer for dette. Som trin nummer to lokaliserer og isolerer vi tegnene i nummerpladen.
 
-Separation af tegnene i en nummerplade system består i vores system af to trin: Først må billedet af pladen roteres så den står vandret i billedet. På denne måde vil det vil blive lettere at genkende tegnene, da de alle har samme position. Vi har tidligere beskrevet at de billeder vi arbejder på skal have minimal rotation, men det er i praksis svært at placere alle nummerplader vandret i billedet. I andet trin skal tegnene i nummerpladen separeres.
-
-TEGNENE HAR SAMME POSITION? SÅ MÅ DE JO STÅ OVEN I HINANDEN??
-
-Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerplade mens separationsmetoderne returnerer syv billeder. Hvert billede er et tegn fra en nummerplade, skåret ud fra pladen og omdannet til et binært billede hvori selve tegnet er markeret.
-
-%HVILKE SYV BILLEDER? FORESTILLER ET TEGN = ER ET TEGN.
+Rotationsmetoden returnerer hele det roterede originalbillede, mens separationsmetoderne returnerer syv enkeltstående billeder. Hvert billede er et tegn fra nummerpladen, skåret ud og omdannet til et binært billede.
 
 \begin{figure}[htp]
 \centering
@@ -15,8 +10,8 @@ Rotationsmetoden i dette afsnit returnerer orginalbilledet af en bil med nummerp
 \label{fig:dia_trin2}
 \end{figure}
 
-\subsubsection{Rotation}
 
+\subsubsection{Rotation}
 I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen optræder vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}.
 
 
