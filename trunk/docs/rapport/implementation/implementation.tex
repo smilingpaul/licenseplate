@@ -1,12 +1,11 @@
 \section{Implementering}
 \label{sec:implementation}
 
-I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede komandoer, frem for at skrive egne implementationer. F.eks. har vi brugt Matlabs komandoer i forbindelse arbejdet med sammenhængende komponenter og filtrering af bileder. I det første underafsnit gennemgår vi nogle egenudviklede hjælpefunktioner som bruges flere steder i systemet. Dernæst gennemgår vi funktionerne til lokalisering af nummerplader, separation af tegn og til sidst funktionerne til genkendelse af tegn.
+I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede funktioner, frem for at skrive egne implementeringer. For eksempel har vi brugt Matlabs funktioner i forbindelse arbejdet med sammenhængende komponenter og filtrering af billeder. I det første underafsnit gennemgår vi nogle egenudviklede hjælpefunktioner som bruges flere steder i systemet. Dernæst gennemgår vi funktionerne til lokalisering af nummerplader, separation af tegn og til sidst funktionerne til genkendelse af tegn.
 
-ORIGO: ER DET IKKE NÆRMERE AT VI ARBEJDER I ET ANDET KVARTIL(ELLER HVAD DET NU HEDDER). UNDERSØG HVAD KVARTIL ER.
+Det skal bemærkes at $y$-aksen i det koordinatsystem der bruges i Matlab er vendt om i forhold til den tradionelle $y$-akse i et koordinatsystem. Desuden angives $y$-koordinaten til et punkt i Matlab først, så en pixel i et billede refereres til med koordinaterne ($y,x$) i modsætning til den traditionelt anvendte rækkefølge ($x,y$). Derved ligger et billedes origo i øverste venstre hjørne af billedet og er benævnt ved $(y,x) = (1,1)$ (datastrukturer i Matlab er 1-indekserede). FOR LANGT? FORKORT GERNE
 
-AKSERNE ER VENDT OM
-Det skal bemærkes at koordinatsystemet der bruges i Matlab ikke har origo i det samme punkt som det man kender som et almindeligt koordinatsystem. Origo ligger derimod i øverste venstre hjørne (normalt ligger det i nederste venstre hjørne). Desuden er koordinaterne til origo i Matlab 1,1 og ikke 0,0. y-koordinaten til et punkt i Matlab angives normalt først, så en pixel i et billede refereres til med koordinaterne y,x i modsætning til den traditionelt anvendte rækkefølge x,y.
+%ikke har origo i det samme punkt som det man kender som et almindeligt koordinatsystem. Origo ligger derimod i øverste venstre hjørne (normalt ligger det i nederste venstre hjørne). Desuden er koordinaterne til origo i Matlab 1,1 og ikke 0,0. y-koordinaten til et punkt i Matlab angives normalt først, så en pixel i et billede refereres til med koordinaterne y,x i modsætning til den traditionelt anvendte rækkefølge x,y.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %%% HJÆLPEFUNKTIONER %%%
@@ -14,7 +13,7 @@ Det skal bemærkes at koordinatsystemet der bruges i Matlab ikke har origo i det
 
 \subsection{Hjælpefunktioner}
 \label{sec:imp:hjaelpefunktioner}
-De følgende funktioner bruges af flere andre funktioner i systemet hvorfor vi har valgt at beskrive dem først. Vi har valgt kun et beskrive de funktioner vi finde særligt interesante.
+De følgende funktioner bruges af flere andre funktioner i systemet hvorfor vi har valgt at beskrive dem først. Vi har valgt kun et beskrive de funktioner vi finde særligt interessante.
 
 \subsubsection{Hjælpefunktion 1}
 \label{sec:imp:ContrastStrech}
@@ -400,6 +399,8 @@ I vores arbejde med separationsmetoderne forsøgte vi også at anvende et median
 
 \subsection{Genkendelse af tegn}
 
+Noget om at 8 og B samt 0 og O ligner hinanden og ikke må forventes at blive genkendt uden syntaksanalyse.
+
 \subsubsection{Middelvektorer}
 
 Implementationen af metoden til tegngenkendelse ved hjælp af middelvektorer findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}. Den første funktion udarbejder middelvektorerne for træningssættet mens den anden behandler testbillederne ved brug af middelvektorerne.
@@ -420,7 +421,7 @@ Funktionen \textit{ReadPlateFV.m} er opbygget som følger:
 
 \paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som det, træningsbillederne blev skaleret til.
 
-\paragraph{2. Beregn de euklidiske afstande:}
+\paragraph{2. Beregn de euklidiske afstande:} FLYT NOGET FRA SYSTEM-AFSNIT HERNED?
 
 \paragraph{3. Sorter listen af alle lovlige tegn efter euklidiske afstande:} De tegn hvortil der er den korteste afstand placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
@@ -428,29 +429,27 @@ Funktionen \textit{ReadPlateFV.m} er opbygget som følger:
 
 Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder findes i filerne \textit{GetSumImgs.m} og \textit{ReadPlateSUM.m}. Den første funktion udarbejder sum-billederne for træningssættet mens den anden behandler testbillederne ved brug af sum-billederne.
 
-\textit{GetSumImgs}...
+Funktionen \textit{GetSumImgs} er opbygget som følger:
 
-\paragraph{1. Hvert billede af et givent tegn skaleres.}
+\paragraph{1. Skaler hvert billede af et givent tegn:}
 
-\paragraph{2. Summerne af alle billederne findes.}
+\paragraph{2. Summer alle billederne for hvert tegn:}
 
-\paragraph{3. Sum-billederne normaliseres.} Bla bla
+\paragraph{3. Normaliser sum-billederne:} FLYT NOGET HERNED?
 
-\paragraph{4. Alle sum-billederne samles i én matrix.} Bla bla
+\paragraph{4. Saml elle sum-billederne i én matrix:} ER DET LIGEGYLDIGT?
 
-\textit{ReadPlateSUM}...
+Funktionen \textit{ReadPlateSUM} er opbygget som følger:
 
-\paragraph{1. Hvert billede skaleres}
+\paragraph{1. Skaler billederne af tegnene der skal genkendes:}
 
-\paragraph{2. Bla:}
+\paragraph{2. Udregn den samlede sum for det billede der skal genkendes for hvert tegn:}
 
-\paragraph{3. De euklidiske afstande beregnes.}
+\paragraph{3. Sorter listen af alle tegn efter summer:} De tegn hvor den største sum er fundet placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
-\paragraph{4. Listen af alle tegn sorteres efter summer:} De tegn hvor den største sum er fundet placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
+\subsubsection{Simpel metode}
 
-\subsubsection{And-billeder}
-
-Implementationen af metoden til tegngenkendelse ved hjælp af middelvektorer findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}. Den første funktion udarbejder middelvektorerne for træningssættet mens den anden behandler testbillederne ved brug af middelvektorerne.
+Implementeringen af metoden til tegngenkendelse ved hjælp af en simpel metode findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}. Den første funktion udarbejder middelvektorerne for træningssættet mens den anden behandler testbillederne ved brug af middelvektorerne.
 
 \paragraph{1. Bla:}
 
@@ -471,9 +470,7 @@ Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavk
 \paragraph{3. Hitlisterne for tegnene på de fem sidste pladser gennemløbes indtil der står fem tal.}
 \paragraph{4. De to tegn på plads nr. tre og fire analyseres og udskiftes om nødvendigt:}
 
-Bla bla
-
-\paragraph{5. De valgte hitnumre analyseres. Hvis et nummer er for højt i forhold til det maksimale, returnes et "\_" tegn på den givne plads.}
+\paragraph{5. De valgte hitnumre analyseres. Hvis et nummer er for højt i forhold til det maksimale, returnes et "\textbf{\_}" tegn på den givne plads.}
 
 \subsubsection{Mulige forbedringer}
 Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.
