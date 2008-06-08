@@ -81,8 +81,6 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   % cut out
   xShrink = min(x)-1;
   yShrink = min(y)-1;
-  %xShrink = 0;
-  %yShrink = 0;
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % ENHANCE CONTRAST AND CREATE CONNECTED COMPONENTS %
@@ -144,13 +142,15 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   if figuresOn
     %figure(2), subplot(8,4,5:8), imshow(dilatedGrayImg), title('dilated gray image');
     %figure(2), subplot(9,4,5:8), imshow(medianFilteredImg), title('median');
-    %figure(2), subplot(8,4,5:8), imshow(grayImg), title('gray image');
+    %figure(2), subplot(9,4,5:8), imshow(grayImg), title('gray image');
     figure(2), subplot(9,4,9:12), imshow(contrastImg), title('contrast image');
     %if brigthenImg
     %  figure(2), subplot(9,4,5:8), imshow(brightImg), title('brightness image');
     %end
     figure(2), subplot(9,4,13:16), imshow(~bwPlate), title('bw image');
-    %imwrite(~bwPlate,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/concomp_example.png','png','BitDepth',1)
+    %imwrite(~bwPlate,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/skygge.png','png','BitDepth',1)
+    %imwrite(grayImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/eksempel_plade_gray.png','png')
+    %imwrite(contrastImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/eksempel_plade_kontrast.png','png')
   end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -162,6 +162,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   plateImgWidth = plateImgWidth + 2;  
   negBwPlate = zeros(plateImgHeight,plateImgWidth);
   negBwPlate(2:plateImgHeight-1,2:plateImgWidth-1) = ~bwPlate;
+  
   
   % function to remove thin components
   function result = RemoveThinComps (area)
@@ -192,6 +193,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
     end
   end
   
+  
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % CREATE CONNECTED COMPONENTS AND DISPLAY %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -204,6 +206,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   
   if figuresOn
     figure(2), subplot(9,4,17:20), imshow(conComp), title('conComp');
+    imwrite(conComp,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/skygge_fixed.png','png','BitDepth',1)
   end
   
   % return if not enough chars has been found
@@ -360,7 +363,10 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
       end
 
       % if we didn't break, the distances are not right so remove
-      % components in group from list of candidates      
+      % component i from list of candidates and reset charGroup
+      isCandidate(i) = false;
+      charGroup(:,:) = 0;
+      %{
       for r = 1:groupIndex-1
         compNo = candidateGroup(r,1);
         isCandidate(compNo) = false;
@@ -369,6 +375,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
         % reset charGroup
         charGroup(:,:) = 0;
       end
+      %}
      
     end % isCandidate(i)
       
@@ -377,7 +384,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   % remove components that are not in charGroup
   if isempty(find(charGroup == 0,1))
     for i = 1:noOfComp
-      if isempty(find(charGroup == i,1))
+      if isempty(find(charGroup(:,1) == i,1))
         % set color of pixels in component to black
         [y,x] = find(conComp == i);
         compSize = length(find(conComp == i));
@@ -386,6 +393,8 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
         end
       end
     end
+  else
+    conComp(:,:) = 0;
   end
   
   % up-scale image again
@@ -394,6 +403,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   % show connected components that haven't been removed
   if figuresOn
     figure(2), subplot(9,4,25:28), imshow(conComp), title('conComp group cleaned');
+    %imwrite(conComp,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/concomp_kun_bogstaver.png','png','BitDepth',1)
   end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -447,6 +457,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
       charCoords(charNo,4) = yMax + plateCoords(3) + yShrink;
       if figuresOn
         figure(2), subplot(9,4,plotPos), imshow(chars.(charName)), title(charName);
+        %imwrite(chars.(charName),['/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/' charName '.png'],'png','BitDepth',1)
       end
         
       % increment variables
