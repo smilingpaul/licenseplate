@@ -23,31 +23,3 @@ function [charHitLists, euclidDists] = ReadPlateFV (chars, vectorLength)
   end
 
 end % ReadPlateFV
-
-function [charHitlist, euclidDistsHitList] = ReadCharFV (charImg, meanVectors, vectorLength)
-
-    % order of meanvectors must be:
-    % 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,H,J,K,L,M,N,O,P,R,S,T,U,V,X,Y,Z
-    chars = '0123456789ABCDEHJKLMNOPRSTUVXYZ';
-
-    % resize image and make vector. TO-DO: OTHER RESIZE METHOD?
-    resizedImg = imresize(charImg, [sqrt(vectorLength) sqrt(vectorLength)]);
-    imgVector = reshape(resizedImg,vectorLength,1);
-
-    % calculate euclidian distances to all 31 meanvectors
-    euclidDists = zeros(31,1);
-    for j = 1:size(meanVectors,2)
-      euclidDists(j) = sqrt(sum((imgVector-meanVectors(:,j)).^2));
-    end
-    euclidDistsHitList = zeros(size(euclidDists));
-
-    % sort the chars by minimum euclidian distance: nearest first
-    charHitlist = '';
-    for j = 1:length(chars)
-      [minDist, minIndex] = min(euclidDists);
-      charHitlist = strcat(charHitlist,chars(minIndex));
-      euclidDistsHitList(j) = minDist;
-      euclidDists(minIndex) = inf;
-    end
-
-end % ReadCharFV

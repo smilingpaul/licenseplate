@@ -25,8 +25,11 @@ function sumImgs = GetSumImgs (folderFolder, imSize)
       % normalize
       sumImgs(:,:,sumImgNo) = sumImgs(:,:,sumImgNo)/max(max(sumImgs(:,:,sumImgNo)));
       
-      figure(53), subplot(1,3,3), imshow(sumImgs(:,:,sumImgNo));
-      pause;
+      %figure(53), subplot(1,3,3), imshow(sumImgs(:,:,sumImgNo));
+      %pause;
+      if sumImgNo == 18
+        %imwrite(sumImgs(:,:,sumImgNo),'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/sumimg.png','png');
+      end
       
       sumImgNo = sumImgNo + 1;
       

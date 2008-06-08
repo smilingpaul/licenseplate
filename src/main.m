@@ -32,7 +32,10 @@ noOf1CharsRead = 0;
 
 % for syntax analysis: how far down the hitlist can the syntax analysis
 % go to find the right char?
-maxHitNo = 1;
+maxHitNo = 5;
+
+% for holding plates where separation failed
+sepErrs = '';
 
 % the number of times each hit is used
 hitsUsed = zeros(maxHitNo,1);
@@ -210,6 +213,8 @@ for i = 1:noOfImages
     plateCoords(3) = RPC(3) - 10;
     plateCoords(4) = RPC(4) + 10;
     
+    plateCoords = SaneCoords(plateCoords);
+    
     realChars = [fileList(i).name(1,23), fileList(i).name(1,24), ...
         fileList(i).name(1,25), fileList(i).name(1,26), ...
         fileList(i).name(1,27), fileList(i).name(1,28), ...
@@ -227,12 +232,11 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    %[chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
-    [chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
+    [chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,false);
+    %[chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,false);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
     %figure(19), imshow(imread([imagesFolder fileList(i).name]));
-    
     
     if foundChars == 7
       
@@ -279,7 +283,7 @@ for i = 1:noOfImages
           %folderName = upper(input('char?','s'));
         %  posFolderName = strcat('pos',int2str(n));
           imgName = strcat(imagesFolder, ...
-            realChars(n),'/',int2str(charImgNo),'.PNG');
+            realChars(n),'/',realChars(n),'_',int2str(charImgNo),'.PNG');
           imwrite (chars.(charName),imgName,'png','BitDepth',1);
           charImgNo = charImgNo + 1;
         end
@@ -287,10 +291,14 @@ for i = 1:noOfImages
         
       else
         ['Plate not segmented in ' fileList(i).name]
+        sepErrs = strcat(sepErrs,realChars,',');
+        %beep;
         %pause();
       end
     else
       ['Plate not segmented in ' fileList(i).name]
+      sepErrs = strcat(sepErrs,realChars, ',');
+      %beep;
       %pause();
     end
 
@@ -299,9 +307,10 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%%%%%%
     
     plateAsString = '';
+    
     %{
     if foundChars == 7 && charsSegmented == 7
-      [charHitLists, distances] = ReadPlateFV(chars,9);
+      [charHitLists, distances] = ReadPlateFV(chars,25);
       %[charHitLists, sums] = ReadPlateSUM(chars,5);
       plateAsString = [charHitLists(1,1) charHitLists(2,1) ...
         charHitLists(3,1) charHitLists(4,1) charHitLists(5,1) ...
@@ -309,6 +318,7 @@ for i = 1:noOfImages
       %plateAsString = ReadPlateAND(chars,10)
     end
     %}
+    
 
     if ~strcmp(plateAsString,'')
       
@@ -333,6 +343,7 @@ for i = 1:noOfImages
             correctHits(hits(f)) = correctHits(hits(f)) + 1;
           end
         else
+          pause;
           %plateRead = false;
           if strcmp(plateAsString(f),'_')
             noCharCandidate(f) = noCharCandidate(f) + 1;
@@ -394,9 +405,10 @@ percentageOfPlatesSegmentedAllImgs = noOfPlatesSegmented*(100/noOfImages)
 
 %minIntDiff
 
-if noOfPlatesSegmented == 0
 noOfImages
 noOfPlatesFound
+
+if noOfPlatesSegmented == 0
   noOfPlatesSegmented = noOfImages
 end
 
@@ -412,7 +424,7 @@ percentageOfDigitsRead = 100*(sum(noOfCharsRead(1:10))/sum(noOfChars(1:10)))
 percentageOfLettersRead = 100*(sum(noOfCharsRead(11:31))/sum(noOfChars(11:31)))
 
 % plate read stats
-percentageOfPlatesReadAllPlates = noOfPlatesRead*(100/noOfPlatesFound)
+%percentageOfPlatesReadAllPlates = noOfPlatesRead*(100/noOfPlatesFound)
 percentageOfPlatesReadAllImgs = noOfPlatesRead*(100/noOfImages)
 percentageOf6CharsReadAllImgs = noOf6CharsRead*(100/noOfImages)
 percentageOf5CharsReadAllImgs = noOf5CharsRead*(100/noOfImages)
@@ -421,12 +433,16 @@ percentageOf3CharsReadAllImgs = noOf3CharsRead*(100/noOfImages)
 percentageOf2CharsReadAllImgs = noOf2CharsRead*(100/noOfImages)
 percentageOf1CharsReadAllImgs = noOf1CharsRead*(100/noOfImages)
 
+sepErrs
+
 % hits stats
+%{
 hitsUsed
 correctHitsPercentage = 100*(correctHits ./ hitsUsed)
 totalNoCharCandidate = sum(noCharCandidate)
 percentageOfAllHitsUsed = hitsUsed*(100/((noOfPlatesSegmented*7)-totalNoCharCandidate))
 noCharCandidatePercentage = 100*(totalNoCharCandidate/sum(noOfChars))
+%}
 
 
 % echo time
