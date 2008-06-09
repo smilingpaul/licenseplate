@@ -9,8 +9,9 @@ function [percentages] = ReadCharsFV (charFolder, vectorLength)
   percentages = zeros(1,31);
 
   % load meanVectors
-  meanVectorsFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/patternreg/meanVectors');
-  vectorName = ['meanVectors', int2str(vectorLength)];
+  meanVectorsFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/patternreg/sumImgs');
+  %vectorName = ['meanVectors', int2str(vectorLength)];
+  vectorName = ['sumImgs', int2str(vectorLength)];
   meanVectors = meanVectorsFile.(vectorName);
   
   charNo = 1;
@@ -24,13 +25,16 @@ function [percentages] = ReadCharsFV (charFolder, vectorLength)
       noOfImgsRead = 0;
       imgFolder = [charFolder folderList(i).name '/'];
       imgList = dir(imgFolder);
-      noOfImgs = length(imgList);
+      noOfElems = length(imgList);
+      noOfImgs = 0;
       
       % read char images in folder and register how many have been read
-      for j = 1:noOfImgs
+      for j = 1:noOfElems
         if folderName == imgList(j).name(1)
+          noOfImgs = noOfImgs + 1;
           charImg = imread([charFolder folderName '/' imgList(j).name]);
-          [charHitList, euclidDist] = ReadCharFV(charImg,meanVectors,vectorLength);
+          %[charHitList, euclidDist] = ReadCharFV(charImg,meanVectors,vectorLength);
+          [charHitList, euclidDist] = ReadCharSUM(charImg,meanVectors,vectorLength);
           if folderName == charHitList(1)
             noOfImgsRead = noOfImgsRead + 1;
           end

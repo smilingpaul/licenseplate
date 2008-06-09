@@ -411,15 +411,15 @@ Funktionen \textit{GetMeanVectors.m} er opbygget som følger:
 
 \paragraph{1. Skaler hvert billede af et givent tegn:} Billederne skaleres til en størrelse på $\sqrt{L} \times \sqrt{L}$, hvor $L$ er middelvektorlængden. På denne måde laves middelvektorerne udfra billeder med samme forudsætninger.
 
-\paragraph{2. Omform de skalerede billeder til en vektor af længden, $L$:} BLA BLA
+\paragraph{2. Omform de skalerede billeder til en vektor af længden, $L$:} Dette gøres ved hjælp af Matlab funktionen \textit{reshape}. Ved at danne vektoren i to trin sikrer vi os, at den indeholder information fra  BLA BLA
 
-\paragraph{3. Find middelvektoren for alle vektorerne:} Først summeres alle vektorerne i én vektor hvorefter hvert element divideres med antallet af vektorer. Dette resulterer i en middelvektor.
+\paragraph{3. Find middelvektoren for alle vektorerne:} Først summeres alle vektorerne i én vektor hvorefter hvert element i denne divideres med antallet af vektorer. Dette resulterer i en middelvektor.
 
 \paragraph{4. Saml elle middelvektorerne i én matrix:} ER DET LIGEGYLDIGT?
 
 %For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
 
-Funktionen \textit{ReadPlateFV.m} er opbygget som følger:
+Funktionen \textit{ReadPlateFV.m}, der læser tegnene i en plade, er opbygget som følger:
 
 \paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som det, træningsbillederne blev skaleret til.
 
@@ -451,7 +451,17 @@ Funktionen \textit{ReadPlateSUM} er opbygget som følger:
 
 \subsubsection{Simpel metode}
 
-Implementeringen af metoden til tegngenkendelse ved hjælp af en simpel metode findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}. Den første funktion udarbejder middelvektorerne for træningssættet mens den anden behandler testbillederne ved brug af middelvektorerne.
+Implementeringen af metoden til tegngenkendelse ved hjælp af en simpel metode findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}\footnote{Filnavnene indeholder ordet ``AND'', da fuktionerne benytter den logiske og-operator (\textit{eng.: and}), $\wedge$}. Den første funktion udarbejder og-billeder for træningssættet mens den anden behandler testbillederne ved brug af og-billederne.
+
+Funktionen \textit{GetAndImgs} er opbygget som følger:
+
+\paragraph{1. Bla:}
+
+\paragraph{2. Bla:}
+
+\paragraph{3. Bla:}
+
+Funktionen \textit{ReadPlateAND} er opbygget som følger:
 
 \paragraph{1. Bla:}
 
@@ -461,22 +471,24 @@ Implementeringen af metoden til tegngenkendelse ved hjælp af en simpel metode f
 
 \subsubsection{Syntaksanalyse}
 
-Metoden til syntaksanalyse tager tegnhitlisterne for de syv tegn, listerne over afstandene til middelvektorerne samt et "maksimal-hit-nummer" som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}.
+Metoden til syntaksanalyse tager tegnhitlisterne for de syv tegn, listerne over afstandene til ????????? samt et "maksimal-hit-nummer" som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}.
 
 Funktionens forløb er som følger:
 
-\paragraph{1. Hitlisterne for tegnene på de to første pldser gennemløbes indtil der står to bogstaver.}
-\paragraph{2. De to tegn på de første to pladser analyseres og udskiftes om nødvendigt:}
-Hvis der i på tegnfølgens to første positioner fremkommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to middelvektorer: Den middelvektor der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud.
+\paragraph{1. Gennemløb hitlisterne for tegnene på de to første positioner:} Hvis der ikke står bogstaver på disse to positioner, laves dette gennemløb indtil det er tilfældet.
+\paragraph{2. Analyser tegnene på de første to positioner og udskift dem om nødvendigt:}
+Hvis der i på tegnfølgens to første positioner forekommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to ???????????: Den ?????????? der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud. Denne operation fortsættes indtil en lovlig bogstavkombination er fundet.
 
-\paragraph{3. Hitlisterne for tegnene på de fem sidste pladser gennemløbes indtil der står fem tal.}
-\paragraph{4. De to tegn på plads nr. tre og fire analyseres og udskiftes om nødvendigt:}
+\paragraph{3. Gennemløb hitlisterne for tegnene på de fem sidste positioner:} Hvis der ikke står tal på disse fem positioner, laves dette gennemløb indtil det er tilfældet.
 
-\paragraph{5. De valgte hitnumre analyseres. Hvis et nummer er for højt i forhold til det maksimale, returnes et "\textbf{\_}" tegn på den givne plads.}
+\paragraph{4. Analyser de tegnene på position nr. tre og fire og udskift dem om nødvendigt:}
+Værdien af tallene i en almindelig, dansk nummerplade spænder fra ????? til ?????. Da alle værdier under ????? eller over ????? vil være ulovlige, er det nødvendigt at undersøge om værdien af tallene på de første to positioner er mindre end ?? eller større end ??. Det er altså tilstrækkeligt kun at undersøge disse to tegn i denne sammenhæng.
+
+\paragraph{5. Analyser de valgte hitnumre. Hvis et nummer er for højt i forhold til det maksimale, retuner tegnet "\textbf{\_}" på den givne plads.}
 
 \subsubsection{Mulige forbedringer}
 Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.
 
 I metoden der bruger middelvektorer udregnes afstanden mellem to vektorer som den euklidiske afstand. Vi kunne have valgt at udregne Mahalanobis afstand, som er baseret på korelationer mellem variable (i dette tilfælde er ``variable'' billederne i træningssættet), men vi har valgt at holde os til den euklidiske afstand da denne er mere simpel.
 
-Når vi skalerer billederne til genkendelse bruger vi Matlab funktionen \textit{imresize} med dens standardindstillinger. Vi har dog ikke undersøgt om nogle andre indstillinger kunne forbedre metoderne.
+Når vi skalerer billederne til genkendelse bruger vi Matlab funktionen \textit{imresize} med dens standardindstillinger. Vi har dog ikke undersøgt om nogle andre indstillinger ville kunne forbedre metoderne.
