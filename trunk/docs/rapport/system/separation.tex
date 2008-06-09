@@ -1,18 +1,18 @@
 \subsection{Separation af tegn, herunder rotation}
-Separation af tegnene i nummerpladerne forgår i to trin: Først roterer vi billedet så nummerpladen ligger vandret. På denne måde blir det lettere at separere tegnene, da de kommer til at stå på en vandret linie med flugtende over- og underkanter. Selvom vi i vores afgrænsning af billedmaterialet har valgt at bruge billeder hvor nummerpladerne tilnærmelsesvis ligger vandret, har det vist sig, at de i praksis ofte er roteret så meget på vores billeder, (mellem $1^{\circ}$ og $3^{\circ}$), at vi får væsentligt mere ensartede nummerplader at arbejde med hvis vi korrigerer for dette. I det andet trin lokaliserer og isolerer vi tegnene i nummerpladen.
+Separation af tegnene i nummerpladerne forgår i to trin: Først roterer vi billedet så nummerpladen ligger vandret. På denne måde blir det lettere at separere tegnene, da de kommer til at stå på en vandret linie med flugtende over- og underkanter. Selvom vi i vores afgrænsning af billedmaterialet har valgt at bruge billeder hvor nummerpladerne tilnærmelsesvis ligger vandret, har det vist sig, at de i praksis ofte er roteret så meget på vores billeder (mellem $1^{\circ}$ og $4^{\circ}$), at vi får væsentligt mere ensartede nummerplader at arbejde med, hvis vi korrigerer for dette. I det andet trin lokaliserer og separerer vi tegnene i nummerpladen.
 
-Rotationsmetoden returnerer det roterede billede af nummerpladen, mens separationsmetoderne returnerer syv enkeltstående billeder. Her er hvert billede et tegn fra nummerpladen, skåret ud og omdannet til et binært billede. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin2}.
+Rotationsmetoden returnerer et roteret billede af nummerpladen, mens separationsmetoderne returnerer syv enkeltstående billeder. Her er hvert billede et tegn fra nummerpladen, skåret ud og omdannet til et binært billede. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin2}.
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{system/illu/dia_trin2.png} 
-\caption{Inddata, i form af et billede af en bil med nummerplader samt koordinaterne til denne plade, kommer ind i denne del af systemet fra venstre. Funktionerne roterer om nødvendigt pladen, separerer tegnene i denne og udklipper disse tegn. Uddata er syv binære billeder med de syv tegn. Den grå kasse....}
+\caption{Inddata, i form af et billede af en bil med nummerplader samt koordinaterne til denne plade, kommer ind i denne del af systemet fra venstre. Funktionerne roterer pladen, separerer tegnene og udklipper disse. Uddata er syv binære billeder med de syv tegn. Separationsmetoden i den grå kasse er ikke med i det vi definerer som ``vores færdige system''.}
 \label{fig:dia_trin2}
 \end{figure}
 
 
 \subsubsection{Rotation}
-I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen ligger vandret i billedet. Metoden er blandt andet brugt i \cite{shapiro}.
+I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen ligger vandret i billedet. Metoden der beskrives er blandt andet brugt i \cite{shapiro}.
 
 
 \subsubsection*{Radon transformation}
@@ -74,7 +74,7 @@ I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade
 
 
 \subsubsection*{Andre metoder brugt i litteraturen}
-I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation. Vi er klar over at den lignende \textit{Hough transformation} eksisterer og at den også kan bruges til rotation, men vi har ikke arbejdet med den, da det virkede oplagt at bruge den åbenbart etablerede fremgangsmåde fra litteraturen. 
+I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation. Vi er klar over at den lignende \textit{Hough transformation} eksisterer og at den også kan bruges til rotation, men vi har ikke arbejdet med den, da den minder meget om Radon transformation, og vi derfor kun har valgt én af de to metoder.
 
 \subsubsection{Separation af tegn}
 
