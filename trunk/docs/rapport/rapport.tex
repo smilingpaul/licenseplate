@@ -281,11 +281,37 @@ Det tager MEGET! lang tid at arbejde på store billeder.
 %%%%%%%%%%%%
 
 \section{Illustrationer}
+\label{sec:illu}
 I dette appendiks forsøger vi at give læseren et indtryk af den type data systemet internt arbejder med. Vi viser eksempler på områder udpeget som nummerplader af lokaliseringsdelen, tætklippede nummerplader som brugt af seperationsdelen og endelig eksempler på de områder systemet har identificeret som værende tegn i nummerpladerne.
 
-\label{sec:illu:1}
-\subsection{Roterede nummerplader}
-Billederne i dette afsnit viser nummerplader som det ser ud når det er klippet ud og roteret. Det er disse billeder der er inddata når tegnene i nummerpladerne skal separeres.
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/plates_not_rotated-1.jpg} 
+\caption{Nummerplader som de ser ud når det er klippet ud men endnu ikke roteret. Selvom vi har forsøgt at tage vores billeder sådan at nummerpladerne lå vandret har det været nødvendigt at rotere pladerne for at få dem til at ligge vandret.}
+\label{fig:illu:plates_not_rotated-1}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/plates_rotated-1.jpg} 
+\caption{Nummerplader som de ser ud når de er klippet ud og roteret. Det er disse billeder der er inddata når tegnene i nummerpladerne skal separeres som næste trin i processen.}
+\label{fig:illu:plates_rotated-1}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/plates_error.jpg} 
+\caption{Tilfældigt udvalgte eksempler på hvilke typer områder systemet fejlagtigt udpeger som værende nummerplader.}
+\label{fig:illu:plates_error.}
+\end{figure}
+
+%\begin{figure}[htp]
+%\centering
+%\includegraphics[width=12cm]{appendix/illu/plates_rotated-2.jpg} 
+%\caption{Lokaliserede nummerplader efter rotation.}
+%\label{fig:illu:plates_rotated-2}
+%\end{figure}
+
 
 \subsection{Tætklippede nummerplader}
 \label{sec:illu:2}
@@ -293,7 +319,7 @@ Billederne i dette afsnit viser de billeder vi arbejder på når vi antager at n
 
 \subsection{Separerede tegn}
 \label{sec:illu:chars}
-Billederne i dette afsnit viser de tegn der er klippet ud af nummerpladerne i træningssættet og derefter brugt til at genkende tegnene fra nummerpladerne i kontrolsættet. Figur \vref{fig:illu:training_chars_1} til figur \vref{fig:illu:training_chars_4} viser træningsættet og figur XX til figur XX viser de billeder der er blevet opfattet som tegn i knotrolsættet og derefter forsøgt genkendt.
+Billederne i dette afsnit viser de tegn der er klippet ud af nummerpladerne i træningssættet og derefter brugt til at genkende tegnene fra nummerpladerne i kontrolsættet. Figur \vref{fig:illu:training_chars_1} til figur \vref{fig:illu:training_chars_4} viser træningsættet og figur XX til figur XX viser de billeder der er blevet opfattet som tegn i kontrolsættet og derefter forsøgt genkendt.
 
 \begin{figure}[htp]
 \centering
@@ -339,9 +365,58 @@ FEJL FRA KONTROLSÆT
 FEJL FRA TESTSÆT
 FEJL FRA KONTROLSÆT
 
+%%%%%%%%%%%%%%%
+% TRÆNINGSSÆT %
+%%%%%%%%%%%%%%%
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/trainingset.jpg} 
+\caption{Tilfældigt udvalgte billeder fra træningsættet.}
+\label{fig:illu:trainingset}
+\end{figure}
 
 
+%%%%%%%%%%%%%%%
+% KONTROLSÆT %
+%%%%%%%%%%%%%%%
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/kontrolset.jpg} 
+\caption{Tilfældigt udvalgte billeder fra kontrolsættet.}
+\label{fig:illu:kontrolset}
+\end{figure}
 
+%%%%%%%%%%%
+% GULTSÆT %
+%%%%%%%%%%%
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/gultset.jpg} 
+\caption{Tilfældigt udvalgte billeder fra sættet med gule nummerplader.}
+\label{fig:illu:gultset}
+\end{figure}
+
+
+%%%%%%%%%%%%
+% BLITZSÆT %
+%%%%%%%%%%%%
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/blitzset.jpg} 
+\caption{Tilfældigt udvalgte billeder fra blitzsættet.}
+\label{fig:illu:blitzset}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+% BLITZ - GRADIENTER %
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/badgrads.png} 
+\caption{Gradienter i et udvalg af billeder taget med blitz. Hvor gradienteren omkring tegnene i nummerpladerne på de billeder der er taget uden blitz er store, er de i disse billeder meget små, og nummerpladen bliver ikke lokaliseret af metoden beskrevet i \vref{sec:DetectContrastAvg} der kigger efter store gradienter.}
+\label{fig:illu:badgrads}
+\end{figure}
 
 %%%%%%%%%%%%%
 % KILDEKODE %
