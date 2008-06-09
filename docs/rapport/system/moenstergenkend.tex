@@ -16,7 +16,7 @@ Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separ
 
 Til de tre genkendelsesmetoder har vi uarbejdet et træningssæt betående af billeder af tegn, sorteret efter tegnets type (\textbf{A}, \textbf{B}, \textbf{C} et cetera). Udfra dette træningssæt laver vi de enkelte træningsbilleder.
 
-\subsubsection{Metode: Middelvektorer}
+\subsubsection*{Metode: Middelvektorer}
 En egenskabsvektor (\textit{eng.: feature vector}) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede og egenskabsvektorne kaldes middelvektorer. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med middelvektorer for at finde det tegn som er i billedet. Der oprettes altså en middelvektor for hvert tegn. Metoden er fundet i \cite{arth}.
 
 Først oprettes middelvektorerne. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). Vi har defineret en middelvektor, $M$ for et antal billeder $(B_{1},B_{2},...,B_{n})$ i et træningssæt for et givent tegn således:
@@ -43,7 +43,7 @@ I vores system findes afstanden, $D$ fra én (middel)vektor, $M = (m_{1},m_{2},.
 \label{fig:middelvektor_afstand}
 \end{figure}
 
-\subsubsection{Metode: Sum-billeder}
+\subsubsection*{Metode: Sum-billeder}
 
 Denne metode arbejder også med egenskabsvektorer. Her er idéen dog, at der oprettes såkaldte "sum-billeder" for hvert tegn i stedet for middelvektorer. Metoden er opstået af egen idé.
 
@@ -74,7 +74,7 @@ $v$ svarer altså til summen af elementer fra $S$ hvor elementet med samme koord
 
 NOGET OMKRING HVORDAN IDEEN ER OPSTÅET?
 
-\subsubsection{Metode: Simpel metode}
+\subsubsection*{Metode: Simpel metode}
 
 I denne metode tager man alle de binære billeder i et træningssæt for et givent tegn og ser på hvilke pixels der altid er markeret i billeder af det givne tegn. Metoden er hjemmelavet.
 
@@ -92,7 +92,7 @@ K = T \wedge A
 
 og antallet af 1'taller i $K$ optælles. Det tegn, hvor antallet af 1'taller i $K$ er maksimalt blandt alle tegnene, vælges som tegnet der repræsenteres af testbilledet.
 
-\subsubsection{Syntaksanalyse}
+\subsubsection*{Syntaksanalyse}
 
 Ved syntaksanalyse analyseres tegn-hitlisterne fra de ovenstående metoder. Analysen er relevant da et gæt fra en af de to metoder måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis} og \cite{kwas}.
 
@@ -111,6 +111,6 @@ I systemet sættes en grænse for hvor langt ned ad hitlisten syntaksanalysen ka
 
 % blot kunne itereres indtil en lovlig tegnfølge er fundet, og så ville metoderne til genkendelse af tegn give mindre mening HVIS MAN KOMMER LANGT NED I LISTERNE ER USIKKERHEDEN HØJ, DER SKAL ALTSÅ VÆLGES NOGET DER LIGNER RET MEGET. ELLER NOGET!
 
-\subsubsection{Metoder fra litteraturen}
+\subsubsection*{Metoder fra litteraturen}
 
 I \cite{kwas} arbejder man med et simpelt, kunstigt neuralt netværk. Et kunstigt neuralt netværk er en matematisk model, som er baseret på biologiske neurale netværk\cite{wiki_nn}. I \cite{kwas} sættes antallet af neuroner i inddata-laget lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn. Det neurale netværk vil derved returnerer det genkendte tegn.
