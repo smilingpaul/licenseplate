@@ -2,6 +2,7 @@ function plateCoords = DetectMain(inputImage)
 
   % If methods do not agree, candidates need to have
   % a score less or equal to this to be selected
+  % A setting of 0 returns no candidate unless methods agree
   maxScoreForSingleCandidate = 100;
 
   %showImages = false;
@@ -33,9 +34,6 @@ function plateCoords = DetectMain(inputImage)
   [candCoords(5,1:4), candCoords(5,5)] = DetectQuant(inputImage);
 
 
-  % Calculate average candidate
-  %avgCand = round([ mean(candCoords(:,1)) mean(candCoords(:,2)) ...
-  %           mean(candCoords(:,3)) mean(candCoords(:,4)) ]);
 
   % Remove zero candidates [ 0 0 0 0 0]
   candCoords = reshape(nonzeros(candCoords),[],5);
@@ -102,8 +100,14 @@ function plateCoords = DetectMain(inputImage)
   if noOfCandidates == 1
     % We have only one candidate.
     % We will return it
-    plateCoords = candCoords(1,1:4);
-  
+    % THIS NEVER HAPPENS IG GETBESTCANDIDATE ALWAYS RETURNS A CANDIDATE
+    if candCoords(bestCandidate,5) <= maxScoreForSingleCandidate
+      plateCoords = candCoords(1,1:4);
+    else
+      % Candidates was not low enough, so we ruturn nothing
+      plateCoords = [ 0 0 0 0 ];
+    end
+    
   elseif agLev == 1
     % two or more candidates disagree
 
@@ -131,8 +135,12 @@ function plateCoords = DetectMain(inputImage)
     % of agreeing candidates
     if length(find(candCoords(:,6) == agLev)) > agLev 
       % Two groups with agreement level = 2
-      %candCoords
+      candCoords
 
+      % Remove candidates that agree with less number of candidates than
+      % the agreement level
+      %candCoords = candCoords(find(candCoords(:,6) == agLev),:);
+      
       % Create vektor showing if candidates agree with candidate 1
       % 1 == match, 0 == no match 
       agreesWithCand1 = (candCoords(:,7) == candCoords(1,7))  & ...
@@ -146,7 +154,8 @@ function plateCoords = DetectMain(inputImage)
 
       % Extract candidates for group 2
       group2 = candCoords(find(not(agreesWithCand1) == 1),:)
-
+       
+      
       % Return candidate for group with best mean score
       if mean(group1(:,5)) < mean(group2(:,5))
         % Group1 has lowest score
@@ -156,7 +165,6 @@ function plateCoords = DetectMain(inputImage)
         plateCoords = [ min(group2(:,1)) max(group2(:,2)) ... 
                       min(group2(:,3)) max(group2(:,4)) ]; 
       end
-
 
     else
       % One group
