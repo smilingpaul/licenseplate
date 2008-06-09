@@ -25,7 +25,7 @@ for i = 1:noOfFiles
   figure(1), imshow(img(yMin:yMax,xMin:xMax,:));
 
   % wait for user to press key
-  pause();
+  pause(1);
   
 end
 

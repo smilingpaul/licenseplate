@@ -6,7 +6,7 @@
 % lower-right corner of each licenseplate. The new filenames will be on the
 % form [P][F][B]_xMin-xMax-yMin-yMax_XXXXXXX.jpg. Note that (x,y) = (0,0) is
 % upper-left corner of the image!
-function [] = locate_plate (imgFolder)
+function [] = LocatePlate (imgFolder)
   
   % Get filelist
   fileList = dir([imgFolder '*.JPG']);
@@ -21,14 +21,14 @@ function [] = locate_plate (imgFolder)
   for i = 1:noOfFiles
   
     % get file name and read image from file
-    fileName = fileList(i).name
+    fileName = fileList(i).name;
     img = imread([imgFolder fileName]);
 
     % display image
     figure(100), imshow(img);
 
     % get mouse input
-    [x,y] = ginput(2)
+    [x,y] = ginput(2);
     
     % rename file
     newFileName = GetNewFileName(fileName, x(1), x(2), y(1), y(2))

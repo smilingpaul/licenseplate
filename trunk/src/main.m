@@ -210,7 +210,7 @@ for i = 1:noOfImages
       %beep 
       %pause();
     end
-
+    
   end   
 
   % For testing
@@ -224,7 +224,7 @@ for i = 1:noOfImages
   %  imwrite(rotatedPlateImg, [ 'rotated/final_' int2str(i) '.jpg'], 'JPG', 'Quality', 100);
   %end
   % Disable chars
-  plateFound = false;
+  %plateFound = false;
   
   % only try to rotate, segment and read plate if candidate was correct
   if plateFound
@@ -254,8 +254,8 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    [chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,false);
-    %[chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,false);
+    [chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
+    %[chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
     %figure(19), imshow(imread([imagesFolder fileList(i).name]));
@@ -416,7 +416,7 @@ percentageOfPlatesFound = noOfPlatesFound*(100/noOfImages)
 correctnessOfCandidates = noOfPlatesFound*(100/(noOfImages-noCandidate))
 
 %noOfPlatesNotFound = noOfImages - noOfPlatesFound
-percentageOfPlatesSegmented = noOfPlatesSegmented*(100/noOfPlatesFound)
+percentageOfPlatesSegmentedAllPlates = noOfPlatesSegmented*(100/noOfPlatesFound)
 percentageOfPlatesSegmentedAllImgs = noOfPlatesSegmented*(100/noOfImages)
 
 %avgPlateness = round(platenessSum/noOfImages)

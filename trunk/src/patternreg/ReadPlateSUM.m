@@ -1,4 +1,4 @@
-function [charHitLists, sumsHitList] = ReadPlateSUM (chars, imSize)
+function [charHitLists, sumsHitLists] = ReadPlateSUM (chars, imSize)
 
   figuresOn = false;
   
@@ -6,7 +6,7 @@ function [charHitLists, sumsHitList] = ReadPlateSUM (chars, imSize)
   allChars = '0123456789ABCDEHJKLMNOPRSTUVXYZ';
   
   charHitLists = repmat('',7,31);
-  sumsHitList = zeros(7,31);
+  sumsHitLists = zeros(7,31);
   
   % get the andImgs
   sumImgsFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/patternreg/sumImgs');
@@ -16,11 +16,14 @@ function [charHitLists, sumsHitList] = ReadPlateSUM (chars, imSize)
   for i = 1:7
     % resize and display image
     charName = strcat('char',int2str(i));
+    %{
     resizedChar = imresize(chars.(charName), [imSize imSize]);
     if figuresOn
       figure(72), subplot(1,2,1), imshow(resizedChar), title('resizedChar');
     end
+    %}
     
+    %{
     % compare to 'sumimgs'
     sums = zeros(size(sumImgs,3),1);
     for j = 1:size(sumImgs,3)
@@ -31,8 +34,10 @@ function [charHitLists, sumsHitList] = ReadPlateSUM (chars, imSize)
       end
       
     end
+    %}
     
     % sort the chars by sum: largest first      
+    %{
     charHitList = '';
     for j = 1:length(allChars)
       [bestSum bestCharIndex] = max(sums);
@@ -40,7 +45,9 @@ function [charHitLists, sumsHitList] = ReadPlateSUM (chars, imSize)
       sumsHitList(i,j) = 1/bestSum;
       sums(bestCharIndex) = 0;
     end
-    charHitLists(i,:) = charHitList;
+    %}
+    
+    [charHitLists(i,:), sumsHitLists(i,:)] = ReadCharSUM(chars,(charName),sumImgs,imSize);
     
   end
 
