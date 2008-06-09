@@ -68,6 +68,7 @@ shortestWhiteLine = inf;
 datestr(now)
 
 % Get filelist
+%fileList = dir([imagesFolder '*.jpg']);
 fileList = dir([imagesFolder '*.JPG']);
 noOfImages = length(fileList);
 
@@ -129,7 +130,7 @@ for i = 1:noOfImages
 
 
   % For testing:
-  plateCoords = [0 0 0 0];
+  % plateCoords = [0 0 0 0];
 
 
   %image = image(1:16,1:16);
@@ -144,10 +145,10 @@ for i = 1:noOfImages
 
 
   % Analyze image and get coordinates of plate
-  %plateCoords = detect_lines([imagesFolder fileList(i).name]);
+  % plateCoords = detect_lines([imagesFolder fileList(i).name]);
  
-  %plateCoords = detect2([imagesFolder fileList(i).name])
-  %plateCoords = detect3([imagesFolder fileList(i).name])
+  % plateCoords = detect2([imagesFolder fileList(i).name])
+  % plateCoords = detect3([imagesFolder fileList(i).name])
  
   % High contrast
   % plateCoords = detect4([imagesFolder fileList(i).name])
@@ -160,28 +161,32 @@ for i = 1:noOfImages
   %plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
 
   % Besed on sameness 56.8/95.5 -> whiteline 56.6/95.8
-  % plateCoords = DetectSameness([imagesFolder fileList(i).name])
+  plateCoords = DetectSameness([imagesFolder fileList(i).name])
 
   
   % Frequency analysis 50.5/65.5 -> whiteline 52.8/72.0
-  % plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
+  %plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
 
   % Contrast stretch on blocks
-  % plateCoords = DetectCStretch([imagesFolder fileList(i).name]);
+  % 84.0/92.7 -> whiteline 84.0/92.9 
+  %plateCoords = DetectCStretch([imagesFolder fileList(i).name]);
 
   % Distribution of intensities
-  %plateCoords = DetectIntDist([imagesFolder fileList(i).name]);
+  % plateCoords = DetectIntDist([imagesFolder fileList(i).name]);
 
+  % Cut down number of colors in image
   % 67.8/75.4 -> whiteline 73.5/85.4
-  % plateCoords = DetectQuant([imagesFolder fileList(i).name]);
+  % plateCoords = SaneCoords(DetectQuant([imagesFolder fileList(i).name]));
 
 
 
-  %plateCoords = DetectNAME([imagesFolder fileList(i).name]);
+  % plateCoords = DetectNAME([imagesFolder fileList(i).name]);
 
 
   % All methods together
-  %plateCoords = DetectMain([imagesFolder fileList(i).name]);
+
+  % 96.6/99.24 -> 
+  %plateCoords = SaneCoords(DetectMain([imagesFolder fileList(i).name]));
 
   % Determine if plate is within found coordinates 
   if (RPC(1) >= plateCoords(1) && RPC(2) <= plateCoords(2) && ...
@@ -192,17 +197,34 @@ for i = 1:noOfImages
     % Echo name of image where plate was not found
     ['Plate not found in ' fileList(i).name]
     plateFound = false;
+    
     %beep 
     %pause(); % Pause when plate was not found 
 
     % No candidate was found
     if sum(plateCoords) == 0
       noCandidate = noCandidate + 1;
+    else
+      % Pause when wrong plate was returned
+      % Dont pause if no candidate was returned 
+      %beep 
+      %pause();
     end
+
   end   
 
   % For testing
   plateFound = true;
+
+  
+  
+  % SAVE ROTATED IMAGE FOR FASTER TESTING
+  %if sum(plateCoords) > 0
+  %  [rotatedPlateImg, newPlateCoords] = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords,false);
+  %  imwrite(rotatedPlateImg, [ 'rotated/final_' int2str(i) '.jpg'], 'JPG', 'Quality', 100);
+  %end
+  % Disable chars
+  plateFound = false;
   
   % only try to rotate, segment and read plate if candidate was correct
   if plateFound

@@ -3,8 +3,8 @@
 
 function [plateCoords bestCandidateScore] = GetBestCandidate2(conComp, inputImage, scaleFactor)
 
-  showImages = true;
-  %showImages = false;
+  %showImages = true;
+  showImages = false;
 
 
   % Number of components
@@ -141,6 +141,17 @@ function [plateCoords bestCandidateScore] = GetBestCandidate2(conComp, inputImag
     %if (1.3 * candidates(i,12)) < candidates(i,13)  
     %  candidates(i,15) = 0.90 * candidates(i,15);
     %end
+
+    % Real good ratio is real good
+    %if candidates(i,5) <= 4
+    %    candidates(i,15) = 0.90 * candidates(i,15)
+    %end
+    
+    % Real wide is real bad
+    %if compWidth * (1/scaleFactor) >= 290
+    %  candidates(i,15) = 1.15 * candidates(i,15);
+    %end
+
 
     % BAD
     % Aspect ratio way off

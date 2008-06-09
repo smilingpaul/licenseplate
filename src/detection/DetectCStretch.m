@@ -7,8 +7,8 @@ function [plateCoords candidateScore] = DetectCStretch(inputImage)
   filterSize = 4;
 
 
-  %showImages = false;
-  showImages = true;
+  showImages = false;
+  %showImages = true;
 
 
   % Read image from file

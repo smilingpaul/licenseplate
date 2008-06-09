@@ -8,8 +8,8 @@ function [plateCoords candidateScore] = DetectQuant(inputImage)
   %filterSize = 8;
 
 
-  %showImages = false;
-  showImages = true;
+  showImages = false;
+  %showImages = true;
 
 
   % Read image from file

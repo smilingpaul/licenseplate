@@ -153,7 +153,8 @@ function [plateCoords candidateScore] = DetetctContrastAvg(inputImage)
 
   % Make plate a little higher as we get very flat plates (only the characters)
   if sum(plateCoords) > 0
-    plateCoords = plateCoords + [-15 15 0 0 ];
+    %plateCoords = plateCoords + [-15 15 0 0 ];
+    plateCoords = plateCoords + [ 0 0 -15 15 ];
   end
 
 
