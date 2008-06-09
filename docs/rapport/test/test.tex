@@ -25,7 +25,22 @@ Områder domineret af lyse gråtoner &  60.5 \% & 32.2\%\\ \hline
 Områder med høj kontrast & 83.0\% & 73.5\%\\ \hline
 Frekvensanalyse &  59.3\% & 58.3\%\\ \hline
 Maksimer lokal kontrast &  82.8\% & 76.7\%\\ \hline
-Kvantifisering &  67.5\% & 61.5\%\\
+Kvantifisering &  69.8\% & 60.5\%\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{..}} \\ \hline
+Metode & Blitzsæt & Gult sæt\\ \hline
+Områder domineret af lyse gråtoner &  24.6\% & 0.0\%\\ \hline
+Områder med høj kontrast & 5.4\% & 76.0\%\\ \hline
+Frekvensanalyse &  20.8\% & 52.0\%\\ \hline
+Maksimer lokal kontrast &  70.6\% & 68.0\%\\ \hline
+Kvantifisering &  85.4\% & 48.0\%\\
 \hline
 \end{tabular}
 \end{center}
@@ -67,6 +82,35 @@ DER VAR EN FEJL HVIS KUN EN METODE RETURNEREDE EN KANDIDAT. KØR RESULTATER FOR 
   \end{tabular}
 \caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i kontrolsættet når alle fem metoder arbejde sammen.}
 \label{fig:test:lokalisering_kontrol_samlet}
+\end{figure}
+
+KØR MED ERODE!
+
+\begin{figure}[htp]
+\centering
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Blitzsæt}} \\
+    \hline
+    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
+    1 &  83.1\% & 85.7\%\\ \hline
+  \end{tabular}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i blitzsættet når alle fem metoder arbejde sammen.}
+\label{fig:test:lokalisering_blitz_samlet}
+\end{figure}
+
+
+\begin{figure}[htp]
+\centering
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Gult sæt}} \\
+    \hline
+    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
+    1 &  84.0\% & 89.4\%\\ \hline
+  \end{tabular}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i det gule sæt når alle fem metoder arbejde sammen.}
+\label{fig:test:lokalisering_gul_samlet}
 \end{figure}
 
 
