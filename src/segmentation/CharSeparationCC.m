@@ -206,7 +206,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   
   if figuresOn
     figure(2), subplot(9,4,17:20), imshow(conComp), title('conComp');
-    imwrite(conComp,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/skygge_fixed.png','png','BitDepth',1)
+    %imwrite(conComp,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/skygge_fixed.png','png','BitDepth',1)
   end
   
   % return if not enough chars has been found
