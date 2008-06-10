@@ -14,8 +14,6 @@ Sproget: datid/nutid
 
 Ret headers i endelig version.
 
-Sørg for at vi altid kaldet det LOKALISERING af nummerplader. p.t skifter vi mellem lokalisering og identifikation. OGSÅ I TITLEN!
-
 I afsnit om metoder til lokalisering er det ikke konsekvent hvor det siges at metoden kommer fra litteraturen.
 
 Nævn i system/implementation hvorfor vi har fravalgt nogle metoder som vi faktisk har implementeret
@@ -41,26 +39,50 @@ Som læser har vi forestillet os en bachelorstuderende i datalogi.
 Ved arbejdet med denne opgave har vi ønsket at få praktisk erfaring med grundlæggende metoder og teknikker indenfor billedbehandling og mønstergenkendelse som anvendt i et system til nummerpladegenkendelse. Findes der etablerede metoder? Kan vi selv udvikle teknikker der fungerer tilfredsstillende? I hvor høj grad vil et system vi selv bygger kunne lokalisere nummerplader og læse deres indhold?
 
 \subsubsection*{Rapportens opbygning}
-Vi begynder i det følgende afsnit rapporten med en kort introduktion til opgavens emne. I det næste afsnit beskriver vi den type data vi arbejder med. Vi beskriver hvordan vi har delt materialet i forskellige sæt samt hvilke afgrænsninger vi har foretaget. Derefter følger afsnittet \textit{Vores system} hvor vi beskriver det system vi har udviklet. Vi forsøger at holde os fra detaljer og fokuserer på den mere intuitive forståelse af systemets virkemåde. I afsnittet \textit{Implementation} beskriver vi mere detaljeret systemets virkemåde og uddyber emner som vi kun har forsøgt at give en intuitiv forståelse af i afsnittet \textit{Vores system}. Efter at have beskrevet systemet, præsenterer vi resultaterne af afprøvning af systemet i afsnittet \textit{Resultater}.
+Vi begynder i det følgende afsnit rapporten med en kort introduktion til opgavens emne. Dette afsnit kaldes \textit{Baggrund}. I det næste afsnit, kaldet \textit{Hvilken type billeder arbejder vi med?}, beskriver vi den type data, vi arbejder med. Vi beskriver, hvordan vi har delt materialet i forskellige sæt, samt hvilke afgrænsninger vi har foretaget. Derefter følger afsnittet \textit{Vores system} hvor vi beskriver det system vi har udviklet. Vi forsøger at holde os fra detaljer og fokuserer på den mere intuitive forståelse af systemets virkemåde. I afsnittet \textit{Implementering} beskriver vi mere detaljeret systemets virkemåde og uddyber emner, som vi kun har forsøgt at give en intuitiv forståelse af i afsnittet \textit{Vores system}. Efter at have beskrevet systemet, præsenterer vi resultaterne af afprøvning af systemet i afsnittet \textit{Resultater}.
 
-Der er tre bilag til rapporten. Det første, \textbf{A}, indeholder diverse billeder vi har ment var for omfattende at have med i selve rapporten. Vi prøver bla. at give læseren et indtryk af hvordan det materiale vi arbejder på ser ud. Bilag \textbf{B} indeholder den såkaldte \textit{synopsis} der er vores oprindelige beskrivelse af dette projekt. Det sidste bilag, \textbf{C}, indeholder kildekoden til vores system.
+Der er tre bilag til rapporten. Det første, \textit{Illustrationer}, indeholder diverse billeder vi har ment var for omfattende at have med i selve rapporten. Med disse billeder prøver vi blandt andet at give læseren et indtryk af, hvordan det materiale vi arbejder på ser ud. Bilag \textit{Synopsis} indeholder den såkaldte \textit{synopsis} der er vores oprindelige beskrivelse af dette projekt. Det sidste bilag, \textit{Kildekode}, indeholder kildekoden til vores system.
 
+%%%%%%%%%%%%%%
+% BAGGRUND   %
+%%%%%%%%%%%%%%
+\section{Baggrund}
+Systemer til automatisk genkendelse af nummerplader blev opfundet af det engelske politis forskningsafdeling i 1976. Fungerende prototyper var klar i 1979. Afprøvninger blev foretaget på Englands længste vej, A1, der løber fra London til Edinburgh i Skotland samt i tunnelsystemet Dartford Crossings i London\cite{wiki_baggrund}. 
+
+I dag anvendes automatisk genkendelse i mange forskellige sammenhænge. Nogle af de mest kendte områder er:
+
+\paragraph{Hastighedsmåling:}
+Ved at følge en bil fra et sted til et andet på en motorvej kan man ved at analysere gennemsnitshastigheden afsløre fartsyndere. Denne metode er mere robust end metoden, hvor man blot foretager en enkelt måling, da billisten kortvarigt kan sætte hastigheden ned, hvis vedkommende er opmærksom på at der lokalt bliver foretaget hastighedskontrol.
+
+\paragraph{Statistik:}
+Brug af veje og andre faciliteter kan analyseres. Hvor mange biler passerer et givent sted i løbet af et døgn? Hvor mange af disse er pendlere, der kører den ene vej om morgenen og den anden om aftenen? Hvordan bevæger trafikken sig igennem en by? Hvordan fordeler trafikken sig fra dens indfaldsveje?
+
+\paragraph{Trafikafgift:}
+Både London og Stockholm har i skrivende stund systemer der registrerer køretøjer, der kører ind og ud af byen. Ejerne af køretøjer der bevæger sig i den indre by får tilsendt en bøde, hvis de ikke betaler for den tid, de bruger i området.
+
+\paragraph{Patruljering:}
+Med kameraer monteret på patruljevogne kan politiet registrere om de passerer for eksempel efterlyste køretøjer. Demonstrationen af et sådant system kan ses i \cite{canada_demo}. 
+
+Automatisk registrering og overvågning er et kontroversielt emne, hvor folk oftest er meget for eller meget imod. I England har man i dag et meget omfattende overvågningssytem der tillader politiet at følge køretøjer rundt i hele landet\cite{wiki_baggrund}. Som et eksempel på den modsatte situation, fik man i Tyskland i marts 2008 rettens ord for, at automatisk registrering af nummerplader overtræder landets love om privatlivets fred og dermed er ulovlig\cite{tysk_ulovlig}.
+
+
+% AFGRÆNSNINGER
 
 \section{Hvilken type billeder arbejder vi med?}
 \label{sec:data}
-Et system der skal genkende nummerplader har brug for at kunne observere køretøjer. Dette sker via stillbilleder eller videooptagelser. I denne opgave har vi valgt at arbejde med stilbilleder.
+Et system der skal genkende nummerplader har brug for at kunne observere køretøjer. Dette sker via stillbilleder eller videooptagelser. I denne opgave har vi valgt at arbejde med stillbilleder.
 
 \subsection{Afgrænsninger}
 For at begrænse opgavens omfang, har vi valgt en række afgrænsninger for de billeder vi ønsker at arbejde med. I det følgende beskriver vi de valg vi har truffet og baggrunden for dem.
 
 \paragraph{Bilerne på billederne er ikke i bevægelse:}
-For at forsøge at få så skarpe billeder som muligt, har vi valgt kun at tage billeder af parkerede biler. Vi vil dog stadig kunne få uskarpe billeder i situationer hvor kameraet ikke har stillet skarpt på køretøjet. Vi har taget alle billeder med autofokus, og har således ikke selv foretaget nogle valg i den forbindelse.
+For at forsøge at få så skarpe billeder som muligt, har vi valgt kun at tage billeder af parkerede biler. Vi vil dog stadig kunne få uskarpe billeder i situationer, hvor kameraet ikke har stillet skarpt på køretøjet. Vi har taget alle billeder med autofokus, og har således ikke selv foretaget nogle valg i den forbindelse.
 
 \paragraph{Alle billeder indeholder netop en nummerplade:}
-Før at gøre opgaven begrænset, har vi valgt kun at kigge på billeder der indeholder en enkelt nummerplade. Hvis vi ved at et billede med garanti indeholder én nummerplade, kan vi kigge efter det område der ligner en nummerplade mest og være ret sikre på at dette område virkelig er en nummerplade. Vi behøver altså ikke vurdere, om det område der ligner mest ligner så meget at vi mener det er en nummerplade.
+Før at gøre opgaven begrænset, har vi valgt kun at kigge på billeder der indeholder en enkelt nummerplade. Hvis vi ved at et billede med garanti indeholder én nummerplade, kan vi kigge efter det område der ligner en nummerplade mest og være ret sikre på, at dette område virkelig er en nummerplade. Vi behøver altså ikke vurdere, om det område der ligner mest ligner så meget, at vi mener det er en nummerplade.
 
 \paragraph{Amindelige danske nummerplader:}
-For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at arbejde med de almindelige hvide nummerplader med en linie sort tekst på hvid baggrund og rød kant som vist i figur \vref{fig:typisk_nummerplade}. Endvidere arbejder vi ikke med de såkaldte personlige nummerplader hvor man selv kan bestemme teksten på nummerpladen. På de nummerplader vi arbejder med, består teksten altså af syv tegn hvoraf de to første er bogstaver og de fem sidste er cifre.
+For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at arbejde med de almindelige hvide nummerplader med en enkelt linie sort tekst på hvid baggrund og rød kant som vist i figur \vref{fig:typisk_nummerplade}. Endvidere arbejder vi ikke med de såkaldte personlige nummerplader, hvor man selv kan bestemme teksten på nummerpladen. På de nummerplader vi arbejder med, består teksten altså af syv tegn, hvoraf de to første er bogstaver og de fem sidste er cifre.
 
 \begin{figure}[htp]
 \centering
@@ -73,17 +95,17 @@ For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at
 Vores billeder er taget så nummerpladerne er roteret så lidt som muligt. Denne begrænsning gør, at vi kan antage at de områder der indeholder nummerplader har et forhold mellem bredde og højde der ligger forholdsvis tæt på danske nummerplades officielle bredde/højde-forhold.
 
 \paragraph{Ingen perspektivisk forvrængning:}
-Vi har valgt at arbejde med billeder hvor den perspektivisk forvrængning af nummerpladerne er minimal. Uden væsentlig skævvridning af nummerpladerne, vil pladernes tegn stort set være lige høje og brede og dermed nemmere at læse. Vi har derfor bestræbt os på at tage vore billeder fra en position umiddelbart foran eller bagved den bil vi fotograferer. Denne afgrænsning gør, at vi ikke arbejder med opretning af perspektiviskt forvrængning\footnote{Affin transformation} i denne opgave. 
+Vi har valgt at arbejde med billeder hvor den perspektivistiske forvrængning af nummerpladerne er minimal. Uden væsentlig skævvridning af nummerpladerne, vil pladernes tegn stort set være lige høje og brede og dermed nemmere at læse. Vi har derfor bestræbt os på at tage vore billeder fra en position umiddelbart foran eller bagved den bil vi fotograferer. Denne afgrænsning gør, at vi ikke arbejder med opretning af perspektivisk forvrængning i denne opgave.
 %Endvidere vil tegn stå på en vandret linie
 
 \paragraph{Ensartede størrelser af nummerplader:}
-For at kunne antage noget om størrelserne på de nummerplader vi ønsker at kunne leder efter i billederne, har vi taget alle billeder fra en afstand på mellem to og fire meter uden brug af zoomfunktion. Med denne afgrænsning, sikrer vi os også at tegnene på nummerpladerne aldrig bliver så små at vi må opgive at genkende dem.
+For at kunne antage noget om størrelserne på de nummerplader vi ønsker at kunne lede efter i billederne, har vi taget alle billeder fra en afstand på mellem to og fire meter uden brug af zoomfunktion. Med denne afgrænsning, sikrer vi os også at tegnene på nummerpladerne aldrig bliver så små at vi må opgive at genkende dem.
 
 \paragraph{Højtopløste billeder:}
 Vores billeder er alle taget i en opløsning på $1024 \times 768$ pixels. Gode originalbilleder giver gode muligheder for at eksperimentere med billeder i forskellige opløsninger. 
 
 \paragraph{Intet kunstigt lys:}
-Vi har valgt at tage alle billeder uden brug af kunstigt lys som f.eks. blitz. Det er vores ønske at arbejde med billeder taget under forskellige lysforhold så nummerpladerne kan ligge helt eller delvist i skygge.  
+Vi har valgt at tage alle billeder uden brug af kunstigt lys som for eksempel blitz. Det er vores ønske at arbejde med billeder taget under forskellige lysforhold så nummerpladerne kan ligge helt eller delvist i skygge.  
 
 Figur \vref{fig:typisk_billede} viser et eksempel på den type billeder vi arbejder med.
 
@@ -95,9 +117,9 @@ Figur \vref{fig:typisk_billede} viser et eksempel på den type billeder vi arbej
 \end{figure}
 
 \subsection{Opdeling af billeder}
-Vi har delt vores billeder op i flere sæt. Vi har to primære sæt og to sekundære set. Det første primære sæt, der består af 400 billeder, kalder vi for vores \textit{træningsæt}. Det er billeder i dette sæt vi har analyseret under arbejdet med at udvikle vores software. F.eks. har vi på baggrund af dette sæt observeret størrelserne på nummerpladerne så vi har kunnet vurdere nummerpladestørrelser i den type billeder vi arbejder med.
+Vi har delt vores billeder op i flere sæt. Vi har to primære sæt og to sekundære sæt. Det første primære sæt, der består af 400 billeder, kalder vi for vores \textit{træningssæt}. Det er billeder i dette sæt vi har analyseret under arbejdet med at udvikle vores software. For eksempel har vi på baggrund af dette sæt observeret størrelserne på nummerpladerne, så vi har kunnet vurdere nummerpladestørrelser i den type billeder vi arbejder med.
 
-Vores andet primære sæt, \textit{kontrolsættet}, består af 600 billeder. Dette sæt har vi brugt til at foretage en form for kontrol af vores færdige system. Det er vores tanke at denne kontrol vil kunne sige noget om i hvor høj grad vi har formået at lave et system der fungerer på ukendte billeder der overholder vores tidligere beskrevne afgrænsninger. 
+Vores andet primære sæt, \textit{kontrolsættet}, består af 600 billeder. Dette sæt har vi brugt til at foretage en form for kontrol af vores færdige system. Det er vores tanke at denne kontrol vil kunne sige noget om i hvor høj grad vi har formået at lave et system, der fungerer på ukendte billeder, der overholder vores tidligere beskrevne afgrænsninger. 
 
 De to sekundære sæt består af billeder der ikke overholder vores afgrænsninger, men dog kun på et enkelt område hver. I det første sæt, der består af 130 billeder, er alle billeder taget med blitz. Det andet sekundære sæt indeholder billeder af biler med gule numerplader. Sætter består af 50 billeder og overholder alle øvrige afgrænsninger. Vi kalder disse to sæt for henholdsvis \textit{blitzsættet} og det \textit{gule sæt}.
 

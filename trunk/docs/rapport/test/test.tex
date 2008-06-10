@@ -246,66 +246,13 @@ I træningssættet er der generelt færre bogstaver end der er tal. Vi vurderer 
 
 %Nedenstående tests er i forhold til manuelt udklippede plader - ikke automtisk lokalisering.
 
-I figurerne \vref{fig:test:genkend_traening_tal}, \vref{fig:test:genkend_traening_bogstav}, \vref{fig:test:genkend_kontrol_tal} samt \vref{fig:test:genkend_kontrol_bogstav} ses resultaterne af afprøvningen af genkendelse af tegn. Resultaterne er delt op i tal- og bogstavertabeller.
-
-\begin{comment}
-\begin{figure}[htp]
-\centering
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Tegn & Middelvektor & Sum-billeder & And-billeder\\\hline
-0 & 0\% & 0\% & 0\%\\\hline
-1 & 0\%  & 0\% & 0\%\\\hline
-2 & 0\% & 0\% & 0\%\\\hline
-3 & 0\% & 0\% & 0\%\\\hline
-4 & 0\% & 0\% & 0\%\\\hline
-5 & 0\% & 0\% & 0\%\\\hline
-6 & 0\% & 0\% & 0\%\\\hline
-7 & 0\% & 0\% & 0\%\\\hline
-8 & 0\% & 0\% & 0\%\\\hline
-9 & 0\% & 0\% & 0\%\\\hline
-\end{tabular}
-\caption{Bla.}
-\label{fig:test:and_tal}
-\end{figure}
-
-\begin{figure}[htp]
-\centering
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Tegn & Middelvektor & Sum-billeder & And-billeder\\\hline
-A & 0\% & 0\% & 0\%\\\hline
-B & 0\% & 0\% & 0\%\\\hline
-C & 0\% & 0\% & 0\%\\\hline
-D & 0\% & 0\% & 0\%\\\hline
-E & 0\% & 0\% & 0\%\\\hline
-H & 0\% & 0\% & 0\%\\\hline
-J & 0\% & 0\% & 0\%\\\hline
-K & 0\% & 0\% & 0\%\\\hline 
-L & 0\% & 0\% & 0\%\\\hline
-M & 0\% & 0\% & 0\%\\\hline
-N & 0\% & 0\% & 0\%\\\hline
-O & 0\% & 0\% & 0\%\\\hline
-P & 0\% & 0\% & 0\%\\\hline
-R & 0\% & 0\% & 0\%\\\hline
-S & 0\% & 0\% & 0\%\\\hline
-T & 0\% & 0\% & 0\%\\\hline
-U & 0\% & 0\% & 0\%\\\hline
-V & 0\% & 0\% & 0\%\\\hline
-X & 0\% & 0\% & 0\%\\\hline
-Y & 0\% & 0\% & 0\%\\\hline
-Z & 0\% & 0\% & 0\%\\\hline
-\end{tabular}
-\caption{Bla.}
-\label{fig:test:and_bogstav}
-\end{figure}
-\end{comment}
+I figurerne \vref{fig:test:genkend_traening_tal}, \vref{fig:test:genkend_traening_bogstav}, \vref{fig:test:genkend_kontrol_tal} samt \vref{fig:test:genkend_kontrol_bogstav} ses resultaterne af afprøvningen af genkendelse af tegn. Resultaterne er delt op i tal- og bogstavtabeller.
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
-Tegn & 9 & 16 & 25 & 36 & 49\\\hline
+Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
 0 & 21,0 & 77,1 & 74,8 & 56,1 & 91,1\\\hline
 1 & 79,3 & 94,1 & 97,5 & 97,5 & 98,0\\\hline
 2 & 92,7 & 93,3 & 98,0 & 98,9 & 99,2\\\hline
@@ -317,7 +264,7 @@ Tegn & 9 & 16 & 25 & 36 & 49\\\hline
 8 & 13,0 & 45,2 & 90,4 & 93,5 & 97,0\\\hline
 9 & 82,6 & 94,6 & 96,4 & 98,2 & 97,3\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af tal-tegn ved brug af middelvektorer. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt.}
+\caption{Afprøvningsresultater for genkendelse af cifre ved brug af middelvektorer. For hvert ciffer er det angivet hvor mange procent af billederne af dette ciffer, der er korrekt genkendt.}
 \label{fig:test:middel_tal}
 \end{figure}
 
@@ -325,7 +272,7 @@ Tegn & 9 & 16 & 25 & 36 & 49\\\hline
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
-Tegn & 9 & 16 & 25 & 36 & 49\\\hline
+Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
 A & - & - & - & - & -\\\hline
 B & 40,9 & 68,2 & 90,9 & 95,5 & 95,5\\\hline
 C & 65,6 & 93,8 & 96,9 & 100,0 & 100,0\\\hline
@@ -348,7 +295,7 @@ X & 92,2 & 97,4 & 98,7 & 98,7 & 98,7\\\hline
 Y & 95,8 & 98,9 & 98,9 & 98,4 & 98,9\\\hline
 Z & 77,2 & 100,0 & 96,5 & 100,0 & 100,0\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af bogstav-tegn ved brug af middelvektorer. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt. Rækken med tegnet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
+\caption{Afprøvningsresultater for genkendelse af bogstaver ved brug af middelvektorer. For hvert bogstav er det angivet hvor mange procent af billederne af dette bogstav, der er korrekt genkendt. Rækken med bogstavet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
 \label{fig:test:middel_bogstav}
 \end{figure}
 
@@ -356,13 +303,15 @@ Z & 77,2 & 100,0 & 96,5 & 100,0 & 100,0\\\hline
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
-Tegn & 9 & 16 & 25 & 36 & 49 & 64 & 81\\\hline
+Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 & 8 $\times$ 8\\\hline
 Alle tal & 73,3 & 90,8 & 95,9 & 95,3 & 98,4 & 98,8 & 97,0\\\hline
 Alle bogstaver & 74,5 & 95,7 & 97,0 & 98,0 & 98,2 & 98,6 & 98,4\\\hline
 \end{tabular}
-\caption{Bla.}
+\caption{Afprøvningsresultater for genkendelse af tegn ved brug af middelvektorer, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:middel_alletegn}
 \end{figure}
+
+
 
 \begin{figure}[htp]
 \centering
@@ -423,7 +372,7 @@ Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 
 Alle tal & 37,4 & 61,4 & 89,6 & 93,8 & 97,5 & 97,6 & 91,1\\\hline
 Alle bogstaver & 47,2 & 67,6 & 86,1 & 89,1 & 88,3 & 95,9 & 91,9\\\hline
 \end{tabular}
-\caption{Bla.}
+\caption{Afprøvningsresultater for genkendelse af tegn ved brug af sum-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:sum_alletegn}
 \end{figure}
 
@@ -486,30 +435,9 @@ Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\
 Alle tal & 71,6 & 74,7 & 76,3 & 78,5 & 74,7 & 75,7\\\hline
 Alle bogstaver & 70,7 & 70,3 & 73,0 & 75 & 72,3 & 72,0\\\hline
 \end{tabular}
-\caption{Bla.}
+\caption{Afprøvningsresultater for genkendelse af tegn ved brug af forenings-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:and_alletegn}
 \end{figure}
-
-
-\begin{comment} %%%%%%%% COMMENT START
-
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
-9 & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
-Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
-9 & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% \\\hline
-25 & 0\% & 0\% & 0\% \\\hline \end{tabular}
-
-
-\end{comment}
 
 
 %HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TRÆNING?
