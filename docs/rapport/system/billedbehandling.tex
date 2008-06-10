@@ -195,13 +195,13 @@ Ved at analysere svingningen mellem lyse og mørke intensiteter i de nummerplade
 \subsubsection{Metode: Maksimer lokal kontrast}
 Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder.
 
-Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching} som illustreret på figur \vref{fig:DetectPlateness-contrast_stretch}. Da spredningen af intensiteter i en blok oftest vil være forholdsvis begrænset, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område forestillende en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustreret i figur \vref{fig:DetectCStretch-illu2}.
+Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching} som illustreret på figur \vref{fig:DetectPlateness-contrast_stretch}. Da spredningen af intensiteter i de små udsnit af billedet oftest vil være forholdsvis lille, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område forestillende en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustreret i figur \vref{fig:DetectCStretch-illu2}.
 
 
 \begin{figure}[htp]
   \centering
   \includegraphics[width=12cm]{system/illu/contrast_stretch.pdf} 
-  \caption{Contrast stretch: For at forbedre kontrasten i et billede kan man strække intensiteterne så hele intensitetsområdet udnyttes. Figur 1 ovenfor viser intensiteterne for et billede der ikke udnytter hele intensitetsområdet der går fra 0 til 255. Intensiteterne i billedet ligger alle i et ret lille område. Vi gør alle intensiteter i billedet så meget mindre, at den mindste bliver 0 som illustreret på figur 2. Til sidste strækker vi intensiteterne så billedet udnytter alle intensiteter fra 0 til 255 som vist på figur 3. Den højeste intensitet i billedet er nu 255 og den laveste er 0.}
+  \caption{Fosrtærkelse af kontrast: For at forbedre kontrasten i et billede kan man strække intensiteterne så hele intensitetsområdet udnyttes. Figur 1 ovenfor viser intensiteterne for et billede der ikke udnytter hele intensitetsområdet der går fra 0 til 255. Intensiteterne i billedet ligger alle i et ret lille område. Vi gør alle intensiteter i billedet så meget mindre, at den mindste bliver 0 som illustreret på figur 2. Til sidste strækker vi intensiteterne så billedet udnytter alle intensiteter fra 0 til 255 som vist på figur 3. Den højeste intensitet i billedet er nu 255 og den laveste er 0.}
   \label{fig:DetectPlateness-contrast_stretch}
 \end{figure}
 
@@ -243,11 +243,11 @@ Med denne metode får vi det binære billede af interesseomrder der er vist i fi
 \end{figure}
 
 \subsubsection{Metode: Kvantifisering}
-Med denne metode forsøger vi at lokalisere nummerpladen ved at sætte antallet af gråtoner i vores inddatabillede ned fra 256 til 7. Med færre intensitetsværdier vil billedet indeholde større sammenhængende områder der repræsenterer de områder i originalbilledet hvor intensiteterne ligge forholdsvis tæt på hinanden. Det er vores forventning at et af disse områder er nummerpladen.
+Med denne metode forsøger vi at lokalisere nummerplader ved at sætte antallet af gråtoner i vores inddatabillede ned fra 256 til 7. Med færre mulige intensitetsværdier vil billedet indeholde større sammenhængende områder der repræsenterer de områder i originalbilledet hvor intensiteterne ligge forholdsvis tæt på hinanden. Det er vores forventning at et af disse områder er nummerpladen.
 
-Som det første trin i denne metode, kører vi et filter der giver en pixel den maksimale intensitet fra dens nærområde. Vi forventer at dette vil udviske tegnene på nummerpladen og efterlade et lyst rektangel i billedet der hvor nummerpladen findes. Formen på vores filter er et liggende rektangel da vi vil forsøge at undgå at nummerpladen forbindes med lyse områder der ligger over og under nummerpladen. Et eksempel på hvordan resultatet af at anvende dette filter er vist i figur \vref{fig:DetectQuant-filteredImage}. 
+Som det første trin i denne metode, kører vi et filter der giver en pixel den maksimale intensitet fra dens nærområde. Vi forventer at dette vil udviske tegnene på nummerpladen og efterlade et lyst rektangel i billedet der hvor nummerpladen findes. Formen på vores filter er et liggende rektangel da vi vil forsøge at undgå at nummerpladen forbindes med lyse områder der ligger over og under nummerpladen. Et eksempel på resultatet af at anvende dette filter er vist i figur \vref{fig:DetectQuant-filteredImage}. 
 
-BILLEDET SKAL OPDATERES DA METODEN ER BLEVET ÆNDRET EN LILLE SMULE.
+%BILLEDET SKAL OPDATERES DA METODEN ER BLEVET ÆNDRET EN LILLE SMULE.
 % Filtered image
 \begin{figure}[htp]
   \centering
@@ -256,7 +256,7 @@ BILLEDET SKAL OPDATERES DA METODEN ER BLEVET ÆNDRET EN LILLE SMULE.
   \label{fig:DetectQuant-filteredImage}  
 \end{figure}
 
-Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned Det giver os større sammenhængende områder som vist i figur \vref{fig:DetectQuant-quantImage}. På baggrund af dette billede danner vi et binært billede der viser vores interresseområder. Et eksempel er vist i figur \vref{fig:DetectQuant-binary}.
+Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned. Det giver os større sammenhængende områder med samme intensitet som vist i figur \vref{fig:DetectQuant-quantImage}. På baggrund af dette billede danner vi et binært billede der viser vores interesseområder. Et eksempel er vist i figur \vref{fig:DetectQuant-binary}.
 
 % Quant image
 \begin{figure}[htp]
@@ -277,16 +277,16 @@ Som næste trin sætter vi antallet af intensiteter i det filtrerede billede ned
 
 \subsubsection{Analyse af interesseområder}
 \label{sec:BinImgCleanup}
-Ud fra de binære billeder der viser interesseområder, skal vi forsøge at udvælge de områder der mest sandsynligt er nummerplader. Vi begynder denne udvælgelsesproces med at frasortere de områder vi mener at kunne udelukke som værende nummerplader. Vi sletter interesseområder med følgende karateristika:
-\begin{itemize}
-\item Området er meget lille.
-\item Området er meget stort.
-\item Området er højere end det er bredt (Skriv størrelsesforhold).
-\item Området er for bredt i forhold til højden\footnote{I forhold til højde/bredde forholdet for en nummerplade}.
-\item Området har få markerede pixels i forhold til det rektangel det udspænder\footnote{F.eks. en streg med en vinkel på 45 grader}.
-\end{itemize}
+I de binære billeder der viser interesseområder, skal vi forsøge at udvælge de områder der mest sandsynligt er nummerplader. Vi begynder denne udvælgelsesproces med, at frasortere de områder vi mener at kunne udelukke som værende nummerplader. Vi sletter interesseområder med følgende karateristika:
 
-LAV LISTEN OM TIL NUMMEREREDE PARAGRAFER HVOR DER ER EN FORKLARING TIL HVERT PUNKT.
+\paragraph{1. Området er meget lille eller meget stort:}
+Områdets højde og/eller bredde er meget lille eller meget stor i forhold til de nummerplader vi har observeret i træningsættet.
+
+\paragraph{2. Området har et afvigende forhold mellem bredde/højde:}
+Området har et bredde/højde forhold der ligger meget langt fra en nummerplades bredde/højdeforhold. F.eks. områder hvis højde er større en bredden. 
+
+\paragraph{3. Området har lav densitet}
+Området har få markerede pixels i forhold til det rektangel det udspænder. F.eks. vil et interesseområde med form som en enkelt skrå streg have en meget lav densitet.
 
 Figurene \ref{fig:DetectSameness-cleanup} til \ref{fig:DetectQuant-cleanup} viser frasorteringen anvendt på de binære billeder med interesseområder som vi brugte som eksempler i beskrivelsen af de forskellige metoder til lokalisering af nummerplader. 
 
@@ -358,7 +358,7 @@ Figurene \ref{fig:DetectSameness-cleanup} til \ref{fig:DetectQuant-cleanup} vise
 
 \subsubsection{Valg af bedste nummerpladekandidat}
 \label{sec:GetBestCandidate}
-Herefter opfatter vi de tilbageværende interesseområder som nummerpladekandidater og giver dem point i forhold til en mængde karakteristika. Hvor vi i den tidligere frasortering af interesseområder kun analyserede form og størrelser, analyserer vi i dette trin også nummerpladekandidaternes intensitetsværdier. Vi prøver at vurdere i hvor høj grad området "ligner" en nummerplade. For hvert af de forhold vi analyserer definerer vi en optimal værdi. Point uddeles ved at opsummere en nummerpladekandidats afvigelser fra de optimale værdier for hvert karakteristika. Jo lavere antal point en nummerpladekandidat har jo bedre. I det følgende beskriver vi hvilke forhold for nummerpladekandidaterne vi analyserer. :
+De interesseområder der er tilbage efter den foregående analyse opfatter vi som nummerpladekandidater. Vi tildeler dem point i forhold til en mængde karakteristika. Hvor vi i den tidlige frasortering af interesseområder kun analyserede områdernes form og størrelse, analyserer vi i dette trin også nummerpladekandidaternes intensitetsværdier. Vi prøver at vurdere i hvor høj grad de "ligner" nummerplader. For hvert af de forhold vi analyserer har vi defineret en optimal værdi. Point tildeles ved at opsummere en nummerpladekandidats afvigelser fra de optimale værdier for hvert af disse karakteristika. Jo lavere antal point en nummerpladekandidat har jo bedre. I det følgende beskriver vi hvilke forhold for nummerpladekandidaterne vi analyserer. :
 
 \paragraph*{Forholdet mellem bredde og højde:}
 Et godt forhold er et der et tæt på det officielle som beskrevet i \cite{dkplates}.
@@ -366,29 +366,29 @@ Et godt forhold er et der et tæt på det officielle som beskrevet i \cite{dkpla
 \paragraph*{Forskellen i intensitet mellem de lyseste og mørkeste pixels:}
 I et billede af en nummerplade forventer vi en ganske stor forskel mellem det lyseste område, baggrunden, og det mørkeste, tegnene.
 
-\paragraph*{Længste linie}
+\paragraph*{Længste linie:}
 Hvor lang er den længste horisontale lyse line i området i forhold til områdets bredde? Et nummerpladområde vil ofte have meget lange lyse linier over og under tegnene på nummerpladen.
 
-\paragraph*{Frekvensanalyse}
+\paragraph*{Frekvensanalyse:}
 Vi opsummerer intensiteterne for kolonnerne i nummerpladekandidaterne og måler antallet af skift mellem lyse og meget mørke områder i billedet når man bevæger sig horisontalt gennem billedet. Princippet er det samme som metoden beskrevet i afsnittet \textbf{Frekvensanalyse} på side \pageref{sec:DetectPlateness}. 
 
-\paragraph*{Fordeling af intensiteter}
+\paragraph*{Fordeling af intensiteter:}
 I et billede af en nummerplade er intensiteterne fordelt nogenlunde jævnt i forhold til middelværdien. Er et billede f.eks. stærkt domineret af et stort sort område vil der være en ujævn fordeling hvor de fleste intensiteter ligger under middelværdien.
 
-\paragraph*{Gennemsnitlig intensitet}
+\paragraph*{Gennemsnitlig intensitet:}
 Hvad er områdets gennemsnitlige intensitestværdi? Et nummerpladeområde er oftest ret lyst og meget sjældent helt mørkt. 
 
-\paragraph*{Interesseområdets densitet}
+\paragraph*{Interesseområdets densitet:}
 Vi undersøger hvor mange pixels der er markerede i det binære billede i det rektangel der udspændes af interesseområdet. Jo mere udfyldt området er jo bedre. F.eks. ville et interesseområde med form som bogstavet L, have meget få pixels markerede i forhold til det rektangel det udspænder og dermed få mange point.
 
 
-\paragraph*{Hvor stort er det lyseste ormråde?}
+\paragraph*{Hvor stort er det lyseste ormråde?:}
 Vi finder ud af hvor mange pixels der har intensiteter der der ligger meget tæt på den lyseste pixel. Det skulle gerne være en ikke uvæsentlig del, da det ellers vil betyde at det lyseste område i billedet er meget lille. I billeder af nummerplader er det lyseste område ganske stort. 
 
-\paragraph*{Hvor stort er det mørkeste område?}
+\paragraph*{Hvor stort er det mørkeste område?:}
 Her analyserer vi billedet svarende til punktet ovenfor, dog kigger vi her på området der er dækket af pixels der har intensitetsværdier i nærheden af den mørkeste pixel i billedet.
 
-Når analysen af kandidatområderne er færdig og de har fået tildelt point, vælger systemet det kandidatområde der har færrest point. Der returneres altså samlet koordinater og point for  fem kandidatområder, et per metode.
+Når analysen af kandidatområderne er færdig og de har fået tildelt point, vælger systemet det kandidatområde der har færrest point. Der returneres altså samlet fem kandidatområder beskrevet ved sæt bestående af koordinater og point. Et sæt for hver af de fem metoder.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Endeligt valg af nummerpladekandidat}
