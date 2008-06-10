@@ -1,25 +1,27 @@
 \section{Resultater}
 \label{sec:resultater}
 
-I dette afsnit vil vi beskrive afprøvningen af vores system og give resultaterne af denne afprøvning. Alle afprøvninger vil blive udført på både trænings- og kontrolsættet.
+I dette afsnit vil vi beskrive afprøvningen af vores system og give resultaterne af denne afprøvning. Vi afprøver alle trin i lokalisering og læsning af nummerplader individuelt før vi afprøver det samlede system. Som det første undersøger vi metoder til lokalisering af nummerplader. Derefter afprøver vi to metoder til at separere tegn i nummerpladerne. Som den sidste individuelle afprøvning, undersøger vi forskellige metoder til gendkendelse af tegn.
+
+På baggrund af resultaterne af de individuelle afprøvninger, vælger vi den optimale konfiguration af systemet. Vi afprøver det samlede system på kontrolsættet med og uden syntaksanalyse af de nummerplader systemet læser.  
+
+Til sidst afprøver vi HVAD på billederne der er taget med blitz samt billederne af biler med gule nummerplader.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADE %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Lokalisering af nummerplader}
-I dette afsnit afprøver vi vores systems evne til at lokalisere nummerplader. Vi kigger altså ikke på nummerpladens tegn, men blot på om vi kan afgøre dens position i inddata-billedet. Vi har foretaget afprøvning af det samlede system som beskrevet i \vref{sec:system:lokalisering} samt individuelle afprøvninger af de fem metoder til lokalisering som beskrevet i samme afsnit.
+I dette afsnit afprøver vi vores systems evne til at lokalisere nummerplader. Vi kigger altså ikke på nummerpladens tegn, men blot på om vi kan afgøre dens position i inddata-billedet. Vi har foretager afprøvning metoderne både individuelt og som et samlet system.
 
-Hvis vi skal have test med flere forskellige parametre, kan vi jo også køre en gang hvor vi siger at mindst to metoder skal være enige før vi udpeger et område.s
-Trainingset
+%\subsubsection{Individuel lokalisering}
+%Vi afprøver metoderne individuelt. Korrekthed kan ikke bruges til noget da vi ikke opgiver nummerpladekandidater på det individuelle niveau.
 
-
-\subsubsection{Individuel afprøvning af metoderne}
-Vi afprøver metoderne individuelt. Korrekthed kan ikke bruges til noget da vi ikke opgiver nummerpladekandidater på det individuelle niveau.
-\begin{center}
+\begin{figure}[htp]
+\centering
 \begin{tabular}{|l|l|l|}
 \hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{..}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Individuelle metoder til lokalisering}} \\ \hline
 Metode & Træningsæt & Kontrolsæt\\ \hline
 Områder domineret af lyse gråtoner &  60.5 \% & 32.2\%\\ \hline
 Områder med høj kontrast & 83.0\% & 73.5\%\\ \hline
@@ -28,34 +30,19 @@ Maksimer lokal kontrast &  82.8\% & 76.7\%\\ \hline
 Kvantifisering &  69.8\% & 60.5\%\\
 \hline
 \end{tabular}
-\end{center}
+\caption{Resultaterne af afprøvning af de fem metoder til lokalisering af nummerplader på trænings- og kontrolsæt. Alle metoder giver dårligere resultater på kontrolsættet end på træningsættet. Størst forringelse observeres i metoden der kigger på områder domineret af lyse gråtoner. Metoden der anvender frekvensanalyse er den mest robuste, og opnår næsten lige gode resultater på de to sæt. De øvrige metoder oplever et fald på omkring 10\% i effektivitet.}
+\label{fig:test:lokalisering_traening_kontrol}
+\end{figure}
 
 
-\begin{center}
-\begin{tabular}{|l|l|l|}
-\hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{..}} \\ \hline
-Metode & Blitzsæt & Gult sæt\\ \hline
-Områder domineret af lyse gråtoner &  24.6\% & 0.0\%\\ \hline
-Områder med høj kontrast & 5.4\% & 76.0\%\\ \hline
-Frekvensanalyse &  20.8\% & 52.0\%\\ \hline
-Maksimer lokal kontrast &  70.6\% & 68.0\%\\ \hline
-Kvantifisering &  85.4\% & 48.0\%\\
-\hline
-\end{tabular}
-\end{center}
-
-
-\subsubsection{Afprøvning af metoderne som et system}
-Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på f.eks. vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et numerpladeområde og sender det videre i systemet til seperation og genkendelse. Resultaterne for afprøvningerne på træningsættet er vist på figur \vref{fig:test:lokalisering_traening_samlet} og de tilsvarende resultater for kontrolsættet er vist i figur \ref{fig:test:lokalisering_kontrol_samlet}
-
-DER VAR EN FEJL HVIS KUN EN METODE RETURNEREDE EN KANDIDAT. KØR RESULTATER FOR ENIGHED 1 IGEN.
+\subsubsection{Samlet lokalisering}
+Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på f.eks. tre, vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et nummerpladeområde og sender det videre i systemet til separation og genkendelse. Vi undersøger hvor høj enighed systemet skal konfigureres til for at give en korrekthed på 100\%.
 
 \begin{figure}[htp]
 \centering
   \begin{tabular}{|l|l|l|}
     \hline
-    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\
+    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet metode til lokalisering - Træningssæt}} \\
     \hline
     Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
     1 &  97.5\% & 99.0\%\\ \hline
@@ -64,7 +51,7 @@ DER VAR EN FEJL HVIS KUN EN METODE RETURNEREDE EN KANDIDAT. KØR RESULTATER FOR 
     4 &  68.2\% & 99.6\%\\ \hline
     5 &  35.3\% & 100.0\%\\ \hline
   \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningsættet når alle fem metoder arbejde sammen.}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningsættet når alle fem metoder arbejde sammen. Korrektheden er høj selv ved en minimal enighed på en, men en korrekthed på 100\% opnås først når den minimale enighed sættes til fem. I denne konfiguration kan systemet genkende 35.3\% af nummerpladerne.}
 \label{fig:test:lokalisering_traening_samlet}
 \end{figure}
 
@@ -73,7 +60,7 @@ DER VAR EN FEJL HVIS KUN EN METODE RETURNEREDE EN KANDIDAT. KØR RESULTATER FOR 
 \centering
   \begin{tabular}{|l|l|l|}
     \hline
-    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\
+    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet metode til lokalisering - Kontrolsæt}} \\
     \hline
     Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
     1 &  94.5\% & 96.8\%\\ \hline
@@ -81,7 +68,7 @@ DER VAR EN FEJL HVIS KUN EN METODE RETURNEREDE EN KANDIDAT. KØR RESULTATER FOR 
 	3 &  78.7\% & 99.8\%\\ \hline
     4 &  49.0\% & 100.0\%\\ \hline
   \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i kontrolsættet når alle fem metoder arbejde sammen.}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i kontrolsættet når alle fem metoder arbejde sammen. Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater på kontrolsættet, falder }
 \label{fig:test:lokalisering_kontrol_samlet}
 \end{figure}
 
@@ -242,17 +229,70 @@ I dette afsnit afprøves metoderne til genkendelse af tegn i en nummerplade. Syn
 
 Afprøvningen vil blive foretaget på alle tegn fra kontrolsættet, separeret med den bedste metode (sammenhængende komponenter hvor 10 pixels er lagt til). Disse tegn er sorteret så billeder af tegn der er udklippet forkert og hvor tegnet eksempelvis er blevet halveret under separationen er blevet sorteret fra. Afprøvningen vil derfor give en indikation af, hvor gode metoderne er til at genkende tegn i billeder som et menneske kan aflæse.
 
-I træningssættet er der generelt færre bogstaver end der er tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Der er for eksempel kun tre billeder af tegnet \textbf{O}. Derudover er der ingen billeder af tegnet \textbf{A} i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for \textbf{A} skulle stå, være udfyldt med "-".
+I træningssættet er der generelt færre bogstaver end der er tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Derudover er der ingen \textbf{A}'er i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for tegnet \textbf{A} skulle stå, være udfyldt med "-".
 
 %Nedenstående tests er i forhold til manuelt udklippede plader - ikke automtisk lokalisering.
 
-I figurerne \vref{fig:test:middel_tal}, \vref{fig:test:middel_bogstav} samt \vref{fig:test:middel_alletegn} ses resultaterne af afprøvningen af genkendelse af tegn ved brug af middelvektorer. Afprøvningen er udført med vektorer som er lavet ud fra billeder med størrelsen 3 $\times$ 3 og opefter. Vektorer der laves ud fra mindre billeder vil ikke være fornuftige at afprøve med, da flere af disse vektorer ligner hinanden og man derfor ikke kan skelne mellem genkendelse af to tegn med samme vektor. MANGLER 8 x 8!!! NOGET OM ØVRE GRÆNSE?
+I figurerne \vref{fig:test:genkend_traening_tal}, \vref{fig:test:genkend_traening_bogstav}, \vref{fig:test:genkend_kontrol_tal} samt \vref{fig:test:genkend_kontrol_bogstav} ses resultaterne af afprøvningen af genkendelse af tegn. Resultaterne er delt op i tal- og bogstavertabeller.
+
+\begin{comment}
+\begin{figure}[htp]
+\centering
+\begin{tabular}{|l|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
+Tegn & Middelvektor & Sum-billeder & And-billeder\\\hline
+0 & 0\% & 0\% & 0\%\\\hline
+1 & 0\%  & 0\% & 0\%\\\hline
+2 & 0\% & 0\% & 0\%\\\hline
+3 & 0\% & 0\% & 0\%\\\hline
+4 & 0\% & 0\% & 0\%\\\hline
+5 & 0\% & 0\% & 0\%\\\hline
+6 & 0\% & 0\% & 0\%\\\hline
+7 & 0\% & 0\% & 0\%\\\hline
+8 & 0\% & 0\% & 0\%\\\hline
+9 & 0\% & 0\% & 0\%\\\hline
+\end{tabular}
+\caption{Bla.}
+\label{fig:test:and_tal}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+\begin{tabular}{|l|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
+Tegn & Middelvektor & Sum-billeder & And-billeder\\\hline
+A & 0\% & 0\% & 0\%\\\hline
+B & 0\% & 0\% & 0\%\\\hline
+C & 0\% & 0\% & 0\%\\\hline
+D & 0\% & 0\% & 0\%\\\hline
+E & 0\% & 0\% & 0\%\\\hline
+H & 0\% & 0\% & 0\%\\\hline
+J & 0\% & 0\% & 0\%\\\hline
+K & 0\% & 0\% & 0\%\\\hline 
+L & 0\% & 0\% & 0\%\\\hline
+M & 0\% & 0\% & 0\%\\\hline
+N & 0\% & 0\% & 0\%\\\hline
+O & 0\% & 0\% & 0\%\\\hline
+P & 0\% & 0\% & 0\%\\\hline
+R & 0\% & 0\% & 0\%\\\hline
+S & 0\% & 0\% & 0\%\\\hline
+T & 0\% & 0\% & 0\%\\\hline
+U & 0\% & 0\% & 0\%\\\hline
+V & 0\% & 0\% & 0\%\\\hline
+X & 0\% & 0\% & 0\%\\\hline
+Y & 0\% & 0\% & 0\%\\\hline
+Z & 0\% & 0\% & 0\%\\\hline
+\end{tabular}
+\caption{Bla.}
+\label{fig:test:and_bogstav}
+\end{figure}
+\end{comment}
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
-Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
+Tegn & 9 & 16 & 25 & 36 & 49\\\hline
 0 & 21,0 & 77,1 & 74,8 & 56,1 & 91,1\\\hline
 1 & 79,3 & 94,1 & 97,5 & 97,5 & 98,0\\\hline
 2 & 92,7 & 93,3 & 98,0 & 98,9 & 99,2\\\hline
@@ -264,7 +304,7 @@ Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\
 8 & 13,0 & 45,2 & 90,4 & 93,5 & 97,0\\\hline
 9 & 82,6 & 94,6 & 96,4 & 98,2 & 97,3\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af cifre ved brug af middelvektorer. For hvert ciffer er det angivet hvor mange procent af billederne af dette ciffer, der er korrekt genkendt.}
+\caption{Afprøvningsresultater for genkendelse af tal-tegn ved brug af middelvektorer. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt.}
 \label{fig:test:middel_tal}
 \end{figure}
 
@@ -272,7 +312,7 @@ Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
-Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
+Tegn & 9 & 16 & 25 & 36 & 49\\\hline
 A & - & - & - & - & -\\\hline
 B & 40,9 & 68,2 & 90,9 & 95,5 & 95,5\\\hline
 C & 65,6 & 93,8 & 96,9 & 100,0 & 100,0\\\hline
@@ -295,7 +335,7 @@ X & 92,2 & 97,4 & 98,7 & 98,7 & 98,7\\\hline
 Y & 95,8 & 98,9 & 98,9 & 98,4 & 98,9\\\hline
 Z & 77,2 & 100,0 & 96,5 & 100,0 & 100,0\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af bogstaver ved brug af middelvektorer. For hvert bogstav er det angivet hvor mange procent af billederne af dette bogstav, der er korrekt genkendt. Rækken med bogstavet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
+\caption{Afprøvningsresultater for genkendelse af bogstav-tegn ved brug af middelvektorer. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt. Rækken med tegnet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
 \label{fig:test:middel_bogstav}
 \end{figure}
 
@@ -303,17 +343,13 @@ Z & 77,2 & 100,0 & 96,5 & 100,0 & 100,0\\\hline
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
-Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 & 8 $\times$ 8\\\hline
+Tegn & 9 & 16 & 25 & 36 & 49 & 64 & 81\\\hline
 Alle tal & 73,3 & 90,8 & 95,9 & 95,3 & 98,4 & 98,8 & 97,0\\\hline
 Alle bogstaver & 74,5 & 95,7 & 97,0 & 98,0 & 98,2 & 98,6 & 98,4\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af tegn ved brug af middelvektorer, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
+\caption{Bla.}
 \label{fig:test:middel_alletegn}
 \end{figure}
-
-Som det ses har metoden sværest ved at genkende tegnene \textbf{0} og \textbf{O} hviket skyldes, at middelvektorerne for disse tegn ligger tæt på hinanden (selv med det menneskelige øje, kan disse to tegn være svære at skelne fra hinanden). Derudover ses det at resultaterne for vektorer der er lavet på baggrund af 3 $\times$ 3 billeder, giver væsentligt dårlige resultater end de restende vektorer. Dette kommer især til udtryk i tabellen i figur \vref{fig:test:middel_alletegn}, hvor alle vektorer giver resultater over 90 \%, bortset fra den første.
-
-I figurene \vref{fig:test:sum_tal}, \vref{fig:test:sum_bogstav} samt \vref{fig:test:sum_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af sum-billeder. Som ovenfor vil det ikke give nogen mening at teste på vektorer lavet ud fra 2 $\times$ 2 billeder. NOGET OM ØVRE GRÆNSE?
 
 \begin{figure}[htp]
 \centering
@@ -374,14 +410,9 @@ Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 
 Alle tal & 37,4 & 61,4 & 89,6 & 93,8 & 97,5 & 97,6 & 91,1\\\hline
 Alle bogstaver & 47,2 & 67,6 & 86,1 & 89,1 & 88,3 & 95,9 & 91,9\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af tegn ved brug af sum-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
+\caption{Bla.}
 \label{fig:test:sum_alletegn}
 \end{figure}
-
-
-I \vref{fig:test:sum_alletegn} er det tydeligt at denne metode er generelt dårligere end den forrige. Resultaterne med de mindre vektorer er ikke nær så gode som med middelvektorer. Igen har metoden svært ved at genkende tegnene \textbf{0} og \textbf{O} men også tegnet \textbf{8} har behov for store sum-billeder for at kunne genkendes, hvilket i følge vores observationer er fordi, at det forveksles med tegnet \textbf{B}. Også \textbf{L} og \textbf{S} er svære at genkende, hvilket sandsynligvis skyldes at disse tegns densitet er forholdsvis lav, og at de binære billeder derfor ikke altid har et tilstrækkeligt antal markerede pixels til at tegnene genkendes.
-
-I figurene \vref{fig:test:and_tal}, \vref{fig:test:and_bogstav} samt \vref{fig:test:and_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af forenings-billeder. Denne metode har brug for billeder med megen information, hvorfor den mindste billedstørrelse er 10 $\times$ 10. NOGET OM ØVRE GRÆNSE?
 
 \begin{figure}[htp]
 \centering
@@ -442,11 +473,31 @@ Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\
 Alle tal & 71,6 & 74,7 & 76,3 & 78,5 & 74,7 & 75,7\\\hline
 Alle bogstaver & 70,7 & 70,3 & 73,0 & 75 & 72,3 & 72,0\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af tegn ved brug af forenings-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
+\caption{Bla.}
 \label{fig:test:and_alletegn}
 \end{figure}
 
-Generelt viser afprøvningen af metoden med forenings-billeder at metoden er meget dårlig tilgenkendelse af bestemte tegn. det drejer sig i sær om \textbf{0}, \textbf{1}, \textbf{6}, \textbf{C}, \textbf{L}, \textbf{S} og \textbf{U}. Fælles for disse tegn er at tegnenes markerede pixels ligger i yderkanten af billederne.
+
+\begin{comment} %%%%%%%% COMMENT START
+
+
+\begin{tabular}{|l|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
+Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
+9 & 0\% & 0\% & 0\% \\\hline
+16 & 0\% & 0\% & 0\%\\\hline
+25 & 0\% & 0\% & 0\%\\\hline \end{tabular}
+
+\begin{tabular}{|l|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
+9 & 0\% & 0\% & 0\% \\\hline
+16 & 0\% & 0\% & 0\% \\\hline
+25 & 0\% & 0\% & 0\% \\\hline \end{tabular}
+
+
+\end{comment}
+
 
 %HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TRÆNING?
 %HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TEST?
@@ -494,11 +545,11 @@ Hitnr. & Valgt \\\hline
 \end{comment} %%%%%%%% COMMENT END
 
 
-%Ovenstående med og uden syntaksanalyse? kun med? kun uden?
+Ovenstående med og uden syntaksanalyse? kun med? kun uden?
 
 %Søren: Ved klassifikation bruges en eller anden grænseværdi som bestemmer hvad et element skal klassificeres som: denne grænseværdi kan reguleres og kan derfor testes.
 
-%Delkonklusion:
+Delkonklusion:
 
 Vi kunne også have testet hvilke tegn der bliver valgt i stedet for, når et forkert tegn vælges. Vælges 8 f.eks. når B burde ha været valgt??
 
@@ -512,6 +563,24 @@ KUN MED DEN BEDSTE KONFIGURATION:
 pcT. AF ALLE TEGN
 PCT. AF ALLE PLADER
 
+\subsection{Billeder uden for afgrænsningerne}
+
+\begin{figure}[htp]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{..}} \\ \hline
+Metode & Blitzsæt & Gult sæt\\ \hline
+Områder domineret af lyse gråtoner &  24.6\% & 0.0\%\\ \hline
+Områder med høj kontrast & 5.4\% & 76.0\%\\ \hline
+Frekvensanalyse &  20.8\% & 52.0\%\\ \hline
+Maksimer lokal kontrast &  70.6\% & 68.0\%\\ \hline
+Kvantifisering &  85.4\% & 48.0\%\\
+\hline
+\end{tabular}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningsættet når alle fem metoder arbejde sammen.}
+\label{fig:test:lokalisering_blitz_gul}
+\end{figure}
 \subsection{Sammenligning med andres resultater}
 
 MÅSKE SKAL DETTE STÅ I KONKLUSION? ELLERS HER
