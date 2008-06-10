@@ -3,7 +3,7 @@
 
 TJEK VARIABELNAVNE
 
-Til genkendelse af tegn har vi arbejdet med tre forskellige metoder: Den første bruger informationer fra en såkaldt middelvektor, den anden arbejder med såkaldte sum-billeder mens den tredje er en simpel metode. I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaksanalyse på den tegnfølge der repræsenterer nummerpladens indhold.
+Til genkendelse af tegn har vi arbejdet med tre forskellige metoder: Den første bruger informationer fra en såkaldt middelvektor, den anden arbejder med såkaldte sum-billeder mens den tredje arbejder med såkaldte forenings-billeder. I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaksanalyse på den tegnfølge der repræsenterer nummerpladens indhold.
 
 Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerer. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin3}.
 
@@ -45,14 +45,14 @@ I vores system findes afstanden, $D$ fra én (middel)vektor, $M = (m_{1},m_{2},.
 
 \subsubsection*{Metode: Sum-billeder}
 
-Denne metode arbejder også med egenskabsvektorer. Her er idéen dog, at der oprettes såkaldte "sum-billeder" for hvert tegn i stedet for middelvektorer. Metoden er opstået af egen idé.
+Denne metode ligner metoden der bruger middelvektorer. Her er idéen dog, at der oprettes såkaldte "sum-billeder" for hvert tegn i stedet for middelvektorer. Metoden er lavet ud fra egen idé. HVORDAN IDEEN ER BLEVET TIL?
 
 Hvert binære billede i træningssættet for et givent tegn skaleres til en defineret størrelse, $I \times J$ og summeres med de andre billeder i sættet. Et eksempel på et sum-billede ses i figur \vref{fig:sumimg}.
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=2cm]{system/illu/sumimg.png} 
-\caption{Inddata, i form af syv billeder af syv tegn kommer ind i systemet fra venstre. ..... Uddata er .... De grå kasser...}
+\caption{Et eksempel på et sum-billede for tegnet \textbf{K}. De mest hvide pixels i billedet er de pixels som oftest er markeret i et \textbf{K}.}
 \label{fig:sumimg}
 \end{figure}
 
@@ -62,7 +62,8 @@ Et sum-billede, $S$ konstrueres af billederne $(B_{1},B_{2},...,B_{n})$ således
 	S = \sum_{x=1}^n{B_x}
 \end{displaymath}
 
-hvor summen er en elementvis sum. Efter denne summering normaliseres $S$, ved at dividere alle elementer i $S$ med $\max{(S)}$. Alle værdier i $S$ vil nu være mellem $0$ og $1$.
+hvor summen er en elementvis sum. Efter denne summering normaliseres $S$. Alle værdier i $S$ vil nu være mellem $0$ og $1$.
+%ved at dividere alle elementer i $S$ med $\max{(S)}$. 
 
 For hvert binære testbillede, $T$, der først skaleres til samme størrelse som $S$, multipliceres alle elementerne i $T$ med de tilsvarende elementer i $S$ og summen, $v$ tages af disse:
 
@@ -72,25 +73,33 @@ For hvert binære testbillede, $T$, der først skaleres til samme størrelse som
 
 $v$ svarer altså til summen af elementer fra $S$ hvor elementet med samme koordinater i $T$ er markeret. Når $v$ er fundet for alle tegn for et testbillede, vælges tegnet hvor $v$ er maksimal.
 
-NOGET OMKRING HVORDAN IDEEN ER OPSTÅET?
+\subsubsection*{Metode: Forenings-billeder}
 
-\subsubsection*{Metode: Simpel metode}
+I denne metode tager man alle de binære billeder i et træningssæt for et givent tegn og ser på hvilke pixels der altid er markeret i billeder af det givne tegn. Man finder altså foreningsmængden af pixels for hvert tegn. Information om denne mængde samles i noget vi har valgt at kalde forenings-billeder. Metoden er lavet ud fra egen idé.
 
-I denne metode tager man alle de binære billeder i et træningssæt for et givent tegn og ser på hvilke pixels der altid er markeret i billeder af det givne tegn. Metoden er hjemmelavet.
-
-And-billedet, $A$ laves ud fra billederne $(B_{1},B_{2},...,B_{n})$ af et givent tegn som følger:
+Forenings-billedet, $A$ laves ud fra billederne $(B_{1},B_{2},...,B_{n})$ af et givent tegn som følger:
 
 \begin{displaymath}
 A = B_1 \wedge B_2 \wedge ... \wedge B_n
 \end{displaymath}
 
-hvor AND'INGEN er elementvis. Et testbillede, $T$ and'es så med hvert enkelt $A$:
+hvor operatoren $\wedge$ indikerer en logisk, elementvis og-operation. Et eksempel på et forenings-billede ses i figur \vref{fig:andimg}.
+
+UDSKIFT MED EKSEMPEL PÅ FORENINGS-BILLEDE:
+\begin{figure}[htp]
+\centering
+\includegraphics[width=2cm]{system/illu/sumimg.png} 
+\caption{Et eksempel på et forenings-billede for tegnet \textbf{K}. De hvide pixels er de pixels som altid er markeret i et \textbf{K}.}
+\label{fig:andimg}
+\end{figure}
+
+Når tegnet i et testbillede, $T$ skal genkendes forenes $T$ med hvert enkelt $A$:
 
 \begin{displaymath}
 K = T \wedge A
 \end{displaymath}
 
-og antallet af 1'taller i $K$ optælles. Det tegn, hvor antallet af 1'taller i $K$ er maksimalt blandt alle tegnene, vælges som tegnet der repræsenteres af testbilledet.
+og antallet af markerede pixels i $K$ optælles. Det tegn, hvor antallet af markerede pixels i $K$ er maksimalt blandt alle tegnene, vælges som tegnet der repræsenteres af testbilledet.
 
 \subsubsection*{Syntaksanalyse}
 

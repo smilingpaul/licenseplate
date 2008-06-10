@@ -6,7 +6,7 @@ Rotationsmetoden returnerer et roteret billede af nummerpladen, mens separations
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{system/illu/dia_trin2.png} 
-\caption{Inddata, i form af et billede af en bil med nummerplader samt koordinaterne til denne plade, kommer ind i denne del af systemet fra venstre. Funktionerne roterer pladen, separerer tegnene og udklipper disse. Uddata er syv binære billeder med de syv tegn. Separationsmetoden i den grå kasse er ikke med i det vi definerer som ``vores færdige system''.}
+\caption{Inddata, i form af et billede af en bil med nummerplader samt koordinaterne til denne plade, kommer ind i denne del af systemet fra venstre. Funktionerne roterer pladen, separerer tegnene og udklipper disse. Uddata er syv binære billeder med de syv tegn. Da vi kun har valgt at den ene af de to separationsmetoder skal være en del af vores færdige system, er den fravalgte metode tegnet i en grå boks.}
 \label{fig:dia_trin2}
 \end{figure}
 
@@ -17,7 +17,7 @@ I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, s
 
 \subsubsection*{Radon transformation}
 
-En \textit{Radon transformation} beregner projektionen af et billede i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare med hensyn til rotation af et billede af en nummerplade, så denne plade ligger vandret i billedet. Vi vil undlade at gennemgå definitionen af Radon transformation. Idéen i en Radon transformation er dog illustreret i figur \vref{fig:radon_transform}. I denne figur ses det hvordan Radon transformationen laver en projektion af et billede i en enkelt vinkel, $\theta$. 
+En \textit{Radon transformation} beregner projektionen af et billede i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare med hensyn til rotation af et billede af en nummerplade, så denne plade ligger vandret i billedet. Vi vil undlade at gennemgå definitionen af Radon transformation. HVORFOR! Idéen i en Radon transformation er dog illustreret i figur \vref{fig:radon_transform}. I denne figur ses det hvordan Radon transformationen laver en projektion af et billede i en enkelt vinkel, $\theta$. 
 
 %En Radon transformation er defineret således\cite{wiki_radon}: SKAL MÅSKE IKKE MED?
 
@@ -38,7 +38,7 @@ En \textit{Radon transformation} beregner projektionen af et billede i flere for
 \begin{figure}[htp]
   \centering
   \includegraphics[width=8cm]{system/illu/radon.png}
-  \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ udfra flere kilder (sources). Den blå firkant er billedet der undersøges. Pilene er sensorlinier (kilderne). NOGET MED HVORDAN KOLONNERNES INTENSITETSVÆRDIER OPSUMMERES. Illustrationen er hentet fra \cite{matlab_radon}.}
+  \caption{En illustration af hvordan Radon transformation leder efter linier i en enkelt vinkel, $\theta$ udfra flere kilder (sources). Den blå firkant er billedet der undersøges. Pilene er sensorlinier (kilderne). For hver sensorlinie opsummeres intensitetsværdierne som ligger på denne linie. Jo højere denne sum er, jo større indikation af at der er en linie i denne retning. Illustrationen er hentet fra \cite{matlab_radon}.}
   \label{fig:radon_transform}
 \end{figure}
 
@@ -85,14 +85,17 @@ I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder ti
 %"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
 
 
-I det følgende beskrives to metoder til separation af tegn i en nummerplade. Disse to metoder arbejder med henholdsvis sammenhængende komponenter og såkaldt "signatur". I forbindelse med uarbejdelsen af metoden der bruger signatur viste det sig, at denne metode giver dårlige resultater. Derfor er kun metoden med sammenhængende komponenter blevet brugt i vores færdige system.
+I det følgende beskrives to metoder til separation af tegn i en nummerplade. Disse to metoder arbejder med henholdsvis sammenhængende komponenter og såkaldt "signatur". I forbindelse med uarbejdelsen af metoden der bruger signatur viste det sig, at denne metode giver dårlige resultater. Derfor er kun metoden med sammenhængende komponenter blevet brugt i vores færdige system. SKAL DET STÅ HER?
 
 %HER BESKRIVER VI JO VORES SYSTEM, SÅ DET SKAL VÆRE KLART AT VI KUN BENYTTER EN METODE.
 
 \subsubsection*{Metode: Sammenhængende komponenter}
 
-MANGLER MÅSKE REFERENCER MELLEM BILLEDERNE.
+MANGLER MÅSKE REFERENCER MELLEM BILLEDERNE DA DET ER SAMME PLADER DER GÅR IGEN.
+
 Denne metode til at separere tegn i en nummerplade fungerer ved brug af sammenhængende komponenter. Ideén bygger på at hvert enkelt af de syv tegn som findes i et billede af en nummerplade er én sammenhængende komponent. De sammenhængende komponenter der arbejdes med her består altså af mørke pixels i originalbilledet (tegnene er sorte). Metoden bruges i \cite{nijhuis} og \cite{kwas}.
+
+KONTRAST SKAL MÅSKE FLYTTES TIL IMPLEMENTERING?
 
 For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det nødvendigt at forstærke kontrasten i billedet. Ved en optimal kontrastforstærkning vil pixels som er en del af et tegn i et gråtonebillede af nummerpladen have intensitetsværdier som er meget mørke, mens pixels i den hvide nummerpladebaggrund vil have intensitetsværdier som er meget lyse. Et eksempel på kontrastforstærkning af et billede af en nummerplade ses i figur \vref{fig:kontrast}.
 
@@ -103,13 +106,15 @@ For at tegnene skal udskille sig klart fra nummerpladens lyse baggrund er det n�
     \framebox{\includegraphics{system/illu/eksempel_plade_gray.png}}\\
     \framebox{\includegraphics{system/illu/eksempel_plade_kontrast.png}}
   \end{minipage}
-  \caption{Et billede af en nummerplade hvor kontrasterne i billedet er forstærket. Det øverste billede er det originale billede, mens det nederste er det kontrastforstærkede billede.}
+  \caption{Et eksempel på et  billede af en nummerplade hvor kontrasterne i billedet er forstærket. Det øverste billede er det originale billede, mens det nederste er det kontrastforstærkede billede.}
   \label{fig:kontrast}
 \end{figure}
 
-Efter kontrastforstærkning oprettes et binært billede med sammenhængende komponenter. Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt eller der kan være mørke elementer uden for nummerpladen der vil være sammenhængende. Desuden kan det forekomme at tegn i nummerpladen ``gror'' sammen med pladens kant hvis der er snavs eller skruer\footnote{En nummerplade er monteret på en bil med skruer som i nogle tilfælde er synlige i nummerpladen.} mellem tegnet og kanten. Ved at fjerne smalle, liggende elementer som er for hvide eller for sorte samt ved at fjerne ``broer'' mellem nummerpladens kant og tegn, kan man.... Et eksempel på en nummerplade hvor nogle tegn er groet sammen med kanten ses i figur \vref{fig:skygge}. I samme figur er det vist hvordan pladen ser ud når ....
+Efter kontrastforstærkning oprettes et binært billede med sammenhængende komponenter. Sandsynligvis vil tegnene ikke være de eneste sammenhængende komponenter i billedet. Eksempelvis kan nummerpladen være beskidt eller der kan være mørke elementer uden for nummerpladen der vil være sammenhængende. Desuden kan det forekomme at tegn i nummerpladen ``gror'' sammen med pladens kant hvis der er snavs eller skruer i pladen mellem tegnet og kanten\footnote{En nummerplade monteres på en bil ved hjælp af skruer som i nogle tilfælde er synlige i nummerpladen.}. Ved at fjerne smalle, liggende elementer som er for hvide eller for sorte samt ved at fjerne ``broer'' mellem nummerpladens kant og tegn, kan man undgå at tegn og skrue opfattes som én komponent. Et eksempel på en nummerplade hvor nogle tegn er groet sammen med kanten ses i figur \vref{fig:skygge}. I samme figur er det vist hvordan pladen ser ud når tegnet er blevet separeret fra kanten.
 
-%MANGLER EKSEMPEL PÅ KOMPONENTER UDENFOR BILLEDET.
+MANGLER EKSEMPEL PÅ KOMPONENTER UDENFOR BILLEDET. SKAL DET VÆRE HER?
+
+UDSKIFT NEDERSTE BILLEDE!
 
 \begin{figure}[htp]
   \centering
@@ -123,15 +128,9 @@ Efter kontrastforstærkning oprettes et binært billede med sammenhængende komp
 	\begin{minipage}[c]{8 cm}
   	  \framebox{\includegraphics[width=7.75cm]{system/illu/skygge_fixed.png}}
 	\end{minipage}
-	\caption{Et eksempel på et billede af en nummerplade, som er repræsenteret ved sammenhængende komponenter (de hvide områder repræsenterer komponenter), hvor tegnene \textbf{Y} og \textbf{6} er groet sammen med pladens kant (på grund af skruer i pladen). Det øverste billede er hele nummerpladen mens de to nederste er forstørrelser af henholdsvis området omkring \textbf{Y}'et og \textbf{6}-tallet. Bemærk de tynde hvide streger der forbinder de to tegn med kanten af pladen.}
+	\caption{Et eksempel på et billede af en nummerplade, som er repræsenteret ved sammenhængende komponenter (de hvide områder repræsenterer komponenter), hvor tegnene \textbf{Y} og \textbf{6} er groet sammen med pladens kant (på grund af skruer i pladen). Det øverste billede er hele nummerpladen mens de to nederste er forstørrelser af henholdsvis området omkring \textbf{Y}'et og \textbf{6}-tallet. Bemærk de tynde hvide streger der forbinder de to tegn med kanten af pladen. Det nederste billede vises nummerpladen efter at tegnene og kanten er blevet adskilt.}
   \label{fig:skygge}
 \end{figure}
-
-
-%DET ER LETTERE AT FORSTÅ HVIS MAN TALER OM SORT OG HVID I STEDET FOR SPECIFIKKE INTENSITETSVÆRDIER. DER STÅR JO IKKE NOGEN FORKLARING TIL DEM.
-%Figur ?? viser forskellen på et billede af en nummerplade uden kontrast og et med hvor kontrasten i billedet er forstærket.
-
- %I figur \vref{fig:concomp} ses et billede af en nummerplade hvor de sammenhængende komponenter er hvide. Eksemplet viser en situation som beskrevet ovenfor, hvor det ikke kun er tegnene der er sammenhængende komponenter.
 
 %DETTE SKAL MÅSKE UD, DA VI JO TIDLIGERE HAR VIST ET LIGNENDE EKSEMPEL?
 
@@ -142,21 +141,18 @@ Efter kontrastforstærkning oprettes et binært billede med sammenhængende komp
 %  \label{fig:concomp}
 %\end{figure}
 
-Ud fra følgende regler, vælges de sammenhængende komponenter der kan være tegn:
+Herefter vælges, ud fra følgende regler, de sammenhængende komponenter der kan være tegn:
 
-\paragraph{1. Hvert tegn fylder maksimalt $\frac{1}{7}$ af billedets areal:} Da en nummerplade består af syv tegn og noget baggrund vil ingen tegn fylde mere end $\frac{1}{7}$ af billedets areal. 
-\paragraph{2. Hvert tegn har en maksimal bredde på $\frac{1}{7}$ af billedets bredde:} Denne regel er lavet ud fra samme argument som ovenfor.
+\paragraph{1. Hvert tegn fylder maksimalt $\frac{1}{7}$ af billedets areal:} Da en nummerplade består af syv tegn og en baggrund vil ingen tegn fylde mere end $\frac{1}{7}$ af billedets areal. 
+\paragraph{2. Hvert tegn har en maksimal bredde på $\frac{1}{7}$ af billedets bredde:} Denne regel er lavet ud fra samme argument som regel nummer 1.
 %\item Tegnenes højde er større end deres bredde. DETTE GØRES IKKE!
 \paragraph{3. Tegnenes minimale højde skal være mindst en vis konstant:} Da der vil være støj i form af meget små komponenter, sættes der en grænse for hvor lavt et tegn kan være.% (her: 5 pixels)
 \paragraph{4. Tegnenes minimale størrelse skal være mindst en vis konstant:} Samme som ovenfor: en grænse for hvor lille et areal et tegn kan have.% (her: 5 pixels)
-\paragraph{5. For hvert tegn findes der seks andre tegn, som er omtrent ligeså høje som det pågældende tegn:} Alle tegnene i pladen er lige høje.
-\paragraph{6. For hvert tegn findes der seks andre tegn som befinder sig i omtrent samme højde som det pågældende tegn:} Hvis nummerpladen ligger vandret i billedet, vil alle tegn være i samme højde.
+\paragraph{5. For hvert tegn findes der seks andre tegn, som er omtrent ligeså høje som det pågældende tegn:} Alle syv tegn i nummerpladen er lige høje.
+\paragraph{6. For hvert tegn findes der seks andre tegn som befinder sig i samme højde som det pågældende tegn:} Hvis nummerpladen ligger vandret i billedet, vil alle syv tegn være i samme højde.
 \paragraph{7. De syv tegn er opdelt i tre grupper:} De to bogstaver, de to første tal samt de tre sidste tal danner hver især en gruppe i forhold til afstanden mellem tegnene.
 
-%VI BØR NOK LAVE LISTEN OM TIL NUMMEREREDE PARAGRAFER MED MERE UDFØRLIGE BESKRIVELSER.
-
-
-Når de sammenhængende komponenter, der ikke kan være tegn, er sorteret fra fås et binært billede, hvor kun tegnene i nummerpladen er markeret. I figur \vref{fig:sorterede-concomp} vises et eksempel.
+Når de sammenhængende komponenter, der ikke kan være tegn, er sorteret fra fås et binært billede, hvor kun tegnene i nummerpladen er markeret. I figur \vref{fig:sorterede-concomp} vises et eksempel. Til sidst udklippes tegnene. Et eksempel på syv udklippede tegn er vist i figur \vref{fig:tegn-udklip}.
 
 \begin{figure}[htp]
   \centering
@@ -164,8 +160,6 @@ Når de sammenhængende komponenter, der ikke kan være tegn, er sorteret fra f�
   \caption{Et eksempel på et binært billede af en nummerplade, hvor kun tegnene er markeret.}
   \label{fig:sorterede-concomp}
 \end{figure}
-
-Til sidst udklippes tegnene. Et eksempel på syv udklippede tegn er vist i figur \vref{fig:tegn-udklip}.
 
 \begin{figure}[htp]
   \centering
