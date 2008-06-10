@@ -109,7 +109,7 @@ OVERVEJ ILLU FRA: http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Morpholo.
 \paragraph{4. Fjern uniteressante områder fra binært billede}
 I det binære billede er der nu en masse områder som helt sikkert ikke kan være nummerpladen. Et helt oplagt eksempel er områder der kun består af ganske få pixels. Vi sletter alle de områder vi vurderer som uinteresant ved at kalde funktionen \textit{BinImgCleanup} som tidligere beskrevet i \vref{sec:imp:BinImgCleanup} med det binære billede som argument.
 
-\paragraph{5.Vælg den bedste nummerpladekandidat}
+\paragraph{5. Vælg den bedste nummerpladekandidat}
 For at finde den bedste nummerpladekandidate i det nu "rensede" binære billede kalder vi funktionen \textit{GetBestCandidate} som tidligere beskrevet i afsnit \vref{sec:imp:GetBestCandidate}. Funktionen returnerer koordinater og point for den nummerpladekandidat der har fået færrest point. 
 
 \paragraph{6. Returner resultat}
@@ -263,7 +263,7 @@ I de følgende afsnit gennemgår vi væsentlige implementeringssdetaljer i de fu
 \subsubsection{Rotation}
 \label{sec:implementation/sep/rotation}
 
-VIS EKSEMPEL MED AT DEN IKKE KAN ROTERERE HVOR PLADEN ER KLIPPET FOR TÆT
+VIS EKSEMPEL MED AT DEN IKKE KAN ROTERERE HVOR PLADEN ER KLIPPET FOR TÆT. SKAL DETTE VISES?
 
 RET MIG!
 Vi vil her undlade at gennemgå definitionen af \textit{Radon} transformation. HVORFOR!
@@ -306,14 +306,14 @@ Metoderne til separation af tegn tager et billede af en nummerplade samt koordin
 \subsubsection*{Sammenhængende komponenter}
 BRUGER DU 8 ELLER 4 SAMMENHÆNG?
 
-Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}. Funktionen forløber således:
+Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kildekode findes i afsnit \vref{code:CharSeparationCC}. Programmet forløber således:
 
-\paragraph{1. Billedet af pladen omdannes til gråtone.} IRRELEVANT?
+\paragraph{1. Klargør billedet:} Billedet af pladen omdannes fra farve til 256 gråtoner. 
 
-\paragraph{2. Billedet indskrænkes til den største komponent:}
-De billeder der i denne del af systemet modtages fra identifikationsmetoderne er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen (DET ER JO FoRDI VI KAN ANTAGE EN HEL DEL TING OM BILLEDET HVIS VI VED AT DET KUN INDEHOLDER PLADEN). Da nummerpladen sandsynligvis er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen \textit{im2bw}, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. Ved at sætte denne grænseværdi lavt mindskes risikoen for at nummerpladen ikke bliver en lys komponent.
+\paragraph{2. Indskrænk billedet til den største komponent:}
+De billeder der i denne del af systemet modtages fra lokaliseringsmetoderne er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen (DET ER JO FoRDI VI KAN ANTAGE EN HEL DEL TING OM BILLEDET HVIS VI VED AT DET KUN INDEHOLDER PLADEN). Da nummerpladen sandsynligvis er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen \textit{im2bw}, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. Ved at sætte denne grænseværdi lavt mindskes risikoen for at nummerpladen ikke bliver en lys komponent.
 
-\paragraph{3. Billedets kontraster forstærkes:}
+\paragraph{3. Forstærk billedets kontraster:}
 For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal(SKAL?) billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke (HVAD ER DET MON FOR NOGEN BLOKKE?) så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
 
 HER ER BRIG FOR EN ILLUSTRATION
@@ -326,7 +326,7 @@ BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE 
 \begin{figure}[htp]
 \centering
 \framebox{\includegraphics{implementation/illu/cc_remove_thin_line.png}} 
-\caption{En illustration af hvordan et tegn i en nummerplade kan gro sammen med nogle elementer i pladens kant. Det øverste hvide område (over den røde pixel) er nummerpladens kant mens det nederset hvide område er en tegnet. Det sorte er pladens baggrund. Den røde pixel illustrerer et punkt hvor de to hvide elementer er groet sammen. Denne sammenhæng kan fjernes ved at slette alle pixels som har en tom plads på begge sider.}
+\caption{En illustration af hvordan et tegn i en nummerplade kan gro sammen med nogle elementer i pladens kant. Det øverste hvide område (over den grå pixel) er nummerpladens kant mens det nederset hvide område er en tegnet. Det sorte er pladens baggrund. Den grå pixel illustrerer et punkt hvor de to hvide elementer er groet sammen. Denne sammenhæng kan fjernes ved at slette alle pixels som har en tom plads på begge sider.}
 \label{fig:tynd_linie}
 \end{figure}
 
@@ -407,35 +407,31 @@ I bjerg/dal metoden kunne man implementere end mere grundig måde at finde top- 
 
 Noget om at 8 og B samt 0 og O ligner hinanden og ikke må forventes at blive genkendt uden syntaksanalyse.
 
-\subsubsection{Middelvektorer}
+\subsubsection{Egenskabsvektorer}
 
-Implementationen af metoden til tegngenkendelse ved hjælp af middelvektorer findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}. Den første funktion udarbejder middelvektorerne for træningssættet mens den anden behandler testbillederne ved brug af middelvektorerne.
+Implementeringen af metoden til tegngenkendelse ved hjælp af egenskabsvektorer findes i filerne \textit{GetMeanVectors.m} OMDØB?? og \textit{ReadPlateFV.m}. Den første funktion udarbejder egenskabsvektorerne for træningssættet mens den anden behandler testbillederne ved brug af egenskabsvektorerne. Programmet i \textit{GetMeanVectors.m} udfører følgende trin:
 
-Funktionen \textit{GetMeanVectors.m} er opbygget som følger:
-
-\paragraph{1. Skaler hvert billede af et givent tegn:} Billederne skaleres til en størrelse på $\sqrt{L} \times \sqrt{L}$, hvor $L$ er middelvektorlængden. På denne måde laves middelvektorerne udfra billeder med samme forudsætninger.
+\paragraph{1. Skaler hvert billede af et givent tegn:} Billederne skaleres til en størrelse på $\sqrt{L} \times \sqrt{L}$, hvor $L$ er vektorlængden. På denne måde laves egenskabsvektorerne udfra billeder med samme forudsætninger.
 
 \paragraph{2. Omform de skalerede billeder til en vektor af længden, $L$:} Dette gøres ved hjælp af Matlab funktionen \textit{reshape}. Ved at danne vektoren i to trin sikrer vi os, at den indeholder information fra  BLA BLA
 
-\paragraph{3. Find middelvektoren for alle vektorerne:} Først summeres alle vektorerne i én vektor hvorefter hvert element i denne divideres med antallet af vektorer. Dette resulterer i en middelvektor.
+\paragraph{3. Find egenskabsvektoren for alle vektorerne:} Først summeres alle vektorerne i én vektor hvorefter hvert element i denne divideres med antallet af vektorer. Dette resulterer i en vektor med middelværdier.
 
-\paragraph{4. Saml elle middelvektorerne i én matrix:} ER DET LIGEGYLDIGT?
+%\paragraph{4. Saml alle middelvektorerne i én matrix:} ER DET LIGEGYLDIGT?
 
 %For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
 
-Funktionen \textit{ReadPlateFV.m}, der læser tegnene i en plade, er opbygget som følger:
+Programmet i \textit{ReadPlateFV.m}, der læser tegnene i en plade, forløber som følger:
 
 \paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som det, træningsbillederne blev skaleret til.
 
-\paragraph{2. Beregn de euklidiske afstande:} FLYT NOGET FRA SYSTEM-AFSNIT HERNED?
+\paragraph{2. Beregn de euklidiske afstande fra testbilledet til alle egenskabsvektorerne:} FLYT NOGET FRA SYSTEM-AFSNIT HERNED?
 
-\paragraph{3. Sorter listen af alle lovlige tegn efter euklidiske afstande:} De tegn hvortil der er den korteste afstand placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
+\paragraph{3. Sorter listen af alle lovlige tegn efter euklidiske afstande:} Tegnet, der er repræsenteret ved den vektor hvortil der er den korteste afstand, placeres først i tegnfølgen, der indeholder alle tegn. Tegnet med den næstnærmeste vektor placeres som nummer to i tegnfølgen og så videre. Denne tegnfølge fungerer som tegn-hitliste.
 
 \subsubsection{Sum-billeder}
 
-Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder findes i filerne \textit{GetSumImgs.m} og \textit{ReadPlateSUM.m}. Den første funktion udarbejder sum-billederne for træningssættet mens den anden behandler testbillederne ved brug af sum-billederne.
-
-Funktionen \textit{GetSumImgs} er opbygget som følger:
+Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder findes i filerne \textit{GetSumImgs.m} og \textit{ReadPlateSUM.m}. Den første funktion udarbejder sum-billederne for træningssættet mens den anden behandler testbillederne ved brug af sum-billederne. Programmet i \textit{GetSumImgs.m} udfører følgende trin:
 
 \paragraph{1. Skaler hvert billede af et givent tegn:}
 
@@ -453,25 +449,27 @@ Funktionen \textit{ReadPlateSUM} er opbygget som følger:
 
 \paragraph{3. Sorter listen af alle tegn efter summer:} De tegn hvor den største sum er fundet placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
-\subsubsection{Simpel metode}
+\subsubsection{Forenings-billeder}
 
-Implementeringen af metoden til tegngenkendelse ved hjælp af en simpel metode findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}\footnote{Filnavnene indeholder ordet ``AND'', da fuktionerne benytter den logiske og-operator (\textit{eng.: and}), $\wedge$}. Den første funktion udarbejder og-billeder for træningssættet mens den anden behandler testbillederne ved brug af og-billederne.
+Implementeringen af metoden til tegngenkendelse ved hjælp af forenings-billeder findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}\footnote{Filnavnene indeholder det engelske ord \textit{and}, da fuktionerne benytter den logiske og-operator, $\wedge$}. Den første funktion udarbejder og-billeder for træningssættet mens den anden behandler testbillederne ved brug af forenings-billederne.
 
 Funktionen \textit{GetAndImgs} er opbygget som følger:
 
-\paragraph{1. Bla:}
+\paragraph{1. Skaler hvert billede af et givent tegn:}
 
-\paragraph{2. Bla:}
+\paragraph{2. Find foreningsmængden alle billederne for hvert tegn:}
 
-\paragraph{3. Bla:}
+\paragraph{3. Normaliser forenings-billederne:} FLYT NOGET HERNED?
+
+\paragraph{4. Saml alle forenings-billederne i én matrix:} ER DET LIGEGYLDIGT?
 
 Funktionen \textit{ReadPlateAND} er opbygget som følger:
 
-\paragraph{1. Bla:}
+\paragraph{1. Skaler billederne af tegnene der skal genkendes:}
 
-\paragraph{2. Bla:}
+\paragraph{2. Find foreningsmængden for det billede der skal genkendes for hvert tegn:}
 
-\paragraph{3. Bla:}
+\paragraph{3. Sorter listen af alle tegn efter størrelsen af foreningsmængden:} De tegn hvor den største foreningsmængde er fundet placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
 \subsubsection{Syntaksanalyse}
 
@@ -481,18 +479,18 @@ Funktionens forløb er som følger:
 
 \paragraph{1. Gennemløb hitlisterne for tegnene på de to første positioner:} Hvis der ikke står bogstaver på disse to positioner, laves dette gennemløb indtil det er tilfældet.
 \paragraph{2. Analyser tegnene på de første to positioner og udskift dem om nødvendigt:}
-Hvis der i på tegnfølgens to første positioner forekommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to ???????????: Den ?????????? der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud. Denne operation fortsættes indtil en lovlig bogstavkombination er fundet.
+Hvis der i på tegnfølgens to første positioner forekommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to PROTOTYPER: Tegnet der hører til den PROTOTYPE der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud. Denne operation fortsættes indtil en lovlig bogstavkombination er fundet.
 
 \paragraph{3. Gennemløb hitlisterne for tegnene på de fem sidste positioner:} Hvis der ikke står tal på disse fem positioner, laves dette gennemløb indtil det er tilfældet.
 
-\paragraph{4. Analyser de tegnene på position nr. tre og fire og udskift dem om nødvendigt:}
-Værdien af tallene i en almindelig, dansk nummerplade spænder fra ????? til ?????. Da alle værdier under ????? eller over ????? vil være ulovlige, er det nødvendigt at undersøge om værdien af tallene på de første to positioner er mindre end ?? eller større end ??. Det er altså tilstrækkeligt kun at undersøge disse to tegn i denne sammenhæng.
+\paragraph{4. Analyser tegnene på position nr. 3 og 4 og udskift dem om nødvendigt:}
+Værdien af tallene i en almindelig, dansk nummerplade som dem vi arbejder med spænder fra 20000 til 75999. Da alle værdier udenfor dette spænd vil være ulovlige, er det nødvendigt at undersøge om værdien af tallene på de første to positioner er mindre end 20 eller større end 75. Det er altså tilstrækkeligt kun at undersøge disse to tegn i denne sammenhæng.
 
-\paragraph{5. Analyser de valgte hitnumre. Hvis et nummer er for højt i forhold til det maksimale, retuner tegnet "\textbf{\_}" på den givne plads.}
+\paragraph{5. Analyser de valgte hitnumre:} Hvis et nummer er for højt i forhold til det maksimale, retuner tegnet "\textbf{\_}" på den givne plads. Dette indikerer at syntaks analysen ikke har noget gæt på hvilket tegn der skal stå på den givne position, da den ikke kan gå længere ned ad hitlisten.
 
 \subsubsection{Mulige forbedringer}
-Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.
+Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn. Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.
 
-I metoden der bruger middelvektorer udregnes afstanden mellem to vektorer som den euklidiske afstand. Vi kunne have valgt at udregne Mahalanobis afstand, som er baseret på korelationer mellem variable (i dette tilfælde er ``variable'' billederne i træningssættet), men vi har valgt at holde os til den euklidiske afstand da denne er mere simpel.
+I metoden der bruger egenskabsvektorer udregnes afstanden mellem to vektorer som den euklidiske afstand. Vi kunne have valgt at udregne Mahalanobis afstand, som er baseret på korelationer mellem variable (i dette tilfælde er ``variable'' billederne i træningssættet), men vi har valgt at holde os til den euklidiske afstand, da denne er mere simpel.
 
 Når vi skalerer billederne til genkendelse bruger vi Matlab funktionen \textit{imresize} med dens standardindstillinger. Vi har dog ikke undersøgt om nogle andre indstillinger ville kunne forbedre metoderne.
