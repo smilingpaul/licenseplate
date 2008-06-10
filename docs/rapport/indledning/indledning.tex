@@ -1,6 +1,9 @@
 \section{Indledning}
 
 \subsubsection*{TODO}
+Skal sidenumrene starte forfra i bilag?
+
+HVorfor er der en næsten tom side før afsnittet Baggrund?
 
 Overvej at skrive noget om hvordan man udregner gradienter.
 Sig noget om at pladerne ofte er forsænkede når de sidder bag på bilerne.
@@ -25,7 +28,7 @@ Hvad afleverer vi opgaven i og hvor printer vi?
 
 \subsubsection*{Formalia}
 
-Denne rapport beskriver et system til automatisk lokalisering og læsning af danske nummerplader. Systemet og rapporten er udviklet som bachelorprojekt på Københavns Universitet i 2008.
+Denne rapport beskriver et system til automatisk lokalisering og læsning af danske nummerplader. Systemet og rapporten er udviklet som bachelorprojekt på Københavns Universitet Datalogisk Institut i 2008.
 
 Systemet er udviklet i \textit{Matlab}. Vi har ikke haft nogen ambitioner om at kunne læse nummerplader i realtid, og har ikke foretaget os noget væsentligt for at optimere hastigheden på systemet.
 
@@ -56,7 +59,7 @@ For at forsøge at få så skarpe billeder som muligt, har vi valgt kun at tage 
 Før at gøre opgaven begrænset, har vi valgt kun at kigge på billeder der indeholder en enkelt nummerplade. Hvis vi ved at et billede med garanti indeholder én nummerplade, kan vi kigge efter det område der ligner en nummerplade mest og være ret sikre på at dette område virkelig er en nummerplade. Vi behøver altså ikke vurdere, om det område der ligner mest ligner så meget at vi mener det er en nummerplade.
 
 \paragraph{Amindelige danske nummerplader:}
-For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at arbejde med de almindelige hvide nummerplader med en linie sort tekst på hvid baggrund og rød kant som vist i figur \vref{fig:typisk_nummerplade}. Endvidere arbejder vi ikke med de såkaldte personlige nummerplader hvor man selv kan bestemme teksten på nummerpladen. På de numerplader vi arbejder med, består teksten altså af syv tegn hvoraf de to første er bogstaver og de fem sidste er cifre mellem.
+For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at arbejde med de almindelige hvide nummerplader med en linie sort tekst på hvid baggrund og rød kant som vist i figur \vref{fig:typisk_nummerplade}. Endvidere arbejder vi ikke med de såkaldte personlige nummerplader hvor man selv kan bestemme teksten på nummerpladen. På de nummerplader vi arbejder med, består teksten altså af syv tegn hvoraf de to første er bogstaver og de fem sidste er cifre.
 
 \begin{figure}[htp]
 \centering
@@ -66,7 +69,7 @@ For at kunne nøjes med at kigge efter en type nummerplader, har vi valgt kun at
 \end{figure}
 
 \paragraph{Vandrette nummerplader:}
-Vores billeder er taget så nummerpladerne er roteret i begrænset omfang. Denne begrænsning gør, at vi kan antage at de områder der indeholder nummerplader har et forhold mellem bredde og højde der ligger forholdsvis tæt på danske nummerplades officielle bredde/højde-forhold.
+Vores billeder er taget så nummerpladerne er roteret så lidt som muligt. Denne begrænsning gør, at vi kan antage at de områder der indeholder nummerplader har et forhold mellem bredde og højde der ligger forholdsvis tæt på danske nummerplades officielle bredde/højde-forhold.
 
 \paragraph{Ingen perspektivisk forvrængning:}
 Vi har valgt at arbejde med billeder hvor den perspektivisk forvrængning af nummerpladerne er minimal. Uden væsentlig skævvridning af nummerpladerne, vil pladernes tegn stort set være lige høje og brede og dermed nemmere at læse. Vi har derfor bestræbt os på at tage vore billeder fra en position umiddelbart foran eller bagved den bil vi fotograferer. Denne afgrænsning gør, at vi ikke arbejder med opretning af perspektiviskt forvrængning\footnote{Affin transformation} i denne opgave. 
@@ -95,10 +98,10 @@ Vi har delt vores billeder op i flere sæt. Vi har to primære sæt og to sekund
 
 Vores andet primære sæt, \textit{kontrolsættet}, består af 600 billeder. Dette sæt har vi brugt til at foretage en form for kontrol af vores færdige system. Det er vores tanke at denne kontrol vil kunne sige noget om i hvor høj grad vi har formået at lave et system der fungerer på ukendte billeder der overholder vores tidligere beskrevne afgrænsninger. 
 
-De to sekundære sæt består af billeder der ikke overholder vores afgrænsninger, men dog kun på et enkelt område. I det første sæt, der består af 130 billeder, er alle billeder taget med blitz. Det andet sekundære sæt indeholder billeder af biler med gule numerplader. Sætter der består af XX billeder overholder alle øvrige afgrænsninger. Vi kalder disse to sæt for henholdsvis \textit{blitzsættet} og det \textit{gule sæt}.
-
-TAG 50 BILLEDER AF GULE PLADER U. BLITZ
+De to sekundære sæt består af billeder der ikke overholder vores afgrænsninger, men dog kun på et enkelt område hver. I det første sæt, der består af 130 billeder, er alle billeder taget med blitz. Det andet sekundære sæt indeholder billeder af biler med gule numerplader. Sætter består af 50 billeder og overholder alle øvrige afgrænsninger. Vi kalder disse to sæt for henholdsvis \textit{blitzsættet} og det \textit{gule sæt}.
 
 Vi har valgt at medtage de to sekundære set for at få en indikation af hvordan vores system opfører sig når det arbejder på data der ikke er taget højde for. Vil den gule farve gøre at vi slet ikke kan finde nummerpladerne? Vil blitzlyset gøre det lettere at finde nummerpladerne? Vil bogstaverne på de blitzoplyste nummerplader kunne genkendes af vores system?
 
-For at kunne automatisere afprøvning af vores system, har vi navngivet vores billedfiler så vi kan aflæse nummerpladens koordinater samt nummerpladens tekst. Vi har angiver koordinaterne så hele nummerpladen er indeholdt i det specificerede område.
+SKRIV AT DER ER BILLEDER I APPENDIKS
+
+For at kunne automatisere afprøvning af vores system, har vi navngivet vores billedfiler så vi kan aflæse nummerpladens koordinater samt nummerpladens tekst. Vi har angiver koordinaterne så hele nummerpladen er indeholdt i det område de specificerer.

@@ -97,7 +97,7 @@ stepnumber=5,                   % the step between two line-numbers. If it's 1 e
 % BAGGRUND   %
 %%%%%%%%%%%%%%
 \section{Baggrund}
-Systemer til automatisk genkendelse af nummerplader blev opfundet af det engelske politis forskingsafdeling i 1976. Fungerende prototyper var klar i 1979. Afprøvninger blev foretaget på englands længste vej A1 der løber fra London til Edinburgh i Skotland samt tunnelsystemet Dartford Crossings i London\cite{wiki_baggrund}. 
+Systemer til automatisk genkendelse af nummerplader blev opfundet af det engelske politis forskningsafdeling i 1976. Fungerende prototyper var klar i 1979. Afprøvninger blev foretaget på englands længste vej, A1, der løber fra London til Edinburgh i Skotland samt tunnelsystemet Dartford Crossings i London\cite{wiki_baggrund}. 
 
 I dag anvendes automatisk registrering i mange forskellige sammenhænge. Nogle af de mest kendte områder er: 
 \paragraph{Hastighedsmåling}
@@ -107,27 +107,27 @@ Ved at følge en bil fra et sted til et andet på en motorvej kan man ved at ana
 Brug af veje og andre faciliteter kan analyseres. Hvor mange biler passerer et givet sted i løbet af et døgn? Hvor mange af disse er pendlere der kører den ene vej om morgenen og den anden om aftenen? Hvordan bevæger trafikken sig igenem en by? Hvordan fordeler trafikken sig fra dens indfaldsveje?
 
 \paragraph{Trafikafgift}
-Både London og Stockholm har i skrivende stund systemer der registrerer køretøjer der kører ind og ud a byen. Ejerne af køretøjer der bevæger sig i den indre by, får tilsendt en bøde hvis de ikke betaler for den tid de bruger i midtbyen.
+Både London og Stockholm har i skrivende stund systemer der registrerer køretøjer der kører ind og ud af byen. Ejerne af køretøjer der bevæger sig i den indre by, får tilsendt en bøde hvis de ikke betaler for den tid de bruger i området.
 
 \paragraph{Patruljering}
 Med kameraer monteret på patruljevogne kan politiet registrere om de passerer f.eks. efterlyste køretøjer. Demonstrationen af et sådan system kan ses i \cite{canada_demo}. 
 
-Automatisk registrering og overvågning er et kontroversielt emne, hvor folk oftest er meget for eller meget imod. I England har man i dag et meget omfattende overvågningssytem der tillader politiet at følge et køretøjer rundt i hele landet\cite{wiki_baggrund}. Som et eksempel på den modsatte situation, fik man i Tyskland i marts 2008 rettens ord for, at automatisk registrering af nummerplader ovetræder landets love om privatlivets fred\cite{tysk_ulovlig}.
+Automatisk registrering og overvågning er et kontroversielt emne, hvor folk oftest er meget for eller meget imod. I England har man i dag et meget omfattende overvågningssytem der tillader politiet at følge køretøjer rundt i hele landet\cite{wiki_baggrund}. Som et eksempel på den modsatte situation, fik man i Tyskland i marts 2008 rettens ord for, at automatisk registrering af nummerplader ovetræder landets love om privatlivets fred og dermed er ulovlig\cite{tysk_ulovlig}.
 
 %%%%%%%%%%%%%%%%%%%%%%%
 % OPBYGNING AF SYSTEM %
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Vores system}
-I vores system har vi opdelt arbejdet med at læse lokalisere og læse nummerplader i tre trin. Som det første forsøger via at finde nummerpladen i billedet. Som trin to prøver vi at klippe de syv tegn i nummerpladen ud i hver sit billeder. Som det sidste trin forsøger vi at læse de syv tegn. Systemet returnerer nummerpladens tegn som tekst.
+I vores system har vi opdelt arbejdet med at lokalisere og læse nummerplader i tre trin. Som det første forsøger via at finde nummerpladen i billedet. Som trin to prøver vi at klippe de syv tegn i nummerpladen ud i hver sit billeder. Til sidst forsøger vi at genkende de syv tegn. Systemet returnerer sit bud på nummerpladens tegn i tekstformat som det endelige resultat.
 
-I dette afsnit har hver af de tre trin sit eget underafsnit. I hver af disse beskriver vi den software vi har udviklet til det aktuelle trin. Vi har i forbindelse med alle tre trin arbejdet med forskellige metoder til løsning af underopgaven. Til lokalisering af nummerplader, har vi valgt at lade flere metoder arbejde sammen, mens vi i forbindelse med separation og læsning af tegn, har arbejdet med flere metoder og valgt den  mest effektive til det endelige system.
+I dette afsnit har hver af de tre trin sit eget underafsnit. I hvert af disse beskriver vi den software vi har udviklet til det aktuelle trin. Vi har i forbindelse med alle tre trin arbejdet med forskellige metoder til løsning af underopgaven. Til lokalisering af nummerplader, har vi valgt at lade flere metoder arbejde sammen, mens vi i forbindelse med separation og genkendelse af tegn, har arbejdet med flere forskellige metoder og valgt den mest effektive til det endelige system.
 
- Figur \ref{fig:system_overblik} viser et diagram over vores system. FIND PÅ NOGET MERE HER. 
+ Figur \ref{fig:system_overblik} viser et diagram over vores system. Et billede kommer ind i systemet i toppen af diagrammet, og nummerpladens tekst kommer ud i bunden. De tre trin i processen foregår i de tre retvinklede rektangler med teksten \textit{Trin 1-3}. 
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=10cm]{system/illu/overordnet_system_2.png} 
-\caption{Vores system som diagram. Et billede af en bil er inddata og uddata er nummerpladen som tekst.}
+\caption{Vores system som diagram. Et billede af en bil er inddata og uddata er tegnene på nummerpladen som tekst.}
 \label{fig:system_overblik}
 \end{figure}
 
@@ -289,7 +289,7 @@ I dette appendiks forsøger vi at give læseren et indtryk af den type data syst
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{appendix/illu/plates_not_rotated-1.jpg} 
-\caption{Nummerplader som de ser ud når det er klippet ud men endnu ikke roteret. Selvom vi har forsøgt at tage vores billeder sådan at nummerpladerne lå vandret har det været nødvendigt at rotere pladerne for at få dem til at ligge vandret.}
+\caption{Et udvalg af nummerplader som de ser ud når de er klippet ud, men endnu ikke roteret. Selvom vi har forsøgt at tage vores billeder sådan at nummerpladerne ikke er roteret væsentligt, har det været nødvendigt at rotere pladerne for at få dem til at ligge vandret.}
 \label{fig:illu:plates_not_rotated-1}
 \end{figure}
 
