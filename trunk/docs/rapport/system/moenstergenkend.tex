@@ -10,14 +10,16 @@ Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separ
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{system/illu/dia_trin3.png} 
-\caption{Inddata, i form af syv billeder af syv tegn kommer ind i denne del af systemet fra venstre. Funktionerne genkender tegnene på billederne og opretter en tegnfølge som repræsenterer nummerpladens tekst. Uddata er denne tegnfølge. Da kun en af de tre metoder er en del af vores færdige system, er to af metoderne tegnet i en grå boks, som symboliserer at de er fravalgt.}
+\caption{Inddata, i form af syv billeder af tegn kommer ind i systemet fra venstre. Systemet konfigureres så en af de tre mulige metoder bruges til at genkender tegnene på billederne. Uddata er de syv tegn som en samlet tegnfølge. Da kun en af de tre metoder bruges af vores færdige system, er to af metoderne tegnet i en grå boks. Dette symboliserer at de er fravalgt.}
 \label{fig:dia_trin3}
 \end{figure}
 
-Til de tre genkendelsesmetoder har vi uarbejdet et tegn-træningssæt betående af billeder af tegn, sorteret efter tegnets type (\textbf{A}, \textbf{B}, \textbf{C} et cetera). Dette sæt er lavet ud fra vores træningssæt og vi har frasorteret billeder af tegn, hvor tegnet var afskåret. SKAL VI BESKRIVE HVORDAN DE FRAVLAGTE TEGN BLIVER SÅDAN?? Udfra dette tegn-træningssæt laver vi de enkelte træningsbilleder i de tre metoder.
+Vi har udarbejdet et tegn-træningsæt bestående af tegn der er klippet ud af nummerpladerne på de 400 billeder i vores træningsæt. Vi bruger dette sæt bestående af individuelle tegn til at træne vores metoder.
+
+%Til de tre genkendelsesmetoder har vi uarbejdet et tegn-træningssæt betående af billeder af tegn, sorteret efter tegnets type (\textbf{A}, \textbf{B}, \textbf{C} et cetera). Dette sæt er lavet ud fra vores træningssæt og vi har frasorteret billeder af tegn, hvor tegnet var afskåret. SKAL VI BESKRIVE HVORDAN DE FRAVLAGTE TEGN BLIVER SÅDAN?? Udfra dette tegn-træningssæt laver vi de enkelte træningsbilleder i de tre metoder.
 
 \subsubsection*{Metode: Middelvektorer}
-En egenskabsvektor (\textit{eng.: feature vector}) er en vektor der repræsenterer et objekts egenskaber, i dette tilfælde er objektet et billede og egenskabsvektorerne kaldes middelvektorer. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med middelvektorer (lavet på baggrund af tegn-træningssættet) for at finde det tegn som er i billedet. Der oprettes altså en middelvektor for hvert tegn. Metoden er fundet i \cite{arth}.
+En egenskabsvektor (\textit{eng.: feature vector}) er en vektor der, som navnet antyder, repræsenterer et objekts egenskaber. I dette tilfælde er objektet et billede og egenskabsvektorerne kaldes middelvektorer. Idéen i denne metode er, at hvert billede af et tegn sammenlignes med middelvektorer (lavet på baggrund af tegn-træningssættet) for at finde det tegn som er i billedet. Der oprettes altså en middelvektor for hvert tegn. Metoden er fundet i \cite{arth}.
 
 Først oprettes middelvektorerne. Det vil sige at der oprettes en middelvektor for tegnet \textbf{A}, tegnet \textbf{B} og så videre. Dette vektorsæt er et træningssæt (systemet "trænes" til at kende de forskellige typer af tegn). Vi definerer en middelvektor, $M$ for et antal billeder $(I_{1},I_{2},...,I_{n})$ i et træningssæt for et givent tegn således:
 
