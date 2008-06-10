@@ -12,31 +12,40 @@ Til sidst afprøver vi HVAD på billederne der er taget med blitz samt billedern
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Lokalisering af nummerplader}
-I dette afsnit afprøver vi vores systems evne til at lokalisere nummerplader. Vi kigger altså ikke på nummerpladens tegn, men blot på om vi kan afgøre dens position i inddata-billedet. Vi har foretager afprøvning metoderne både individuelt og som et samlet system.
+Vi undersøger vores systems evne til at lokalisere nummerplader. Vi kigger altså ikke på nummerpladens tegn, men blot på om vi kan afgøre dens position i inddata-billedet. Vi har foretager afprøvning af metoderne både individuelt og som et samlet system. Resultaterne er vist i figur \vref{fig:test:lokalisering_traening_kontrol}.
 
-%\subsubsection{Individuel lokalisering}
-%Vi afprøver metoderne individuelt. Korrekthed kan ikke bruges til noget da vi ikke opgiver nummerpladekandidater på det individuelle niveau.
+\subsubsection{Individuel lokalisering}
+Vi afprøver effektiviteten af de fem metoder til lokalisering af nummerplader.
+
+Alle metoderne giver dårligere resultater på kontrolsættet end på træningsættet. Størst forringelse observeres i metoden der kigger på områder domineret af lyse gråtoner. Dette kan skyldes væsentligt forskellige vejrforhold for de dage hvor billederne er taget. Billederne i kontrolsættet er taget på en dag med meget kraftigt sol hvorimod billederne i træningsættet er taget på dage med . Muligvis er farvesammensætningen på nummerpladerne væsentligt anderledes under disse forhold.  Metoden der anvender frekvensanalyse er den mest robuste, og opnår næsten lige gode resultater på de to sæt. De øvrige metoder oplever et fald på mellem 9.5\% og 6.1\% i effektivitet.
+
+De to bedste metoder er dem der arbejder med kontrast. I træningsættet er metoden der kigger på områder i originalbilledet med høj kontrast den mest effektive med 83\%. I kontrolsættet er den mest effektive metode den der maksimerer lokal kontrast for at skabe et sammenhængende nummerpladeområde. 
+
+HVAD ER HUTIGST?
 
 \begin{figure}[htp]
 \centering
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|l|l|l|}
 \hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Individuelle metoder til lokalisering}} \\ \hline
-Metode & Træningsæt & Kontrolsæt\\ \hline
-Områder domineret af lyse gråtoner &  60.5 \% & 32.2\%\\ \hline
-Områder med høj kontrast & 83.0\% & 73.5\%\\ \hline
-Frekvensanalyse &  59.3\% & 58.3\%\\ \hline
-Maksimer lokal kontrast &  82.8\% & 76.7\%\\ \hline
-Kvantifisering &  69.8\% & 60.5\%\\
-\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Individuelle metoder til lokalisering}} \\ \hline
+Metode & Træningsæt & Kontrolsæt & Forskel \\ \hline
+Områder domineret af lyse gråtoner & 60.5\% & 32.2\% & 28.3\% \\ \hline
+Områder med høj kontrast           & 83.0\% & 73.5\% &  9.5\% \\ \hline
+Frekvensanalyse                    & 59.3\% & 58.3\% &  1.0\% \\ \hline
+Maksimer lokal kontrast            & 82.8\% & 76.7\% &  6.1\% \\ \hline
+Kvantifisering                     & 69.8\% & 60.5\% &  9.3\% \\ \hline
 \end{tabular}
-\caption{Resultaterne af afprøvning af de fem metoder til lokalisering af nummerplader på trænings- og kontrolsæt. Alle metoder giver dårligere resultater på kontrolsættet end på træningsættet. Størst forringelse observeres i metoden der kigger på områder domineret af lyse gråtoner. Metoden der anvender frekvensanalyse er den mest robuste, og opnår næsten lige gode resultater på de to sæt. De øvrige metoder oplever et fald på omkring 10\% i effektivitet.}
+\caption{Resultaterne af afprøvning af de fem metoder til lokalisering af nummerplader på trænings- og kontrolsæt.}
 \label{fig:test:lokalisering_traening_kontrol}
 \end{figure}
 
 
 \subsubsection{Samlet lokalisering}
-Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på f.eks. tre, vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et nummerpladeområde og sender det videre i systemet til separation og genkendelse. Vi undersøger hvor høj enighed systemet skal konfigureres til for at give en korrekthed på 100\%.
+Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på f.eks. tre, vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et nummerpladeområde og sender det videre i systemet til separation og genkendelse. Vi undersøger hvor høj enighed systemet skal konfigureres til for at give en korrekthed på 100\%. Resultaterne for afprøvning på træningsættet er vist på figur \vref{fig:test:lokalisering_traening_samlet} og resultaterne for kontrolsætter kan ses på figur \ref{fig:test:lokalisering_kontrol_samlet}.
+
+I træningsættet er korrektheden høj selv ved en minimal enighed på en, men en korrekthed på 100\% opnås først når den minimale enighed sættes til fem. I denne konfiguration kan systemet kun lokalisere 35.3\% af nummerpladerne.
+
+Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater på kontrolsættet i de individuelle afprøvninger, falder den samlede effektivitet ikke tilsvarende når metoderne anvendes samlet. Faldet i effektivitet for den samlede metode er på 3\% mod gennemsnitligt 10.8\% for de individuelle metoder. Den samlede metode er altså forholdsvis robust.
 
 \begin{figure}[htp]
 \centering
@@ -44,14 +53,14 @@ Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når a
     \hline
     \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet metode til lokalisering - Træningssæt}} \\
     \hline
-    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
-    1 &  97.5\% & 99.0\%\\ \hline
-    2 &  96.0\% & 99.5\%\\ \hline
-    3 &  88.0\% & 99.7\%\\ \hline
-    4 &  68.2\% & 99.6\%\\ \hline
-    5 &  35.3\% & 100.0\%\\ \hline
+    Minimal enighed & Fundne nummerplader & Korrekthed \\ \hline
+    1 &  97.5\% &  99.0\% \\ \hline
+    2 &  96.0\% &  99.5\% \\ \hline
+    3 &  88.0\% &  99.7\% \\ \hline
+    4 &  68.2\% &  99.6\% \\ \hline
+    5 &  35.3\% & 100.0\% \\ \hline
   \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningsættet når alle fem metoder arbejde sammen. Korrektheden er høj selv ved en minimal enighed på en, men en korrekthed på 100\% opnås først når den minimale enighed sættes til fem. I denne konfiguration kan systemet genkende 35.3\% af nummerpladerne.}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningsættet når alle fem metoder arbejde sammen.}
 \label{fig:test:lokalisering_traening_samlet}
 \end{figure}
 
@@ -68,67 +77,9 @@ Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når a
 	3 &  78.7\% & 99.8\%\\ \hline
     4 &  49.0\% & 100.0\%\\ \hline
   \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i kontrolsættet når alle fem metoder arbejde sammen. Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater på kontrolsættet, falder }
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i kontrolsættet når alle fem metoder arbejde sammen.}
 \label{fig:test:lokalisering_kontrol_samlet}
 \end{figure}
-
-KØR MED ERODE!
-
-\begin{figure}[htp]
-\centering
-  \begin{tabular}{|l|l|l|}
-    \hline
-    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Blitzsæt}} \\
-    \hline
-    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
-    1 &  83.1\% & 85.7\%\\ \hline
-  \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i blitzsættet når alle fem metoder arbejde sammen.}
-\label{fig:test:lokalisering_blitz_samlet}
-\end{figure}
-
-
-\begin{figure}[htp]
-\centering
-  \begin{tabular}{|l|l|l|}
-    \hline
-    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Gult sæt}} \\
-    \hline
-    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
-    1 &  84.0\% & 89.4\%\\ \hline
-  \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i det gule sæt når alle fem metoder arbejde sammen.}
-\label{fig:test:lokalisering_gul_samlet}
-\end{figure}
-
-
-
-\begin{comment} % udkommenteret da vi vel ikke skal bruge resultater på sættet med 407 billeder?
-\subsubsection*{Observeret sæt på 407 billeder}
-Scale: 0.25
-DetectMain: 96.6/99.24
-DetectQuant: 67.8/75.4
-DetectSameness: 56.8/95.5
-DetectContrastAvg: 62.7/85.0
-DetectPlateness: 50.4/65.5
-DetectCStretch: 84.0/92.7
-
-Scale: 0.50 (Ekstremt langsomt)
-DetectPlateness: 29.7/56.5
-DetectCStretch:
-\end{comment}
-
-%Confusion matrix: De elementer der ligger udenfor diagonalen er elementer der ikke er nummerplader.
-
-Delkonklusion:
-
-VI SKAL SE HVORDAN DETECTMAIN OPFØRER SIG NÅR F.EKS. ALLE METODER SKAL VÆRE ENIGE.
-
-Vi har skaleret ned for at spare tid.
-
-Hvordan ændrer resultaterne sig når man ændrer opløsning af billederne?
-Er der et mønster i de billeder hvot vi ikke finder nummerpladen? Hvile udfordringer møder vi: Mørke plader... 
-HVAD SKER DER MED GULE ETC. PLADER??
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -515,9 +466,41 @@ Maksimer lokal kontrast &  70.6\% & 68.0\%\\ \hline
 Kvantifisering &  85.4\% & 48.0\%\\
 \hline
 \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningsættet når alle fem metoder arbejde sammen.}
+\caption{Resultaterne af afprøvning af de individuelle metoder til lokalisering af nummerplader på blitzsættet og de gule sæt.}
 \label{fig:test:lokalisering_blitz_gul}
 \end{figure}
+
+\begin{figure}[htp]
+\centering
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Blitzsæt}} \\
+    \hline
+    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
+    1 &  83.1\% & 85.7\%\\ \hline
+  \end{tabular}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i blitzsættet når alle fem metoder arbejde sammen.}
+\label{fig:test:lokalisering_blitz_samlet}
+\end{figure}
+
+
+\begin{figure}[htp]
+\centering
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Gult sæt}} \\
+    \hline
+    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
+    1 &  84.0\% & 89.4\%\\ \hline
+  \end{tabular}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i det gule sæt når alle fem metoder arbejde sammen.}
+\label{fig:test:lokalisering_gul_samlet}
+\end{figure}
+
+
+
+
 \subsection{Sammenligning med andres resultater}
+
 
 MÅSKE SKAL DETTE STÅ I KONKLUSION? ELLERS HER
