@@ -392,22 +392,19 @@ Når analysen af kandidatområderne er færdig og de har fået tildelt point, v�
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Endeligt valg af nummerpladekandidat}
-Systemet vælger en endelig nummerpladekandidat ved at sammenligne de fem områder der er blevet udpeget af de tidligere beskrevne metoder. Vi undersøger om der er områder flere af metoderne er enige om at udpege. Hvis sådanne områder findes, udpeges det område som flest metoder er enige om, som værende en nummerplade. Hvis der er uenighed, det vil sige, at to metoder udpeger et område og to andre metoder udpeger et andet,  udregner systemet gennemsnitstpointene for de nummerpladekoordinater der peger på hver område, og vælger det område med det lavese antal point. Hvis alle metoder udpeger forskellige områder vælger systemet den nummepladekandidat med det laveste antal point såfremt dette tal er tilstrækkeligt lavt. Hvis der i denne situation ikke findes en nummerpladekendidat med et lavt nok antal point, opgiver systemet at finde en nummerplade i billedet. Figur \ref{fig:DetectMain-result} viser valget af endelig nummerpladekandidat på baggrund af eksemplerne i figurene \ref{fig:DetectSameness-cleanup} til \vref{fig:DetectQuant-cleanup}.
+Systemet vælger en endelig nummerpladekandidat ved at sammenligne de maksimalt fem områder der kan være blevet udpeget af de tidligere beskrevne metoder. Vi undersøger om der findes områder flere af metoderne er enige om at udpege. Hvis sådanne områder findes, udpeges det område som flest metoder er enige om. Hvis der er uenighed, det vil sige, at to metoder udpeger et område og to andre metoder udpeger et andet,  udregner systemet gennemsnitstpointene for nummerpladekandidaterne i hver gruppe, og vælger det område med det laveste antal point. Hvis alle metoder udpeger forskellige områder vælger systemet den nummerpladekandidat med det laveste antal point såfremt dette tal er tilstrækkeligt lavt. Hvis der i denne situation ikke findes en nummerpladekendidat med et lavt nok antal point, opgiver systemet at finde en nummerplade i billedet. Figur \ref{fig:DetectMain-result} viser valget af endelig nummerpladekandidat på baggrund af eksemplerne i figurene \ref{fig:DetectSameness-cleanup} til \vref{fig:DetectQuant-cleanup}.
 
 % Billede af kandidater i MainDetect. 
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=10cm]{system/illu/DetectMain-result.jpg}}
-  \caption{Det endelige nummerpladeområde som udvalgt på baggrund af nummerpladekandidater fra samtlige metoder. I dette eksempel er alle metoderne enige om at udpege det område der er markeret af det blå rektangel.}
+  \caption{Det endelige nummerpladeområde som udvalgt på baggrund af nummerpladekandidater fra samtlige metoder. I dette eksempel er alle metoderne enige om at udpege det område der er markeret af et rektangel.}
   \label{fig:DetectMain-result}  
 \end{figure}
 
-VIS POINT FOR NUMMERPLADEKANDIDATERNE I EKSEMPELBILLEDET.
-
-VIS OGSÅ NÅR METODERNE ER UENIGE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Metoder fra litteraturen}
-I litteraturen er der mange andre bud på hvordan man kan lokalisere nummerplader end dem vi har arbejdet med. Et eksempel er \cite{parker} der forsøger at lokalisere områder der har et højde/bredde-forhold der svarer til tegn i en nummerplade. Hvis flere af sådanne områder står efter hinanden er det en nummerpladekandidat. PARKER BRUGER KANTER. BESKRIV EVT. DET.
+I litteraturen er der mange andre bud på hvordan man kan lokalisere nummerplader end dem vi har arbejdet med. Et eksempel er \cite{parker} der med kantdetektion forsøger at lokalisere rektangulære områder der indeholder mindre områder der har et højde/bredde-forhold der svarer til tegn i en nummerplade. Hvis flere af sådanne områder står efter hinanden er det en nummerpladekandidat.
 
 En anden metode til at lokalisere områder i billeder er \textit{Maximally stable extremal regions (MSER)}. En god intuitiv beskrivelse af ideen bag findes i \cite{murphy} som vi her citerer:
 \begin{quote}

@@ -1,23 +1,26 @@
 \subsection{Separation af tegn, herunder rotation}
-Separation af tegnene i nummerpladerne forgår i to trin: Først roterer vi billedet så nummerpladen ligger vandret. På denne måde blir det lettere at separere tegnene, da de kommer til at stå på en vandret linie med flugtende over- og underkanter. Selvom vi i vores afgrænsning af billedmaterialet har valgt at bruge billeder hvor nummerpladerne tilnærmelsesvis ligger vandret, har det vist sig, at de i praksis ofte er roteret så meget på vores billeder (mellem $1^{\circ}$ og $4^{\circ}$), at vi får væsentligt mere ensartede nummerplader at arbejde med, hvis vi korrigerer for dette. I det andet trin lokaliserer og separerer vi tegnene i nummerpladen.
+Separation af tegnene i nummerpladerne forgår i to trin: Først roterer vi billedet så nummerpladen ligger vandret. På denne måde bliver det lettere at separere tegnene, da de kommer til at stå på en vandret linie med flugtende over- og underkanter og med ensartet afstand til hinanden. Selvom vi i vores afgrænsning af billedmaterialet har valgt at bruge billeder hvor nummerpladerne tilnærmelsesvis ligger vandret, har det vist sig, at de i praksis ofte er roteret så meget, at vi får væsentligt mere ensartede nummerplader at arbejde med, hvis vi korrigerer for dette. Figur \vref{fig:illu:plates_not_rotated-1} i bilag \ref{sec:illu} viser eksempler på hvordan nummerpladekandidater der ikke er roteret, og figur \ref{fig:illu:plates_rotated-1} i samme bilag viser eksempler på nummerplader der er blevet roteret.
 
-Rotationsmetoden returnerer et roteret billede af nummerpladen, mens separationsmetoderne returnerer syv enkeltstående billeder. Her er hvert billede et tegn fra nummerpladen, skåret ud og omdannet til et binært billede. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin2}.
+I trin nummer to lokaliserer vi tegn i nummerpladerne og klipper dem ud som enkelstående billeder. Vi har arbejdet med to forskellige metoder til at finde tegnene. Vi har valgt den bedste til vores endelige konfiguration af systemet, men præsenterer dem begge. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin2}.
+
+%Rotationsmetoden returnerer et roteret billede af nummerpladen, mens separationsmetoderne returnerer syv enkeltstående billeder. Hvert af disse billeder et tegn fra nummerpladen, skåret ud og omdannet til et binært billede. 
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{system/illu/dia_trin2.png} 
-\caption{Inddata, i form af et billede af en bil med nummerplader samt koordinaterne til denne plade, kommer ind i denne del af systemet fra venstre. Funktionerne roterer pladen, separerer tegnene og udklipper disse. Uddata er syv binære billeder med de syv tegn. Da vi kun har valgt at den ene af de to separationsmetoder skal være en del af vores færdige system, er den fravalgte metode tegnet i en grå boks.}
+\caption{Inddata, et billede af en bil samt koordinaterne til dennes nummerplade, kommer ind i systemet fra venstre. Først roteres nummerpladen til vandret position, hvorefter tegnene lokaliseres og udklippes. Uddata er syv binære billeder. Et for hvert af de syv tegn i nummerpladen. Af de to metoder til separation vi har arbejdet med, har vi valgt den bedste til vores endelige konfiguration af systemet. Denne metode er repræsenteret af kassen med teksten \textit{Seperation af tegn 1}. Den dårligere, og derfor fravalgte, metode er repræsenteret af kassen med teksten \textit{Seperation af tegn 2}.}
 \label{fig:dia_trin2}
 \end{figure}
 
 
+%\subsubsection{Rotation}
+%I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen %ligger vandret i billedet. Metoden der beskrives er blandt andet brugt i \cite{shapiro}.
+
+
 \subsubsection{Rotation}
-I dette afsnit beskrives det hvordan et billede af en nummerplade kan roteres, så nummerpladen ligger vandret i billedet. Metoden der beskrives er blandt andet brugt i \cite{shapiro}.
+For at rotere nummerpladerne, benytter vi os af den såkaldte \textit{Radon}-transformation som beskrevet af blandt andre \cite{shapiro}. Vi bruger transformation til at udregne hældninger på over- og underkanter på nummerpladerene i vores nummerpladekandidater. Når vi kender pladens hældning, kan vi rotere billedet et tilsvarende antal grader i den modsatte retning for at få nummerpladen til at ligge vandret. Idéen bag \textit{Radon}-transformationen er illustreret i figur \vref{fig:radon_transform}. 
 
-
-\subsubsection*{Radon transformation}
-
-En \textit{Radon transformation} beregner projektionen af et billede i flere forskellige retninger\cite{matlab_radon}. Denne type transformation kan bruges til at finde linier i billedet, og til at undersøge i hvilken retning disse linier går. Disse oplysninger er brugbare med hensyn til rotation af et billede af en nummerplade, så denne plade ligger vandret i billedet. Vi vil undlade at gennemgå definitionen af Radon transformation. HVORFOR! Idéen i en Radon transformation er dog illustreret i figur \vref{fig:radon_transform}. I denne figur ses det hvordan Radon transformationen laver en projektion af et billede i en enkelt vinkel, $\theta$. 
+%\textit{Radon}-transformationen beregner projektionen af et billede i flere forskellige retninger\cite{matlab_radon}.
 
 %En Radon transformation er defineret således\cite{wiki_radon}: SKAL MÅSKE IKKE MED?
 
@@ -42,9 +45,10 @@ En \textit{Radon transformation} beregner projektionen af et billede i flere for
   \label{fig:radon_transform}
 \end{figure}
 
-Før en Radon transformation bruges til at finde linier og deres vinkler i et billede, detekteres kanterne i billedet. Dette giver en større chance for at Radon transformationen opfanger linierne i billedet i forhold til hvis Radon transformationen blev udført på originalbilledet.
-
+For at opnå bedre resultater med \textit{Radon}-transformationen, foretager vi først kantdetektion på nummerpladebilledet så vi opnår et binært billede hvor markante linier i billedet er markeret.
 %Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
+
+FLYT FORKLARING SAMMEN!
 
 For at repræsentere et helt billede med en Radon transformation, udføres projektioner for alle vinkler mellem $0^{\circ}$ og $179^{\circ}$ (men ikke for $180^{\circ}$ da dette vil give samme resultat som ved $0^{\circ}$). Dette resulterer i en matrix der angiver i hvor høj grad det er sandsynligt at der findes en linie i original billedet for hver vinkel, $\theta$ samt sensorlinie. %I Figur \vref{fig:radon_matrix} er vist resultatet af en Radon transformation af et billede af en nummerplade.
 
@@ -72,9 +76,9 @@ I Figur \vref{fig:Rotation} er vist et eksempel på et billede af en nummerplade
   \label{fig:Rotation}
 \end{figure}
 
-
 \subsubsection*{Andre metoder brugt i litteraturen}
-I det materiale vi har læst har vi ikke fundet beskrivelser af andre metoder til rotation end Radon transformation. Vi er klar over at den lignende \textit{Hough transformation} eksisterer og at den også kan bruges til rotation, men vi har ikke arbejdet med den, da den minder meget om Radon transformation, og vi derfor kun har valgt én af de to metoder.
+I det materiale vi har læst er vi stødt på to metoder til rotation. Den ene er \textit{Radon}-transformationen, og den anden den såkaldte \textit{Hough}-transformation. På os virker det som om de to metoder har så meget tilfælles, at vi valgte at kun arbejde med den ene.
+
 
 \subsubsection{Separation af tegn}
 
