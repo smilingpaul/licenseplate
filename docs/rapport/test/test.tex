@@ -242,11 +242,11 @@ I dette afsnit afprøves metoderne til genkendelse af tegn i en nummerplade. Syn
 
 Afprøvningen vil blive foretaget på alle tegn fra kontrolsættet, separeret med den bedste metode (sammenhængende komponenter hvor 10 pixels er lagt til). Disse tegn er sorteret så billeder af tegn der er udklippet forkert og hvor tegnet eksempelvis er blevet halveret under separationen er blevet sorteret fra. Afprøvningen vil derfor give en indikation af, hvor gode metoderne er til at genkende tegn i billeder som et menneske kan aflæse.
 
-I træningssættet er der generelt færre bogstaver end der er tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Derudover er der ingen \textbf{A}'er i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for tegnet \textbf{A} skulle stå, være udfyldt med "-".
+I træningssættet er der generelt færre bogstaver end der er tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Der er for eksempel kun tre billeder af tegnet \textbf{O}. Derudover er der ingen billeder af tegnet \textbf{A} i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for \textbf{A} skulle stå, være udfyldt med "-".
 
 %Nedenstående tests er i forhold til manuelt udklippede plader - ikke automtisk lokalisering.
 
-I figurerne \vref{fig:test:genkend_traening_tal}, \vref{fig:test:genkend_traening_bogstav}, \vref{fig:test:genkend_kontrol_tal} samt \vref{fig:test:genkend_kontrol_bogstav} ses resultaterne af afprøvningen af genkendelse af tegn. Resultaterne er delt op i tal- og bogstavtabeller.
+I figurerne \vref{fig:test:middel_tal}, \vref{fig:test:middel_bogstav} samt \vref{fig:test:middel_alletegn} ses resultaterne af afprøvningen af genkendelse af tegn ved brug af middelvektorer. Afprøvningen er udført med vektorer som er lavet ud fra billeder med størrelsen 3 $\times$ 3 og opefter. Vektorer der laves ud fra mindre billeder vil ikke være fornuftige at afprøve med, da flere af disse vektorer ligner hinanden og man derfor ikke kan skelne mellem genkendelse af to tegn med samme vektor. MANGLER 8 x 8!!! NOGET OM ØVRE GRÆNSE?
 
 \begin{figure}[htp]
 \centering
@@ -311,7 +311,9 @@ Alle bogstaver & 74,5 & 95,7 & 97,0 & 98,0 & 98,2 & 98,6 & 98,4\\\hline
 \label{fig:test:middel_alletegn}
 \end{figure}
 
+Som det ses har metoden sværest ved at genkende tegnene \textbf{0} og \textbf{O} hviket skyldes, at middelvektorerne for disse tegn ligger tæt på hinanden (selv med det menneskelige øje, kan disse to tegn være svære at skelne fra hinanden). Derudover ses det at resultaterne for vektorer der er lavet på baggrund af 3 $\times$ 3 billeder, giver væsentligt dårlige resultater end de restende vektorer. Dette kommer især til udtryk i tabellen i figur \vref{fig:test:middel_alletegn}, hvor alle vektorer giver resultater over 90 \%, bortset fra den første.
 
+I figurene \vref{fig:test:sum_tal}, \vref{fig:test:sum_bogstav} samt \vref{fig:test:sum_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af sum-billeder. Som ovenfor vil det ikke give nogen mening at teste på vektorer lavet ud fra 2 $\times$ 2 billeder. NOGET OM ØVRE GRÆNSE?
 
 \begin{figure}[htp]
 \centering
@@ -376,6 +378,11 @@ Alle bogstaver & 47,2 & 67,6 & 86,1 & 89,1 & 88,3 & 95,9 & 91,9\\\hline
 \label{fig:test:sum_alletegn}
 \end{figure}
 
+
+I \vref{fig:test:sum_alletegn} er det tydeligt at denne metode er generelt dårligere end den forrige. Resultaterne med de mindre vektorer er ikke nær så gode som med middelvektorer. Igen har metoden svært ved at genkende tegnene \textbf{0} og \textbf{O} men også tegnet \textbf{8} har behov for store sum-billeder for at kunne genkendes, hvilket i følge vores observationer er fordi, at det forveksles med tegnet \textbf{B}. Også \textbf{L} og \textbf{S} er svære at genkende, hvilket sandsynligvis skyldes at disse tegns densitet er forholdsvis lav, og at de binære billeder derfor ikke altid har et tilstrækkeligt antal markerede pixels til at tegnene genkendes.
+
+I figurene \vref{fig:test:and_tal}, \vref{fig:test:and_bogstav} samt \vref{fig:test:and_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af forenings-billeder. Denne metode har brug for billeder med megen information, hvorfor den mindste billedstørrelse er 10 $\times$ 10. NOGET OM ØVRE GRÆNSE?
+
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
@@ -439,6 +446,7 @@ Alle bogstaver & 70,7 & 70,3 & 73,0 & 75 & 72,3 & 72,0\\\hline
 \label{fig:test:and_alletegn}
 \end{figure}
 
+Generelt viser afprøvningen af metoden med forenings-billeder at metoden er meget dårlig tilgenkendelse af bestemte tegn. det drejer sig i sær om \textbf{0}, \textbf{1}, \textbf{6}, \textbf{C}, \textbf{L}, \textbf{S} og \textbf{U}. Fælles for disse tegn er at tegnenes markerede pixels ligger i yderkanten af billederne.
 
 %HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TRÆNING?
 %HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TEST?
@@ -486,11 +494,11 @@ Hitnr. & Valgt \\\hline
 \end{comment} %%%%%%%% COMMENT END
 
 
-Ovenstående med og uden syntaksanalyse? kun med? kun uden?
+%Ovenstående med og uden syntaksanalyse? kun med? kun uden?
 
 %Søren: Ved klassifikation bruges en eller anden grænseværdi som bestemmer hvad et element skal klassificeres som: denne grænseværdi kan reguleres og kan derfor testes.
 
-Delkonklusion:
+%Delkonklusion:
 
 Vi kunne også have testet hvilke tegn der bliver valgt i stedet for, når et forkert tegn vælges. Vælges 8 f.eks. når B burde ha været valgt??
 

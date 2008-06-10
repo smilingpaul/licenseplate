@@ -13,12 +13,12 @@ function [percentagesAllChars, percentageDigits, percentageLetters] = ReadCharsF
   noOfLettersRead = 0;
   
   % load meanVectors
-  %meanVectorsFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/patternreg/meanVectors');
-  %meanVectorsFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/patternreg/sumImgs');
-  meanVectorsFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/patternreg/andImgs');
-  %vectorName = ['meanVectors', int2str(vectorLength)];
+  meanVectorsFile = load('meanVectors');
+  %meanVectorsFile = load('sumImgs');
+  %meanVectorsFile = load('andImgs');
+  vectorName = ['meanVectors', int2str(vectorLength)];
   %vectorName = ['sumImgs', int2str(vectorLength)];
-  vectorName = ['andImgs', int2str(vectorLength)];
+  %vectorName = ['andImgs', int2str(vectorLength)];
   meanVectors = meanVectorsFile.(vectorName);
   
   charNo = 1;
@@ -49,9 +49,9 @@ function [percentagesAllChars, percentageDigits, percentageLetters] = ReadCharsF
           end
           
           charImg = imread([charFolder folderName '/' imgList(j).name]);
-          %[charHitList, euclidDist] = ReadCharFV(charImg,meanVectors,vectorLength);
+          [charHitList, euclidDist] = ReadCharFV(charImg,meanVectors,vectorLength);
           %[charHitList, euclidDist] = ReadCharSUM(charImg,meanVectors,vectorLength);
-          [charHitList, euclidDist] = ReadCharAND(charImg,meanVectors,vectorLength);
+          %[charHitList, euclidDist] = ReadCharAND(charImg,meanVectors,vectorLength);
           if folderName == charHitList(1)
             noOfImgsRead = noOfImgsRead + 1;
             
