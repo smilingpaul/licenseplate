@@ -178,26 +178,54 @@ Når de sammenhængende komponenter, der ikke kan være tegn, er sorteret fra f�
 
 \subsubsection*{Metode: Bjerg/dal}
 
-AFSNITTET ER KORT I FORHOLD TIL DET FOREGÅENDE.
+Denne metode baseres på en projektion af kolonnerne i et billede af en nummerplade. Det vil sige at intensitetsværdierne i hver kolonne summeres og udfra disse summer laves en "signatur". Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (bjerge) og de lyse områder mellem tegnene (dale) VRØVL!, hvorefter vi kan udskære tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
 
-Denne metode baseres på en projektion af kolonnerne i et billede af en nummerplade. Det vil sige at intensitetsværdierne i hver kolonne summeres og udfra disse summer laves en "signatur". Denne projektion vil, med en lys nummerplade med mørke tegn, give os en indikation af hvor der er tegn (bjerge) og de lyse områder mellem tegnene (dale), hvorefter vi kan udskære tegnene. Metoden kaldes "peak-to-valley" på engelsk og bruges i \cite{ron} og \cite{kwas}.
+KONTRAST: FLYTTES TIL IMPLEMENTERING?
 
-%Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. HVORFOR?
+Som i metoden med sammenhængende komponenter er det en fordel at forstærke kontrasten i billedet. På denne måde vil tegnene i højere grad udskille sig fra baggrunden og dermed vil pladens signatur være en bedre indikation af hvor tegnene er placeret.
 
-Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme bjerge i de kolonner hvor der høj intensitet, samt dale i de kolonner hvor der er lav intensitet. Idéen er så at udvælge de otte dybeste dale som de otte steder i $x$-planet der skal skæres ved. Dette er illustreret i figur \vref{fig:ptv-signatur}.
+Nummerpladens signatur fås ved at summere alle kolonnerne i et binært billede af nummerpladen. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme ``bjerge'' ved de kolonner hvor der mange markerede pixels, samt dale ved de kolonner hvor der er få markerede pixels. Idéen er så at udvælge de otte dybeste dale som de otte steder i $x$-planet der skal skæres ved. Dette er illustreret i figur \vref{fig:ptv-signatur}.
 
 \begin{figure}[htp]
   \centering
   \framebox{\includegraphics[width=10cm]{system/illu/signatur.png}}
-  \caption{FIGUR AF SIGNATUR-KONCEPT}
+  \caption{Et eksempel på en nummerplade og dens signatur. Den lyse kurve som løber på tværs af billedet illustrerer signaturen. I denne metode vil vi beskære billedet der hvor signaturen har de otte dybeste dale (de otte mellemrum mellem henholdsvis kanten og de to yderste tegn og tegnene i mellem).}
   \label{fig:ptv-signatur}
 \end{figure}
 
-\subsubsection{Metoder fra litteraturen}
+ADVARSEL: DETTE ER SKREVET MEGET HURTIGT!
+
+Top- og bundbeskæringer udregnes ved at se på summerne af rækkerne i henholdsvis den øverste halvdel og den nedesrste halvdel af billedet. Den række i henholdsvis top og bund, der har den laveste intensitetsværdi, vælges som skæringspunkt. Denne række svarer til en række i nummerpladen, hvor der kun er hvid baggrund. Ved at bagefter arbejde med det binære billede kan vi indskrænke beskæringerne så de er tæt på tegnene.
+
+EKSEMPEL PÅ TOP- OG BUND BESKÆRING?
+
+EKSEMPEL PÅ UDKLIPPEDE TEGN?
+
+\subsubsection{Andre metoder fra litteraturen}
 
 Vi har ikke fundet andre metoder til separation af tegn end de to nævnte. Det kan dog nævnes at man i \cite{parker} og \cite{kwas} bruger sammenhængende komponenter i arbejdet med at lokalisere nummerpladen. I denne proces undersgæer man, om der er et vist antal sammenhængende komponenter inde i den nummerpladekandidat man har fundet.
 
-%NOGEN FINDER LOKALISERER NUMMERPLADERNE VED HJÆLP AF ANALYSE AF CONNECTED COMPONENTS. DET MINDER JO OMDET DU GØR, MEN DE GØR DET BARE TIDLIGERE. IKKE ANDRE?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Note fra segmentering af tegn
@@ -215,6 +243,14 @@ Billedet skal skæres foroven og forneden. Dette gøres simpelt ved at finde den
 
 Step igennem vertikale linier: hvad sker før tegn, i et tegn, i slutningen af et tegn og efter et tegn.
 \end{comment}
+
+
+
+
+
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
