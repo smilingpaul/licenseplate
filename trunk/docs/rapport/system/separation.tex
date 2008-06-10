@@ -45,7 +45,7 @@ For at rotere nummerpladerne, benytter vi os af den såkaldte \textit{Radon}-tra
   \label{fig:radon_transform}
 \end{figure}
 
-For at opnå bedre resultater med \textit{Radon}-transformationen, foretager vi først kantdetektion på nummerpladebilledet så vi opnår et binært billede hvor markante linier i billedet er markeret.
+Det er muligt at anvende {Radon}-transformationen på et gråtonebillede, men for at opnå bedre resultater, foretager vi først kantdetektion på nummerpladebilledet så vi opnår et binært billede hvor markante linier i billedet er markeret. Vi vælger kun at markere liggende kanter. F.eks. vil en nummerplades over- og underkant bliver markeret, mens den venstre og højre kant ikke vil blive markeret. 
 %Når nummerpladens hældning i billedet er fundet, kan billedet roteres.
 
 FLYT FORKLARING SAMMEN!
@@ -89,7 +89,7 @@ I det materiale vi har læst er vi stødt på to metoder til rotation. Den ene e
 %"Således vil en nummerplade som MB 20 001 på grund af venstrestillingen af det sidste 1-tal have større mellemrum mellem højre kant og sidste tal end mellem venstre kant og første bogstav"
 
 
-I det følgende beskrives to metoder til separation af tegn i en nummerplade. Disse to metoder arbejder med henholdsvis sammenhængende komponenter og såkaldt "signatur". I forbindelse med uarbejdelsen af metoden der bruger signatur viste det sig, at denne metode giver dårlige resultater. Derfor er kun metoden med sammenhængende komponenter blevet brugt i vores færdige system. SKAL DET STÅ HER?
+I dette afsnit beskriver vi to forskellige metoder til separation af tegn i en nummerplade. Metoderne arbejder med henholdsvis sammenhængende komponenter og såkaldt "signatur". I forbindelse med uarbejdelsen af metoden der bruger signatur viste det sig, at denne metode giver dårlige resultater. Derfor er kun metoden med sammenhængende komponenter blevet brugt i vores færdige system. SKAL DET STÅ HER?
 
 %HER BESKRIVER VI JO VORES SYSTEM, SÅ DET SKAL VÆRE KLART AT VI KUN BENYTTER EN METODE.
 
