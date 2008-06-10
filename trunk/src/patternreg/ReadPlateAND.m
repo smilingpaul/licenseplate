@@ -1,21 +1,30 @@
-function [plateString] = ReadPlateAND (chars, imSize)
+function [charHitLists, andHitLists] = ReadPlateAND (chars, imSize)
 
-  figuresOn = true;
+  %figuresOn = true;
   
   % list of all available chars
-  allChars = '0123456789ABCDEHJKLMNOPRSTUVXYZ';
+  %allChars = '0123456789ABCDEHJKLMNOPRSTUVXYZ';
   
   % the string to be returned
-  plateString = '_______';
+  %plateString = '_______';
   
   % get the andImgs
   andImgsFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/patternreg/andImgs');
   name = ['andImgs', int2str(imSize)];
   andImgs = andImgsFile.(name);
   
+  % create char hit lists
+  charHitLists = repmat('',7,31);
+  andHitLists = zeros(7,31);
+  
   for i = 1:7
     % resize and display image
     charName = strcat('char',int2str(i));
+    
+    [charHitLists(i,:), andHitLists(i,:)] = ...
+      ReadCharAND(chars.(charName),andImgs,imSize);
+    
+    %{
     resizedChar = imresize(chars.(charName), [imSize imSize]);
     if figuresOn
       figure(72), subplot(1,2,1), imshow(resizedChar), title('resizedChar');
@@ -37,6 +46,7 @@ function [plateString] = ReadPlateAND (chars, imSize)
     if length(find(noOfAnds == maxAnds)) == 1
       plateString(i) = allChars(maxChar);      
     end
+    %}
   end
 
 end

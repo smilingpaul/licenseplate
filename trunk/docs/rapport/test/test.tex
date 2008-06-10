@@ -147,7 +147,7 @@ HVAD SKER DER MED GULE ETC. PLADER??
 %%% SEPARATION AF TEGN %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Separation}
+\subsection{Separation af tegn, herunder rotation}
 
 %DETTE AFSNIT SKRIVES SAMMEN MED GENKENDELSE.
 
@@ -237,14 +237,11 @@ Problemer ve 30: stadig for stort område: giver komponenter udenfor der vælges
 %%% GENKENDELSE AF TEGN %%%
 
 \subsection{Genkendelse af tegn}
-I dette afsnit afprøves metoderne til genkendelse af tegn i en nummerplade. %Derudover vil syntaksanalysen blive afprøvet. VIL DEN?
+I dette afsnit afprøves metoderne til genkendelse af tegn i en nummerplade. Syntaksanalysen vil blive afprøvet i afprøvningen af det samlede system, da denne kun arbejder på syv følgende tegn.
 
 Afprøvningen vil blive foretaget på alle tegn fra kontrolsættet, separeret med den bedste metode (sammenhængende komponenter hvor 10 pixels er lagt til). Disse tegn er sorteret så billeder af tegn der er udklippet forkert og hvor tegnet eksempelvis er blevet halveret under separationen er blevet sorteret fra. Afprøvningen vil derfor give en indikation af, hvor gode metoderne er til at genkende tegn i billeder som et menneske kan aflæse.
 
-%Noget om at det er i forhold til alle plader, dvs. at procenterne nedenfor er afhængige af hvor gode vi er til separere tegn...
-
-
-%Følgende tabeller viser resultaterne for at læse en hel plade, seks tegn i pladen osv. (med forskellige vektorlængder).
+I træningssættet er der generelt færre bogstaver end der er tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Derudover er der ingen \textbf{A}'er i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for tegnet \textbf{A} skulle stå, være udfyldt med "-".
 
 %Nedenstående tests er i forhold til manuelt udklippede plader - ikke automtisk lokalisering.
 
@@ -356,6 +353,18 @@ Z & 77,2 & 100,0 & 96,5 & 100,0 & 100,0\\\hline
 
 \begin{figure}[htp]
 \centering
+\begin{tabular}{|l|c|c|c|c|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
+Tegn & 9 & 16 & 25 & 36 & 49 & 64 & 81\\\hline
+Alle tal & 73,3 & 90,8 & 95,9 & 95,3 & 98,4 & 98,8 & 97,0\\\hline
+Alle bogstaver & 74,5 & 95,7 & 97,0 & 98,0 & 98,2 & 98,6 & 98,4\\\hline
+\end{tabular}
+\caption{Bla.}
+\label{fig:test:middel_alletegn}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Sum-billeder}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
@@ -400,7 +409,6 @@ V & 82,1 & 80,2 & 97,2 & 96,2 & 95,3\\\hline
 X & 0,0 & 98,7 & 96,1 & 98,7 & 98,7\\\hline
 Y & 97,9 & 54,5 & 93,1 & 97,9 & 97,4\\\hline
 Z & 82,5 & 100,0 & 100,0 & 100,0 & 98,2\\\hline
-Snit & \textbf{10} & \textbf{10} & \textbf{10} & \textbf{10} & \textbf{10}\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af bogstav-tegn ved brug af sum-billeder. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt. Rækken med tegnet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
 \label{fig:test:sum_bogstav}
@@ -408,19 +416,31 @@ Snit & \textbf{10} & \textbf{10} & \textbf{10} & \textbf{10} & \textbf{10}\\\hli
 
 \begin{figure}[htp]
 \centering
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{And}} \\ \hline
-Tegn & 9 & 16 & 25\\\hline
-0 & 0 & 0 & 0\\\hline
-1 & 0  & 0 & 0\\\hline
-2 & 0 & 0 & 0\\\hline
-3 & 0 & 0 & 0\\\hline
-4 & 0 & 0 & 0\\\hline
-5 & 0 & 0 & 0\\\hline
-6 & 0 & 0 & 0\\\hline
-7 & 0 & 0 & 0\\\hline
-8 & 0 & 0 & 0\\\hline
-9 & 0 & 0 & 0\\\hline
+\begin{tabular}{|l|c|c|c|c|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Sum-billeder}} \\ \hline
+Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 & 8 $\times$ 8 & 9 $\times$ 9 \\\hline
+Alle tal & 37,4 & 61,4 & 89,6 & 93,8 & 97,5 & 97,6 & 91,1\\\hline
+Alle bogstaver & 47,2 & 67,6 & 86,1 & 89,1 & 88,3 & 95,9 & 91,9\\\hline
+\end{tabular}
+\caption{Bla.}
+\label{fig:test:sum_alletegn}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
+Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
+0 & 2,3 & 0,0 & 8,4 & 15,4 & 0 & 0,0\\\hline
+1 & 0,0 & 15,3 & 1,5 & 25,1 & 3,9 & 11,3\\\hline
+2 & 99,7 & 98,9 & 99,4 & 99,7 & 99,4 & 99,4\\\hline
+3 & 100,0 & 100,0 & 99,7 & 100,0 & 100,0 & 99,7\\\hline
+4 & 99,7 & 99,7 & 99,7 & 99,7 & 99,7 & 99,7\\\hline
+5 & 97,7 & 91,4 & 99,4 & 99,4 & 99,1 & 99,1\\\hline
+6 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
+7 & 97,3 & 99,1 & 99,6 & 98,7 & 99,1 & 99,1\\\hline
+8 & 93,5 & 98,7 & 98,7 & 99,6 & 99,6 & 99,1\\\hline
+9 & 40,2 & 69,6 & 79,9 & 78,1 & 67,0 & 72,8\\\hline
 \end{tabular}
 \caption{Bla.}
 \label{fig:test:and_tal}
@@ -428,71 +448,49 @@ Tegn & 9 & 16 & 25\\\hline
 
 \begin{figure}[htp]
 \centering
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{And}} \\ \hline
-Tegn & 9 & 16 & 25\\\hline
-A & - & - & -\\\hline
-B & 0 & 0 & 0\\\hline
-C & 0 & 0 & 0\\\hline
-D & 0 & 0 & 0\\\hline
-E & 0 & 0 & 0\\\hline
-H & 0 & 0 & 0\\\hline
-J & 0 & 0 & 0\\\hline
-K & 0 & 0 & 0\\\hline 
-L & 0 & 0 & 0\\\hline
-M & 0 & 0 & 0\\\hline
-N & 0 & 0 & 0\\\hline
-O & 0 & 0 & 0\\\hline
-P & 0 & 0 & 0\\\hline
-R & 0 & 0 & 0\\\hline
-S & 0 & 0 & 0\\\hline
-T & 0 & 0 & 0\\\hline
-U & 0 & 0 & 0\\\hline
-V & 0 & 0 & 0\\\hline
-X & 0 & 0 & 0\\\hline
-Y & 0 & 0 & 0\\\hline
-Z & 0 & 0 & 0\\\hline
+\begin{tabular}{|l|c|c|c|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
+Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
+A & - & - & - & - & - & -\\\hline
+B & 77,3 & 36,4 & 59,1 & 50,0 & 50,0 & 63,6\\\hline
+C & 0,0 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
+D & 100,0 & 2,9 & 80,0 & 62,9 & 62,9 & 48,6\\\hline
+E & 100,0 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
+H & 100,0 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
+J & 0,0 & 25,0 & 83,3 & 88,9 & 58,3 & 25,0\\\hline
+K & 87,1 & 90,3 & 90,3 & 90,3 & 90,3 & 90,3\\\hline
+L & 0,0 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
+M & 79,5 & 38,5 & 46,2 & 94,9 & 59,0 & 74,4\\\hline
+N & 12,5 & 95,8 & 95,8 & 100,0 & 100,0 & 95,8\\\hline
+O & 33,3 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
+P & 81,8 & 75,8 & 9,1 & 12,1 & 12,1 & 27,3\\\hline
+R & 97,4 & 89,7 & 87,2 & 94,9 & 89,7 & 89,7\\\hline
+S & 0,0 & 1,4 & 0,0 & 1,4 & 0,0 & 0,0\\\hline
+T & 98,9 & 98,9 & 98,9 & 98,9 & 98,9 & 98,9\\\hline
+U & 2,7 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
+V & 92,5 & 97,2 & 97,2 & 98,1 & 98,1 & 97,2\\\hline
+X & 94,2 & 98,1 & 97,4 & 98,1 & 97,4 & 98,1\\\hline
+Y & 87,3 & 97,9 & 96,8 & 97,4 & 97,4 & 97,9\\\hline
+Z & 100,0 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
 \end{tabular}
 \caption{Bla.}
 \label{fig:test:and_bogstav}
 \end{figure}
 
+\begin{figure}[htp]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|c|}\hline
+\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
+Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
+Alle tal & 71,6 & 74,7 & 76,3 & 78,5 & 74,7 & 75,7\\\hline
+Alle bogstaver & 70,7 & 70,3 & 73,0 & 75 & 72,3 & 72,0\\\hline
+\end{tabular}
+\caption{Bla.}
+\label{fig:test:and_alletegn}
+\end{figure}
 
-Noget med at der er få o'er og andre bogstaver. Noget med at man ikke kan bruge 2x2 billeder til noget. Noget med at der ikke er nogen Aer.
 
 \begin{comment} %%%%%%%% COMMENT START
-
-\subsubsection*{Middelvektor}
-
-Ved at lave middelvektorer på træningssættet kan vi se at man ikke kan have vektorer af længden 4, da flere bogstavs vektorer så vil være de samme (nemlig 0 0 0 0).
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Vektorlængde & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Vektorlængde & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\end{tabular}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Vektorlængde & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Vektorlængde & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\end{tabular}
 
 
 \begin{tabular}{|l|c|c|c|}\hline
@@ -510,93 +508,6 @@ Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
 25 & 0\% & 0\% & 0\% \\\hline \end{tabular}
 
 
-\subsubsection*{Sum-billeder}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Billedstørrelse & Alle tegn & Bogstaver & Tal \\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
-Billedstørrelse & Alle tegn & Bogstaver & Tal \\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-
-\subsubsection*{And-billeder}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\end{comment}
-
-\begin{comment}
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Billedstørrelse & Alle tegn & Bogstaver & Tal \\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
-Billedstørrelse & Alle tegn & Bogstaver & Tal \\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\%\\\hline \end{tabular}
 \end{comment}
 
 
@@ -642,142 +553,6 @@ Hitnr. & Valgt \\\hline
 4 & 0\% \\\hline
 5 & 0\% \\\hline
 6 & 0\% \\\hline \end{tabular}
-
-\end{comment} %%%%%%%% COMMENT END
-
-\begin{comment} %%%%%%%% COMMENT START
-
-\subsubsection*{Middelvektor}
-
-Ved at lave middelvektorer på træningssættet kan vi se at man ikke kan have vektorer af længden 4, da flere bogstavs vektorer så vil være de samme (nemlig 0 0 0 0).
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Vektorlængde & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Vektorlængde & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\end{tabular}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Vektorlængde & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Vektorlængde & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-9 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\end{tabular}
-
-
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
-9 & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\%\\\hline
-25 & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
-Vektorlængde & Alle tegn & Bogstaver & Tal \\\hline
-9 & 0\% & 0\% & 0\% \\\hline
-16 & 0\% & 0\% & 0\% \\\hline
-25 & 0\% & 0\% & 0\% \\\hline \end{tabular}
-
-\subsubsection*{Sum-billeder}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Billedstørrelse & Alle tegn & Bogstaver & Tal \\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
-Billedstørrelse & Alle tegn & Bogstaver & Tal \\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\subsubsection*{And-billeder}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{9}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\\hline
-\multicolumn{9}{|c|}{Med syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline 
-\multicolumn{9}{|c|}{Uden syntaksanalyse}\\\hline
-Billedstørrelse & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
-Billedstørrelse & Alle tegn & Bogstaver & Tal \\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\%\\\hline \end{tabular}
-
-\begin{tabular}{|l|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
-Billedstørrelse & Alle tegn & Bogstaver & Tal \\\hline
-$5 \times 5$ & 0\% & 0\% & 0\% \\\hline
-$10 \times 10$ & 0\% & 0\% & 0\%\\\hline
-$20 \times 20$ & 0\% & 0\% & 0\%\\\hline \end{tabular}
 
 \end{comment} %%%%%%%% COMMENT END
 

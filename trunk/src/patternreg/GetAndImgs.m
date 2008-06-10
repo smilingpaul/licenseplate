@@ -23,6 +23,10 @@ function andImgs = GetAndImgs (folderFolder, imSize)
       andImgs(:,:,andImgNo) = andImg;
       andImgNo = andImgNo + 1;
       
+      %if folderList(i).name == 'S'
+      %  imwrite(andImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/andimg.png','png','BitDepth',1);
+      %end
+      
     end
     
   end
@@ -41,27 +45,34 @@ function andImgs = GetAndImgs (folderFolder, imSize)
     % PROCESS IMAGES %
     %%%%%%%%%%%%%%%%%%
 
-    for j = 1:noOfImages
-
-      % read image, make it a gray image and display
-      img = imread([imgFolder imgList(j).name]);
-
-      %if figuresOn
-      %  figure(53), subplot(1,3,1), imshow(img), title('input image');
-      %end
-
-      % resize image and display. TO-DO: OTHER RESIZE METHOD?
-      resizedImg = imresize(img, [imSize imSize]);
-
-      % sum up image in meanVector
-      andImg = andImg & resizedImg;
-      %meanVector = meanVector + resizedImg;
-      if figuresOn
-        figure(53), subplot(1,2,1), imshow(resizedImg), title('resized image');
-        figure(53), subplot(1,2,2), imshow(andImg), title('andImg');
+    if noOfImages == 0
+      andImg = zeros(imSize);
+    else
+      if noOfImages > 10
+        noOfImages = 10;
       end
+      for j = 1:noOfImages
 
-    end % noOfImages
+        % read image, make it a gray image and display
+        img = imread([imgFolder imgList(j).name]);
+
+        %if figuresOn
+        %  figure(53), subplot(1,3,1), imshow(img), title('input image');
+        %end
+
+        % resize image and display. TO-DO: OTHER RESIZE METHOD?
+        resizedImg = imresize(img, [imSize imSize]);
+
+        % sum up image in meanVector
+        andImg = andImg & resizedImg;
+        %meanVector = meanVector + resizedImg;
+        if figuresOn
+          figure(53), subplot(1,2,1), imshow(resizedImg), title('resized image');
+          figure(53), subplot(1,2,2), imshow(andImg), title('andImg');
+        end
+
+      end % noOfImages 
+    end
     
     %pause;
 

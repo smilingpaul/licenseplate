@@ -20,6 +20,8 @@ function [charHitList, sumHitList] = ReadCharSUM (charImg, sumImgs, imSize)
 
   charHitList = '';
   sumHitList = zeros(1,length(allChars));
+  
+  
   for j = 1:length(allChars)
     [bestSum bestCharIndex] = max(sums);
     charHitList = strcat(charHitList,allChars(bestCharIndex));
