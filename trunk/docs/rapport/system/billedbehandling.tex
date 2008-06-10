@@ -179,8 +179,8 @@ Ved at analysere svingningen mellem lyse og mørke intensiteter i de nummerplade
 % FREKVENS
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=12cm]{system/illu/frekvensanalyse.png}  
-  \caption{Illustration af frekvensanalyse: For den række pixels der er vist nederst i figuren ønsker vi at analysere frekvensen. Ved at måle intensiteterne i rækken af pixels får vi kurven og middelværdien der er angivet i koordinatsystemet. Kurven der repræsenterer intensiteterne i rækken af pixels krydser middelværdien to gange i punkterne \textbf{a} og \textbf{b}. Dette tal bruger vi som et udtryk for frekvensen i området.}
+  \includegraphics[width=12cm]{system/illu/frekvensanalyse.pdf}  
+  \caption{Illustration af frekvensanalyse: For den række pixels der er vist nederst i figuren ønsker vi at analysere frekvensen. Ved at måle intensiteterne i rækken af pixels får vi kurven og middelværdien der er angivet i koordinatsystemet. Kurven der repræsenterer intensiteterne i rækken af pixels krydser middelværdien to gange i punkterne \textbf{a} og \textbf{b}. Antallet af skæringer med middelværdien bruger vi som et udtryk for frekvensen i området. I dette tilfælde er tallet to.}
   \label{fig:DetectPlateness-frekvensanalyse}
 \end{figure}
 
@@ -201,7 +201,7 @@ Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching} 
 \begin{figure}[htp]
   \centering
   \includegraphics[width=12cm]{system/illu/contrast_stretch.pdf} 
-  \caption{Contrast stretch: For at forbedre kontrasten i et billede kan man strække intensiteterne så hele intensitetsområdet udnyttes. Figur 1 ovenfor viser intensiteterne for et billede der ikke udnytter hele intensitetsområdet der går fra 0 til 255. Intensiteterne i billedet ligger alle i et ret lille område. Vi gør alle intensiteter i billedet så meget mindre, at den mindste bliver 0 som illustreret på figur 2. Til sidste strækker vi intensiteterne så billedet udnytter alle intensiteter fra 0 til 255 som vist på figur 3.}
+  \caption{Contrast stretch: For at forbedre kontrasten i et billede kan man strække intensiteterne så hele intensitetsområdet udnyttes. Figur 1 ovenfor viser intensiteterne for et billede der ikke udnytter hele intensitetsområdet der går fra 0 til 255. Intensiteterne i billedet ligger alle i et ret lille område. Vi gør alle intensiteter i billedet så meget mindre, at den mindste bliver 0 som illustreret på figur 2. Til sidste strækker vi intensiteterne så billedet udnytter alle intensiteter fra 0 til 255 som vist på figur 3. Den højeste intensitet i billedet er nu 255 og den laveste er 0.}
   \label{fig:DetectPlateness-contrast_stretch}
 \end{figure}
 
