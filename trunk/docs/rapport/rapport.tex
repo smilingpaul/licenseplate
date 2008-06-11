@@ -266,7 +266,11 @@ Man kunne stole blindt på point i stedet for enighed. Eksempel med en kandidat 
 
 \end{thebibliography}
 
+%%%%%%%%%
+% BILAG %
+%%%%%%%%%
 \appendix
+\setcounter{footnote}{0}
 
 %\begin{comment} %% REMOVE THIS!
 
@@ -276,9 +280,6 @@ Man kunne stole blindt på point i stedet for enighed. Eksempel med en kandidat 
 \newpage
 \section{Illustrationer}
 \label{sec:illu}
-I dette appendiks forsøger vi at give læseren et indtryk af den type data systemet arbejder med.
-%Vi viser eksempler på billeder fra vores fire billedsæt, områder udpeget som nummerplader af lokaliseringsdelen, tætklippede nummerplader som brugt af seperationsdelen og endelig eksempler på de områder systemet har identificeret som værende tegn i nummerpladerne.
-
 %%%%%%%%%%%%%%%%%%%%%%%
 % PLADER IKKE ROTERET %
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -297,6 +298,16 @@ I dette appendiks forsøger vi at give læseren et indtryk af den type data syst
 \includegraphics[width=12cm]{appendix/illu/plates_rotated-1.jpg} 
 \caption{Eksempler på nummerplader fra træningsættet som de ser ud når de er klippet ud og roteret. Det er disse billeder der er inddata når tegnene i nummerpladerne skal separeres som næste trin i processen.}
 \label{fig:illu:plates_rotated-1}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLADER FEJL I SEPARATION %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htp]
+\centering
+\includegraphics[width=12cm]{appendix/illu/separation_errors.png} 
+\caption{Eksempler på nummerplader hvor separationen af tegn ved brug af sammenhængende komponenter er fejlet. I nogle tilfælde er problemet at tegnene er forbundet med hinanden eller med kantområder. I andre er pladen blevet afvist da tegnenen ikke står på en linie. FIND BEDRE BILLEDER!!}
+\label{fig:illu:separation_errors}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%
@@ -504,8 +515,9 @@ HUSK KODE FOR HJÆLPEFUNKTIONER
 
 \end{comment} %Kildekode
 
-\setcounter{footnote}{0}
+
+\newpage
 \section{Synopsis}
-\include{appendix/synopsis}
+\input{appendix/synopsis}
 
 \end{document}
