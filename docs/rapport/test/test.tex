@@ -99,19 +99,6 @@ Vi undersøger i hvilket omfang resultaterne ændrer sig i forhold til hvor mege
 
 HVORFOR HAR VI IKKE TESTET 0??
 
-\subsubsection*{Rotation}
-%Om en nummerplade står vandret i et billede kan afgøres ved at kantdetektere billedet og udføre en Radon transformation på dette kant-billede. Hvis de stærkeste linier optræder ved $0^{\circ}$ er rotation udført korrekt.
-
-Da vi har lavet funktionen til rotation primært ved brug af en Matlab funktion (\textit{radon}), vil det ikke være relevant at teste funktionen. Derudover vil en test af funktionen betyde at alle pladernes rotation skulle bestemmes manuelt. Vi har i stedet besluttet at funktionen testes i forbindelse med test af de andre funktioner i dette afsnit, hvliket vil sige at rotation indgår som en del af separation og genkendelse af tegn og ikke er ``sin egen'' funktion.
-
-\subsubsection*{Separation}
-Metoderne til separation af tegn afprøver vi ved at se på om de finder syv objekter indenfor nummerpladens koordinater. Denne enkle afprøvning er blot en en indikation af, hvor gode de enkelte metoder er.
-
-Vi vil desuden afprøve om der er forskel på succesraten i forhold til hvor tæt nummerpladen er skåret til. Ved at definere forskellige størrelser for området omkring nummerpladen kan afprøvningen indikere, hvor robust metoderne er i forhold til størrelsen på udskæringen af pladen. Afprøvningsmetoden er dog følsom overfor koordinaterne til pladen.
-
-%Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information VI KAN IKKE SKALERE
-
->>>>>>> .r273
 %OVERVEJ NEDENSTÅENDE SOM SAMLET GRAF I ET AFSNIT
 
 \begin{figure}[htp]
