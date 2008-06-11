@@ -2,9 +2,9 @@
 \label{sec:resultater}
 I dette afsnit beskriver vi afprøvningen af vores software. Vi afprøver alle trin i lokalisering og læsning af nummerplader individuelt før vi afprøver det samlede system. Som det første undersøger vi effektiviteten af metoderne til lokalisering af nummerplader. Derefter afprøver vi de to metoder til at separere tegn i nummerpladerne. Som den sidste individuelle afprøvning, undersøger vi forskellige metoder til genkendelse af tegn.
 
-På baggrund af resultaterne af de individuelle afprøvninger, vælger vi den optimale konfiguration af systemet. Vi afprøver det samlede system på kontrolsættet med og uden syntaksanalyse af de nummerplader systemet læser.
+På baggrund af resultaterne af de individuelle afprøvninger, vælger vi den optimale konfiguration af systemet. Vi afprøver det samlede system på både trænings- og kontrolsættet med og uden syntaksanalyse.
 
-Til sidst afprøver vi HVAD på billederne der er taget med blitz samt billederne af biler med gule nummerplader.
+For at få en indikation af hvordan vores system opfører sig på billeder der ligger uden for vores afrænsninger, foretager vi til sidst et mindre antal afprøvninger på blitzsættet og de gule sæt.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADE %%%
@@ -19,8 +19,6 @@ Vi afprøver effektiviteten af de fem metoder til lokalisering af nummerplader. 
 Alle metoderne giver dårligere resultater på kontrolsættet end på træningssættet. Størst forringelse observeres i metoden der kigger på områder domineret af lyse gråtoner. Dette kan skyldes væsentligt forskellige vejrforhold for de dage hvor billederne er taget. Billederne i kontrolsættet er taget på en dag med meget kraftigt sol, hvorimod billederne i træningssættet er taget på dage uden klar sol. Muligvis er farvesammensætningen på nummerpladerne væsentligt anderledes under disse forhold. Metoden der anvender frekvensanalyse er den mest robuste, og opnår næsten lige gode resultater på de to sæt. De øvrige metoder oplever et fald på mellem 9.5 og 6.1 procentpoint i effektivitet.
 
 De to bedste metoder er dem der arbejder med kontrast. I træningsættet er metoden der kigger på områder i originalbilledet med høj kontrast den mest effektive med 83\%. I kontrolsættet er den mest effektive metode den der maksimerer lokal kontrast for at skabe et sammenhængende nummerpladeområde. 
-
-HVAD ER HURTIGST?
 
 \begin{figure}[htp]
 \centering
@@ -40,7 +38,7 @@ Kvantifisering                     & 69.8\% & 60.5\% &  9.3\% \\ \hline
 
 
 \subsubsection{Samlet lokalisering}
-Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på for eksempel tre, vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et nummerpladeområde og sender det videre i systemet til separation og genkendelse. Vi undersøger hvor høj enighed systemet skal konfigureres til for at give en korrekthed på 100\%. Resultaterne for afprøvning på træningsættet er vist i figur \vref{fig:test:lokalisering_traening_samlet} og resultaterne for kontrolsættet kan ses i figur \ref{fig:test:lokalisering_kontrol_samlet}.
+Vi afprøver hvor god vores software er til at lokalisere nummerplader når alle de fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på for eksempel tre, vil sige at tre af de underliggende metoder til lokalisering skal have udpeget det samme område før systemet opfatter det som en troværdig nummerpladekandidat og sender det videre i systemet til separation og genkendelse. Vi undersøger hvor høj enighed systemet skal konfigureres til for at give en korrekthed på 100\%. Resultaterne for afprøvning på træningsættet er vist i figur \vref{fig:test:lokalisering_traening_samlet} og resultaterne for kontrolsættet kan ses i figur \vref{fig:test:lokalisering_kontrol_samlet}.
 
 I træningssættet er korrektheden høj selv ved en minimal enighed på en, men en korrekthed på 100\% opnås først når den minimale enighed sættes til fem. I denne konfiguration kan systemet kun lokalisere 35.3\% af nummerpladerne. For kontrolsættet opnås en korrekthed på 100\% med en minimal enighed på fire.
 
@@ -83,22 +81,23 @@ Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater p�
 \subsubsection{Konklussion}
 Ideen med at bruge flere metoder til lokalisering virker god. Vi er i stand til at lokalisere 94.5\% af nummerpladerne i ikke på forhånd observerede billeder. Metoden er forholdsvis robust overfor mindre forringelser i effektiviteten af de underliggende metoder.
 
-Analyse af de billeder hvor vi ikke kan lokalisere nummerplader i træningsættet, afslører at meget mørke nummerplader er et problem. På grund af dette forhold må man overveje om man kan tale om en ideel intensitet for nummerpladeområder sådan som vi har gjort i vores pointsystem.
+Analyse af de billeder hvor vi ikke kan lokalisere nummerplader i træningsættet afslører, at meget mørke nummerplader er et problem. På grund af dette forhold må man overveje om man kan tale om en ideel intensitet for nummerpladeområder sådan som vi har gjort i vores pointsystem.
 
 En anden fællesnævner for de billeder hvor vi ikke finder nummerpladerne er farven på bilen. Hvide biler er overrepræsenteret i gruppen af billeder hvor vi ikke kan finde nummerpladen. Metoderne \textit{Områder domineret af lyse gråtoner} og \textit{Kvantifisering} fungerer dårligt på hvide biler. Den ene fordi hvide bilers karosseri også er domineret af lyse gråtoner, og den anden fordi filteret der fjerner tegnenen på nummerpladerne også fjerner stregerne rundt om nummerpladerne og dermed skaber et stort sammenhængende område bestående af både nummerplade og bil. 
 
-På figur \vref{fig:illu:wrong_candidates} i bilag \ref{sec:illu} viser vi eksempler på den type områder systemet fejlagtigt identificerer som nummerplader. Ofte sete fejl er klistermærker bag på biler, det rektangulere område der afgrænses af forsædernes nakkestøtter og bilens tag når man ser ind i gennem bagruden og områder med vinduer i bygninger i baggrunden af billedet.  
+På figur \vref{fig:illu:wrong_candidates} i bilag \ref{sec:illu} viser vi eksempler på den type områder systemet fejlagtigt identificerer som nummerplader. Ofte observerede fejlklassificerede områder er f.eks.  klistermærker bag på biler og det rektangulere område der afgrænses af forsædernes nakkestøtter og bilens tag når man ser ind i gennem bagruden på en bil. En anden type område der ofte fejlagtigt udpeges,  er områder med vinduer hvis lodrette kanter minder om nummerplader ud fra et frekvensanalytisk perspektiv.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% SEPARATION AF TEGN %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Separation af tegn, herunder rotation}
+\subsection{Separation af tegn}
+I dette afsnit afprøver vi de to forskellige metoder til separation af tegn vi har implementeret. Vi forsøger at give et estimat på effektiviteten af metoderne ved at måle om de returnerer syv områder, formodentlig tegn, der ligger inden for nummerpladekoordinaterne som angivet i billedernes filnavne. 
 
-%DETTE AFSNIT SKRIVES SAMMEN MED GENKENDELSE.
+Vi undersøger i hvilket omfang resultaterne ændrer sig i forhold til hvor meget af nummerpladens omgivende område man medtager i billedet af nummerpladen. Vi ønsker at få et estimat på hvor kritisk præcis udklipning af nummerplader er i forhold til vores evne til at separere tegnene i dem. Resultaterne for træningsættet er vist på figure \vref{fig:test:sep-traening-manuel} og de tilsvarende resultater for kontrolsættet kan ses på figur \ref{fig:test:sep-kontrol-manuel}.
 
-I dette afsnit afprøves metoderne, der bruges til at separere tegn i en nummerplade. MERE?
+HVORFOR HAR VI IKKE TESTET 0??
 
 \subsubsection*{Rotation}
 %Om en nummerplade står vandret i et billede kan afgøres ved at kantdetektere billedet og udføre en Radon transformation på dette kant-billede. Hvis de stærkeste linier optræder ved $0^{\circ}$ er rotation udført korrekt.
@@ -112,8 +111,8 @@ Vi vil desuden afprøve om der er forskel på succesraten i forhold til hvor tæ
 
 %Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information VI KAN IKKE SKALERE
 
+>>>>>>> .r273
 %OVERVEJ NEDENSTÅENDE SOM SAMLET GRAF I ET AFSNIT
-Resultaterne fra afprøvningen af separation af tegn ses i figurerne \ref{fig:test:sep-traening-manuel} og \ref{fig:test:sep-kontrol-manuel}.
 
 \begin{figure}[htp]
 \centering
@@ -469,23 +468,29 @@ Hitnr. & Valgt \\\hline
 
 
 \subsection{Det samlede system}
+<<<<<<< .mine
+I dette afsnit viser vi resultaterne af afprøvning af hele systemet på trænings- og kontrolsættet. Systemet giver kun svar når det mener at have identificeret alle syv karakterer i nummerpladen. Vi angiver for hvor mange billeder systemet giver at svar, samt procenten af fejl i svarene. Vi undersøger ikke hvor mange tegn der er læst korrekt i de forkerte svar. Vi har afprøvet systemet med og uden syntaksanalyse og raporterer begge resultater.
+=======
 \label{sec:test:samlet_system}
 
 I dette afsnit viser vi resultaterne af afprøvning af hele systemet på trænings- og kontrolsættet. Systemet giver kun svar når det mener at have identificeret alle syv karakterer i nummerpladen. Vi angiver for hvor mange billeder systemet giver at svar, samt fejlraten for svaret. Vi har afprøvet systemet med og uden syntaksanalyse og raporteret begge resultater.
+>>>>>>> .r273
 
-Systemet er konfigureret så vi opnår de bedste resultater for hvert trin i processen. Til lokalisering bruger vi den samlede metode med en minimal enighed på 1. Til segmentering af tegn bruger vi metoden der benytter sig af sammenhængende komponenter. Til gendkendelse af tegn bruger vi egenskabsvektorer med længden 64.
+Systemet er konfigureret så vi opnår de bedste resultater for hvert trin i processen. Til lokalisering bruger vi den samlede metode med en minimal enighed på en, da vi på den måde får flest nummerpladekandidater videre i systemet. Hvis nummerpladekandidaten ikke er en nummerplade, vil segmenteringsprocessen højst sandsynligt ikke kunde finde syv tegnkandidater, og nummerpladekandidaten vil blive afvist. Til segmentering af tegn bruger vi metoden der benytter sig af sammenhængende komponenter. Til gendkendelse af tegn bruger vi egenskabsvektorer med længden 64. Resultaterne er vist i figur \ref{fig:test:samlet_train_kontrol}.
 
 \begin{figure}[htp]
 \centering
-\begin{tabular}{|l|l|l|}\hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet system}} \\ \hline
-Sæt         & Med syntaxanalyse & Uden syntaxanalyse \\ \hline
-Træningssæt & 93.0\% / 1.6\%    &                    \\ \hline
-Kontrolsæt  & 86.7\% / 2.3\%    &                    \\ \hline
+\begin{tabular}{|l|l|p{2.5cm}|p{2.5cm}|}\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet system}} \\ \hline
+Sæt         & Svar   & Fejlrate med syntaxanalyse & Fejlrate uden syntaxanalyse \\ \hline
+Træningssæt & 93.0\% & 1.6\%                       & 4.0\%                      \\ \hline
+Kontrolsæt  & 86.6\% & 2.3\%                       & 6.4\%                      \\ \hline
 \end{tabular}
-\caption{Resultaterne for afprøvning af det samlede systems evne til at læse alle syv karakterer i nummerpladerne i trænings- og kontrolsættet. I cellerne med procentsatser, angiver det første tal hvor i  hvor mange }
+\caption{Resultaterne for afprøvning af det samlede systems evne til at læse alle syv karakterer i nummerpladerne i trænings- og kontrolsættet. Vi angiver hvor ofte systemet mener at have læst alle syv tegn i nummerpladerne samt fejlraten for disse svar med og uden brug af syntaksanalyse.}
 \label{fig:test:samlet_train_kontrol}
 \end{figure}
+
+\subsubsection{Konklusion}
 
 
 
@@ -523,7 +528,7 @@ Kvantifisering & 69.8\% &  85.4\% & 48.0\%\\
     \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Blitzsæt}} \\
     \hline
     Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
-    1 &  83.1\% & 85.7\%\\ \hline
+    1 &  86.2\% & 88.2\%\\ \hline
   \end{tabular}
 \caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i blitzsættet når alle fem metoder arbejde sammen.}
 \label{fig:test:lokalisering_blitz_samlet}
@@ -544,22 +549,19 @@ Kvantifisering & 69.8\% &  85.4\% & 48.0\%\\
 \end{figure}
 
 
-\subsubsection{Det samlede system}
 \begin{figure}[htp]
 \centering
-\begin{tabular}{|l|l|l|}\hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet system}} \\ \hline
-Sæt      &  Med syntaxanalyse & Uden syntaxanalyse \\ \hline
-Blitzsæt & 0\% / 0\%          & 81.5\% / 22.6\%     \\ \hline
-Gult sæt & -                  & 80.0\% / 15.0\%     \\ \hline
-
+\begin{tabular}{|l|l|p{2.5cm}|p{2.5cm}|}\hline
+\rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet system}} \\ \hline
+Sæt      & Svar   & Fejlrate med syntaxanalyse & Fejlrate uden syntaxanalyse \\ \hline
+Blitzsæt & 81.5\% & 9.4\%                      & 22.6\%                      \\ \hline
+Gult sæt & 80.0\% & -                          & 15.0\%                      \\ \hline
 \end{tabular}
-\caption{Resultaterne for afprøvning af det samlede systems evne til at læse alle syv karakterer i nummerpladerne i blitzsættet og det gule sæt. I cellerne med procentsatser, angiver det første tal hvor i  hvor mange }
+\caption{Resultaterne for afprøvning af det samlede systems evne til at læse alle syv karakterer i nummerpladerne i blitzsættet og det gule sæt. Vi angiver hvor ofte systemet mener at have læst alle syv tegn i nummerpladerne samt fejlraten for disse svar med og uden brug af syntaksanalyse. Da gule nummerplader indeholder kombinationer af tegn der er ulovlige i de nummerplader vi ellers har beskæftiget os med, har vi ikke foretaget syntaksanalyse på det gule sæt.}
 \label{fig:test:samlet_blitz_gul}
 \end{figure}
 
 
-HVAD ER FEJLRATEN?
 
 \subsection{Sammenligning med andres resultater}
 Parker : Kan ikke finde resultater
@@ -571,5 +573,7 @@ Andre opgiver i korrekt læste karakterer. Det er ike godt da... \cite{nijhuis}
 kwas får 49\% . Dog får de 99\% lokalisering.
 
 dlagnekov 95.6/5.7
+
+Andre bruger væsentligt lavere opløste billeder til læsning af tegn
 
 MÅSKE SKAL DETTE STÅ I KONKLUSION? ELLERS HER
