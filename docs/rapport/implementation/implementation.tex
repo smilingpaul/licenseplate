@@ -324,7 +324,7 @@ Denne metode er implementeret i funktionen \textit{CharSeparationCC}, hvis kilde
 De billeder der i denne del af systemet modtages fra lokaliseringsmetoderne er ikke nødvendigvis udskåret så nøjagtigt at nummerpladen dækker hele billedet. Billedet kan derfor indeholde elementer som ikke er en del af nummerpladen (eksempelvis et klistermærke som sidder på bilen). Derfor er det hensigtsmæssigt, når tegnene i nummerpladen skal separeres, at indskrænke billedet så det mest muligt kun forestiller nummerpladen (DET ER JO FoRDI VI KAN ANTAGE EN HEL DEL TING OM BILLEDET HVIS VI VED AT DET KUN INDEHOLDER PLADEN). Da nummerpladen sandsynligvis er det mest lyse element i billedet, gøres dette ved at gøre billedet binært og indskrænke det til det største hvide område i billedet. Dette gøres ved hjælp af Matlab funktionen \textit{im2bw}, hvor grænsen for hvilke intensitetsværdier der skal være hvide i det binære billede sættes under middel. Ved at sætte denne grænseværdi lavt mindskes risikoen for at nummerpladen ikke bliver en lys komponent.
 
 \paragraph{3. Forstærk billedets kontraster:}
-For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal(SKAL?) billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke (HVAD ER DET MON FOR NOGEN BLOKKE?) så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
+For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund skal(SKAL?) billedet kontrastforstærkes. Til at kontrastforstærke bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i blokke så man udover den forstærkede kontrast mellem tegnene og baggrunden også opnår forstærket kontrast mellem støj (f.eks. snavs på nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet "gror sammen" med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke er der dog en mulighed for at snavsen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med er bestemt eksperimentielt.
 
 HER ER BRIG FOR EN ILLUSTRATION
 
@@ -343,23 +343,25 @@ BILLEDE MED NUMMERPLADE SOM ER I SKYGGE FOROVEN SAMT BINÆRT BILLEDE HVOR TYNDE 
 \paragraph{5. Fjern al markering i meget eller lidt hvide horisontale linier:} En horisontal linie der går igennem tegnene i en nummerplade vil have mellem $\frac{1}{10}$ og $\frac{2}{3}$ af linien markeret. Derfor kan vi slette alle pixels i de rækker af billedet som har mindre end $\frac{1}{10}$ eller mere end $\frac{2}{3}$ af alle pixels i billedets bredde markeret. Dette vil fjerne flere muligheder for at tegn og pladens kant kan gro sammen. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte "skærer" tegnet \textbf{K} over, da det er meget smalt i midten.
 
 VIS SITUATIONEN PÅ EN ILLU
-\paragraph{6. Lav det sort-hvide billede til sammenhængende-komponenter-billede.}
-\paragraph{7. Fjern for små og for store komponenter:} Komponenter som fylder over $\frac{1}{7}$ af billedets areal, komponenter der har en bredde på mere end $\frac{1}{7}$ af billedets bredde, komponenter som er lavere end en vis konstant samt komponenter som har et areal som er mindre end en vis konstant kan fjernes fra billedet, da de ikke kan være tegn. Det er vores erfaring at det ville være svært at sætte de omtalte konstanter dynamisk i forhold til pladens størrelse, så de er fastlagt på baggrund af skøn ELLER!?. Man kunne desuden have en regel om at hvert tegn skal være højere end det er bredt, men vores undersøgelser viste at eksempelvis nogle \textbf{8}-taller ville blive sorteret fra ved denne regel. 
+\paragraph{6. Lav det sort-hvide billede til sammenhængende-komponenter-billede:} Sammenhængende komponenet laves ved brug af Matlab funktionen \textit{bwlabel}.
+\paragraph{7. Fjern for små og for store komponenter:} Komponenter som fylder over $\frac{1}{7}$ af billedets areal, komponenter der har en bredde på mere end $\frac{1}{7}$ af billedets bredde, komponenter som er lavere end en vis konstant samt komponenter som har et areal som er mindre end en vis konstant kan fjernes fra billedet, da de ikke kan være tegn. Det er vores erfaring at det ville være svært at sætte de omtalte konstanter dynamisk i forhold til pladens størrelse, så de er fastlagt på baggrund af vores observationer. Man kunne desuden have en regel om at hvert tegn skal være højere end det er bredt, men vores undersøgelser viste at eksempelvis nogle \textbf{8}-taller ville blive sorteret fra ved denne regel.
 
-\paragraph{8. Undersøg om der findes grupper på syv komponenter hvor alle syv komponenter har samme højde og er i samme højde:} For hvert komponent undersøges det om der findes andre komponenter med samme højde og i samme højde som den pågældende komponent. Sådanne komponenter samles i "grupper". Hvis der findes færre end syv komponenter i en gruppe, kan gruppen ikke være tegnene i nummerpladen. Hvis der findes syv komponenter i en gruppe kan gruppen vælges som de syv tegn. Hvis der findes en gruppe med otte eller ni komponenter fjernes det/de yderste ene/to tegn hvorefter gruppen kan vælges som de syv tegn. Dette gøres fordi...
+Skruerne, som bruges til at montere pladen, har ikke altid samme placering i pladen, så det er ikke muligt at lave en regel for at komponenter i en bestemt position skal frasorteres.
 
-ILLU
+\paragraph{8. Undersøg om der findes grupper på syv komponenter hvor alle syv komponenter har samme højde og er i samme højde:} For hvert komponent undersøges det om der findes andre komponenter med samme højde og i samme højde som den pågældende komponent. Sådanne komponenter samles i "grupper". Hvis der findes færre end syv komponenter i en gruppe, kan gruppen ikke være tegnene i nummerpladen. Hvis der findes syv komponenter i en gruppe kan gruppen vælges som de syv tegn. Hvis der findes en gruppe med otte eller ni komponenter fjernes det/de yderste ene/to tegn hvorefter gruppen kan vælges som de syv tegn. Dette gøres på baggrund af vores observationer, som har vist at de ``forkert'' komponenter ofte befinder sig i disse positioner.
+
+ILLU?
 
 \paragraph{9. Udregn afstandene mellem komponenter i en gruppe på syv komponenter:} Hvis en gruppe består af syv komponenter udregnes afstandene mellem komponenterne. Hvis disse målinger viser at afstanden mellem tegnene på position 2 og 3 samt på position 4 og 5 er større end afstandene mellem de resterende tegn, som støder op til hinanden, vælges elementerne i gruppen som nummerpladens syv tegn. Der tages ikke højde for at der kan være flere grupper med syv komponenter med de rette indbyrdes afstande, da vi anser funktionen som værende "skrap", og dette fænomen derfor højst sandsynligt ikke vil opstå.
 
-\paragraph{10. Skær tegnene ud:} Hvis en gruppe er valgt som de syv tegn i nummerpladen skal disse tegn udskæres. Da Matlab holder styr på de enkelte sammenhængende komponenters koordinater, udskæres hvert tegn ved brug af henholdsvis de minimale og maksimale $x$- og $y$-koordinater for den enkelte komponent.
+\paragraph{10. Skær tegnene ud:} Hvis en gruppe er valgt som de syv tegn i nummerpladen skal disse tegn udskæres. Da datastrukturen indeholder oplysninger om de enkelte sammenhængende komponenters koordinater, udskæres hvert tegn ved brug af henholdsvis de minimale og maksimale $x$- og $y$-koordinater for den enkelte komponent.
 
 \subsubsection*{Bjerg/dal}
 Denne metode er implementeret i funktionen \textit{CharSeparationPTV}, hvis kildekode findes i afsnit \vref{code:CharSeparationPTV}.
 
-\paragraph{1. Omdan billedet af pladen til gråtone.} IRRELEVANT?
+\paragraph{1. Klargør billedet:} Billedet af pladen omdannes fra farve til 256 gråtoner.
 
-\paragraph{2. Indskrænk billedet til den største komponent:} Som i metoden med sammenhængende komponenter indskrænkes billedet til den største komponent. I denne metode er det dog for at nummerpladens signatur ikke skal blive påvirket af "støj" udenfor nummerpladen. Ved at indskænke billedet kan man derimod være mere sikker på, at signaturen kun vil repræsentere pladen.
+\paragraph{2. Indskrænk billedet til den største komponent:} Som i metoden med sammenhængende komponenter indskrænkes billedet til den største komponent. I denne metode er det dog for at nummerpladens signatur ikke skal blive påvirket af ``støj'' udenfor nummerpladen. Ved at indskænke billedet kan man derimod være mere sikker på, at signaturen kun vil repræsentere pladen.
 
 \paragraph{3. Forstærk billedets kontraster:}
 HVORFOR?
@@ -368,7 +370,7 @@ HVORFOR?
 
 \paragraph{5. Udglat signaturen:} Hvis man betragter signaturen som en graf vil den være "hakket" på grund af støj i billedet. Signaturen skal derfor udglattes, så det er nemmere at finde bjerge og dale i denne. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde. EKSEMPEL PÅ UDREGNING? Et eksempel på en "rå" graf og samme graf, udglattet ses i figur \vref{fig:smoothSig}.
 
-EKSEMPEL PÅ HAKKET SIGNATUR OG UDGLATTET SIGNATUR
+EKSEMPEL PÅ HAKKET SIGNATUR OG UDGLATTET SIGNATUR?
 
 \begin{figure}[htp]
 \centering

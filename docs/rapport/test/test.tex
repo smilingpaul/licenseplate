@@ -103,12 +103,12 @@ I dette afsnit afprøves metoderne, der bruges til at separere tegn i en nummerp
 \subsubsection*{Rotation}
 %Om en nummerplade står vandret i et billede kan afgøres ved at kantdetektere billedet og udføre en Radon transformation på dette kant-billede. Hvis de stærkeste linier optræder ved $0^{\circ}$ er rotation udført korrekt.
 
-Da vi har lavet funktionen til rotation primært ved brug af en Matlab funktion (\textit{radon}), vil det ikke være relevant at teste funktionen. Derudover vil en test af funktionen betyde at alle pladernes rotation skulle bestemmes manuelt. Vi har i stedet besluttet at funktionen testes i forbindelse med test af de andre funktioner i dette afsnit, hvliket vil sige at rotation indgår som en del af separation og genkendelse af tegn og ikke er "sin egen" funktion. ER SKREVET TIDLIGER. OMSKRIVES.
+Da vi har lavet funktionen til rotation primært ved brug af en Matlab funktion (\textit{radon}), vil det ikke være relevant at teste funktionen. Derudover vil en test af funktionen betyde at alle pladernes rotation skulle bestemmes manuelt. Vi har i stedet besluttet at funktionen testes i forbindelse med test af de andre funktioner i dette afsnit, hvliket vil sige at rotation indgår som en del af separation og genkendelse af tegn og ikke er ``sin egen'' funktion.
 
 \subsubsection*{Separation}
 Metoderne til separation af tegn afprøver vi ved at se på om de finder syv objekter indenfor nummerpladens koordinater. Denne enkle afprøvning er blot en en indikation af, hvor gode de enkelte metoder er.
 
-Vi vil desuden afprøve om der er forskel på succesraten i forhold til hvor tæt nummerpladen er skåret til. Ved at definere forskellige størrelser for området omkring nummerpladen kan afprøvningen indikere, hvor robust metoderne er i forhold til størrelsen på udskæringen af pladen.
+Vi vil desuden afprøve om der er forskel på succesraten i forhold til hvor tæt nummerpladen er skåret til. Ved at definere forskellige størrelser for området omkring nummerpladen kan afprøvningen indikere, hvor robust metoderne er i forhold til størrelsen på udskæringen af pladen. Afprøvningsmetoden er dog følsom overfor koordinaterne til pladen.
 
 %Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information VI KAN IKKE SKALERE
 
@@ -149,25 +149,50 @@ Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 
 Resultaterne af afprøvningen er generelt bedre ved brug af træningssættet end ved brug af kontrolsættet. Metoden der bruger sammenhængende komponenter giver de bedste resultater af de to præsenterede metoder. Tegnene udskæres desuden tæt og hvis nummerpladeområdet ikke er for stort, men derimod stadig indeholder nummerpladens kanter, sådan at en eventuelt rotation kan foretages korrekt, giver metoden sjældent fejl. Fejlkilderne, når nummerpladeområdet er lille (det vil sige at området er udviddet med 10 eller 20 pixels), er primært skruerne i pladen og skæve plader. Skruerne bevirker enten at tegnene gror sammen med hinanden eller med pladens kant og derfor vælges fra, fordi de sammenhængende komponenter er for store. De skæve plader bevirker, at de komponenter der repræsenterer tegnene ikke står i samme højde og derfor bliver valgt fra.
 
-EVT. EKSEMPEL PÅ PROBLEM MED SKRUER SAMT SKÆV PLADE.
+%EVT. EKSEMPEL PÅ PROBLEM MED SKRUER SAMT SKÆV PLADE.
 
 Fejlkilderne når nummerpladeområdet er større (det vil sige udviddet med 30 eller 40 pixels) er at en anden komponent end den der indeholder nummerpladen vælges når billedet skal indskrænkes eller at indskrænkningen ikke er stor nok og at der derfor laves komponenter som er udenfor og er tilpas høje oog så videre.
 
-ETV. EKSEMPEL PÅ FORKERT INDSKRÆNKNING OG DÅRLIG INDSKRÆNKNING
+%ETV. EKSEMPEL PÅ FORKERT INDSKRÆNKNING OG DÅRLIG INDSKRÆNKNING
 
-I kontrolsættet tillægges fejlkilden hvor nummerpladerne er delvist dækket af skygge. Når dette er tilfældet opstår der nogle gange en komponent som går på tværs af flere tegn. VI EKSEMPEL.
+I kontrolsættet tillægges fejlkilden hvor nummerpladerne er delvist dækket af skygge. Når dette er tilfældet opstår der nogle gange en komponent som går på tværs af flere tegn.
 
-EKSEMPEL PÅ NUMMERPLADE I SKYGGE.
+I APPENDIX ses en collage med nummerplader hvor separationen af tegn ved brug af sammenhængende komponenter er fejlet.
 
-Som tidligere beskrevet er bjerg/dal-metoden meget følsom overfor støj, hvilket også ses i afprøvningsresultaterne. Derudover er afprøvningsmetoden et dårligt skøn på om tegnene udskæres korrekt, da mange af de udklippede elementer enten er halve tegn eller store elementer, hvor tegnet kun er en mindre del af. Resultaterne er på samme måde som ovenfor ringere ved kontrolsættet, men da afprøvningsmetoden giver en dårlig indikation for resultaterne med denne metode, er det svært at drage konklusioner udfra disse tal.
+%Et eksempel på denne fejltype ses i figur \vref{fig:kraftig_skygge}.
 
-EVT. EKSEMPEL PÅ SIGNATUR FØLSOM OVERFOR STØJ OG DÅRLIG UDKILP
+%\begin{figure}[htp]
+%\centering
+%\begin{minipage}[c]{8 cm}
+%\framebox{\includegraphics[width=8cm]{test/illu/kraftig_skygge.png}}
+%\framebox{\includegraphics[width=8cm]{test/illu/kraftig_skygge_concomp.png}} 
+%\end{minipage}
+%\caption{Et eksempel på en nummerplade fra kontrolsættet, hvor der en kraftig skygge over nummerpladen. Det øverste billede er originalbilledet, mens det nederste billede er det binære billede der dannes af pladen. Det er tydeligt at skyggen har stor indflydelse på hvilke komponenter der er sammenhængende.}
+%\label{fig:kraftig_skygge}
+%\end{figure}
+
+Som tidligere beskrevet er bjerg/dal-metoden meget følsom overfor støj, hvilket også ses i afprøvningsresultaterne. Derudover er afprøvningsmetoden et dårligt skøn på om tegnene udskæres korrekt, da mange af de udklippede elementer enten er halve tegn eller store elementer, hvor tegnet kun er en mindre del af. Et eksempel på syv tegn der er dårligt/forkert udklippet ses i figur \vref{fig:tegn-udklip-daarlig}. Resultaterne er på samme måde som ovenfor ringere ved kontrolsættet, men da afprøvningsmetoden giver en dårlig indikation for resultaterne med denne metode, er det svært at drage konklusioner udfra disse tal.
+
+\begin{figure}[htp]
+  \centering
+  \begin{minipage}[c]{8 cm}
+  	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char1_ptv.png}}
+  	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char2_ptv.png}}
+	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char3_ptv.png}}
+  	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char4_ptv.png}}
+	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char5_ptv.png}}
+  	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char6_ptv.png}}
+	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char7_ptv.png}}
+	\end{minipage}
+  \caption{Et eksempel på syv billeder af syv tegn, som er dårligt udklippede. Eksemplet viser udklipninger hvor området der udklippes er meget stort i forhold til det enkelte tegn. Derudover er det er også vist et eksempel på et tegn der klippes midt over fordi der er få markerede pixels i midten af tegnet.}
+  \label{fig:tegn-udklip-daarlig}
+\end{figure}
 
 \subsubsection{Konklusion}
 
-Den bedste separationsmetode er den der bruger sammenhængende komponenter. Ydermere er denne metode bedst på når pladerne er udskåret forholdsvis tæt, sådan at komponenter, der ligger udenfor pladen, ikke vil være forstyrrende elementer. Metoden er dog ret følsom overfor skygger der kastes på pladen. En form for forstærkning af lyset i pladen ville måske afhjælpe dette problem.
+Den bedste separationsmetode er den der bruger sammenhængende komponenter. Ydermere er denne metode bedst på når pladerne er udskåret forholdsvis tæt, sådan at komponenter, der ligger udenfor pladen, ikke vil være forstyrrende elementer. Metoden er dog ret følsom overfor skygger der kastes på pladen, fordi pladen sidder nedsunket i bilen, især bagerst på bilen. Når tynde elementer frasorteres gøres dette kun i den øverste $\frac{1}{3}$ af pladen. For at eliminerer fejlene der opstår på grund af skygger, kunne man eksperimentere med at fjerne tynd elementer i den øverste halvdel af pladen.
 
-For at afprøve bjerg/dal-metoden ordentlig må der udvikles en bedre afprøvningsmetode...
+For at afprøve bjerg/dal-metoden ordentlig er det nødvendigt at udvikle en bedre afprøvningsmetode.
 
 \begin{comment}
 Problemer ved 10: tegn der er smeltet sammen pga. søm skruer: OE26906 og ----290. Godt udskåret: UX33152, skæve plader et problem. go kontrast: YE39734.
@@ -178,11 +203,13 @@ Problemer ve 30: stadig for stort område: giver komponenter udenfor der vælges
 
 \end{comment}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% GENKENDELSE AF TEGN %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Genkendelse af tegn}
-I dette afsnit afprøves metoderne til genkendelse af tegn. Syntaksanalysen vil blive afprøvet i afprøvningen af det samlede system, da denne kun arbejder på en tegnfølge. SKAL DET STÅ HER?
+I dette afsnit afprøves metoderne til genkendelse af tegn. Syntaksanalysen vil blive afprøvet i afprøvningen af det samlede system i afsnit \vref{sec:test:samlet_system}, da denne analyse ikke direkte arbejder med genkendelse men kun arbejder på en tegnfølge.
+
 
 Afprøvningen vil blive foretaget på alle tegn fra kontrolsættet, separeret med den bedste metode (sammenhængende komponenter hvor 10 pixels er lagt til). Disse tegn er sorteret så billeder der tydeligvis ikke ligner et tegn (hvor tegnet eksempelvis er blevet halveret under separationen eller hvor en komponent der ikke er et tegn er blevet valgt) er blevet sorteret fra.
 
@@ -398,7 +425,7 @@ Generelt viser afprøvningen af metoden med forenings-billeder at metoden er meg
 
 \subsubsection{Konklusion}
 
-Metoden der bruger egenskabsvektorer giver generelt de bedste resultater.
+Metoden der bruger egenskabsvektorer giver generelt de bedste resultater. De resultater metoden giver er til og med så gode, at det må formodes at den ikke har en negativ indflydelse på det samlede system. Metoden giver de bedste resultater hvor vektorerne er lavet ud fra billeder af størrelsen $8 \times 8$. Man kan synes at disse vektorer indeholder meget information, og det måske vil påvirke systemets hastighed. I følge vores egne observationer lader der dog ikke til at være nogen hastighedsmæssig forskel når man bruger vektorer med denne længde i forhold til hvis man bruger kortere vektorer.
 
 Vi kunne også have testet hvilke tegn der bliver valgt i stedet for, når et forkert tegn vælges. Vælges 8 f.eks. når B burde ha været valgt??
 
@@ -442,6 +469,8 @@ Hitnr. & Valgt \\\hline
 
 
 \subsection{Det samlede system}
+\label{sec:test:samlet_system}
+
 I dette afsnit viser vi resultaterne af afprøvning af hele systemet på trænings- og kontrolsættet. Systemet giver kun svar når det mener at have identificeret alle syv karakterer i nummerpladen. Vi angiver for hvor mange billeder systemet giver at svar, samt fejlraten for svaret. Vi har afprøvet systemet med og uden syntaksanalyse og raporteret begge resultater.
 
 Systemet er konfigureret så vi opnår de bedste resultater for hvert trin i processen. Til lokalisering bruger vi den samlede metode med en minimal enighed på 1. Til segmentering af tegn bruger vi metoden der benytter sig af sammenhængende komponenter. Til gendkendelse af tegn bruger vi egenskabsvektorer med længden 64.
