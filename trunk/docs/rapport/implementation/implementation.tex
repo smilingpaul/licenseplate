@@ -116,7 +116,6 @@ På baggrund af formlen i afsnit \ref{sec:DetectSameness} danner vi et binært b
 \paragraph{3. Manipuler binært billede:}
 For at forsøge at undgår at nummerpladeområdet er forbundet med andre områder, trækker vi alle områder i det binære billede en anelse sammen. Vi bruger Matlabs funktion \textit{imerode} med et kvadrat på $2 \times 2$ pixels som figur. Dette trin kan muligvis have delt nummerpladeområdet op i flere områder. For igen at have et samlet nummerpladeområde, udvidder vi alle områder i det binære billede med Matlabs \textit{imdilate}-funktion. Denne gang bruger vi et liggende rektangel med højden 2 og bredden 4 som figur. Vi bruger denne liggende figur, da vi ønsker at forbinde områder som ligger ved siden af hinanden, dele af nummerpladen, men vil undgå at forbinde områder der ligger over og under hinanden. 
 
-OVERVEJ ILLU FRA: http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Morpholo.html
 
 \paragraph{4. Fjern uinteressante områder fra binært billede:}
 I det binære billede er der nu en masse områder, som helt sikkert ikke kan være nummerpladen. Et helt oplagt eksempel er områder der kun består af ganske få pixels. Vi sletter alle de områder vi vurderer som uinteressant ved at kalde funktionen \textit{BinImgCleanup} som tidligere beskrevet i \vref{sec:imp:BinImgCleanup} med det binære billede som argument.
@@ -249,21 +248,34 @@ Vi kigger på omfanget af enighed blandt de udpegede nummerpladekandidater. Nive
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Mulige forbedringer}
-Vi kunne arbejde mere med manipulation af de binære billeder før vi renser dem. Vi kunne arbejde mere med støjfiltrering etc. altså preprocessing af billederne. Citer folk der gør det. Skriv også hvad de gør.
-Man kunne have taget højde for at de forskelleige metoder returnerer områder af forskellig bredde og intensitet.
+Vi er opmærksomme på flere områder hvor systemet til lokalisering af nummerplader kan forbedres. I dette afsnit identificerer vi disse problemstillinger og forslår hvordan de kan løses.
 
-Mere tuning af vægte etc i pointsystem. Arbejde med kriterier der skal vær opfyld. Vis nogle billeder fra kontrolsættet som er blevet valgt som kandidater men tydeligvis, visuelt, ligger langt fra noget man ville forveksle med en nummerplade. Mere skrap med enighed.
+\paragraph{Mere forarbejde på billeder af interesseområder før de analyseres}
+Systemet ville kunne forbedres ved at arbejde mere på billederne af interesseområder. Ofte er nummerpladeområderne forbundet med omkringliggende områder og bliver derfor slettet når interesseområderne analyseres fordi de f.eks. er for store eller for små. Der bør arbejdes på at få nummerpladeområderne separeret i disse tilfælde.
 
+\paragraph{Mere fleksibel metode til analyse af interesseområder}
+Et af de parametre der undersøges når interesseområder analyseres er områdernes densitet. I det beskrevne system bliver der ikke taget højde for, at de forskellige metoder markerer nummerpladeområderne med forskellig dentensitet. F.eks. vil nogle metoder ofte markere pladerne med huller der hvor der er tegn, mens nogle metoder, specielt \textit{Kvantifisering}, markerer nummerpladerne som områder uden huller. Hvis man ved at en metode returnerer nummerplader med meget høj densitet, vil man kunne kræve større densitet for dens interesseområder under analysen.
 
-DetectPlateness:
-Metoden bliver dårligere jo mere man skalerer billedet ned da tegn i nummerpladerne ikke længere er klart separeret. Vi burde nok køre dette på større billeder.
-Vi bruger funktionen plateness. Den kunne være mere robust.
+En anden ting der kunne tages højde for er, at nogle metoder, f.eks. \textit{Frekvensanalyse} markerer nummerpladerne som lavere og bredere end de enligt er. I dette tilfælde er den ideelle nummerpladekandidat ikke et område med et bredde/højde-forhold svarende til en nummerplade.
 
-Lokal contrast stretch:
-Måske kunne vi opnå bedre resultater ved at bruge filter frem for blok, men blok er meget hurtigere.
+\paragraph{}
 
-DetectMain: Der er fejl i 2x2 situationer.
+ mere med støjfiltrering etc. altså preprocessing af billederne. Citer folk der gør det. Skriv også hvad de gør.
 
+\paragraph{Pointsystem}
+Der bør arbejdes mere med pointsystemet og de optimale værdier. Kan man virkelig tale om f.eks. en optimal gennemsnits intensitet for en nummerplade? Vi har ofte problemer med at lokalisere mørke nummerplader da de bliver straffet for at være mørke da vi har bestemt at det er optimal for en nummerplade at være lys. Et andet område, er analyse af det indbyrdes forhold mellem de karakteristika vi analyserer. Man kunne forestille sig der findes sammenhænge der er karakteristiske for nummerplader. Der er også plads til forbedringer i forbindelse med vægtning af de forskellige karakteristika samt mere arbejde med hvorvidt pointene i de forskellige kategorier skal udvikle sig lineært eller f.eks. eksponentielt.
+
+En anden mulighed for forbedring af pointsystemet er, at benytte forbundne komponenter som et værktøj til analyse af nummerpladekandidaterne. Man kunne f.eks. undersøge hvor mange fritstående områder der kunne findes i billedet. Hvis der kun kunne findes 1, ville det være dårligt, men hvis der fandtes 7 ville det være godt. 
+
+\paragraph{Bedre frekvensanalyse}
+Den primitive metode til frekvensanalyse, er alt for modtagelig for støj. Endvidere bør det overvejes, om det tal vi bruger til at repræsenterer frekvensen for et billede\footnote{Antallet af gange middelværdien overskrides.} er nøjagtigt nok.
+
+\paragraph{Lokalisering af nummerplader ved frekvensanalyse}
+Man bør overveje om det giver mening at arbejde med frekvensanalyse på billeder med en opløsning på $256 \times 192$ pixels som vi har gjort. Muligvis kan der opnås væsentligt bedre resultater med metoden ved at benytte billeder af højere opløsning end vi har gjort.
+
+\paragraph{Valg af bedste nummerpladekandidat}
+Når nummerpladekandidaterne for de fem metoder til lokalisering skal evalueres, kan der opstå  problemer i situationer hvor to metoder er enige om et område, og to andre metoder er enige om et andet. Problemet opstår fordi systemet tillader, at f.eks. område \textbf{A} er enig med område \textbf{B}, men at \textbf{B} omvendt ikke er enig med \textbf{A}. Denne situation fører til forkerte værdier for gennemsnitspoint for de to grupper af enige nummerpladekandidater. Systemet bør ændres så 
+enighed altid er gensidig.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% SEPARATION AF TEGN %%%
