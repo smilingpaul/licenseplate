@@ -111,38 +111,38 @@ I dette afsnit afprøves metoderne, der bruges til at separere tegn i en nummerp
 Da vi har lavet funktionen til rotation primært ved brug af en Matlab funktion (\textit{radon}), vil det ikke være relevant at teste funktionen. Derudover vil en test af funktionen betyde at alle pladernes rotation skulle bestemmes manuelt. Vi har i stedet besluttet at funktionen testes i forbindelse med test af de andre funktioner i dette afsnit, hvliket vil sige at rotation indgår som en del af separation og genkendelse af tegn og ikke er "sin egen" funktion. ER SKREVET TIDLIGER. OMSKRIVES.
 
 \subsubsection*{Separation}
-Metoderne til separation af tegn afprøves ved at se på om de finder syv objekter indenfor nummerpladens koordinater. Denne enkle afprøvning kan ikke være fyldestgørende. Det er rettere en indikation af ....
+Metoderne til separation af tegn afprøver vi ved at se på om de finder syv objekter indenfor nummerpladens koordinater. Denne enkle afprøvning er blot en en indikation af, hvor gode de enkelte metoder er.
 
-Vi vil desuden afprøve om der er forskel på succesraten i forhold til hvilket område der repræsenterer nummerpladen. Ved at definere forskellige størrelser for nummerpladeområdet kan afprøvningen indikere hvor robust metoderne er i forhold til størrelsen på udklipningen af nummerpladen fra originalbilledet.
+Vi vil desuden afprøve om der er forskel på succesraten i forhold til hvor tæt nummerpladen er skåret til. Ved at definere forskellige størrelser for området omkring nummerpladen kan afprøvningen indikere, hvor robust metoderne er i forhold til størrelsen på udskæringen af pladen.
 
 %Parametre: størrelse på componenter der sorteres fra, skalering: kan vi tillade os at skalere ned (eller op, hvor vi måske får mere plads mellem komponenterne) eller mister vi for meget information VI KAN IKKE SKALERE
 
 %OVERVEJ NEDENSTÅENDE SOM SAMLET GRAF I ET AFSNIT
-Resultaterne fra afprøvningen af separation af tegn ses i figurerne \vref{fig:test:sep-traening-manuel} og \vref{fig:test:sep-kontrol-manuel}.
+Resultaterne fra afprøvningen af separation af tegn ses i figurerne \ref{fig:test:sep-traening-manuel} og \ref{fig:test:sep-kontrol-manuel}.
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Separation af tegn - Træningssæt}} \\ \hline
 Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 10 & 96.5\% & 91.8\% \\\hline
 20 & 95.8\% & 91.3\% \\\hline
 30 & 92.5\% & 83.5\% \\\hline
 40 & 87.5\% & 73.4\% \\\hline \end{tabular}
-\caption{Afprøvning af metoderne til separation af tegn på træningssættet ved brug af manuelt udpegede plader.}
+\caption{Afprøvning af metoderne til separation af tegn på træningssættet ved brug af definerede pladeområder. Værdierne i den første kolonne er den mængde pixels området er udviddet med.}
 \label{fig:test:sep-traening-manuel}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Separation af tegn - Kontrolsæt}} \\ \hline
 Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 10 & 90.0\% & 87.2\% \\\hline
 20 & 86.8\% & 81.0\% \\\hline
 30 & 84.7\% & 71.2\% \\\hline
 40 & 79.0\% & 58.5\% \\\hline \end{tabular}
-\caption{Afprøvning af metoderne til separation af tegn på kontrolsættet ved brug af manuelt udpegede plader.}
+\caption{Afprøvning af metoderne til separation af tegn på kontrolsættet ved brug af manuelt udpegede plader. Værdierne i den første kolonne er den mængde pixels området er udviddet med.}
 \label{fig:test:sep-kontrol-manuel}
 \end{figure}
 
@@ -152,30 +152,27 @@ Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 % & 0\% & 0\% \\\hline
 %\end{tabular}
 
-Sammenhængende komponenter - Træningssæt
-
-Denne metode giver de bedste resultater af de to præsenterede metoder. Tegnene klippes tæt og hvis nummerpladeområdet ikke er for stort, men derimod stadig indeholder nummerpladens kanter, sådan at en eventuelt rotation kan foretages korrekt, giver metoden sjældent fejl.
-
-Fejlkilderne, når nummerpladeområdet er lille (det vil sige at området er udviddet med 10 eller 20 pixels), er primært skruerne i pladen og skæve plader. Skruerne bevirker enten at tegnene gror sammen med hinanden eller med pladens kant og derfor vælges fra, fordi de sammenhængende komponenter er for store. De skæve plader bevirker, at de komponenter der repræsenterer tegnene ikke står i samme højde og derfor bliver valgt fra.
+Resultaterne af afprøvningen er generelt bedre ved brug af træningssættet end ved brug af kontrolsættet. Metoden der bruger sammenhængende komponenter giver de bedste resultater af de to præsenterede metoder. Tegnene udskæres desuden tæt og hvis nummerpladeområdet ikke er for stort, men derimod stadig indeholder nummerpladens kanter, sådan at en eventuelt rotation kan foretages korrekt, giver metoden sjældent fejl. Fejlkilderne, når nummerpladeområdet er lille (det vil sige at området er udviddet med 10 eller 20 pixels), er primært skruerne i pladen og skæve plader. Skruerne bevirker enten at tegnene gror sammen med hinanden eller med pladens kant og derfor vælges fra, fordi de sammenhængende komponenter er for store. De skæve plader bevirker, at de komponenter der repræsenterer tegnene ikke står i samme højde og derfor bliver valgt fra.
 
 EVT. EKSEMPEL PÅ PROBLEM MED SKRUER SAMT SKÆV PLADE.
 
-Fejlkilderne når nummerpladeområdet er større (det vil sige udviddet med 30 eller 40 pixels) er at en anden komponent end den der indeholder nummerpladen vælges når billedet skal indskrænkes eller at indskrænkningen ikke er stor nok og at der derfor laves komponenter som er udenfor og er tilpas høje osv.
+Fejlkilderne når nummerpladeområdet er større (det vil sige udviddet med 30 eller 40 pixels) er at en anden komponent end den der indeholder nummerpladen vælges når billedet skal indskrænkes eller at indskrænkningen ikke er stor nok og at der derfor laves komponenter som er udenfor og er tilpas høje oog så videre.
 
 ETV. EKSEMPEL PÅ FORKERT INDSKRÆNKNING OG DÅRLIG INDSKRÆNKNING
 
-Sammenhængende komponenter - kontrolsæt
+I kontrolsættet tillægges fejlkilden hvor nummerpladerne er delvist dækket af skygge. Når dette er tilfældet opstår der nogle gange en komponent som går på tværs af flere tegn. VI EKSEMPEL.
 
-Bjerg/dal - Træningssæt
+EKSEMPEL PÅ NUMMERPLADE I SKYGGE.
 
-Som tidligere beskrevet er bjerg/dal metoden meget følsom overfor støj, hvilket også ses i afprøvningsresultaterne. Derudover er afprøvningsmetoden et dårligt skøn på om metoden udklipper tegnene korrekt, da mange af de udklippede elementer enten er halve tegn eller store elementer, hvor tegnet kun er en del af.
+Som tidligere beskrevet er bjerg/dal-metoden meget følsom overfor støj, hvilket også ses i afprøvningsresultaterne. Derudover er afprøvningsmetoden et dårligt skøn på om tegnene udskæres korrekt, da mange af de udklippede elementer enten er halve tegn eller store elementer, hvor tegnet kun er en mindre del af. Resultaterne er på samme måde som ovenfor ringere ved kontrolsættet, men da afprøvningsmetoden giver en dårlig indikation for resultaterne med denne metode, er det svært at drage konklusioner udfra disse tal.
 
 EVT. EKSEMPEL PÅ SIGNATUR FØLSOM OVERFOR STØJ OG DÅRLIG UDKILP
 
-Bjerg/dal - Kontrolsæt
+\subsubsection{Konklusion}
 
-Støt begrundelse af div. valg i koden med testresultater. Er det rimeligt at klippe de største område ud når vi finder nummerplader? 
+Den bedste separationsmetode er den der bruger sammenhængende komponenter. Ydermere er denne metode bedst på når pladerne er udskåret forholdsvis tæt, sådan at komponenter, der ligger udenfor pladen, ikke vil være forstyrrende elementer. Metoden er dog ret følsom overfor skygger der kastes på pladen. En form for forstærkning af lyset i pladen ville måske afhjælpe dette problem.
 
+For at afprøve bjerg/dal-metoden ordentlig må der udvikles en bedre afprøvningsmetode...
 
 \begin{comment}
 Problemer ved 10: tegn der er smeltet sammen pga. søm skruer: OE26906 og ----290. Godt udskåret: UX33152, skæve plader et problem. go kontrast: YE39734.
@@ -186,238 +183,234 @@ Problemer ve 30: stadig for stort område: giver komponenter udenfor der vælges
 
 \end{comment}
 
+
 %%% GENKENDELSE AF TEGN %%%
 
 \subsection{Genkendelse af tegn}
-I dette afsnit afprøves metoderne til genkendelse af tegn i en nummerplade. Syntaksanalysen vil blive afprøvet i afprøvningen af det samlede system, da denne kun arbejder på syv følgende tegn.
+I dette afsnit afprøves metoderne til genkendelse af tegn. Syntaksanalysen vil blive afprøvet i afprøvningen af det samlede system, da denne kun arbejder på en tegnfølge. SKAL DET STÅ HER?
 
-Afprøvningen vil blive foretaget på alle tegn fra kontrolsættet, separeret med den bedste metode (sammenhængende komponenter hvor 10 pixels er lagt til). Disse tegn er sorteret så billeder af tegn der er udklippet forkert og hvor tegnet eksempelvis er blevet halveret under separationen er blevet sorteret fra. Afprøvningen vil derfor give en indikation af, hvor gode metoderne er til at genkende tegn i billeder som et menneske kan aflæse.
+Afprøvningen vil blive foretaget på alle tegn fra kontrolsættet, separeret med den bedste metode (sammenhængende komponenter hvor 10 pixels er lagt til). Disse tegn er sorteret så billeder der tydeligvis ikke ligner et tegn (hvor tegnet eksempelvis er blevet halveret under separationen eller hvor en komponent der ikke er et tegn er blevet valgt) er blevet sorteret fra.
 
-I træningssættet er der generelt færre bogstaver end der er tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Der er for eksempel kun tre billeder af tegnet \textbf{O}. Derudover er der ingen billeder af tegnet \textbf{A} i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for \textbf{A} skulle stå, være udfyldt med "-".
+I træningssættet er der generelt færre bogstaver end tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Der er for eksempel kun tre billeder af tegnet \textbf{O}. Derudover er der ingen billeder af tegnet \textbf{A} i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for \textbf{A} skulle stå, være udfyldt med "-".
 
 %Nedenstående tests er i forhold til manuelt udklippede plader - ikke automtisk lokalisering.
 
-I figurerne \vref{fig:test:middel_tal}, \vref{fig:test:middel_bogstav} samt \vref{fig:test:middel_alletegn} ses resultaterne af afprøvningen af genkendelse af tegn ved brug af middelvektorer. Afprøvningen er udført med vektorer som er lavet ud fra billeder med størrelsen 3 $\times$ 3 og opefter. Vektorer der laves ud fra mindre billeder vil ikke være fornuftige at afprøve med, da flere af disse vektorer ligner hinanden og man derfor ikke kan skelne mellem genkendelse af to tegn med samme vektor. MANGLER 8 x 8!!! NOGET OM ØVRE GRÆNSE?
+I figurerne \ref{fig:test:middel_tal} til \ref{fig:test:middel_alletegn} ses resultaterne af afprøvningen af genkendelse af tegn ved brug af egenskabsvektorer. Afprøvningen er udført med vektorer som er lavet ud fra billeder med størrelsen 3 $\times$ 3 og opefter. Vektorer der laves ud fra mindre billeder vil ikke være fornuftige at bruge til afprøvning, da flere af disse vektorer ligner hinanden og man derfor ikke kan skelne mellem genkendelse af to tegn med samme vektor. Den øvre grænse sættes ved vektorer der er lavet ud fra ? $\times$ ? billeder, da vi ikke forventer nogle væsentlige forbedringer af resultaterne udover denne grænse. Desuden forventer vi at hastigheden for systemet nedsættes jo større vektorer man arbejder med, hvilket vil være en væsentlig detalje hvis systemet skulle arbejde i realtid. MANGLER 8 x 8!!!
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af cifre - Egenskabsvektor}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
-0 & 21.0 & 77.1 & 74.8 & 56.1 & 91.1\\\hline
-1 & 79.3 & 94.1 & 97.5 & 97.5 & 98.0\\\hline
-2 & 92.7 & 93.3 & 98.0 & 98.9 & 99.2\\\hline
-3 & 86.1 & 99.4 & 98.9 & 100.0 & 100.0\\\hline
-4 & 84.1 & 99.1 & 99.1 & 99.7 & 99.7\\\hline
-5 & 96.6 & 98.3 & 98.3 & 99.4 & 99.4\\\hline
-6 & 42.1 & 99.5 & 100.0 & 99.5 & 100.0\\\hline
-7 & 92.4 & 94.2 & 98.7 & 99.6 & 99.6\\\hline
-8 & 13.0 & 45.2 & 90.4 & 93.5 & 97.0\\\hline
-9 & 82.6 & 94.6 & 96.4 & 98.2 & 97.3\\\hline
+0 & 21.0\% & 77.1\% & 74.8\% & 56.1\% & 91.1\%\\\hline
+1 & 79.3\% & 94.1\% & 97.5\% & 97.5\% & 98.0\%\\\hline
+2 & 92.7\% & 93.3\% & 98.0\% & 98.9\% & 99.2\%\\\hline
+3 & 86.1\% & 99.4\% & 98.9\% & 100.0\% & 100.0\%\\\hline
+4 & 84.1\% & 99.1\% & 99.1\% & 99.7\% & 99.7\%\\\hline
+5 & 96.6\% & 98.3\% & 98.3\% & 99.4\% & 99.4\%\\\hline
+6 & 42.1\% & 99.5\% & 100.0\% & 99.5\% & 100.0\%\\\hline
+7 & 92.4\% & 94.2\% & 98.7\% & 99.6\% & 99.6\%\\\hline
+8 & 13.0\% & 45.2\% & 90.4\% & 93.5\% & 97.0\%\\\hline
+9 & 82.6\% & 94.6\% & 96.4\% & 98.2\% & 97.3\%\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af cifre ved brug af middelvektorer. For hvert ciffer er det angivet hvor mange procent af billederne af dette ciffer, der er korrekt genkendt.}
+\caption{Afprøvningsresultater for genkendelse af cifre ved brug af egenskabsvektorer. For hvert ciffer er det angivet hvor stor en del af billederne af dette ciffer, der er korrekt genkendt.}
 \label{fig:test:middel_tal}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af bogstaver - Egenskabsvektor}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
 A & - & - & - & - & -\\\hline
-B & 40.9 & 68.2 & 90.9 & 95.5 & 95.5\\\hline
-C & 65.6 & 93.8 & 96.9 & 100.0 & 100.0\\\hline
-D & 91.4 & 100.0 & 100.0 & 97.1 & 91.4\\\hline
-E & 65.0 & 85.0 & 95.0 & 95.0 & 100.0\\\hline
-H & 28.6 & 100.0 & 85.7 & 100.0 & 100.0\\\hline
-J & 97.2 & 97.2 & 100.0 & 97.2 & 100.0\\\hline
-K & 54.8 & 80.6 & 90.3 & 90.3 & 90.3\\\hline
-L & 25.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
-M & 20.5 & 87.2 & 97.4 & 94.9 & 94.9\\\hline
-N & 41.7 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
-O & 0.0 & 66.7 & 0.0    & 66.7 & 66.7\\\hline
-P & 78.8 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
-R & 28.2 & 87.2 & 92.3 & 94.9 & 94.9\\\hline
-S & 98.6 & 97.1 & 92.7 & 100.0 & 100.0\\\hline
-T & 94.4 & 98.9 & 98.9 & 98.9 & 100.0\\\hline
-U & 1.3 & 93.3 & 96.0 & 97.3 & 98.7\\\hline
-V & 90.6 & 98.1 & 98.1 & 98.1 & 98.1\\\hline
-X & 92.2 & 97.4 & 98.7 & 98.7 & 98.7\\\hline
-Y & 95.8 & 98.9 & 98.9 & 98.4 & 98.9\\\hline
-Z & 77.2 & 100.0 & 96.5 & 100.0 & 100.0\\\hline
+B & 40.9\% & 68.2\% & 90.9\% & 95.5\% & 95.5\%\\\hline
+C & 65.6\% & 93.8\% & 96.9\% & 100.0\% & 100.0\%\\\hline
+D & 91.4\% & 100.0\% & 100.0\% & 97.1\% & 91.4\%\\\hline
+E & 65.0\% & 85.0\% & 95.0\% & 95.0\% & 100.0\%\\\hline
+H & 28.6\% & 100.0\% & 85.7\% & 100.0\% & 100.0\%\\\hline
+J & 97.2\% & 97.2\% & 100.0\% & 97.2\% & 100.0\%\\\hline
+K & 54.8\% & 80.6\% & 90.3\% & 90.3\% & 90.3\%\\\hline
+L & 25.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
+M & 20.5\% & 87.2\% & 97.4\% & 94.9\% & 94.9\%\\\hline
+N & 41.7\% & 100.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
+O & 0.0\% & 66.7\% & 0.0\%  & 66.7\% & 66.7\%\\\hline
+P & 78.8\% & 100.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
+R & 28.2\% & 87.2\% & 92.3\% & 94.9\% & 94.9\%\\\hline
+S & 98.6\% & 97.1\% & 92.7\% & 100.0\% & 100.0\%\\\hline
+T & 94.4\% & 98.9\% & 98.9\% & 98.9\% & 100.0\%\\\hline
+U & 1.3\% & 93.3\% & 96.0\% & 97.3\% & 98.7\%\\\hline
+V & 90.6\% & 98.1\% & 98.1\% & 98.1\% & 98.1\%\\\hline
+X & 92.2\% & 97.4\% & 98.7\% & 98.7\% & 98.7\%\\\hline
+Y & 95.8\% & 98.9\% & 98.9\% & 98.4\% & 98.9\%\\\hline
+Z & 77.2\% & 100.0\% & 96.5\% & 100.0\% & 100.0\%\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af bogstaver ved brug af middelvektorer. For hvert bogstav er det angivet hvor mange procent af billederne af dette bogstav, der er korrekt genkendt. Rækken med bogstavet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
+\caption{Afprøvningsresultater for genkendelse af bogstaver ved brug af egenskabsvektorer. For hvert bogstav er det angivet hvor stor en del af billederne af dette bogstav, der er korrekt genkendt. Rækken med bogstavet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
 \label{fig:test:middel_bogstav}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
-Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 & 8 $\times$ 8\\\hline
-Alle tal & 73.3 & 90.8 & 95.9 & 95.3 & 98.4 & 98.8 & 97.0\\\hline
-Alle bogstaver & 74.5 & 95.7 & 97.0 & 98.0 & 98.2 & 98.6 & 98.4\\\hline
+\rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af tegn - Egenskabsvektor}} \\ \hline
+Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 & 8 $\times$ 8 & 9 $\times$ 9\\\hline
+Alle tal & 73.3\% & 90.8\% & 95.9\% & 95.3\% & 98.4\% & 98.8\% & 97.0\%\\\hline
+Alle bogstaver & 74.5\% & 95.7\% & 97.0\% & 98.0\% & 98.2\% & 98.6\% & 98.4\%\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af tegn ved brug af middelvektorer, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
+\caption{Afprøvningsresultater for genkendelse af tegn ved brug af egenskabsvektorer, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor stor en del af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:middel_alletegn}
 \end{figure}
 
 Som det ses har metoden sværest ved at genkende tegnene \textbf{0} og \textbf{O} hviket skyldes, at middelvektorerne for disse tegn ligger tæt på hinanden (selv med det menneskelige øje, kan disse to tegn være svære at skelne fra hinanden). Derudover ses det at resultaterne for vektorer der er lavet på baggrund af 3 $\times$ 3 billeder, giver væsentligt dårlige resultater end de restende vektorer. Dette kommer især til udtryk i tabellen i figur \vref{fig:test:middel_alletegn}, hvor alle vektorer giver resultater over 90 \%, bortset fra den første.
 
-I figurene \vref{fig:test:sum_tal}, \vref{fig:test:sum_bogstav} samt \vref{fig:test:sum_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af sum-billeder. Som ovenfor vil det ikke give nogen mening at teste på vektorer lavet ud fra 2 $\times$ 2 billeder. NOGET OM ØVRE GRÆNSE?
+I figurene \ref{fig:test:sum_tal} til \ref{fig:test:sum_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af sum-billeder. Som ovenfor vil det ikke give nogen mening at teste på sum-billeder lavet ud fra 2 $\times$ 2 billeder.
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Sum-billeder}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af cifre - Sum-billeder}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
-0 & 0.0 & 64.0 & 73.4 & 54.2 & 81.3\\\hline
-1 & 98.5  & 99.0 & 96.1 & 99.0 & 99.5\\\hline
-2 & 81.6 & 56.7 & 90.5 & 99.7 & 99.7\\\hline
-3 & 3.9 & 45.3 & 98.9 & 97.8 & 98.9\\\hline
-4 & 22.8 & 98.8 & 98.8 & 99.4 & 99.4\\\hline
-5 & 73.4 & 42.7 & 93.7 & 99.1 & 99.1\\\hline
-6 & 31.6 & 57.4 & 96.3 & 98.4 & 97.9\\\hline
-7 & 0.0 & 93.8 & 99.6 & 99.6 & 99.6\\\hline
-8 & 1.3 & 0.7 & 42.6 & 80.0 & 98.3\\\hline
-9 & 47.8 & 62.9 & 94.2 & 98.7 & 96.9\\\hline
+0 & 0.0\% & 64.0\% & 73.4\% & 54.2\% & 81.3\%\\\hline
+1 & 98.5\%  & 99.0\% & 96.1\% & 99.0\% & 99.5\%\\\hline
+2 & 81.6\% & 56.7\% & 90.5\% & 99.7\% & 99.7\%\\\hline
+3 & 3.9\% & 45.3\% & 98.9\% & 97.8\% & 98.9\%\\\hline
+4 & 22.8\% & 98.8\% & 98.8\% & 99.4\% & 99.4\%\\\hline
+5 & 73.4\% & 42.7\% & 93.7\% & 99.1\% & 99.1\%\\\hline
+6 & 31.6\% & 57.4\% & 96.3\% & 98.4\% & 97.9\%\\\hline
+7 & 0.0\% & 93.8\% & 99.6\% & 99.6\% & 99.6\%\\\hline
+8 & 1.3\% & 0.7\% & 42.6\% & 80.0\% & 98.3\%\\\hline
+9 & 47.8\% & 62.9\% & 94.2\% & 98.7\% & 96.9\%\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af tal-tegn ved brug af sum-billeder. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt.}
+\caption{Afprøvningsresultater for genkendelse af cifre ved brug af sum-billeder. For hvert ciffer er det angivet hvor stor en del af billederne af dette tegn, der er korrekt genkendt.}
 \label{fig:test:sum_tal}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Sum-billeder}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af bogstaver - Sum-billeder}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ \\\hline
 A & - & - & - & - & -\\\hline
-B & 27.3 & 40.9 & 95.5 & 100.0 & 95.5\\\hline
-C & 0.0 & 84.4 & 28.1 & 3.1 & 53.1\\\hline
-D & 20.0 & 100.0 & 100.0 & 91.4 & 80.0\\\hline
-E & 65.0 & 90.0 & 100.0 & 100.0 & 100.0\\\hline
-H & 100.0 & 85.7 & 85.7 & 85.7 & 85.7\\\hline
-J & 100.0 & 97.2 & 97.2 & 97.2 & 97.2\\\hline
-K & 54.8 & 80.6 & 87.1 & 90.3 & 87.1\\\hline 
-L & 15.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
-M & 25.6 & 89.7 & 97.4 & 97.4 & 89.7\\\hline
-N & 0.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
-O & 0.0 & 33.3 & 0.0 & 66.7 & 33.3\\\hline
-P & 39.4 & 42.4 & 51.5 & 100.0 & 100.0\\\hline
-R & 10.3 & 82.1 & 94.9 & 92.3 & 94.9\\\hline
-S & 0.0 & 0.0 & 27.5 & 56.5 & 23.2\\\hline
-T & 82.0 & 3.4 & 98.9 & 98.9 & 97.8\\\hline
-U & 2.7 & 92.0 & 93.3 & 82.7 & 98.7\\\hline
-V & 82.1 & 80.2 & 97.2 & 96.2 & 95.3\\\hline
-X & 0.0 & 98.7 & 96.1 & 98.7 & 98.7\\\hline
-Y & 97.9 & 54.5 & 93.1 & 97.9 & 97.4\\\hline
-Z & 82.5 & 100.0 & 100.0 & 100.0 & 98.2\\\hline
+B & 27.3\% & 40.9\% & 95.5\% & 100.0\% & 95.5\%\\\hline
+C & 0.0\% & 84.4\% & 28.1\% & 3.1\% & 53.1\%\\\hline
+D & 20.0\% & 100.0\% & 100.0\% & 91.4\% & 80.0\%\\\hline
+E & 65.0\% & 90.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
+H & 100.0\% & 85.7\% & 85.7\% & 85.7\% & 85.7\%\\\hline
+J & 100.0\% & 97.2\% & 97.2\% & 97.2\% & 97.2\%\\\hline
+K & 54.8\% & 80.6\% & 87.1\% & 90.3\% & 87.1\%\\\hline 
+L & 15.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\%\\\hline
+M & 25.6\% & 89.7\% & 97.4\% & 97.4\% & 89.7\%\\\hline
+N & 0.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
+O & 0.0\% & 33.3\% & 0.0\% & 66.7\% & 33.3\%\\\hline
+P & 39.4\% & 42.4\% & 51.5\% & 100.0\% & 100.0\%\\\hline
+R & 10.3\% & 82.1\% & 94.9\% & 92.3\% & 94.9\%\\\hline
+S & 0.0\% & 0.0\% & 27.5\% & 56.5\% & 23.2\%\\\hline
+T & 82.0\% & 3.4\% & 98.9\% & 98.9\% & 97.8\%\\\hline
+U & 2.7\% & 92.0\% & 93.3\% & 82.7\% & 98.7\%\\\hline
+V & 82.1\% & 80.2\% & 97.2\% & 96.2\% & 95.3\%\\\hline
+X & 0.0\% & 98.7\% & 96.1\% & 98.7\% & 98.7\%\\\hline
+Y & 97.9\% & 54.5\% & 93.1\% & 97.9\% & 97.4\%\\\hline
+Z & 82.5\% & 100.0\% & 100.0\% & 100.0\% & 98.2\%\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af bogstav-tegn ved brug af sum-billeder. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt. Rækken med tegnet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
+\caption{Afprøvningsresultater for genkendelse af bogstaver ved brug af sum-billeder. For hvert bogstav er det angivet hvor stor en del af billederne af dette tegn, der er korrekt genkendt. Rækken med tegnet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
 \label{fig:test:sum_bogstav}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Sum-billeder}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af tegn - Sum-billeder}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 & 8 $\times$ 8 & 9 $\times$ 9 \\\hline
-Alle tal & 37.4 & 61.4 & 89.6 & 93.8 & 97.5 & 97.6 & 91.1\\\hline
-Alle bogstaver & 47.2 & 67.6 & 86.1 & 89.1 & 88.3 & 95.9 & 91.9\\\hline
+Alle tal & 37.4\% & 61.4\% & 89.6\% & 93.8\% & 97.5\% & 97.6\% & 91.1\%\\\hline
+Alle bogstaver & 47.2\% & 67.6\% & 86.1\% & 89.1\% & 88.3\% & 95.9\% & 91.9\%\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af tegn ved brug af sum-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:sum_alletegn}
 \end{figure}
 
 
-I \vref{fig:test:sum_alletegn} er det tydeligt at denne metode er generelt dårligere end den forrige. Resultaterne med de mindre vektorer er ikke nær så gode som med middelvektorer. Igen har metoden svært ved at genkende tegnene \textbf{0} og \textbf{O} men også tegnet \textbf{8} har behov for store sum-billeder for at kunne genkendes, hvilket i følge vores observationer er fordi, at det forveksles med tegnet \textbf{B}. Også \textbf{L} og \textbf{S} er svære at genkende, hvilket sandsynligvis skyldes at disse tegns densitet er forholdsvis lav, og at de binære billeder derfor ikke altid har et tilstrækkeligt antal markerede pixels til at tegnene genkendes.
+I \vref{fig:test:sum_alletegn} er det tydeligt at denne metode er generelt dårligere end den forrige. Resultaterne med de mindre vektorer er ikke nær så gode som med egenskabsvektorer. Igen har metoden svært ved at genkende tegnene \textbf{0} og \textbf{O} men også tegnet \textbf{8} har behov for store sum-billeder for at kunne genkendes, hvilket i følge vores observationer er fordi, at det forveksles med tegnet \textbf{B}. Også \textbf{L} og \textbf{S} er svære at genkende, hvilket sandsynligvis skyldes at disse tegns densitet er forholdsvis lav, og at de binære billeder derfor ikke altid har et tilstrækkeligt antal markerede pixels til at tegnene genkendes.
 
-I figurene \vref{fig:test:and_tal}, \vref{fig:test:and_bogstav} samt \vref{fig:test:and_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af forenings-billeder. Denne metode har brug for billeder med megen information, hvorfor den mindste billedstørrelse er 10 $\times$ 10. NOGET OM ØVRE GRÆNSE?
+I figurene \ref{fig:test:and_tal} til \ref{fig:test:and_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af forenings-billeder. Denne metode har brug for billeder med megen information, hvorfor den mindste billedstørrelse er 10 $\times$ 10 og intervallerne mellem billedstørrelserne er større end ved de andre metoder.
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af cifre - Forenings-billeder}} \\ \hline
 Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
-0 & 2.3 & 0.0 & 8.4 & 15.4 & 0.0 & 0.0\\\hline
-1 & 0.0 & 15.3 & 1.5 & 25.1 & 3.9 & 11.3\\\hline
-2 & 99.7 & 98.9 & 99.4 & 99.7 & 99.4 & 99.4\\\hline
-3 & 100.0 & 100.0 & 99.7 & 100.0 & 100.0 & 99.7\\\hline
-4 & 99.7 & 99.7 & 99.7 & 99.7 & 99.7 & 99.7\\\hline
-5 & 97.7 & 91.4 & 99.4 & 99.4 & 99.1 & 99.1\\\hline
-6 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
-7 & 97.3 & 99.1 & 99.6 & 98.7 & 99.1 & 99.1\\\hline
-8 & 93.5 & 98.7 & 98.7 & 99.6 & 99.6 & 99.1\\\hline
-9 & 40.2 & 69.6 & 79.9 & 78.1 & 67.0 & 72.8\\\hline
+0 & 2.3\% & 0.0\% & 8.4\% & 15.4\% & 0.0\% & 0.0\%\\\hline
+1 & 0.0\% & 15.3\% & 1.5\% & 25.1\% & 3.9\% & 11.3\%\\\hline
+2 & 99.7\% & 98.9\% & 99.4\% & 99.7\% & 99.4\% & 99.4\%\\\hline
+3 & 100.0\% & 100.0\% & 99.7\% & 100.0\% & 100.0\% & 99.7\%\\\hline
+4 & 99.7\% & 99.7\% & 99.7\% & 99.7\% & 99.7\% & 99.7\%\\\hline
+5 & 97.7\% & 91.4\% & 99.4\% & 99.4\% & 99.1\% & 99.1\%\\\hline
+6 & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\%\\\hline
+7 & 97.3\% & 99.1\% & 99.6\% & 98.7\% & 99.1\% & 99.1\%\\\hline
+8 & 93.5\% & 98.7\% & 98.7\% & 99.6\% & 99.6\% & 99.1\%\\\hline
+9 & 40.2\% & 69.6\% & 79.9\% & 78.1\% & 67.0\% & 72.8\%\\\hline
 \end{tabular}
-\caption{Bla.}
+\caption{Afprøvningsresultater for genkendelse af cifre ved brug af forenings-billeder. For hvert ciffer er det angivet hvor stor en del af billederne af dette tegn, der er korrekt genkendt.}
 \label{fig:test:and_tal}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af bogstaver - Forenings-billeder}} \\ \hline
 Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
 A & - & - & - & - & - & -\\\hline
-B & 77.3 & 36.4 & 59.1 & 50.0 & 50.0 & 63.6\\\hline
-C & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
-D & 100.0 & 2.9 & 80.0 & 62.9 & 62.9 & 48.6\\\hline
-E & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
-H & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
-J & 0.0 & 25.0 & 83.3 & 88.9 & 58.3 & 25.0\\\hline
-K & 87.1 & 90.3 & 90.3 & 90.3 & 90.3 & 90.3\\\hline
-L & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
-M & 79.5 & 38.5 & 46.2 & 94.9 & 59.0 & 74.4\\\hline
-N & 12.5 & 95.8 & 95.8 & 100.0 & 100.0 & 95.8\\\hline
-O & 33.3 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
-P & 81.8 & 75.8 & 9.1 & 12.1 & 12.1 & 27.3\\\hline
-R & 97.4 & 89.7 & 87.2 & 94.9 & 89.7 & 89.7\\\hline
-S & 0.0 & 1.4 & 0.0 & 1.4 & 0.0 & 0.0\\\hline
-T & 98.9 & 98.9 & 98.9 & 98.9 & 98.9 & 98.9\\\hline
-U & 2.7 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
-V & 92.5 & 97.2 & 97.2 & 98.1 & 98.1 & 97.2\\\hline
-X & 94.2 & 98.1 & 97.4 & 98.1 & 97.4 & 98.1\\\hline
-Y & 87.3 & 97.9 & 96.8 & 97.4 & 97.4 & 97.9\\\hline
-Z & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
+B & 77.3\% & 36.4\% & 59.1\% & 50.0\% & 50.0\% & 63.6\%\\\hline
+C & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\%\\\hline
+D & 100.0\% & 2.9\% & 80.0\% & 62.9\% & 62.9\% & 48.6\%\\\hline
+E & 100.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
+H & 100.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
+J & 0.0\% & 25.0\% & 83.3\% & 88.9\% & 58.3\% & 25.0\%\\\hline
+K & 87.1\% & 90.3\% & 90.3\% & 90.3\% & 90.3\% & 90.3\%\\\hline
+L & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\%\\\hline
+M & 79.5\% & 38.5\% & 46.2\% & 94.9\% & 59.0\% & 74.4\%\\\hline
+N & 12.5\% & 95.8\% & 95.8\% & 100.0\% & 100.0\% & 95.8\%\\\hline
+O & 33.3\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
+P & 81.8\% & 75.8\% & 9.1\% & 12.1\% & 12.1\% & 27.3\%\\\hline
+R & 97.4\% & 89.7\% & 87.2\% & 94.9\% & 89.7\% & 89.7\%\\\hline
+S & 0.0\% & 1.4\% & 0.0\% & 1.4\% & 0.0\% & 0.0\%\\\hline
+T & 98.9\% & 98.9\% & 98.9\% & 98.9\% & 98.9\% & 98.9\%\\\hline
+U & 2.7\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\%\\\hline
+V & 92.5\% & 97.2\% & 97.2\% & 98.1\% & 98.1\% & 97.2\%\\\hline
+X & 94.2\% & 98.1\% & 97.4\% & 98.1\% & 97.4\% & 98.1\%\\\hline
+Y & 87.3\% & 97.9\% & 96.8\% & 97.4\% & 97.4\% & 97.9\%\\\hline
+Z & 100.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\%\\\hline
 \end{tabular}
-\caption{Bla.}
+\caption{Afprøvningsresultater for genkendelse af bogstaver ved brug af forenings-billeder. For hvert bogstaver er det angivet hvor stor en del af billederne af dette tegn, der er korrekt genkendt.}
 \label{fig:test:and_bogstav}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
+\rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af tegn - Forenings-billeder}} \\ \hline
 Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
-Alle tal & 71.6 & 74.7 & 76.3 & 78.5 & 74.7 & 75.7\\\hline
-Alle bogstaver & 70.7 & 70.3 & 73.0 & 75.0 & 72.3 & 72.0\\\hline
+Alle tal & 71.6\% & 74.7\% & 76.3\% & 78.5\% & 74.7\% & 75.7\%\\\hline
+Alle bogstaver & 70.7\% & 70.3\% & 73.0\% & 75.0\% & 72.3\% & 72.0\%\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af tegn ved brug af forenings-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
+\caption{Afprøvningsresultater for genkendelse af tegn ved brug af forenings-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor stor en del af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:and_alletegn}
 \end{figure}
 
-Generelt viser afprøvningen af metoden med forenings-billeder at metoden er meget dårlig tilgenkendelse af bestemte tegn. det drejer sig i sær om \textbf{0}, \textbf{1}, \textbf{6}, \textbf{C}, \textbf{L}, \textbf{S} og \textbf{U}. Fælles for disse tegn er at tegnenes markerede pixels ligger i yderkanten af billederne.
+Generelt viser afprøvningen af metoden med forenings-billeder at metoden er meget dårlig til genkendelse af enkelte tegn. Det drejer sig i sær om \textbf{0}, \textbf{1}, \textbf{6}, \textbf{C}, \textbf{L}, \textbf{S} og \textbf{U}. Fælles for disse tegn er at tegnenes markerede pixels i det binære billeder ligger i yderkanten af billederne.
 
 %HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TRÆNING?
 %HVILKEN POSITION PÅ HITLISTEN TAGER DEN I GENNEMSNIT PR POSITION - TEST?
 %MAXHITNO: HVAD GIVER DET JO LÆNGERE NED AD HITLISTEN VI KAN GÅ?
 
-\begin{comment}
+\subsubsection{Konklusion}
 
-\begin{figure}[htp]
-\centering
-\begin{tabular}{|l|c|c|}\hline
-\rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Automatisk lokalisering}} \\ \hline
-Sæt & Sammenhængende komponenter & Bjerg/dal \\\hline
-Træningssæt & 0\% & 0\% \\\hline
-Kontrolsæt & 0\% & 0\% \\\hline
-\end{tabular}
-\caption{Afprøvning af metoderne til separation af tegn på trænings- og kontrolsættet ved brug af automatisk lokalisering.}
-\label{fig:test:sep-auto}
-\end{figure}
+Metoden der bruger egenskabsvektorer giver generelt de bedste resultater.
 
-\end{comment}
+Vi kunne også have testet hvilke tegn der bliver valgt i stedet for, når et forkert tegn vælges. Vælges 8 f.eks. når B burde ha været valgt??
+
+Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. Dette giver vores system en væsentlig fordel i forhold til "de andre".
+
+
+
 
 \begin{comment}
 Syntaks analyse: Hvilke hits bliver valgt på hitlisterne af syntaksanalysen (sæt maxhitno højt):
@@ -451,9 +444,7 @@ Hitnr. & Valgt \\\hline
 
 %Delkonklusion:
 
-Vi kunne også have testet hvilke tegn der bliver valgt i stedet for, når et forkert tegn vælges. Vælges 8 f.eks. når B burde ha været valgt??
 
-Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. Dette giver vores system en væsentlig fordel i forhold til "de andre".
 
 \subsection{Det samlede system}
 
