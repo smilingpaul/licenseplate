@@ -469,7 +469,7 @@ Kontrolsæt  & 86.6\% & 2.3\%                       & 6.4\%                     
 \end{figure}
 
 \subsubsection{Konklusion}
-
+Syntaxanalyse er et væsentligt bidrag til systemet. Vores afprøvninger viser, at fejlraten bliver væsentligt lavere når de læste tegn analyseres. For træningsættet eliminerer syntaxanalysen over halvdelen af fejlene mens forbedringen for kontrolsættet er endnu bedre.
 
 
 \subsection{Billeder uden for afgrænsningerne}
@@ -478,8 +478,8 @@ I dette afsnit viser vi resultaterne for afprøvning af vores software på de to
 \subsubsection{Lokalisering af nummerplader}
 Resultaterne for afprøvning af de fem metoder til lokalisering af nummerplader på blitzsættet og de gule sæt i forhold til resultaterne for vores træningssæt er vist på figur \vref{fig:test:lokalisering_blitz_gul}.
 
-Metoden der kigger efter lyse nummerplader er, ikke helt overraskende, ikke i stand til at finde nummerplader i det gule sæt. I blitzsætter er samme metode overraskende ineffektiv med et fald i effektivitet fra 60.5\% i træningsættet til 24.6\%. HVORFOR!. Det mest overraskende resultat er, at metoden der kigger efter områder med høj kontrast er stort set ubruelig på blitzsættet med et resultat på blot 5.4\%. Blitzlyset er så kraftigt, at det gør tegnene i nummerpladerne meget tynde, og i nogle tilfælde næsten helt udvisker dem. Figur \vref{fig:illu:badgrads} i bilag \ref{sec:illu} viser
-gradienter i et udvalg af billeder fra blitzsættet. En enkelt af metoderne opnår bedre resultater i blitzsættet end i træningssættet. Netoden der sætter antallet af farver i billedet voldsomt ned, kvantifisering, stiger fra 69.8\% i træningsættet til 85.4\% i blitzsættet. De lysende nummerplader adskiller sig nu endnu mere fra det omkringliggende område end før. Selv på hvide biler, hvor metoden er svag, lykkes det i flere tilfælde for metoden at lokalisere nummerpladen i blitzsættet. Metoden der benytter sig af frekvensanalyse fungerer dårligt på blitzsættet men tilfredsstillende på det gule sæt med en tilbagegang i effektivitet på 7.3\% procentpoint. Den metode der fungerer bedst på tværs af de tre sæt er metoden der optimerer lokal kontrast.
+Metoden der kigger efter lyse nummerplader er, ikke helt overraskende, ikke i stand til at finde nummerplader i det gule sæt. I blitzsætter er samme metode overraskende ineffektiv med et fald i effektivitet fra 60.5\% i træningsættet til 24.6\%. Blitzlyset oplyser områder omkring nummerpladerne i et sådant omfang, at disse også bliver interesseområder for metoden. Hvis kriteriet for ensartetheden af de pixels der udpeges som interesseområder gøres mere snæver, stiger genkendelsesprocenten til samme niveau som for træningsættet. Det mest overraskende resultat er, at metoden der kigger efter områder med høj kontrast er stort set ubruelig på blitzsættet med et resultat på blot 5.4\%. Blitzlyset er så kraftigt, at det gør tegnene i nummerpladerne meget tynde, og i nogle tilfælde næsten helt udvisker dem. Figur \vref{fig:illu:badgrads} i bilag \ref{sec:illu} viser
+gradienter i et udvalg af billeder fra blitzsættet. En enkelt af metoderne opnår bedre resultater i blitzsættet end i træningssættet. Metoden der sætter antallet af farver i billedet voldsomt ned, kvantifisering, stiger fra 69.8\% i træningsættet til 85.4\% i blitzsættet. De lysende nummerplader adskiller sig nu endnu mere fra det omkringliggende område end før. Selv på hvide biler, hvor metoden er svag, lykkes det i flere tilfælde for metoden at lokalisere nummerpladen i blitzsættet. Metoden der benytter sig af frekvensanalyse fungerer dårligt på blitzsættet men tilfredsstillende på det gule sæt med en tilbagegang i effektivitet på 7.3\% procentpoint. Den metode der fungerer bedst på tværs af de tre sæt er metoden der optimerer lokal kontrast.
 
 \begin{figure}[htp]
 \centering
@@ -498,34 +498,25 @@ Kvantifisering & 69.8\% &  85.4\% & 48.0\%\\
 \label{fig:test:lokalisering_blitz_gul}
 \end{figure}
 
+Resultatet af afprøvning af lokalisering af nummerplader med alle fem metoder samlet er vist i figur \vref{fig:test:lokalisering_blitz_gult_samlet}.
 
 \begin{figure}[htp]
 \centering
   \begin{tabular}{|l|l|l|}
     \hline
-    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Blitzsæt}} \\
+    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet metode til lokalisering}} \\
     \hline
-    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
-    1 &  86.2\% & 88.2\%\\ \hline
+    Sæt      & Fundne nummerplader & Korrekthed\\ \hline
+    Blitzsæt &  86.2\%             & 88.2\% \\ \hline
+    Gult sæ  &  84.0\%             & 89.4\% \\ \hline
   \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i blitzsættet når alle fem metoder arbejde sammen.}
-\label{fig:test:lokalisering_blitz_samlet}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i blitzsættet og det gule sæt når alle fem metoder arbejde sammen.}
+\label{fig:test:lokalisering_blitz_gult_samlet}
 \end{figure}
 
 
-\begin{figure}[htp]
-\centering
-  \begin{tabular}{|l|l|l|}
-    \hline
-    \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Gult sæt}} \\
-    \hline
-    Minimal enighed & Fundne nummerplader & Korrekthed\\ \hline
-    1 &  84.0\% & 89.4\%\\ \hline
-  \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i det gule sæt når alle fem metoder arbejde sammen.}
-\label{fig:test:lokalisering_gul_samlet}
-\end{figure}
-
+\subsubsection{Det samlede system}
+Figur \vref{fig:test:samlet_blitz_gul} viser resultaterne af afprøvning af det samlede system på de to sæt der ikke overholder afrgænsningerne for de billeder vi har arbejdet med.
 
 \begin{figure}[htp]
 \centering
@@ -535,10 +526,12 @@ Sæt      & Svar   & Fejlrate med syntaxanalyse & Fejlrate uden syntaxanalyse \\
 Blitzsæt & 81.5\% & 9.4\%                      & 22.6\%                      \\ \hline
 Gult sæt & 80.0\% & -                          & 15.0\%                      \\ \hline
 \end{tabular}
-\caption{Resultaterne for afprøvning af det samlede systems evne til at læse alle syv karakterer i nummerpladerne i blitzsættet og det gule sæt. Vi angiver hvor ofte systemet mener at have læst alle syv tegn i nummerpladerne samt fejlraten for disse svar med og uden brug af syntaksanalyse. Da gule nummerplader indeholder kombinationer af tegn der er ulovlige i de nummerplader vi ellers har beskæftiget os med, har vi ikke foretaget syntaksanalyse på det gule sæt.}
+\caption{Resultaterne for afprøvning af det samlede systems evne til at læse alle syv karakterer i nummerpladerne i blitzsættet og det gule sæt. Vi angiver hvor ofte systemet mener at have læst alle syv tegn i nummerpladerne samt fejlraten for disse svar med og uden brug af syntaksanalyse. Da gule nummerplader indeholder kombinationer af tegn der er ulovlige i de nummerplader vi ellers har beskæftiget os med, har vi ikke foretaget syntaksanalyse på det sæt.}
 \label{fig:test:samlet_blitz_gul}
 \end{figure}
 
+\subsubsection{Konklusion}
+Vores system er i stand til at genkende og læse nummerplader i nogle typer af billeder der ligger uden for vores afgrænsniger. Genkendelsesproceten er dog noget lavere og fejlraten væsentligt højere. Vores systeme er altså ikke specialiseret i en sådan grad, at det slet ikke kan anvendes på nogen billeder der overskrider vores afgrænsninger.
 
 
 \subsection{Sammenligning med andres resultater}
