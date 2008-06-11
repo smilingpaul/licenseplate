@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="333.92999"
+   height="205.03999"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/implementation/illu"
+   sodipodi:docname="syntaks_forbedring.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="StopM"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="StopM"
+       style="overflow:visible">
+      <path
+         id="path3256"
+         d="M 0,5.65 L 0,-5.65"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.4,0.4)" />
+    </marker>
+    <marker
+       inkscape:stockid="StopL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="StopL"
+       style="overflow:visible">
+      <path
+         id="path3253"
+         d="M 0,5.65 L 0,-5.65"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.8,0.8)" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DistanceIn"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DistanceIn">
+      <g
+         id="g2300">
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:1.14999998;stroke-linecap:square"
+           d="M 0,0 L 2,0"
+           id="path2306" />
+        <path
+           style="fill:#000000;fill-rule:evenodd;stroke:none"
+           d="M 0,0 L 13,4 L 9,0 L 13,-4 L 0,0 z "
+           id="path2302" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:square"
+           d="M 0,-4 L 0,40"
+           id="path2304" />
+      </g>
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient19946">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop19948" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop19950" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="Dot_l"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Dot_l"
+       style="overflow:visible">
+      <path
+         id="path3208"
+         d="M -2.5,-1 C -2.5,1.76 -4.74,4 -7.5,4 C -10.26,4 -12.5,1.76 -12.5,-1 C -12.5,-3.76 -10.26,-6 -7.5,-6 C -4.74,-6 -2.5,-3.76 -2.5,-1 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="matrix(0.8,0,0,0.8,5.92,0.8)" />
+    </marker>
+    <marker
+       inkscape:stockid="Dot_m"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Dot_m"
+       style="overflow:visible">
+      <path
+         id="path3211"
+         d="M -2.5,-1 C -2.5,1.76 -4.74,4 -7.5,4 C -10.26,4 -12.5,1.76 -12.5,-1 C -12.5,-3.76 -10.26,-6 -7.5,-6 C -4.74,-6 -2.5,-3.76 -2.5,-1 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible">
+      <path
+         id="path3167"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.97309,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lstart"
+       style="overflow:visible">
+      <path
+         id="path3164"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.97309,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="matrix(1.1,0,0,1.1,1.1,0)" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient19946"
+       id="linearGradient19952"
+       x1="386.95627"
+       y1="117.3895"
+       x2="393.31955"
+       y2="117.3895"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.3251724"
+     inkscape:cx="321.33066"
+     inkscape:cy="25.678598"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     showguides="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="752"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:guide-bbox="true"
+     width="333.93px"
+     height="205.04px" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-140.06883,-162.32551)">
+    <path
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.1651597px;stroke-linecap:butt;stroke-linejoin:miter;marker-start:url(#Arrow2Lstart);marker-end:none;stroke-opacity:1"
+       d="M 470.71651,340.55039 L 142.91527,340.55592"
+       id="path2166"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.18044829;stroke-linecap:butt;stroke-linejoin:miter;marker-start:url(#Arrow2Lstart);marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 296.97513,166.91165 L 296.98456,364.79044"
+       id="path2168"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="208.37817"
+       y="224.97722"
+       id="text5281"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5283"
+         x="208.37817"
+         y="224.97722">x</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#b3b3b3;fill-opacity:0;stroke:#d2d2d2;stroke-width:1.25572765;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path11165"
+       sodipodi:cx="182.24043"
+       sodipodi:cy="151.34735"
+       sodipodi:rx="45.654438"
+       sodipodi:ry="33.203228"
+       d="M 227.89487 151.34735 A 45.654438 33.203228 0 1 1  136.58599,151.34735 A 45.654438 33.203228 0 1 1  227.89487 151.34735 z"
+       transform="matrix(0,0.4766259,-0.541646,0,260.34893,148.42589)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path21904"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,409.95942,301.06769)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path27759"
+       sodipodi:cx="80.366898"
+       sodipodi:cy="76.640091"
+       sodipodi:rx="25.27973"
+       sodipodi:ry="21.129326"
+       d="M 105.64663 76.640091 A 25.27973 21.129326 0 1 1  55.087168,76.640091 A 25.27973 21.129326 0 1 1  105.64663 76.640091 z"
+       transform="matrix(7.0025359e-2,0,0,8.3780436e-2,201.03553,222.87155)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="187.6098"
+       y="210.40479"
+       id="text2207"><tspan
+         sodipodi:role="line"
+         id="tspan2209"
+         x="187.6098"
+         y="210.40479">A</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="444.93484"
+       y="242.85341"
+       id="text2211"><tspan
+         sodipodi:role="line"
+         id="tspan2213"
+         x="444.93484"
+         y="242.85341">B</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="417.76855"
+       y="300.20444"
+       id="text2208"><tspan
+         sodipodi:role="line"
+         id="tspan2210"
+         x="417.76855"
+         y="300.20444">y</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#b3b3b3;fill-opacity:0;stroke:#d2d2d2;stroke-width:1.25572765;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path2212"
+       sodipodi:cx="182.24043"
+       sodipodi:cy="151.34735"
+       sodipodi:rx="45.654438"
+       sodipodi:ry="33.203228"
+       d="M 227.89487 151.34735 A 45.654438 33.203228 0 1 1  136.58599,151.34735 A 45.654438 33.203228 0 1 1  227.89487 151.34735 z"
+       transform="matrix(0.3311012,0,0,0.5432344,374.34628,183.45183)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="263.82629"
+       y="178.7108"
+       id="text2218"><tspan
+         sodipodi:role="line"
+         id="tspan2220"
+         x="263.82629"
+         y="178.7108">C</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#b3b3b3;fill-opacity:0;stroke:#d2d2d2;stroke-width:1.25572765;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path2222"
+       sodipodi:cx="182.24043"
+       sodipodi:cy="151.34735"
+       sodipodi:rx="45.654438"
+       sodipodi:ry="33.203228"
+       d="M 227.89487 151.34735 A 45.654438 33.203228 0 1 1  136.58599,151.34735 A 45.654438 33.203228 0 1 1  227.89487 151.34735 z"
+       transform="matrix(0.4058012,0,0,0.395947,189.49561,137.27344)"
+       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>

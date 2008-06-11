@@ -370,43 +370,35 @@ HVORFOR?
 
 EKSEMPEL PÅ HAKKET SIGNATUR OG UDGLATTET SIGNATUR?
 
-\begin{figure}[htp]
-\centering
-\framebox{\includegraphics{implementation/illu/cc_remove_thin_line.png}} 
-\caption{bla}
-\label{fig:smoothSig}
-\end{figure}
+%\begin{figure}[htp]
+%\centering
+%\framebox{\includegraphics{implementation/illu/cc_remove_thin_line.png}} 
+%\caption{bla}
+%\label{fig:smoothSig}
+%\end{figure}
 
 \paragraph{6. Find ``bjergene'' i signaturen:}
-For at finde de bjerge hvor der skal skæres, leder vi efter punkter, $x$ i signaturgrafen hvor de $n$ forrige punkter har haft stigende værdier op til $x$ og hvor de efterfølgende $n$ punkter har faldende værdier. DETTE GØR VI IKKE I PRAKSIS! SKAL LAVES OM. De otte $x$'er som har de otte højeste værdier vælges som de otte skæringspunkter.
+For at finde de bjerge hvor der skal skæres, leder vi efter punkter, $x$ i signaturgrafen hvor både de $n$ forrige og de $n$ efterfølgende punkter har lavere værdier end $x$.
 
 \paragraph{7. Find de otte højeste bjerge:}
-De otte højeste bjerge i signaturen svarer til de otte steder i nummerpladen, hvor hele nummerpladen fra top til bund er lys. Det er disse otte steder der skal skæres.
+De otte højeste bjerge i signaturen svarer til de otte steder i nummerpladen, hvor hele nummerpladen fra top til bund er lys. De otte bjerge som har de otte højeste værdier vælges som de otte skæringspunkter.
 
-\paragraph{8. Find top- og bund-beskæring:}
-NOGET OM HVORDAN VI FINDER TOP OG BUND BESKÆRING
+\paragraph{8. Find top- og bund-beskæring:} De punkter hvor tegnene skal skæres til foroven og forneden, findes ved at udregne summerne for alle rækkerne i henholdsvis den øvre og den nedre del af det binære billede. Rækkerne med det færrest antal markerede i henholdsvis den øvre og den nedre del, vælges som de punkter hvor tegnene skal skæres til i lodret retning. Disse rækker svarer til de rækker i nummerpladen, som kun består af baggrund, det vil sige uden tegn. Efter at disse punkter er fundet, indskrænkes de indtil hvide pixels nås. Det vil sige at eksempelvis top-beskæringen flyttes ned i billedet af tegnet indtil rækken under dette punkt indeholder hvide pixels. ER VIST SVÆRT AT FORSTÅ.
 
-\paragraph{9. Skær tegnene ud.}
+\paragraph{9. Skær tegnene ud:} Tegnene skæres ud og returneres.
 
 %Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved.
 
-MEGET FØLSOM OVERFOR STØJ, VI HAR VALGT DEN FRA.
-
-
 \subsubsection{Mulige forbedringer}
-%DER MÅ VÆRE KOMMENTARER TIL HVORDAN VI KAN GØR BJERG/DAL BEDRE
+I funktionen der bruger sammenhængende komponenter findes der flere statiske variable, som eksempelvis størrelsen af de blokke der kontrastforstærkes i og komponenternes minimumsbredde. Disse variable kunne være lavet dynamisk.
 
-I funktionen der bruger sammenhængende komponenter findes der flere statiske variable, som eksempelvis størrelsen af de blokke der kontrastforstærkes i, komponenternes minimum bredde osv. Disse variable kunne være lavet dynamisk, men de er ret gode nu og derfor har vi ladet dem være. SKRIV DET SIDSTE OM. ER BESKREVET TIDLIGERE!
-
-CONCOMP: BESKREVET I KWAS: MAN KU FJERNE KANTER FØR ANALYSE?
-
-I metoden der bruger sammenhængende komponenter er det et krav at de syv komponenter der vælges som tegnene skal stå i samme højde. Det bevirker at vi ikke kan læse nummerplader som er skæve eller fordrejede. Ved at justere parametrene, kunne man gøre funktionen mindre skrap og derved være i stand til at læse disse plader.
+I metoden der bruger sammenhængende komponenter er det et krav at de syv komponenter der vælges som tegnene skal stå i samme højde. Det bevirker at vi ikke kan læse nummerplader som er skæve eller fordrejede. Ved at justere parametrene, kunne man gøre funktionen mindre ``skrap'' og derved være i stand til at læse disse plader.
 
 Ved at skalere billederne kunne man forbedre hastigheden for funktionen. Vores undersøgelser viste dog at dette umiddelbart er en dårlig idé, da der går for meget information tabt til at metoderne kan separere tegnene.
 
-I vores arbejde med separationsmetoderne forsøgte vi også at anvende et medianfilter på billederne af nummerplader. Dette havde vi dog ikke held med, men hvis det kunne virke ville det være en forbedring SKAL OMSKRIVES!
+I vores arbejde med separationsmetoderne har vi forsøgt at anvende et medianfilter på billederne. Dette havde vi dog ikke held med, men hvis det kunne virke ville det være en faktor, der kunne være med til at fjerne støj.
 
-I bjerg/dal metoden kunne man implementere end mere grundig måde at finde top- og bundbeskæring af tegnene på. Dette kunne laves udfra signaturen i alle rækker og man kunne så se på hvornår denne signatur ender........
+I bjerg/dal metoden kunne man implementere end mere grundig måde at finde top- og bundbeskæring af tegnene på. Hvis nummerpladebilledet ikke er skåret tæt er der risiko for at disse beskæringspunkter vælges et sted udenfor pladen, i en række hvor der er få markerede pixels.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -419,7 +411,11 @@ Noget om at 8 og B samt 0 og O ligner hinanden og ikke må forventes at blive ge
 
 \subsubsection{Egenskabsvektorer}
 
-Implementeringen af metoden til tegngenkendelse ved hjælp af egenskabsvektorer findes i filerne \textit{GetMeanVectors.m} OMDØB?? og \textit{ReadPlateFV.m}. Den første funktion udarbejder egenskabsvektorerne for træningssættet mens den anden behandler testbillederne ved brug af egenskabsvektorerne. Programmet i \textit{GetMeanVectors.m} udfører følgende trin:
+Implementeringen af metoden til tegngenkendelse ved hjælp af egenskabsvektorer findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}. Den første funktion udarbejder egenskabsvektorerne på baggrund af tegn-træningssættet mens den anden behandler testbillederne ved brug af egenskabsvektorerne.
+
+\subsubsection*{Oprettelse af egenskabsvektorer}
+
+Programmet i \textit{GetMeanVectors.m} udfører følgende trin:
 
 \paragraph{1. Skaler hvert billede af et givent tegn:} Billederne skaleres til en størrelse på $\sqrt{L} \times \sqrt{L}$, hvor $L$ er vektorlængden. På denne måde laves egenskabsvektorerne udfra billeder med samme forudsætninger.
 
@@ -431,6 +427,8 @@ Implementeringen af metoden til tegngenkendelse ved hjælp af egenskabsvektorer 
 
 %For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
 
+\subsubsection*{Læsning af nummerplade}
+
 Programmet i \textit{ReadPlateFV.m}, der læser tegnene i en plade, forløber som følger:
 
 \paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som det, træningsbillederne blev skaleret til.
@@ -441,7 +439,10 @@ Programmet i \textit{ReadPlateFV.m}, der læser tegnene i en plade, forløber so
 
 \subsubsection{Sum-billeder}
 
-Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder findes i filerne \textit{GetSumImgs.m} og \textit{ReadPlateSUM.m}. Den første funktion udarbejder sum-billederne for træningssættet mens den anden behandler testbillederne ved brug af sum-billederne. Programmet i \textit{GetSumImgs.m} udfører følgende trin:
+Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder findes i filerne \textit{GetSumImgs.m} og \textit{ReadPlateSUM.m}. Den første funktion udarbejder sum-billederne for træningssættet mens den anden behandler testbillederne ved brug af sum-billederne.
+
+\subsubsection*{Oprettelse af sum-billeder}
+Programmet i \textit{GetSumImgs.m} udfører følgende trin:
 
 \paragraph{1. Skaler hvert billede af et givent tegn:}
 
@@ -450,6 +451,8 @@ Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder finde
 \paragraph{3. Normaliser sum-billederne:} FLYT NOGET HERNED?
 
 \paragraph{4. Saml elle sum-billederne i én matrix:} ER DET LIGEGYLDIGT?
+
+\subsubsection*{Læsning af nummerplade}
 
 Funktionen \textit{ReadPlateSUM} er opbygget som følger:
 
@@ -463,6 +466,8 @@ Funktionen \textit{ReadPlateSUM} er opbygget som følger:
 
 Implementeringen af metoden til tegngenkendelse ved hjælp af forenings-billeder findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}\footnote{Filnavnene indeholder det engelske ord \textit{and}, da fuktionerne benytter den logiske og-operator, $\wedge$}. Den første funktion udarbejder og-billeder for træningssættet mens den anden behandler testbillederne ved brug af forenings-billederne.
 
+\subsubsection*{Oprettelse af forenings-billeder}
+
 Funktionen \textit{GetAndImgs} er opbygget som følger:
 
 \paragraph{1. Skaler hvert billede af et givent tegn:}
@@ -472,6 +477,8 @@ Funktionen \textit{GetAndImgs} er opbygget som følger:
 \paragraph{3. Normaliser forenings-billederne:} FLYT NOGET HERNED?
 
 \paragraph{4. Saml alle forenings-billederne i én matrix:} ER DET LIGEGYLDIGT?
+
+\subsubsection*{Læsning af nummerplade}
 
 Funktionen \textit{ReadPlateAND} er opbygget som følger:
 
@@ -483,7 +490,7 @@ Funktionen \textit{ReadPlateAND} er opbygget som følger:
 
 \subsubsection{Syntaksanalyse}
 
-Metoden til syntaksanalyse tager tegnhitlisterne for de syv tegn, listerne over afstandene til ????????? samt et "maksimal-hit-nummer" som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}.
+Metoden til syntaksanalyse tager tegnhitlisterne for de syv tegn, listerne over de værdier tegnene er blevet tildelt samt et såkaldt ``maksimal-hit-nummer'' som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}.
 
 Funktionens forløb er som følger:
 
@@ -499,7 +506,18 @@ Værdien af tallene i en almindelig, dansk nummerplade som dem vi arbejder med s
 \paragraph{5. Analyser de valgte hitnumre:} Hvis et nummer er for højt i forhold til det maksimale, retuner tegnet "\textbf{\_}" på den givne plads. Dette indikerer at syntaks analysen ikke har noget gæt på hvilket tegn der skal stå på den givne position, da den ikke kan gå længere ned ad hitlisten.
 
 \subsubsection{Mulige forbedringer}
-Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn. Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position.
+
+
+Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn. Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position. En tredje mulighed ville være at man udskiftede det tegn, hvor den næste vektor i hitlisten lå nærmest. Denne mulighed er illustreret i figur \vref{fig:syntaks_forbedring}.
+
+%Hvis vi betragter samme eksempel: for vektoren for testbilledet der ligger nærmest \textbf{A} aflæses afstanden til vektoren efter \textbf{A), eksempelvis \textbf{D}. På samme måde aflæses afstanden for vektoren for det testbillede der ligger nærmest \textbf{B} til den næste vektor i denne liste, altså \textbf{C}. De
+
+\begin{figure}[htp]
+\centering
+\includegraphics{implementation/illu/syntaks_forbedring.pdf}
+\caption{Illustration af en forbedringsmulighed for syntaksanalysen. $x$ og $y$ er testbilleder som skal klassificeres som tegn. \textbf{A}-\textbf{C} er grupper der repræsenterer tegnene \textbf{A}-\textbf{C}s egenskabsvektorer eksempelvis. Tegnet \textbf{A} er valgt for $x$ da denne gruppe ligger nærmest $x$. Tegnet \textbf{B} er valgt for $y$ da denne gruppe ligger nærmest $y$. Hvis tegnfølgen er ulovlig udskiftes tegnet for $x$, da denne måling har den korteste afstand hen til den næste gruppe i hitlisten (gruppen \textbf{C}), mens $y$ har længere hen til den nærmeste gruppe. Argumentet for at gøre dette er, at hvis et testbillede er tæt på mere end en gruppe, er der større sandsynlighed for at tegnet for dette er blevet valgt forkert end for at tegnet for et testbillede der ligger isoleret med en gruppe har fået tildelt et forkert tegn.}
+\label{fig:syntaks_forbedring}
+\end{figure}
 
 I metoden der bruger egenskabsvektorer udregnes afstanden mellem to vektorer som den euklidiske afstand. Vi kunne have valgt at udregne Mahalanobis afstand, som er baseret på korelationer mellem variable (i dette tilfælde er ``variable'' billederne i træningssættet), men vi har valgt at holde os til den euklidiske afstand, da denne er mere simpel.
 
