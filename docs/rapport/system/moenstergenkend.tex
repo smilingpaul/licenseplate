@@ -1,8 +1,6 @@
 \subsection{Genkendelse af tegn}
 \label{sec_monster}
 
-VARIABLE!
-
 Til genkendelse af tegn har vi arbejdet med tre forskellige metoder: Den første bruger informationer fra såkaldte \textit{egenskabsvektorer}, den anden arbejder med såkaldte \textit{sum-billeder} mens den tredje arbejder med såkaldte \textit{forenings-billeder}. I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaksanalyse på den tegnfølge der repræsenterer nummerpladens indhold.
 
 Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerer. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin3}.
