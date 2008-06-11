@@ -93,13 +93,9 @@ På figur \vref{fig:illu:wrong_candidates} i bilag \ref{sec:illu} viser vi eksem
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Separation af tegn}
-I dette afsnit afprøver vi de to forskellige metoder til separation af tegn vi har implementeret. Vi forsøger at give et estimat på effektiviteten af metoderne ved at måle om de returnerer syv områder, formodentlig tegn, der ligger inden for nummerpladekoordinaterne som angivet i billedernes filnavne. 
+I dette afsnit afprøver vi de to forskellige metoder til separation af tegn vi har implementeret. Vi forsøger at give et estimat af effektiviteten af metoderne ved at måle om de returnerer syv områder, formodentlig tegn, der ligger inden for nummerpladekoordinaterne som angivet i billedernes filnavne. 
 
-Vi undersøger i hvilket omfang resultaterne ændrer sig i forhold til hvor meget af nummerpladens omgivende område man medtager i billedet af nummerpladen. Vi ønsker at få et estimat på hvor kritisk præcis udklipning af nummerplader er i forhold til vores evne til at separere tegnene i dem. Resultaterne for træningsættet er vist på figure \vref{fig:test:sep-traening-manuel} og de tilsvarende resultater for kontrolsættet kan ses på figur \ref{fig:test:sep-kontrol-manuel}.
-
-HVORFOR HAR VI IKKE TESTET 0??
-
-%OVERVEJ NEDENSTÅENDE SOM SAMLET GRAF I ET AFSNIT
+Vi undersøger i hvilket omfang resultaterne ændrer sig i forhold til hvor meget af nummerpladens omgivende område man medtager i billedet af nummerpladen. Vi ønsker at få et estimat på hvor kritisk præcis udklipning af nummerplader er i forhold til vores evne til at separere tegnene i dem. Vi udvider nummerpladeområdet med 10, 20, 30 og 40 pixels i alle retninger og afprøver evnen til at separere for hver udvidelse. Vi undersøger ikke resultatet for ikke at udvide nummerpladeområdet, da billederne så muligvis ikke vil indeholde nummerpladernes over- og underkanter der er nødvendige for vellykket rotation som tidligere beskrevet i afsnit \vref{sec:implementation/sep/rotation}. Resultaterne for træningsættet er vist på figur \vref{fig:test:sep-traening-manuel} og de tilsvarende resultater for kontrolsættet kan ses på figur \ref{fig:test:sep-kontrol-manuel}.
 
 \begin{figure}[htp]
 \centering
@@ -110,7 +106,7 @@ Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 20 & 95.8\% & 91.3\% \\\hline
 30 & 92.5\% & 83.5\% \\\hline
 40 & 87.5\% & 73.4\% \\\hline \end{tabular}
-\caption{Afprøvning af metoderne til separation af tegn på træningssættet ved brug af definerede pladeområder. Værdierne i den første kolonne er den mængde pixels området er udviddet med.}
+\caption{Afprøvning af metoderne til separation af tegn på træningssættet. Værdierne i den første kolonne er det antal pixels området er udviddet med i alle retninger.}
 \label{fig:test:sep-traening-manuel}
 \end{figure}
 
@@ -143,7 +139,7 @@ Fejlkilderne når nummerpladeområdet er større (det vil sige udviddet med 30 e
 
 I kontrolsættet tillægges fejlkilden hvor nummerpladerne er delvist dækket af skygge. Når dette er tilfældet opstår der nogle gange en komponent som går på tværs af flere tegn.
 
-I APPENDIX ses en collage med nummerplader hvor separationen af tegn ved brug af sammenhængende komponenter er fejlet.
+Figur \vref{fig:illu:separation_errors} i bilag \ref{sec:illu} viser binære billeder af nummerplader hvor separationen af tegn ved brug af sammenhængende komponenter er fejlet.
 
 %Et eksempel på denne fejltype ses i figur \vref{fig:kraftig_skygge}.
 
@@ -455,13 +451,8 @@ Hitnr. & Valgt \\\hline
 
 
 \subsection{Det samlede system}
-<<<<<<< .mine
-I dette afsnit viser vi resultaterne af afprøvning af hele systemet på trænings- og kontrolsættet. Systemet giver kun svar når det mener at have identificeret alle syv karakterer i nummerpladen. Vi angiver for hvor mange billeder systemet giver at svar, samt procenten af fejl i svarene. Vi undersøger ikke hvor mange tegn der er læst korrekt i de forkerte svar. Vi har afprøvet systemet med og uden syntaksanalyse og raporterer begge resultater.
-=======
 \label{sec:test:samlet_system}
-
-I dette afsnit viser vi resultaterne af afprøvning af hele systemet på trænings- og kontrolsættet. Systemet giver kun svar når det mener at have identificeret alle syv karakterer i nummerpladen. Vi angiver for hvor mange billeder systemet giver at svar, samt fejlraten for svaret. Vi har afprøvet systemet med og uden syntaksanalyse og raporteret begge resultater.
->>>>>>> .r273
+I dette afsnit viser vi resultaterne af afprøvning af hele systemet på trænings- og kontrolsættet. Systemet giver kun svar når det mener at have identificeret alle syv karakterer i nummerpladen. Vi angiver for hvor mange billeder systemet giver at svar, samt procenten af fejl i svarene. Vi undersøger ikke hvor mange tegn der er læst korrekt i de forkerte svar. Vi har afprøvet systemet med og uden syntaksanalyse og raporterer begge resultater.
 
 Systemet er konfigureret så vi opnår de bedste resultater for hvert trin i processen. Til lokalisering bruger vi den samlede metode med en minimal enighed på en, da vi på den måde får flest nummerpladekandidater videre i systemet. Hvis nummerpladekandidaten ikke er en nummerplade, vil segmenteringsprocessen højst sandsynligt ikke kunde finde syv tegnkandidater, og nummerpladekandidaten vil blive afvist. Til segmentering af tegn bruger vi metoden der benytter sig af sammenhængende komponenter. Til gendkendelse af tegn bruger vi egenskabsvektorer med længden 64. Resultaterne er vist i figur \ref{fig:test:samlet_train_kontrol}.
 
