@@ -296,11 +296,12 @@ Metoden til rotation er implementeret i funktionen \textit{RotatePlateRadon}, hv
 Nummerpladen findes ved hjælp af pladekoordinaterne, der er returneret fra lokaliseringsmetoderne.
 
 \paragraph{2. Find vandrette kanter i billedet:}
-For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til at lave et binært billede hvor alle kanter er markeret. Vi undlader dog at markere de vertikale kanter. På denne måde kan vi nøjes med at analysere kanter i tilnærmelsesvis horisontal retning ved brug af Radon transformationen. Vi er interesserede i de kanter, der er (næsten) horisontale, da det med stor sandsynlighed er de liggende kanter som spænder i nummerpladens bredde. Det vil være et problem, hvis nummerpladen udklippes så tæt at den øvre eller nedre kant af nummerpladen ikke kommer med i billedet. I dette tilfælde er det usikkert om de horisontale kanter i nummerpladens tegn vil være kraftige nok til, at Radon transformationen vil opfatte en af disse kanter som den tydeligste kant.
+For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til kantdetektion i billedet. Vi vælger at kun markere de vandrette kanter med en forventning om at nummerpladens over- og underkant vil blive markeret.
 
 VIS EKSEMPEL MED AT DEN IKKE KAN ROTERERE HVOR PLADEN ER KLIPPET FOR TÆT. SKAL DETTE VISES?
 
-\paragraph{3. Udfør Radon transformation for kant-billedet:} Radon transformation udføres ved brug af Matlab funktionen \textit{radon}.
+\paragraph{3. Udfør Radon transformation for kant-billedet:}
+Ved hjælp af Radon-transformation finder vi hældningen af de mest markante linier i billdet så vi kan rotere det så nummerpladen kommer til at ligge vandret. Det er vigtigt at billederne af nummerpladerne indeholder over- og underkanter, da det ellers vil være andre linier i billedet der vil afgøre hvor mange grader pladen roteres. Radon transformation udføres ved brug af Matlabfunktionen \textit{radon}.
 
 \paragraph{4. Find den maksimale værdi i Radon matricen:} Den maksimale værdi i Radon matricen svarer til det sted i billedet, hvor den tydeligste linie findes. De polære koordinater (afstand samt vinkel) for linien aflæses, men kun vinklen, $\theta$ bruges i den videre analyse. \textit{radon} funktionen angiver vinklerne forskudt med $90^{\circ}$ i forhold til det normale, så rotationsvinklen beregnes som $90^{\circ} - \theta$.
 
