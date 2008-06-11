@@ -3,7 +3,9 @@
 
 I dette afsnit gennemgår vi implementeringssdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede funktioner, frem for at skrive egne implementeringer. For eksempel har vi brugt Matlabs funktioner i forbindelse arbejdet med sammenhængende komponenter og filtrering af billeder. I det første underafsnit gennemgår vi nogle egenudviklede hjælpefunktioner som bruges flere steder i systemet. Dernæst gennemgår vi funktionerne til lokalisering af nummerplader, separation af tegn og til sidst funktionerne til genkendelse af tegn.
 
-Det skal bemærkes at $y$-aksen i det koordinatsystem der bruges i Matlab er vendt om i forhold til den tradionelle $y$-akse i et koordinatsystem. Desuden angives $y$-koordinaten til et punkt i Matlab først, så en pixel i et billede refereres til med koordinaterne ($y,x$) i modsætning til den traditionelt anvendte rækkefølge ($x,y$). Derved ligger et billedes origo i øverste venstre hjørne af billedet og er benævnt ved $(y,x) = (1,1)$ (datastrukturer i Matlab er 1-indekserede). FOR LANGT? FORKORT GERNE
+Det skal bemærkes at $y$-aksen i det koordinatsystem der bruges i Matlab er vendt om i forhold til den tradionelle $y$-akse i et koordinatsystem. Desuden angives $y$-koordinaten til et punkt i Matlab først, så en pixel i et billede refereres til med koordinaterne ($y,x$) i modsætning til den traditionelle rækkefølge ($x,y$).
+
+%Derved ligger et billedes origo i øverste venstre hjørne af billedet og er benævnt ved $(y,x) = (1,1)$ (datastrukturer i Matlab er 1-indekserede). FOR LANGT? FORKORT GERNE
 
 %ikke har origo i det samme punkt som det man kender som et almindeligt koordinatsystem. Origo ligger derimod i øverste venstre hjørne (normalt ligger det i nederste venstre hjørne). Desuden er koordinaterne til origo i Matlab 1,1 og ikke 0,0. y-koordinaten til et punkt i Matlab angives normalt først, så en pixel i et billede refereres til med koordinaterne y,x i modsætning til den traditionelt anvendte rækkefølge x,y.
 
@@ -13,19 +15,32 @@ Det skal bemærkes at $y$-aksen i det koordinatsystem der bruges i Matlab er ven
 
 \subsection{Hjælpefunktioner}
 \label{sec:imp:hjaelpefunktioner}
-De følgende funktioner bruges af flere andre funktioner i systemet hvorfor vi har valgt at beskrive dem først. Vi har valgt kun et beskrive de funktioner vi finde særligt interessante.
+De følgende funktioner bruges af flere andre funktioner i systemet hvorfor vi har valgt at beskrive dem først. Vi har valgt kun et beskrive de funktioner vi finde særligt interessante. Endvidere er beskrivelsen kun overfladisk. Den specielt interesserede læser henvises til metodernes kildekode.
 
-\subsubsection{Hjælpefunktion 1}
+\subsubsection{Forstærkelse af kontrast}
 \label{sec:imp:ContrastStrech}
-ContrastStretch
-\subsubsection{Hjælpefunktion 2}
-WhiteLine 
-\subsubsection{Hjælpefunktion 3}
+I funktionen \textit{ContrastStretch} har vi implementeret forstærkelse af kontraster som beskrevet i afsnit \vref{sec:DetectContrastStretch} om metoden der maksimerer lokal kontrast for at lokalisere nummerplader. Funktionen tager et gråtonebillede som input og returnerer en kontrastforstærket version. 
+
+Funktionens kildekoden findes i afsnit \vref{code:ContrastStrech}
+
+\subsubsection{Find længste lyse linie}
+\label{sec:imp:GetLongestLine}
+Funktionen \textit{GetLongestLine} tager et gråtonebillede som inddata og returnerer, i procent, længden af den længste lyse vandrette linie i billedet. Resultatet udregnes ved at først omdanne inddata-billedet til et binært billede. Derefter findes den længste forekomst af på hinanden følgende hvide pixels i billedets rækker ved at løbe billedet igennem med en \textit{for}-løkke.  
+
+Funktionens kildekoden findes i afsnit \vref{code:GetLongestLine}
+
+\subsubsection{Måling af intensitetsforløb}
 \label{sec:imp:GetSignature}
-Get signature
-\subsubsection{Hjælpefunktion 4}
+Funktionen \textit{GetSignature} tager et gråtonebillede som inddata og returnerer en vektor der indeholder resultatet af at lægge alle intensitetsværdier i gråtonebilledets kolonner sammen. Hver plads i vektoren repræsenter således en kolonne i billedet.
+
+Funktionens kildekoden findes i afsnit \vref{code:GetSignature}
+
+\subsubsection{Frekvensanalyse}
 \label{sec:imp:GetPlateness}
-GetPlateness
+Funktionen \textit{GetPlateness} tager en vektor som returneret fra \textit{GetSignature} som inddate og returnere et heltal. Funktionen udregner an middelværdi for inddatavektoren. Det heltal der returneres er et udtryk for hvor mange gange tallene i vektoren stigier op over, og falder ned under middelværdien. Dette er illustreret på figur \vref{fig:DetectPlateness-frekvensanalyse}.
+
+Funktionens kildekoden findes i afsnit \vref{code:GetPlateness}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADER %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,7 +59,7 @@ SKRIV EVT. AT RÆKKEFØLGEN ER EN ANDEN END I SYSTEM.
 
 \subsubsection{Analyse af interesseområder}
 \label{sec:imp:BinImgCleanup}
-Funktionen der fjerne områder vi opfatter som uinteressante i de binære billeder der markerer interesseområder, varetages af funktionen \textit{BinImgCleanup} hvis kildekode findes i afsnit \vref{BinImgCleanup}. Denne funktion bliver brugt af alle de fem metoder vi bruger til at lokalisere nummerplader.
+Funktionen der fjerne områder vi opfatter som uinteressante i de binære billeder der markerer interesseområder, varetages af funktionen \textit{BinImgCleanup} hvis kildekode findes i afsnit \vref{code:BinImgCleanup}. Denne funktion bliver brugt af alle de fem metoder vi bruger til at lokalisere nummerplader.
 
 Funktionen tager et binært billede samt en skaleringsværdi som inddata, og returner et binært billede hvor de områder der sandsynligvis ikke er nummerpladeområder er fjernet som beskrevet i afsnit \vref{sec:BinImgCleanup}.
 
@@ -77,9 +92,7 @@ Vi bruger Matlabs funktion \textit{im2bw()} for at skabe det binære billede vi 
 %%%%%%%%%%%%%%%%%%%%
 \subsubsection{Valg af bedste nummerpladekandidat}
 \label{sec:imp:GetBestCandidate}
-Programmet der udvælger den bedste nummerpladekandidat er implementeret i funktionen \textit{GetBestCandidate} hvis kildekode findes i afsnit \vref{code:GetBestCandidate}. Funktionen tager en liste med forbundne komponenter, et gråtonebillede og den skaleringsfaktor der er anvendt på gråtonebilledet som argumenter og returnerer den bedste nummerpladekandidats point samt dens koordinater som de er i et billede med en opløsning på $1024 \times 768$. 
-
-HVAD ER NOGLE TYPISKE POINT
+Programmet der udvælger den bedste nummerpladekandidat er implementeret i funktionen \textit{GetBestCandidate2} hvis kildekode findes i afsnit \vref{code:GetBestCandidate2}. Funktionen tager en liste med forbundne komponenter, et gråtonebillede og den skaleringsfaktor der er anvendt på gråtonebilledet som argumenter og returnerer den bedste nummerpladekandidats point samt dens koordinater som de er i et billede med en opløsning på $1024 \times 768$. Billeder af nummerplader der er skåret helt tæt til opnår omkring 60-70 point. Områder der får under 100 point er gode numerpladekandidater. 
 
 Pointgivningen sker ved at måle nummerpladekandidaternes afvigelser i forhold til optimale for en række karakteristika for nummerpladeområder som tidligere beskrevet i afsnit \vref{sec:GetBestCandidate}.
 Programmet udfører følgende trin:

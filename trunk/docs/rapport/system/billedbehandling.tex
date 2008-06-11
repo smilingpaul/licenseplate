@@ -193,6 +193,7 @@ Ved at analysere svingningen mellem lyse og mørke intensiteter i de nummerplade
 \end{figure}
 
 \subsubsection{Metode: Maksimer lokal kontrast}
+\label{sec:DetectContrastStretch}
 Ideen bag denne metode er, at vi ved at dele billedet op i små blokke og uafhængigt af intensiteterne i resten af billedet maksimere kontrasten i disse små områder kan lave et binært billede hvor nummerpladen er et af få sammenhængende områder.
 
 Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching} som illustreret på figur \vref{fig:DetectPlateness-contrast_stretch}. Da spredningen af intensiteter i de små udsnit af billedet oftest vil være forholdsvis lille, kan vi øge kontrasten i området ved at strække intensiteterne så de udnytter hele spektret på 256 intensitetsværdier. På denne måde bliver de lyseste pixels i blokken helt hvide  mens de mørkeste bliver helt sorte. Figur \vref{fig:DetectCStretch-illu1} viser hvordan vi ved at strække intensiteterne deler et område forestillende en blød overgang fra sort til hvid over i to forskellige områder der hver har intensitetsværdier i hele spektret. En nummerplade vil derimod fortsat være en sammenhængende figur efter intensiteterne er blevet strakt, da de lyseste områder, baggrunden, i nummerpladeblokkene fortsat vil støde op til de lyseste områder i de nummerpladeblokke der ligger ved siden af. Dette forhold er illustreret i figur \vref{fig:DetectCStretch-illu2}.
@@ -201,7 +202,7 @@ Vi maksimerer kontrasten for hver blok med såkaldt \textit{Contrast streching} 
 \begin{figure}[htp]
   \centering
   \includegraphics[width=12cm]{system/illu/contrast_stretch.pdf} 
-  \caption{Fosrtærkelse af kontrast: For at forbedre kontrasten i et billede kan man strække intensiteterne så hele intensitetsområdet udnyttes. Figur 1 ovenfor viser intensiteterne for et billede der ikke udnytter hele intensitetsområdet der går fra 0 til 255. Intensiteterne i billedet ligger alle i et ret lille område. Vi gør alle intensiteter i billedet så meget mindre, at den mindste bliver 0 som illustreret på figur 2. Til sidste strækker vi intensiteterne så billedet udnytter alle intensiteter fra 0 til 255 som vist på figur 3. Den højeste intensitet i billedet er nu 255 og den laveste er 0.}
+  \caption{Forstærkelse af kontrast: For at forbedre kontrasten i et billede kan man strække intensiteterne så hele intensitetsområdet udnyttes. Figur 1 ovenfor viser antal forekomster  af intensiteter for et billede der ikke udnytter hele intensitetsområdet der går fra 0 til 255. Intensiteterne i billedet ligger alle i et ret smalt område. Vi gør alle intensiteter i billedet så meget mindre, at den mindste bliver 0 som illustreret på figur 2. Til sidste strækker vi intensiteterne så billedet udnytter alle intensiteter fra 0 til 255 som vist på figur 3. Den højeste intensitet i billedet er nu 255 og den laveste er 0.}
   \label{fig:DetectPlateness-contrast_stretch}
 \end{figure}
 
