@@ -37,7 +37,7 @@ Funktionens kildekoden findes i afsnit \vref{code:GetSignature}
 
 \subsubsection{Frekvensanalyse}
 \label{sec:imp:GetPlateness}
-Funktionen \textit{GetPlateness} tager en vektor som returneret fra \textit{GetSignature} som inddate og returnere et heltal. Funktionen udregner an middelværdi for inddatavektoren. Det heltal der returneres er et udtryk for hvor mange gange tallene i vektoren stigier op over, og falder ned under middelværdien. Dette er illustreret på figur \vref{fig:DetectPlateness-frekvensanalyse}.
+Funktionen \textit{GetPlateness} tager en vektor som returneret fra \textit{GetSignature} som inddata og returnere et heltal. Funktionen udregner an middelværdi for inddatavektoren. Det heltal der returneres er et udtryk for hvor mange gange tallene i vektoren stigier op over, og falder ned under middelværdien. Dette er illustreret på figur \vref{fig:DetectPlateness-frekvensanalyse}.
 
 Funktionens kildekoden findes i afsnit \vref{code:GetPlateness}
 
@@ -52,10 +52,7 @@ I metoderne til lokalisering af nummerplader, nedskalerer vi billederne til en f
 
 Ofte udvider vi kandidatområdet før vi returnerer det for at få hele pladen med. Det er vigtigt for at senere at kunne rotere da dette kræver tilstædeværelsen af markante linier der markerer pladens over- og underkant. Vi vil hellere returnere områder der er lidt for store end områder der er lidt for små.
 
-SKRIV EVT. AT RÆKKEFØLGEN ER EN ANDEN END I SYSTEM.
-% (mere om dette i afsnit \vref{sec:implementation/sep/rotation}).
 
-%Når vi omdanner gråtonebilleder til binærebilleder har vi, med mindre andet er beskrevet, brugt Matlabs greythresh-kommando til at udregne den værdi der afgør hvilke pixels der bliver hvide og hvilke der bliver sorte i det binære billede.
 
 \subsubsection{Analyse af interesseområder}
 \label{sec:imp:BinImgCleanup}
