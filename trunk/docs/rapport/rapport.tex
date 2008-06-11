@@ -169,6 +169,7 @@ I hvor høj grad vil et system vi selv bygger kunne lokalisere nummerplader og l
 
 Vores store problem er tæt udklipning af plader / separation.
 
+Det ville være bedre hvis vi kunne returnere f.eks. 4 ud af fem tegn p en plade. SOm det er nu SKAL der være separeret syv områder før der bliver returneret noget.
 
 Man skulle have taget alle billeder med et samme kamera. Så kunne man være sikker på at et kamera ikke var en faktor.
 
@@ -272,28 +273,34 @@ Det tager MEGET! lang tid at arbejde på store billeder.
 I dette appendiks forsøger vi at give læseren et indtryk af den type data systemet arbejder med.
 %Vi viser eksempler på billeder fra vores fire billedsæt, områder udpeget som nummerplader af lokaliseringsdelen, tætklippede nummerplader som brugt af seperationsdelen og endelig eksempler på de områder systemet har identificeret som værende tegn i nummerpladerne.
 
-% PLADER IKKE ROTERET
+%%%%%%%%%%%%%%%%%%%%%%%
+% PLADER IKKE ROTERET %
+%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{appendix/illu/plates_not_rotated-1.jpg} 
-\caption{Et udvalg af nummerplader som de ser ud når de er klippet ud, men endnu ikke roteret. Selvom vi har forsøgt at tage vores billeder sådan at nummerpladerne ikke er roteret væsentligt, har det været nødvendigt at rotere pladerne for at få dem til at ligge vandret.}
+\caption{Et udvalg af nummerplader fra træningsættet som de ser ud når de er klippet ud, men endnu ikke roteret. Selvom vi har forsøgt at tage vores billeder sådan at nummerpladerne ikke er roteret væsentligt, har det været nødvendigt at rotere pladerne for at få dem til at ligge vandret.}
 \label{fig:illu:plates_not_rotated-1}
 \end{figure}
 
-% PLADER ROTERET
+%%%%%%%%%%%%%%%%%%
+% PLADER ROTERET %
+%%%%%%%%%%%%%%%%%%
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{appendix/illu/plates_rotated-1.jpg} 
-\caption{Nummerplader som de ser ud når de er klippet ud og roteret. Det er disse billeder der er inddata når tegnene i nummerpladerne skal separeres som næste trin i processen.}
+\caption{Eksempler på nummerplader fra træningsættet som de ser ud når de er klippet ud og roteret. Det er disse billeder der er inddata når tegnene i nummerpladerne skal separeres som næste trin i processen.}
 \label{fig:illu:plates_rotated-1}
 \end{figure}
 
-% PLADER FEJL
+%%%%%%%%%%%%%%%%%%
+% FEJLKANDIDATER %
+%%%%%%%%%%%%%%%%%%
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{appendix/illu/plates_error.jpg} 
 \caption{Tilfældigt udvalgte eksempler på hvilke typer områder systemet fejlagtigt udpeger som værende nummerplader.}
-\label{fig:illu:plates_error.}
+\label{fig:illu:wrong_candidates}
 \end{figure}
 
 %\begin{figure}[htp]
@@ -303,14 +310,6 @@ I dette appendiks forsøger vi at give læseren et indtryk af den type data syst
 %\label{fig:illu:plates_rotated-2}
 %\end{figure}
 
-
-%\subsection{Tætklippede nummerplader}
-%\label{sec:illu:2}
-%Billederne i dette afsnit viser de billeder vi arbejder på når vi antager at nummerpladerne er helt tæt klippet til.
-
-%\subsection{Separerede tegn}
-%\label{sec:illu:chars}
-%Billederne i dette afsnit viser de tegn der er klippet ud af nummerpladerne i træningssættet og derefter brugt til at genkende tegnene fra nummerpladerne i kontrolsættet. Figur \vref{fig:illu:training_chars_1} til figur \vref{fig:illu:training_chars_4} viser træningsættet og figur XX til figur XX viser de billeder der er blevet opfattet som tegn i kontrolsættet og derefter forsøgt genkendt.
 
 %\begin{figure}[htp]
 %\centering
@@ -340,21 +339,6 @@ I dette appendiks forsøger vi at give læseren et indtryk af den type data syst
 %\label{fig:illu:training_chars_4}
 %\end{figure}
 
-
-%\subsection{Falske positiver}
-%\label{sec:illu:fejl}
-%I dette afsnit viser vi eksempler på systemets fejltagelser.
-
-%\subsubsection{Områder fejlagtigt identificeret som nummerpladeområder}
-%Samtlige fejlidentificerede nummerpladeområder.
-%\label{sec:illu:fejl_plader}
-%FEJL FRA TESTSÆT
-%FEJL FRA KONTROLSÆT
-
-%\subsubsection{Områder fejlagtigt identificeret som tegn}
-%\label{sec:illu:fejl_tegn}
-%FEJL FRA TESTSÆT
-%FEJL FRA KONTROLSÆT
 
 %%%%%%%%%%%%%%%
 % TRÆNINGSSÆT %
@@ -405,7 +389,7 @@ I dette appendiks forsøger vi at give læseren et indtryk af den type data syst
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{appendix/illu/badgrads.png} 
-\caption{Gradienter i et udvalg af billeder taget med blitz. Hvor gradienteren omkring tegnene i nummerpladerne på de billeder der er taget uden blitz er store, er de i disse billeder meget små, og nummerpladen bliver ikke lokaliseret af metoden beskrevet i \vref{sec:DetectContrastAvg} der kigger efter store gradienter.}
+\caption{Gradienter i et udvalg af billeder taget med blitz. Hvor gradienteren omkring tegnene i nummerpladerne på de billeder der er taget uden blitz er store, er de i disse billeder meget små, og nummerpladen bliver ikke lokaliseret af metoden beskrevet i \vref{sec:DetectContrastAvg} der kigger efter store gradienter. Bemærk at mange af nummerpladerne fremstår som sorte huller uden markeringer af tegn.}
 \label{fig:illu:badgrads}
 \end{figure}
 
