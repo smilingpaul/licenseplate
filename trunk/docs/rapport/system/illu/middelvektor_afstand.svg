@@ -162,8 +162,8 @@
      showguides="true"
      inkscape:window-width="1280"
      inkscape:window-height="752"
-     inkscape:window-x="20"
-     inkscape:window-y="42"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
      inkscape:guide-bbox="true"
      width="333.93px"
      height="205.04px" />
@@ -236,32 +236,6 @@
        inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
-    <text
-       xml:space="preserve"
-       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="407.96124"
-       y="259.55698"
-       id="text7265"
-       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan7267"
-         x="407.96124"
-         y="259.55698">T</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="224.61629"
-       y="195.39406"
-       id="text12142"
-       inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan12144"
-         x="224.61629"
-         y="195.39406">S</tspan></text>
     <path
        sodipodi:type="arc"
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.44385663;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -509,5 +483,25 @@
        inkscape:export-filename="/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/middelvektor_afstand.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="226.84999"
+       y="196.06703"
+       id="text2207"><tspan
+         sodipodi:role="line"
+         id="tspan2209"
+         x="226.84999"
+         y="196.06703">A</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="417.76855"
+       y="263.22812"
+       id="text2211"><tspan
+         sodipodi:role="line"
+         id="tspan2213"
+         x="417.76855"
+         y="263.22812">B</tspan></text>
   </g>
 </svg>

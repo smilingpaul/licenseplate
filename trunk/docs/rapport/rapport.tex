@@ -92,8 +92,7 @@ stepnumber=5,                   % the step between two line-numbers. If it's 1 e
 %%%%%%%%%%%%%%
 % INDLEDNING %
 %%%%%%%%%%%%%%
-\include{indledning/indledning}
-
+\input{indledning/indledning}
 %%%%%%%%%%%%%%%%%%%%%%%
 % OPBYGNING AF SYSTEM %
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -114,18 +113,18 @@ I dette afsnit har hver af de tre trin sit eget underafsnit. I hvert af disse be
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hvordan lokaliserer vi pladerne? %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{system/billedbehandling}
+\input{system/billedbehandling}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hvordan separerer vi tegnene? %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{system/separation}
+\input{system/separation}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hvordan genkender vi tegnene? %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{system/moenstergenkend}
+\input{system/moenstergenkend}
 
 
 
@@ -133,13 +132,13 @@ I dette afsnit har hver af de tre trin sit eget underafsnit. I hvert af disse be
 %%%%%%%%%%%%%%%%%%
 % IMPLEMENTATION %
 %%%%%%%%%%%%%%%%%%
-\include{implementation/implementation}
+\input{implementation/implementation}
 
 
 %%%%%%%%%%%%%%
 % Afprøvning %
 %%%%%%%%%%%%%%
-\include{test/test}
+\input{test/test}
 
 
 %\newpage
@@ -159,6 +158,7 @@ I dette afsnit har hver af de tre trin sit eget underafsnit. I hvert af disse be
 %\subsection{Performance}
 %\subsection{Problemer}
 %\subsection{Resultater i forhold til læst litteratur}
+\newpage
 \section{Konklusion}
 \label{sec:konklusion}
 
@@ -196,6 +196,10 @@ Godt at vi kan bruge simple metoder, det er spændende med pointsystem, det med 
 NEDENFOR: BRUGES ALLE LITTERATUR ELEMENTER??
 
 Det tager MEGET! lang tid at arbejde på store billeder.
+
+Vi har haft for meget fokus på korrektheden i de enkelte trin af system. Det er kun til sidst at korrektheden skal være høj. Ellers handler det bare om at sende såå meget som muligt videre.
+
+Man kunne stole blindt på point i stedet for enighed. Eksempel med en kandidat med lav pointværdi og to med høj pointværdi, men de to med høj værdier er enige. Her burde man måske udvælge den ene med lav pointværdi.
 
 \newpage % new page before litterature
 \section{Litteraturliste}
@@ -269,7 +273,7 @@ Det tager MEGET! lang tid at arbejde på store billeder.
 %%%%%%%%%%%%
 % BILLEDER %
 %%%%%%%%%%%%
-
+\newpage
 \section{Illustrationer}
 \label{sec:illu}
 I dette appendiks forsøger vi at give læseren et indtryk af den type data systemet arbejder med.
