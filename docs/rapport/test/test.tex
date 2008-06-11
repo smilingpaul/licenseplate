@@ -1,7 +1,6 @@
 \section{Resultater}
 \label{sec:resultater}
-
-I dette afsnit vil vi beskrive afprøvningen af vores system og give resultaterne af denne afprøvning. Vi afprøver alle trin i lokalisering og læsning af nummerplader individuelt før vi afprøver det samlede system. Som det første undersøger vi metoder til lokalisering af nummerplader. Derefter afprøver vi to metoder til at separere tegn i nummerpladerne. Som den sidste individuelle afprøvning, undersøger vi forskellige metoder til gendkendelse af tegn.
+I dette afsnit beskriver vi afprøvningen af vores software. Vi afprøver alle trin i lokalisering og læsning af nummerplader individuelt før vi afprøver det samlede system. Som det første undersøger vi effektiviteten af metoderne til lokalisering af nummerplader. Derefter afprøver vi de to metoder til at separere tegn i nummerpladerne. Som den sidste individuelle afprøvning, undersøger vi forskellige metoder til genkendelse af tegn.
 
 På baggrund af resultaterne af de individuelle afprøvninger, vælger vi den optimale konfiguration af systemet. Vi afprøver det samlede system på kontrolsættet med og uden syntaksanalyse af de nummerplader systemet læser.  
 
@@ -43,9 +42,10 @@ Kvantifisering                     & 69.8\% & 60.5\% &  9.3\% \\ \hline
 \subsubsection{Samlet lokalisering}
 Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på f.eks. tre, vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et nummerpladeområde og sender det videre i systemet til separation og genkendelse. Vi undersøger hvor høj enighed systemet skal konfigureres til for at give en korrekthed på 100\%. Resultaterne for afprøvning på træningsættet er vist på figur \vref{fig:test:lokalisering_traening_samlet} og resultaterne for kontrolsætter kan ses på figur \ref{fig:test:lokalisering_kontrol_samlet}.
 
-I træningsættet er korrektheden høj selv ved en minimal enighed på en, men en korrekthed på 100\% opnås først når den minimale enighed sættes til fem. I denne konfiguration kan systemet kun lokalisere 35.3\% af nummerpladerne.
+I træningsættet er korrektheden høj selv ved en minimal enighed på en, men en korrekthed på 100\% opnås først når den minimale enighed sættes til fem. I denne konfiguration kan systemet kun lokalisere 35.3\% af nummerpladerne. For kontrolsættet opnås en korrekthed på 100\% med en minimal enighed på fire.
 
-Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater på kontrolsættet i de individuelle afprøvninger, falder den samlede effektivitet ikke tilsvarende når metoderne anvendes samlet. Faldet i effektivitet for den samlede metode er på 3\% mod gennemsnitligt 10.8\% for de individuelle metoder. Den samlede metode er altså forholdsvis robust.
+Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater på kontrolsættet i de individuelle afprøvninger, falder den samlede effektivitet ikke tilsvarende når metoderne anvendes samlet. Faldet i effektivitet for den samlede metode er på 3\%, i den bedste konfiguration, mod gennemsnitligt 10.8\% for de individuelle metoder. Den samlede metode er altså forholdsvis robust.
+ 
 
 \begin{figure}[htp]
 \centering
@@ -80,6 +80,15 @@ Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater p�
 \caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i kontrolsættet når alle fem metoder arbejde sammen.}
 \label{fig:test:lokalisering_kontrol_samlet}
 \end{figure}
+
+\subsubsection{Konklussion}
+Ideen med at bruge flere metoder til lokalisering virker god. Vi er i stand til at lokalisere 94.5\% af nummerpladerne i ikke på forhånd observerede billeder. Metoden er forholdsvis robust overfor mindre forringelser i effektiviteten af de underliggende metoder.
+
+Analyse af de billeder hvor vi ikke kan lokalisere nummerplader i træningsættet, afslører at meget mørke nummerplader er et problem. På grund af dette forhold må man overveje om man kan tale om en ideel intensitet for nummerpladeområder sådan som vi har gjort i vores pointsystem.
+
+En anden fællesnævner for de billeder hvor vi ikke finder nummerpladederne er farven på bilen. Hvide biler er overrepræsenteret i gruppen af billeder hvor vi ikke kan finde nummerpladen. Metoderne \textit{Områder domineret af lyse gråtoner} og \textit{Kvantifisering} fungerer dårligt på hvide biler. Den ene fordi hvide bilers karosseri jo også er domineret af lyse gråtoner, og den anden fordi filteret der fjerner tegnenen på nummerpladerne også fjerner stregerne rundt om nummerpladerne og dermed skaber et stort sammenhængende område bestående af både nummerplade og bil. 
+
+ 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
