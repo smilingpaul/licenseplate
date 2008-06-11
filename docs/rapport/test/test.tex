@@ -11,20 +11,24 @@ Til sidst afprøver vi HVAD på billederne der er taget med blitz samt billedern
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Lokalisering af nummerplader}
-Vi undersøger vores systems evne til at lokalisere nummerplader. Vi kigger altså ikke på nummerpladens tegn, men blot på om vi kan afgøre dens position i inddata-billedet. Vi har foretager afprøvning af metoderne både individuelt og som et samlet system. Resultaterne er vist i figur \vref{fig:test:lokalisering_traening_kontrol}.
+Vi undersøger vores systems evne til at lokalisere nummerplader. Vi kigger altså ikke på nummerpladens tegn, men blot på om vi kan afgøre dens position i inddata-billedet. Vi foretager afprøvning af metoderne både individuelt og som et samlet system. SYNES DER MANGLER FORKLARING PÅ "SAMLET SYSTEM". Resultaterne er vist i figur \vref{fig:test:lokalisering_traening_kontrol}.
 
 \subsubsection{Individuel lokalisering}
 Vi afprøver effektiviteten af de fem metoder til lokalisering af nummerplader.
 
-Alle metoderne giver dårligere resultater på kontrolsættet end på træningsættet. Størst forringelse observeres i metoden der kigger på områder domineret af lyse gråtoner. Dette kan skyldes væsentligt forskellige vejrforhold for de dage hvor billederne er taget. Billederne i kontrolsættet er taget på en dag med meget kraftigt sol hvorimod billederne i træningsættet er taget på dage med . Muligvis er farvesammensætningen på nummerpladerne væsentligt anderledes under disse forhold.  Metoden der anvender frekvensanalyse er den mest robuste, og opnår næsten lige gode resultater på de to sæt. De øvrige metoder oplever et fald på mellem 9.5\% og 6.1\% i effektivitet.
+HENVISNING TIL TABELLER.
+
+Alle metoderne giver dårligere resultater på kontrolsættet end på træningssættet. Størst forringelse observeres i metoden der kigger på områder domineret af lyse gråtoner. Dette kan skyldes væsentligt forskellige vejrforhold for de dage hvor billederne er taget. Billederne i kontrolsættet er taget på en dag med meget kraftigt sol, hvorimod billederne i træningssættet er taget på dage med. Muligvis er farvesammensætningen på nummerpladerne væsentligt anderledes under disse forhold.  Metoden der anvender frekvensanalyse er den mest robuste, og opnår næsten lige gode resultater på de to sæt. De øvrige metoder oplever et fald på mellem 9.5 og 6.1 procentpoint i effektivitet.
 
 De to bedste metoder er dem der arbejder med kontrast. I træningsættet er metoden der kigger på områder i originalbilledet med høj kontrast den mest effektive med 83\%. I kontrolsættet er den mest effektive metode den der maksimerer lokal kontrast for at skabe et sammenhængende nummerpladeområde. 
 
 HVAD ER HUTIGST?
 
+DU SKRIVER \%-TEGN I TABELLER, JEG GØR IKKE. VI MÅ VÆRE KONSISTENTE.
+
 \begin{figure}[htp]
 \centering
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l|c|c|c|}
 \hline
 \rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Individuelle metoder til lokalisering}} \\ \hline
 Metode & Træningsæt & Kontrolsæt & Forskel \\ \hline
@@ -40,16 +44,16 @@ Kvantifisering                     & 69.8\% & 60.5\% &  9.3\% \\ \hline
 
 
 \subsubsection{Samlet lokalisering}
-Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på f.eks. tre, vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et nummerpladeområde og sender det videre i systemet til separation og genkendelse. Vi undersøger hvor høj enighed systemet skal konfigureres til for at give en korrekthed på 100\%. Resultaterne for afprøvning på træningsættet er vist på figur \vref{fig:test:lokalisering_traening_samlet} og resultaterne for kontrolsætter kan ses på figur \ref{fig:test:lokalisering_kontrol_samlet}.
+Vi afprøver vi hvor god vores software er til at lokalisere nummerplader når alle fem metoder arbejder sammen. Vi har foretaget afprøvningen med flere forskellige indstillinger for minimal enighed. En enighed på for eksempel tre, vil sige at tre af de underliggende metoder til lokalisering skal have udpeget samme område for at systemet opfatter området som et nummerpladeområde og sender det videre i systemet til separation og genkendelse. Vi undersøger hvor høj enighed systemet skal konfigureres til for at give en korrekthed på 100\%. Resultaterne for afprøvning på træningsættet er vist i figur \vref{fig:test:lokalisering_traening_samlet} og resultaterne for kontrolsættet kan ses i figur \ref{fig:test:lokalisering_kontrol_samlet}.
 
-I træningsættet er korrektheden høj selv ved en minimal enighed på en, men en korrekthed på 100\% opnås først når den minimale enighed sættes til fem. I denne konfiguration kan systemet kun lokalisere 35.3\% af nummerpladerne. For kontrolsættet opnås en korrekthed på 100\% med en minimal enighed på fire.
+I træningssættet er korrektheden høj selv ved en minimal enighed på en, men en korrekthed på 100\% opnås først når den minimale enighed sættes til fem. I denne konfiguration kan systemet kun lokalisere 35.3\% af nummerpladerne. For kontrolsættet opnås en korrekthed på 100\% med en minimal enighed på fire.
 
-Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater på kontrolsættet i de individuelle afprøvninger, falder den samlede effektivitet ikke tilsvarende når metoderne anvendes samlet. Faldet i effektivitet for den samlede metode er på 3\%, i den bedste konfiguration, mod gennemsnitligt 10.8\% for de individuelle metoder. Den samlede metode er altså forholdsvis robust.
+Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater på kontrolsættet i de individuelle afprøvninger, falder den samlede effektivitet ikke tilsvarende når metoderne anvendes samlet. Faldet i effektivitet for den samlede metode er på 3 procentpoint, i den bedste konfiguration HVAD ER DET FOR EN KONFIGURATION? OG SYNES DER MANGLER FORKLARING PÅ AT DET ER I DEN FØRSTE KOLONNE DETTE ER AFLÆST, mod gennemsnitligt 10.8 procentpoint for de individuelle metoder. Den samlede metode er altså forholdsvis robust.
  
 
 \begin{figure}[htp]
 \centering
-  \begin{tabular}{|l|l|l|}
+  \begin{tabular}{|l|c|c|}
     \hline
     \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet metode til lokalisering - Træningssæt}} \\
     \hline
@@ -67,7 +71,7 @@ Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater p�
 
 \begin{figure}[htp]
 \centering
-  \begin{tabular}{|l|l|l|}
+  \begin{tabular}{|l|c|c|}
     \hline
     \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet metode til lokalisering - Kontrolsæt}} \\
     \hline
@@ -86,7 +90,7 @@ Ideen med at bruge flere metoder til lokalisering virker god. Vi er i stand til 
 
 Analyse af de billeder hvor vi ikke kan lokalisere nummerplader i træningsættet, afslører at meget mørke nummerplader er et problem. På grund af dette forhold må man overveje om man kan tale om en ideel intensitet for nummerpladeområder sådan som vi har gjort i vores pointsystem.
 
-En anden fællesnævner for de billeder hvor vi ikke finder nummerpladederne er farven på bilen. Hvide biler er overrepræsenteret i gruppen af billeder hvor vi ikke kan finde nummerpladen. Metoderne \textit{Områder domineret af lyse gråtoner} og \textit{Kvantifisering} fungerer dårligt på hvide biler. Den ene fordi hvide bilers karosseri jo også er domineret af lyse gråtoner, og den anden fordi filteret der fjerner tegnenen på nummerpladerne også fjerner stregerne rundt om nummerpladerne og dermed skaber et stort sammenhængende område bestående af både nummerplade og bil. 
+En anden fællesnævner for de billeder hvor vi ikke finder nummerpladederne er farven på bilen. Hvide biler er overrepræsenteret i gruppen af billeder hvor vi ikke kan finde nummerpladen. Metoderne \textit{Områder domineret af lyse gråtoner} og \textit{Kvantifisering} fungerer dårligt på hvide biler. Den ene fordi hvide bilers karosseri også er domineret af lyse gråtoner, og den anden fordi filteret der fjerner tegnenen på nummerpladerne også fjerner stregerne rundt om nummerpladerne og dermed skaber et stort sammenhængende område bestående af både nummerplade og bil. 
 
  
 
@@ -99,7 +103,7 @@ En anden fællesnævner for de billeder hvor vi ikke finder nummerpladederne er 
 
 %DETTE AFSNIT SKRIVES SAMMEN MED GENKENDELSE.
 
-I dette afsnit afprøves metoderne, der bruges til at separere tegn i en nummerplade.
+I dette afsnit afprøves metoderne, der bruges til at separere tegn i en nummerplade. MERE?
 
 \subsubsection*{Rotation}
 %Om en nummerplade står vandret i et billede kan afgøres ved at kantdetektere billedet og udføre en Radon transformation på dette kant-billede. Hvis de stærkeste linier optræder ved $0^{\circ}$ er rotation udført korrekt.
@@ -121,10 +125,10 @@ Resultaterne fra afprøvningen af separation af tegn ses i figurerne \vref{fig:t
 \begin{tabular}{|l|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Træningssæt}} \\ \hline
 Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
-10 & 96,5\% & 91,8\% \\\hline
-20 & 95,8\% & 91,3\% \\\hline
-30 & 92,5\% & 83,5\% \\\hline
-40 & 87,5\% & 73,4\% \\\hline \end{tabular}
+10 & 96.5\% & 91.8\% \\\hline
+20 & 95.8\% & 91.3\% \\\hline
+30 & 92.5\% & 83.5\% \\\hline
+40 & 87.5\% & 73.4\% \\\hline \end{tabular}
 \caption{Afprøvning af metoderne til separation af tegn på træningssættet ved brug af manuelt udpegede plader.}
 \label{fig:test:sep-traening-manuel}
 \end{figure}
@@ -134,10 +138,10 @@ Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 \begin{tabular}{|l|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{3}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Kontrolsæt}} \\ \hline
 Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
-10 & 90,0\% & 87,2\% \\\hline
-20 & 86,8\% & 81,0\% \\\hline
-30 & 84,7\% & 71,2\% \\\hline
-40 & 79,0\% & 58,5\% \\\hline \end{tabular}
+10 & 90.0\% & 87.2\% \\\hline
+20 & 86.8\% & 81.0\% \\\hline
+30 & 84.7\% & 71.2\% \\\hline
+40 & 79.0\% & 58.5\% \\\hline \end{tabular}
 \caption{Afprøvning af metoderne til separation af tegn på kontrolsættet ved brug af manuelt udpegede plader.}
 \label{fig:test:sep-kontrol-manuel}
 \end{figure}
@@ -200,16 +204,16 @@ I figurerne \vref{fig:test:middel_tal}, \vref{fig:test:middel_bogstav} samt \vre
 \begin{tabular}{|l|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
-0 & 21,0 & 77,1 & 74,8 & 56,1 & 91,1\\\hline
-1 & 79,3 & 94,1 & 97,5 & 97,5 & 98,0\\\hline
-2 & 92,7 & 93,3 & 98,0 & 98,9 & 99,2\\\hline
-3 & 86,1 & 99,4 & 98,9 & 100,0 & 100,0\\\hline
-4 & 84,1 & 99,1 & 99,1 & 99,7 & 99,7\\\hline
-5 & 96,6 & 98,3 & 98,3 & 99,4 & 99,4\\\hline
-6 & 42,1 & 99,5 & 100,0 & 99,5 & 100,0\\\hline
-7 & 92,4 & 94,2 & 98,7 & 99,6 & 99,6\\\hline
-8 & 13,0 & 45,2 & 90,4 & 93,5 & 97,0\\\hline
-9 & 82,6 & 94,6 & 96,4 & 98,2 & 97,3\\\hline
+0 & 21.0 & 77.1 & 74.8 & 56.1 & 91.1\\\hline
+1 & 79.3 & 94.1 & 97.5 & 97.5 & 98.0\\\hline
+2 & 92.7 & 93.3 & 98.0 & 98.9 & 99.2\\\hline
+3 & 86.1 & 99.4 & 98.9 & 100.0 & 100.0\\\hline
+4 & 84.1 & 99.1 & 99.1 & 99.7 & 99.7\\\hline
+5 & 96.6 & 98.3 & 98.3 & 99.4 & 99.4\\\hline
+6 & 42.1 & 99.5 & 100.0 & 99.5 & 100.0\\\hline
+7 & 92.4 & 94.2 & 98.7 & 99.6 & 99.6\\\hline
+8 & 13.0 & 45.2 & 90.4 & 93.5 & 97.0\\\hline
+9 & 82.6 & 94.6 & 96.4 & 98.2 & 97.3\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af cifre ved brug af middelvektorer. For hvert ciffer er det angivet hvor mange procent af billederne af dette ciffer, der er korrekt genkendt.}
 \label{fig:test:middel_tal}
@@ -221,26 +225,26 @@ Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
 A & - & - & - & - & -\\\hline
-B & 40,9 & 68,2 & 90,9 & 95,5 & 95,5\\\hline
-C & 65,6 & 93,8 & 96,9 & 100,0 & 100,0\\\hline
-D & 91,4 & 100,0 & 100,0 & 97,1 & 91,4\\\hline
-E & 65,0 & 85,0 & 95,0 & 95,0 & 100,0\\\hline
-H & 28,6 & 100,0 & 85,7 & 100,0 & 100,0\\\hline
-J & 97,2 & 97,2 & 100,0 & 97,2 & 100,0\\\hline
-K & 54,8 & 80,6 & 90,3 & 90,3 & 90,3\\\hline
-L & 25,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
-M & 20,5 & 87,2 & 97,4 & 94,9 & 94,9\\\hline
-N & 41,7 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
-O & 0,0 & 66,7 & 0,0    & 66,7 & 66,7\\\hline
-P & 78,8 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
-R & 28,2 & 87,2 & 92,3 & 94,9 & 94,9\\\hline
-S & 98,6 & 97,1 & 92,7 & 100,0 & 100,0\\\hline
-T & 94,4 & 98,9 & 98,9 & 98,9 & 100,0\\\hline
-U & 1,3 & 93,3 & 96,0 & 97,3 & 98,7\\\hline
-V & 90,6 & 98,1 & 98,1 & 98,1 & 98,1\\\hline
-X & 92,2 & 97,4 & 98,7 & 98,7 & 98,7\\\hline
-Y & 95,8 & 98,9 & 98,9 & 98,4 & 98,9\\\hline
-Z & 77,2 & 100,0 & 96,5 & 100,0 & 100,0\\\hline
+B & 40.9 & 68.2 & 90.9 & 95.5 & 95.5\\\hline
+C & 65.6 & 93.8 & 96.9 & 100.0 & 100.0\\\hline
+D & 91.4 & 100.0 & 100.0 & 97.1 & 91.4\\\hline
+E & 65.0 & 85.0 & 95.0 & 95.0 & 100.0\\\hline
+H & 28.6 & 100.0 & 85.7 & 100.0 & 100.0\\\hline
+J & 97.2 & 97.2 & 100.0 & 97.2 & 100.0\\\hline
+K & 54.8 & 80.6 & 90.3 & 90.3 & 90.3\\\hline
+L & 25.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
+M & 20.5 & 87.2 & 97.4 & 94.9 & 94.9\\\hline
+N & 41.7 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
+O & 0.0 & 66.7 & 0.0    & 66.7 & 66.7\\\hline
+P & 78.8 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
+R & 28.2 & 87.2 & 92.3 & 94.9 & 94.9\\\hline
+S & 98.6 & 97.1 & 92.7 & 100.0 & 100.0\\\hline
+T & 94.4 & 98.9 & 98.9 & 98.9 & 100.0\\\hline
+U & 1.3 & 93.3 & 96.0 & 97.3 & 98.7\\\hline
+V & 90.6 & 98.1 & 98.1 & 98.1 & 98.1\\\hline
+X & 92.2 & 97.4 & 98.7 & 98.7 & 98.7\\\hline
+Y & 95.8 & 98.9 & 98.9 & 98.4 & 98.9\\\hline
+Z & 77.2 & 100.0 & 96.5 & 100.0 & 100.0\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af bogstaver ved brug af middelvektorer. For hvert bogstav er det angivet hvor mange procent af billederne af dette bogstav, der er korrekt genkendt. Rækken med bogstavet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
 \label{fig:test:middel_bogstav}
@@ -251,8 +255,8 @@ Z & 77,2 & 100,0 & 96,5 & 100,0 & 100,0\\\hline
 \begin{tabular}{|l|c|c|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Middelvektor}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 & 8 $\times$ 8\\\hline
-Alle tal & 73,3 & 90,8 & 95,9 & 95,3 & 98,4 & 98,8 & 97,0\\\hline
-Alle bogstaver & 74,5 & 95,7 & 97,0 & 98,0 & 98,2 & 98,6 & 98,4\\\hline
+Alle tal & 73.3 & 90.8 & 95.9 & 95.3 & 98.4 & 98.8 & 97.0\\\hline
+Alle bogstaver & 74.5 & 95.7 & 97.0 & 98.0 & 98.2 & 98.6 & 98.4\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af tegn ved brug af middelvektorer, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:middel_alletegn}
@@ -267,16 +271,16 @@ I figurene \vref{fig:test:sum_tal}, \vref{fig:test:sum_bogstav} samt \vref{fig:t
 \begin{tabular}{|l|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Sum-billeder}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\\\hline
-0 & 0,0 & 64,0 & 73,4 & 54,2 & 81,3\\\hline
-1 & 98,5  & 99,0 & 96,1 & 99,0 & 99,5\\\hline
-2 & 81,6 & 56,7 & 90,5 & 99,7 & 99,7\\\hline
-3 & 3,9 & 45,3 & 98,9 & 97,8 & 98,9\\\hline
-4 & 22,8 & 98,8 & 98,8 & 99,4 & 99,4\\\hline
-5 & 73,4 & 42,7 & 93,7 & 99,1 & 99,1\\\hline
-6 & 31,6 & 57,4 & 96,3 & 98,4 & 97,9\\\hline
-7 & 0,0 & 93,8 & 99,6 & 99,6 & 99,6\\\hline
-8 & 1,3 & 0,7 & 42,6 & 80,0 & 98,3\\\hline
-9 & 47,8 & 62,9 & 94,2 & 98,7 & 96,9\\\hline
+0 & 0.0 & 64.0 & 73.4 & 54.2 & 81.3\\\hline
+1 & 98.5  & 99.0 & 96.1 & 99.0 & 99.5\\\hline
+2 & 81.6 & 56.7 & 90.5 & 99.7 & 99.7\\\hline
+3 & 3.9 & 45.3 & 98.9 & 97.8 & 98.9\\\hline
+4 & 22.8 & 98.8 & 98.8 & 99.4 & 99.4\\\hline
+5 & 73.4 & 42.7 & 93.7 & 99.1 & 99.1\\\hline
+6 & 31.6 & 57.4 & 96.3 & 98.4 & 97.9\\\hline
+7 & 0.0 & 93.8 & 99.6 & 99.6 & 99.6\\\hline
+8 & 1.3 & 0.7 & 42.6 & 80.0 & 98.3\\\hline
+9 & 47.8 & 62.9 & 94.2 & 98.7 & 96.9\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af tal-tegn ved brug af sum-billeder. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt.}
 \label{fig:test:sum_tal}
@@ -288,26 +292,26 @@ Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Sum-billeder}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ \\\hline
 A & - & - & - & - & -\\\hline
-B & 27,3 & 40,9 & 95,5 & 100,0 & 95,5\\\hline
-C & 0,0 & 84,4 & 28,1 & 3,1 & 53,1\\\hline
-D & 20, & 100,0 & 100,0 & 91,4 & 80,0\\\hline
-E & 65,0 & 90,0 & 100,0 & 100,0 & 100,0\\\hline
-H & 100,0 & 85,7 & 85,7 & 85,7 & 85,7\\\hline
-J & 100,0 & 97,2 & 97,2 & 97,2 & 97,2\\\hline
-K & 54,8 & 80,6 & 87,1 & 90,3 & 87,1\\\hline 
-L & 15,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
-M & 25,6 & 89,7 & 97,4 & 97,4 & 89,7\\\hline
-N & 0,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
-O & 0,0 & 33,3 & 0,0 & 66,7 & 33,3\\\hline
-P & 39,4 & 42,4 & 51,5 & 100,0 & 100,0\\\hline
-R & 10,3 & 82,1 & 94,9 & 92,3 & 94,9\\\hline
-S & 0,0 & 0,0 & 27,5 & 56,5 & 23,2\\\hline
-T & 82,0 & 3,4 & 98,9 & 98,9 & 97,8\\\hline
-U & 2,7 & 92,0 & 93,3 & 82,7 & 98,7\\\hline
-V & 82,1 & 80,2 & 97,2 & 96,2 & 95,3\\\hline
-X & 0,0 & 98,7 & 96,1 & 98,7 & 98,7\\\hline
-Y & 97,9 & 54,5 & 93,1 & 97,9 & 97,4\\\hline
-Z & 82,5 & 100,0 & 100,0 & 100,0 & 98,2\\\hline
+B & 27.3 & 40.9 & 95.5 & 100.0 & 95.5\\\hline
+C & 0.0 & 84.4 & 28.1 & 3.1 & 53.1\\\hline
+D & 20.0 & 100.0 & 100.0 & 91.4 & 80.0\\\hline
+E & 65.0 & 90.0 & 100.0 & 100.0 & 100.0\\\hline
+H & 100.0 & 85.7 & 85.7 & 85.7 & 85.7\\\hline
+J & 100.0 & 97.2 & 97.2 & 97.2 & 97.2\\\hline
+K & 54.8 & 80.6 & 87.1 & 90.3 & 87.1\\\hline 
+L & 15.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
+M & 25.6 & 89.7 & 97.4 & 97.4 & 89.7\\\hline
+N & 0.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
+O & 0.0 & 33.3 & 0.0 & 66.7 & 33.3\\\hline
+P & 39.4 & 42.4 & 51.5 & 100.0 & 100.0\\\hline
+R & 10.3 & 82.1 & 94.9 & 92.3 & 94.9\\\hline
+S & 0.0 & 0.0 & 27.5 & 56.5 & 23.2\\\hline
+T & 82.0 & 3.4 & 98.9 & 98.9 & 97.8\\\hline
+U & 2.7 & 92.0 & 93.3 & 82.7 & 98.7\\\hline
+V & 82.1 & 80.2 & 97.2 & 96.2 & 95.3\\\hline
+X & 0.0 & 98.7 & 96.1 & 98.7 & 98.7\\\hline
+Y & 97.9 & 54.5 & 93.1 & 97.9 & 97.4\\\hline
+Z & 82.5 & 100.0 & 100.0 & 100.0 & 98.2\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af bogstav-tegn ved brug af sum-billeder. For hvert tegn er det angivet hvor mange procent af billederne af dette tegn, der er korrekt genkendt. Rækken med tegnet \textbf{A} er tom, da hverken trænings- eller kontrolsættet indeholder nogen tegn af denne type.}
 \label{fig:test:sum_bogstav}
@@ -318,8 +322,8 @@ Z & 82,5 & 100,0 & 100,0 & 100,0 & 98,2\\\hline
 \begin{tabular}{|l|c|c|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{8}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Sum-billeder}} \\ \hline
 Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 & 8 $\times$ 8 & 9 $\times$ 9 \\\hline
-Alle tal & 37,4 & 61,4 & 89,6 & 93,8 & 97,5 & 97,6 & 91,1\\\hline
-Alle bogstaver & 47,2 & 67,6 & 86,1 & 89,1 & 88,3 & 95,9 & 91,9\\\hline
+Alle tal & 37.4 & 61.4 & 89.6 & 93.8 & 97.5 & 97.6 & 91.1\\\hline
+Alle bogstaver & 47.2 & 67.6 & 86.1 & 89.1 & 88.3 & 95.9 & 91.9\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af tegn ved brug af sum-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:sum_alletegn}
@@ -335,16 +339,16 @@ I figurene \vref{fig:test:and_tal}, \vref{fig:test:and_bogstav} samt \vref{fig:t
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
 Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
-0 & 2,3 & 0,0 & 8,4 & 15,4 & 0 & 0,0\\\hline
-1 & 0,0 & 15,3 & 1,5 & 25,1 & 3,9 & 11,3\\\hline
-2 & 99,7 & 98,9 & 99,4 & 99,7 & 99,4 & 99,4\\\hline
-3 & 100,0 & 100,0 & 99,7 & 100,0 & 100,0 & 99,7\\\hline
-4 & 99,7 & 99,7 & 99,7 & 99,7 & 99,7 & 99,7\\\hline
-5 & 97,7 & 91,4 & 99,4 & 99,4 & 99,1 & 99,1\\\hline
-6 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
-7 & 97,3 & 99,1 & 99,6 & 98,7 & 99,1 & 99,1\\\hline
-8 & 93,5 & 98,7 & 98,7 & 99,6 & 99,6 & 99,1\\\hline
-9 & 40,2 & 69,6 & 79,9 & 78,1 & 67,0 & 72,8\\\hline
+0 & 2.3 & 0.0 & 8.4 & 15.4 & 0.0 & 0.0\\\hline
+1 & 0.0 & 15.3 & 1.5 & 25.1 & 3.9 & 11.3\\\hline
+2 & 99.7 & 98.9 & 99.4 & 99.7 & 99.4 & 99.4\\\hline
+3 & 100.0 & 100.0 & 99.7 & 100.0 & 100.0 & 99.7\\\hline
+4 & 99.7 & 99.7 & 99.7 & 99.7 & 99.7 & 99.7\\\hline
+5 & 97.7 & 91.4 & 99.4 & 99.4 & 99.1 & 99.1\\\hline
+6 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
+7 & 97.3 & 99.1 & 99.6 & 98.7 & 99.1 & 99.1\\\hline
+8 & 93.5 & 98.7 & 98.7 & 99.6 & 99.6 & 99.1\\\hline
+9 & 40.2 & 69.6 & 79.9 & 78.1 & 67.0 & 72.8\\\hline
 \end{tabular}
 \caption{Bla.}
 \label{fig:test:and_tal}
@@ -356,26 +360,26 @@ Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\
 \rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
 Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
 A & - & - & - & - & - & -\\\hline
-B & 77,3 & 36,4 & 59,1 & 50,0 & 50,0 & 63,6\\\hline
-C & 0,0 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
-D & 100,0 & 2,9 & 80,0 & 62,9 & 62,9 & 48,6\\\hline
-E & 100,0 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
-H & 100,0 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
-J & 0,0 & 25,0 & 83,3 & 88,9 & 58,3 & 25,0\\\hline
-K & 87,1 & 90,3 & 90,3 & 90,3 & 90,3 & 90,3\\\hline
-L & 0,0 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
-M & 79,5 & 38,5 & 46,2 & 94,9 & 59,0 & 74,4\\\hline
-N & 12,5 & 95,8 & 95,8 & 100,0 & 100,0 & 95,8\\\hline
-O & 33,3 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
-P & 81,8 & 75,8 & 9,1 & 12,1 & 12,1 & 27,3\\\hline
-R & 97,4 & 89,7 & 87,2 & 94,9 & 89,7 & 89,7\\\hline
-S & 0,0 & 1,4 & 0,0 & 1,4 & 0,0 & 0,0\\\hline
-T & 98,9 & 98,9 & 98,9 & 98,9 & 98,9 & 98,9\\\hline
-U & 2,7 & 0,0 & 0,0 & 0,0 & 0,0 & 0,0\\\hline
-V & 92,5 & 97,2 & 97,2 & 98,1 & 98,1 & 97,2\\\hline
-X & 94,2 & 98,1 & 97,4 & 98,1 & 97,4 & 98,1\\\hline
-Y & 87,3 & 97,9 & 96,8 & 97,4 & 97,4 & 97,9\\\hline
-Z & 100,0 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
+B & 77.3 & 36.4 & 59.1 & 50.0 & 50.0 & 63.6\\\hline
+C & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
+D & 100.0 & 2.9 & 80.0 & 62.9 & 62.9 & 48.6\\\hline
+E & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
+H & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
+J & 0.0 & 25.0 & 83.3 & 88.9 & 58.3 & 25.0\\\hline
+K & 87.1 & 90.3 & 90.3 & 90.3 & 90.3 & 90.3\\\hline
+L & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
+M & 79.5 & 38.5 & 46.2 & 94.9 & 59.0 & 74.4\\\hline
+N & 12.5 & 95.8 & 95.8 & 100.0 & 100.0 & 95.8\\\hline
+O & 33.3 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
+P & 81.8 & 75.8 & 9.1 & 12.1 & 12.1 & 27.3\\\hline
+R & 97.4 & 89.7 & 87.2 & 94.9 & 89.7 & 89.7\\\hline
+S & 0.0 & 1.4 & 0.0 & 1.4 & 0.0 & 0.0\\\hline
+T & 98.9 & 98.9 & 98.9 & 98.9 & 98.9 & 98.9\\\hline
+U & 2.7 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\\hline
+V & 92.5 & 97.2 & 97.2 & 98.1 & 98.1 & 97.2\\\hline
+X & 94.2 & 98.1 & 97.4 & 98.1 & 97.4 & 98.1\\\hline
+Y & 87.3 & 97.9 & 96.8 & 97.4 & 97.4 & 97.9\\\hline
+Z & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\\hline
 \end{tabular}
 \caption{Bla.}
 \label{fig:test:and_bogstav}
@@ -386,8 +390,8 @@ Z & 100,0 & 100,0 & 100,0 & 100,0 & 100,0 & 100,0\\\hline
 \begin{tabular}{|l|c|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{7}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Forenings-billeder}} \\ \hline
 Tegn & 10 $\times$ 10 & 20 $\times$ 20 & 30 $\times$ 30 & 40 $\times$ 40 & 50 $\times$ 50 & 100 $\times$ 100\\\hline
-Alle tal & 71,6 & 74,7 & 76,3 & 78,5 & 74,7 & 75,7\\\hline
-Alle bogstaver & 70,7 & 70,3 & 73,0 & 75 & 72,3 & 72,0\\\hline
+Alle tal & 71.6 & 74.7 & 76.3 & 78.5 & 74.7 & 75.7\\\hline
+Alle bogstaver & 70.7 & 70.3 & 73.0 & 75.0 & 72.3 & 72.0\\\hline
 \end{tabular}
 \caption{Afprøvningsresultater for genkendelse af tegn ved brug af forenings-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:and_alletegn}
