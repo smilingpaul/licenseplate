@@ -403,11 +403,13 @@ De otte højeste bjerge i signaturen svarer til de otte steder i nummerpladen, h
 %Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved.
 
 \subsubsection{Mulige forbedringer}
-I funktionen der bruger sammenhængende komponenter findes der flere statiske variable, som eksempelvis størrelsen af de blokke der kontrastforstærkes i og komponenternes minimumsbredde. Disse variable kunne være lavet dynamisk.
+I funktionen der bruger sammenhængende komponenter findes der flere statiske variable, som eksempelvis størrelsen af de blokke der kontrastforstærkes i og komponenternes minimumsbredde. Disse værdier burde være bestemt dynamisk ud fra billedet.
 
-I metoden der bruger sammenhængende komponenter er det et krav at de syv komponenter der vælges som tegnene skal stå i samme højde. Det bevirker at vi ikke kan læse nummerplader som er skæve eller fordrejede. Ved at justere parametrene, kunne man gøre funktionen mindre ``skrap'' og derved være i stand til at læse disse plader.
+I metoden der bruger sammenhængende komponenter er det et krav at de syv komponenter der vælges som tegnene skal stå i samme højde. Det bevirker at vi ikke kan læse nummerplader som er skæve eller fordrejede. Ved at justere parametrene, kunne man gøre funktionen mindre ``skrap'' og derved muligvis være i stand til at læse flere plader.
 
-Ved at skalere billederne kunne man forbedre hastigheden for funktionen. Vores undersøgelser viste dog at dette umiddelbart er en dårlig idé, da der går for meget information tabt til at metoderne kan separere tegnene.
+Vi burde have undersøgt, hvor gode resultater vi kunne opnå på billeder af lavere opløsning end $1024 \times 768$. Systemet ville køre væsentligt hurtigere med billeder af lavere opløsning.
+
+%Ved at skalere billederne ned, kunne man forbedre hastigheden for funktionen. Vores undersøgelser viste dog at dette umiddelbart er en dårlig idé, da der går for meget information tabt til at metoderne kan separere tegnene.
 
 I vores arbejde med separationsmetoderne har vi forsøgt at anvende et medianfilter på billederne. Dette havde vi dog ikke held med, men hvis det kunne virke ville det være en faktor, der kunne være med til at fjerne støj.
 
