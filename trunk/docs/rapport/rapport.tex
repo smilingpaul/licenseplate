@@ -20,6 +20,9 @@
 \usepackage{array}
 \usepackage{colortbl}
 
+% remove header in bibliography
+%\renewcommand{\refname}{\vskip -40 pt}
+
 % different font in captions
 %\newcommand{\captionfonts}{\large}
 %\makeatletter  % Allow the use of @ in command names
@@ -36,7 +39,7 @@
 
 % fancy headings
 \pagestyle{fancy}
-%\lhead[]{}
+\lhead[]{}
 %\rhead[]{}
 
 
@@ -78,7 +81,7 @@ stepnumber=5,                   % the step between two line-numbers. If it's 1 e
 %lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,tabsize=3,basicstyle=\small}
 %\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,stringstyle=\ttfamily, showstringspaces=false, basicstyle=\small, language={python}}
 
-\hyphenation{ar-bej-de psy-ko-lo-gi-ske over-blik brug-en skit-se-re com-pu-ter reg-ning ud-ar-bej-de des-ud-en mu-lig-hed-en fjern-be-tje-ning ved-kom-men-de vur-de-ring ar-bejds-op-ga-ve knap bru-ger-e-va-lu-e-ring-en be-skre-vet vand-ret-te or-ga-ni-se-res hin-an-den pla-ce-ret han-dels-ud-dan-nel-se per-so-nen mang-len-de punkt-er-nes valg-mu-lig-he-der klas-sisk bru-ger-e-va-lu-e-ring op-ret-te ka-te-go-ri-en op-le-ve ge-stalt-psy-ko-lo-gi-ens af-snit knap-pen pro-blem-stil-ling-er pro-ble-mer fi-gu-ren eks-pe-ri-men-talt del-tag-el-se na-tur-vid-en-ska-be-lig med-ar-bej-de-re num-mer-plad-er par-ke-rings-an-læg kend-te sy-ste-met gen-kend-el-se bil-led-er-ne fo-to-gra-fi ma-te-ri-a-le le-ve-rer U-ni-ver-si-tet Der-i-mod mi-ni-mum num-mer-plad-er-ne lang-somt svar-en-de e-le-men-tæ-re a-na-ly-se-re bil-led-be-hand-ling pixels tids-plan eg-en-skabs-vek-tor eg-en-skabs-vek-tor-er bil-led-er-ne bw-label}
+\hyphenation{ar-bej-de psy-ko-lo-gi-ske over-blik brug-en skit-se-re com-pu-ter reg-ning ud-ar-bej-de des-ud-en mu-lig-hed-en fjern-be-tje-ning ved-kom-men-de vur-de-ring ar-bejds-op-ga-ve knap bru-ger-e-va-lu-e-ring-en be-skre-vet vand-ret-te or-ga-ni-se-res hin-an-den pla-ce-ret han-dels-ud-dan-nel-se per-so-nen mang-len-de punkt-er-nes valg-mu-lig-he-der klas-sisk bru-ger-e-va-lu-e-ring op-ret-te ka-te-go-ri-en op-le-ve ge-stalt-psy-ko-lo-gi-ens af-snit knap-pen pro-blem-stil-ling-er pro-ble-mer fi-gu-ren eks-pe-ri-men-talt del-tag-el-se na-tur-vid-en-ska-be-lig med-ar-bej-de-re num-mer-plad-er par-ke-rings-an-læg kend-te sy-ste-met gen-kend-el-se bil-led-er-ne fo-to-gra-fi ma-te-ri-a-le le-ve-rer U-ni-ver-si-tet Der-i-mod mi-ni-mum num-mer-plad-er-ne lang-somt svar-en-de e-le-men-tæ-re a-na-ly-se-re bil-led-be-hand-ling pixels tids-plan eg-en-skabs-vek-tor eg-en-skabs-vek-tor-er bil-led-er-ne bw-label ind-falds-veje re-gi-stre-re}
 	
 
 \begin{document}
@@ -97,9 +100,9 @@ stepnumber=5,                   % the step between two line-numbers. If it's 1 e
 % OPBYGNING AF SYSTEM %
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Vores system}
-I vores system har vi opdelt arbejdet med at lokalisere og læse nummerplader i tre trin. Som det første forsøger via at finde nummerpladen i billedet. Som trin to prøver vi at klippe de syv tegn i nummerpladen ud i hver sit billeder. Til sidst forsøger vi at genkende de syv tegn. Systemet returnerer sit bud på nummerpladens tegn i tekstformat som det endelige resultat.
+I vores system har vi opdelt arbejdet med at lokalisere og læse nummerplader i tre trin. Som det første forsøger vi at finde nummerpladen i billedet. Som trin to prøver vi at klippe de syv tegn i nummerpladen ud i hver sit billede. Til sidst forsøger vi at genkende de syv tegn. Systemet returnerer sit bud på nummerpladens tegn i tekstformat som det endelige resultat.
 
-I dette afsnit har hver af de tre trin sit eget underafsnit. I hvert af disse beskriver vi den software vi har udviklet til det aktuelle trin. Vi har i forbindelse med alle tre trin arbejdet med forskellige metoder til løsning af underopgaven. Til lokalisering af nummerplader, har vi valgt at lade flere metoder arbejde sammen, mens vi i forbindelse med separation og genkendelse af tegn, har arbejdet med flere forskellige metoder og valgt den mest effektive til det endelige system.
+I dette afsnit har hver af de tre trin sit eget underafsnit. I hvert af disse beskriver vi den software, vi har udviklet til det aktuelle trin. Vi har i forbindelse med alle tre trin arbejdet med forskellige metoder til løsning af underopgaven. Til lokalisering af nummerplader, har vi valgt at lade flere metoder arbejde sammen, mens vi i forbindelse med separation og genkendelse af tegn, har arbejdet med flere forskellige metoder og valgt den mest effektive til det endelige system.
 
  Figur \ref{fig:system_overblik} viser et diagram over vores system. Et billede kommer ind i systemet i toppen af diagrammet, og nummerpladens tekst kommer ud i bunden. De tre trin i processen foregår i de tre retvinklede rektangler med teksten \textit{Trin 1-3}. 
 
@@ -201,35 +204,72 @@ Vi har haft for meget fokus på korrektheden i de enkelte trin af system. Det er
 
 Man kunne stole blindt på point i stedet for enighed. Eksempel med en kandidat med lav pointværdi og to med høj pointværdi, men de to med høj værdier er enige. Her burde man måske udvælge den ene med lav pointværdi.
 
+
+%%%%
+%% LITTERATUR
+%%%%
+
 \newpage % new page before litterature
 \section{Litteraturliste}
 
 \begin{thebibliography}{99}
 %\bibliographystyle{plain}
 
+
+% SORTED:
+
+% OK
+\bibitem{arth} Arth, C., Limberger, F., Bischof, H.: \textit{Real-Time License Plate Recognition on an Embedded DSP-Platform}, årstal ukendt. Graz University of Technology. Hentet 11. februar fra http://www.icg.tu-graz.ac.at/pub/pdf/arth\_-\_real-time\_license\_plate\_recognition\_ecw07.pdf.
+
+% OK
+\bibitem{tysk_ulovlig} Bundesverfassungsgericht: \textit{Entscheldungen}, 2008. Hentet 15. maj fra http://www.bverfg.de/entscheidungen/rs20080311\%5C\_1bvr207405.html.
+
+% OK
+\bibitem{canada_demo} Integrated Municipal Provincial Auto Crime Team Canada: \textit{Automatic Licence Plate Recognition (video)}, årstal ukendt. Hentet 15. maj 2008 fra http://www.liveleak.com/view?i=456978796d.
+
+% OK
+\bibitem{kwas} Kwa\'snicka, H., Wawrzyniak, B.: \textit{License plate localization and recognition in camera pictures}, 2002. Wroclaw University of Technology. Hentet 11. februar 2008 fra http://www.ci.pwr.wroc.pl/~kwasnick/download/kwasnickawawrzyniak.pdf.
+
+% OK
+\bibitem{murphy} Murphy-Chutorian, E., Trivedi, M.: \textit{N-Tree Disjoint-Set Forests for Maximally Stable Extremal Regions}, årstal ukendt. University of California. Hentet 11. februar 2008 fra http://www.macs.hw.ac.uk/bmvc2006/papers/276.pdf.
+
+% OK
+\bibitem{nijhuis} Nijhuis, J. A. G., ter Brugge, M. H., Helmholt, K. A., Pluim, J. P. W., Spaanenburg, L., Venema, R. S., Westenberg, M. A.: \textit{Car License Plate Recognition with Neural Networks and Fuzzy Logic}, årstal ukendt. University of Groningen. Hentet 11. februar 2008 fra http://www.it.lth.se/users/lambert/leftovers/LicenseplateSydney.pdf.
+
+% OK
+\bibitem{parker} Parker, J. R., Federl, P.: \textit{An Approach To Licence Plate Recognition}, årstal ukendt. University of Calgary. Hentet 17. februar 2008 fra http://pages.cpsc.ucalgary.ca/~federl/Publications/LicencePlate1996/licence-plate-1996.pdf.
+
+% OK
 \bibitem{ron} Ron, B.-H.: \textit{A Real-time vehicle License Plate Recognition (LPR) System}, 2002. Vision and Image Science Lab - Israel. Hentet 11. februar 2008 fra http://visl.technion.ac.il/projects/2003w24/.
 
-\bibitem{nijhuis} Nijhuis, J. A. G., ter Brugge, M. H., Helmholt, K. A., Pluim, J. P. W., Spaanenburg, L., Venema, R. S., Westenberg, M. A.: \textit{Car License Plate Recognition with Neural Networks and Fuzzy Logic}, årstal ukendt. University of Groningen, Department of Computing Science. Hentet 11. februar 2008 fra http://www.it.lth.se/users/lambert/leftovers/LicenseplateSydney.pdf.
+% OK
+\bibitem{shapiro} Shapiro, V., Dimov, D., Bonchev, S., Velichkov, V., Gluhchev, G.: \textit{Adaptive License Plate Image Extraction}, 2003. Bulgarian Academy of Sciences. Hentet 17. april fra http://ecet.ecs.ru.acad.bg/cst04/Docs/sIIIA/32.pdf.
 
-% 17. april
-\bibitem{shapiro} Shapiro, V., Dimov, D., Bonchev, S., Velichkov, V., Gluhchev, G.: \textit{Adaptive License Plate Image Extraction}
-% http://ecet.ecs.ru.acad.bg/cst04/Docs/sIIIA/32.pdf
+% OK
+\bibitem{bogstav_komb} The Central Register of Motor Vehicles, Copenhagen: \textit{Bogstav kombinationer i nummerplader.}, årstal ukendt. Tilsendt 4. marts 2008 af John Wraae Jørgensen.
+
+% OK
+\bibitem{dkplates} The Central Register of Motor Vehicles, Copenhagen: \textit{Most frequently used Danish number plates}, 1995. Tilsendt 4. marts 2008 af John Wraae Jørgensen.
+
+% OK
+\bibitem{matlab_radon} The MathWorks: \textit{Radon Transform}, årstal ukendt. Hentet 1. marts 2008 fra http://www.mathworks.com/access/helpdesk\_r13/help/toolbox/images/transfo9.html.
+
+% OK
+\bibitem{nrpl} Thorsen, T.: \textit{NRPL.DK}, 2000-2008. Hentet i perioden marts-maj 2008 fra http://nrpl.dk/.
+
+% OK
+\bibitem{wiki_baggrund} Ukendte forfattere: \textit{Wikipedia: Automatic number plate recognition}, årstal ukendt. Hentet 15. maj 2008 fra http://en.wikipedia.org/wiki/Number\_plate\_recognition.
+
+% OK
+\bibitem{wiki_euclid} Ukendte forfattere: \textit{Wikipedia: Euclidian distance}, årstal ukendt. Hentet 15. maj 2008 fra http://en.wikipedia.org/wiki/Euclidean\_distance.
+
+% OK
+\bibitem{wiki_gradienter} Ukendte forfattere: \textit{Wikipedia: Gradient}, årstal ukendt. Hentet 15. maj 2008 fra http://en.wikipedia.org/wiki/Gradient.
+
+% UNSORTED:
 
 %Hentet 17. februar 2008:
-\bibitem{parker} Parker, J. R., Federl, P.: \textit{An Approach To Licence Plate Recognition}.
-%http://pages.cpsc.ucalgary.ca/~federl/Publications/LicencePlate1996/licence-plate-1996.pdf
-
-%Hentet 11. februar 2008:
-\bibitem{kwas} Kwa\'snicka, H., Wawrzyniak, B.: \textit{License plate localization and recognition in camera pictures}.
-%http://www.ci.pwr.wroc.pl/~kwasnick/download/kwasnickawawrzyniak.pdf
-
-\bibitem{arth} Arth, C., Limberger, F., Bischof, H.: \textit{Real-Time License Plate Recognition on an Embedded DSP-Platform}.
-%http://www.icg.tu-graz.ac.at/pub/pdf/arth_-_real-time_license_plate_recognition_ecw07.pdf
-
-%Hentet 17. februar 2008:
-\bibitem{cano} Cano, J., Pérez-Cortés, J.-C.: \textit{Vehicle License Plate Segmentation In Natural Images}.
-
-
+%\bibitem{cano} Cano, J., Pérez-Cortés, J.-C.: \textit{Vehicle License Plate Segmentation In Natural Images}.
 
 %http://plutarco.disca.upv.es/~jcperez/Documentos/Matriculas2003.pdf
 
@@ -237,32 +277,12 @@ Man kunne stole blindt på point i stedet for enighed. Eksempel med en kandidat 
 
 %http://www.mathworks.com: matlab info, radon
 
+%\bibitem{vedaldi} Vedaldi, A.: \textit{An Implementation of Multi-Dimensional Maximally Stable Extremal Regions}.
 
-\bibitem{murphy} Murphy-Chutorian, E., Trivedi, M.: \textit{N-Tree Disjoint-Set Forests for Maximally Stable Extremal Regions}.
+%\bibitem{matas} Matas, J., Chum, O., Urban, M., Pajdla, T.: \textit{Robust Wide Baseline Stereo from Maximally Stable Extremal Regions}.
 
-\bibitem{vedaldi} Vedaldi, A.: \textit{An Implementation of Multi-Dimensional Maximally Stable Extremal Regions}.
-
-\bibitem{matas} Matas, J., Chum, O., Urban, M., Pajdla, T.: \textit{Robust Wide Baseline Stereo from Maximally Stable Extremal Regions}.
-
-\bibitem{wiki_gradienter}Ukendte forfattere: \textit{http://en.wikipedia.org/wiki/Gradient}.
-
-\bibitem{wiki_baggrund} Ukendte forfattere: \textit{http://en.wikipedia.org/wiki/Number\_plate\_recognition}.
-
-\bibitem{tysk_ulovlig}Bundesverfassungsgericht: \textit{http://www.bverfg.de/entscheidungen/rs20080311\_1bvr207405.html}.
-
-\bibitem{canada_demo}Integrated Municipal Provincial Auto Crime Team Canada: \textit{http://www.liveleak.com/view?i=456978796d}.
-
-
-% D
-\bibitem{dkplates} The Central Register of Motor Vehicles, Copenhagen: \textit{Most frequently used Danish number plates}.
-
-\bibitem{wiki_radon} Ukendt forfatter: \textit{http://en.wikipedia.org/wiki/Radon\_transform}.
-\bibitem{toft_radon} Peter Toft: \textit{http://eivind.imm.dtu.dk/staff/ptoft/Radon/Radon.html}.
-\bibitem{matlab_radon} Matlab dokumentation: \textit{http://www.mathworks.com/access/helpdesk\_r13/help/toolbox/images/transfo9.html}.
-\bibitem{wiki_euclid} Ukendt forfatter: \textit{http://en.wikipedia.org/wiki/Euclidean\_distance}
-\bibitem{bogstav_komb} Bla bla \textit{Bogstav kombinationer bla bla}
-\bibitem{nrpl} Side om nummerplader: \textit{http://nrpl.dk/}
-
+%\bibitem{wiki_radon} Ukendt forfatter: \textit{http://en.wikipedia.org/wiki/Radon\_transform}.
+%\bibitem{toft_radon} Peter Toft: \textit{http://eivind.imm.dtu.dk/staff/ptoft/Radon/Radon.html}.
 
 \end{thebibliography}
 
