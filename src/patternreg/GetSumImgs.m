@@ -1,8 +1,5 @@
 function sumImgs = GetSumImgs (folderFolder, imSize)
 
-  % whether figures should be displayed
-  figuresOn = true;
-
   % init meanVectors
   sumImgs = zeros(imSize,imSize,31);
 
@@ -25,10 +22,7 @@ function sumImgs = GetSumImgs (folderFolder, imSize)
       % normalize
       sumImgs(:,:,sumImgNo) = sumImgs(:,:,sumImgNo)/max(max(sumImgs(:,:,sumImgNo)));
       
-      %figure(53), subplot(1,3,3), imshow(sumImgs(:,:,sumImgNo));
-      %pause;
       if sumImgNo == 18
-        %imwrite(sumImgs(:,:,sumImgNo),'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/sumimg.png','png');
       end
       
       sumImgNo = sumImgNo + 1;
@@ -60,11 +54,7 @@ function sumImgs = GetSumImgs (folderFolder, imSize)
 
       % sum up image in meanVector
       sumImg = sumImg + double(resizedImg);
-      %meanVector = meanVector + resizedImg;
-      if figuresOn
-        %figure(53), subplot(1,3,1), imshow(resizedImg), title('resized image');
-        %figure(53), subplot(1,3,2), imshow(sumImg), title('sumImg');
-      end
+
 
     end % noOfImages
 

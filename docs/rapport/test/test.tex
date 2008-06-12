@@ -4,7 +4,7 @@ I dette afsnit beskriver vi afprøvningen af vores software. Vi afprøver alle t
 
 På baggrund af resultaterne af de individuelle afprøvninger, vælger vi den optimale konfiguration af systemet. Vi afprøver det samlede system på både trænings- og kontrolsættet med og uden syntaksanalyse.
 
-For at få en indikation af hvordan vores system opfører sig på billeder der ligger uden for vores afrænsninger, foretager vi til sidst et mindre antal afprøvninger på blitzsættet og de gule sæt.
+For at få en indikation af hvordan vores system opfører sig på billeder der ligger uden for vores afgrænsninger, foretager vi til sidst et mindre antal afprøvninger på blitzsættet og det gule sæt.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LOKALISERING AF NUMMERPLADE %%%
@@ -14,7 +14,7 @@ For at få en indikation af hvordan vores system opfører sig på billeder der l
 Vi undersøger vores systems evne til at lokalisere nummerplader. Vi kigger altså ikke på nummerpladens tegn, men blot på om vi kan afgøre dens position i inddata-billedet. Vi foretager afprøvning af metoderne både individuelt og som en samlet metode.
 
 \subsubsection{Individuel lokalisering}
-Vi afprøver effektiviteten af de fem metoder til lokalisering af nummerplader. Resultaterne af aprøvning på trænings- ok kontrolsættet er vist i figur \vref{fig:test:lokalisering_traening_kontrol}.
+Vi afprøver effektiviteten af de fem metoder til lokalisering af nummerplader. Resultaterne af afprøvning på trænings- og kontrolsættet er vist i figur \vref{fig:test:lokalisering_traening_kontrol}.
 
 Alle metoderne giver dårligere resultater på kontrolsættet end på træningssættet. Størst forringelse observeres i metoden der kigger på områder domineret af lyse gråtoner. Dette kan skyldes væsentligt forskellige vejrforhold for de dage hvor billederne er taget. Billederne i kontrolsættet er taget på en dag med meget kraftigt sol, hvorimod billederne i træningssættet er taget på dage uden klar sol. Muligvis er farvesammensætningen på nummerpladerne væsentligt anderledes under disse forhold. Metoden der anvender frekvensanalyse er den mest robuste, og opnår næsten lige gode resultater på de to sæt. De øvrige metoder oplever et fald på mellem 9.5 og 6.1 procentpoint i effektivitet.
 
@@ -32,7 +32,7 @@ Frekvensanalyse                    & 59.3\% & 58.3\% &  1.0\% \\ \hline
 Maksimer lokal kontrast            & 82.8\% & 76.7\% &  6.1\% \\ \hline
 Kvantifisering                     & 69.8\% & 60.5\% &  9.3\% \\ \hline
 \end{tabular}
-\caption{Resultaterne af afprøvning af de fem metoder til lokalisering af nummerplader på trænings- og kontrolsæt.}
+\caption{Resultaterne af afprøvning af de fem metoder til lokalisering af nummerplader på trænings- og kontrolsæt. Værdierne i kolonnen ``Forskel'' og forskellen mellem resultaterne på trænings- og kontrolsæt i procentpoint.}
 \label{fig:test:lokalisering_traening_kontrol}
 \end{figure}
 
@@ -57,7 +57,7 @@ Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater p�
     4 &  68.2\% &  99.6\% \\ \hline
     5 &  35.3\% & 100.0\% \\ \hline
   \end{tabular}
-\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningsættet når alle fem metoder arbejde sammen.}
+\caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i træningssættet når alle fem metoder arbejder sammen.}
 \label{fig:test:lokalisering_traening_samlet}
 \end{figure}
 
@@ -81,11 +81,11 @@ Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater p�
 \subsubsection{Konklussion}
 Ideen med at bruge flere metoder til lokalisering virker god. Vi er i stand til at lokalisere 94.5\% af nummerpladerne i ikke på forhånd observerede billeder. Metoden er forholdsvis robust overfor mindre forringelser i effektiviteten af de underliggende metoder.
 
-Analyse af de billeder hvor vi ikke kan lokalisere nummerplader i træningsættet afslører, at meget mørke nummerplader er et problem. På grund af dette forhold må man overveje om man kan tale om en ideel intensitet for nummerpladeområder sådan som vi har gjort i vores pointsystem.
+Analyse af de billeder hvor vi ikke kan lokalisere nummerplader i træningssættet afslører, at meget mørke nummerplader er et problem. På grund af dette forhold må man overveje om man kan tale om en ideel intensitet for nummerpladeområder sådan som vi har gjort i vores pointsystem.
 
-En anden fællesnævner for de billeder hvor vi ikke finder nummerpladerne er farven på bilen. Hvide biler er overrepræsenteret i gruppen af billeder hvor vi ikke kan finde nummerpladen. Metoderne \textit{Områder domineret af lyse gråtoner} og \textit{Kvantifisering} fungerer dårligt på hvide biler. Den ene fordi hvide bilers karosseri også er domineret af lyse gråtoner, og den anden fordi filteret der fjerner tegnenen på nummerpladerne også fjerner stregerne rundt om nummerpladerne og dermed skaber et stort sammenhængende område bestående af både nummerplade og bil. 
+En anden fællesnævner for de billeder hvor vi ikke finder nummerpladerne er farven på bilen. Hvide biler er overrepræsenteret i gruppen af billeder hvor vi ikke kan finde nummerpladen. Metoderne \textit{Områder domineret af lyse gråtoner} og \textit{Kvantifisering} fungerer dårligt på hvide biler. Den ene fordi hvide bilers karosseri også er domineret af lyse gråtoner, og den anden fordi filteret der fjerner tegnene på nummerpladerne også fjerner stregerne rundt om nummerpladerne og dermed skaber et stort sammenhængende område bestående af både nummerplade og bil. 
 
-På figur \vref{fig:illu:wrong_candidates} i bilag \ref{sec:illu} viser vi eksempler på den type områder systemet fejlagtigt identificerer som nummerplader. Ofte observerede fejlklassificerede områder er f.eks.  klistermærker bag på biler og det rektangulere område der afgrænses af forsædernes nakkestøtter og bilens tag når man ser ind i gennem bagruden på en bil. En anden type område der ofte fejlagtigt udpeges,  er områder med vinduer hvis lodrette kanter minder om nummerplader ud fra et frekvensanalytisk perspektiv.  
+I figur \vref{fig:illu:wrong_candidates} i bilag \ref{sec:illu} viser vi eksempler på den type områder systemet fejlagtigt identificerer som nummerplader. Ofte observerede fejlklassificerede områder er for eksempel  klistermærker bag på biler og det rektangulære område der afgrænses af forsædernes nakkestøtter og bilens tag når man ser ind i gennem bagruden på en bil. En anden type område der ofte fejlagtigt udpeges, er områder med vinduer hvis lodrette kanter minder om nummerplader ud fra et frekvensanalytisk perspektiv.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -452,15 +452,15 @@ Hitnr. & Valgt \\\hline
 
 \subsection{Det samlede system}
 \label{sec:test:samlet_system}
-I dette afsnit viser vi resultaterne af afprøvning af hele systemet på trænings- og kontrolsættet. Systemet giver kun svar når det mener at have identificeret alle syv karakterer i nummerpladen. Vi angiver for hvor mange billeder systemet giver at svar, samt procenten af fejl i svarene. Vi undersøger ikke hvor mange tegn der er læst korrekt i de forkerte svar. Vi har afprøvet systemet med og uden syntaksanalyse og raporterer begge resultater.
+I dette afsnit viser vi resultaterne af afprøvning af hele systemet på trænings- og kontrolsættet. Systemet giver kun svar når det mener at have identificeret alle syv karakterer i nummerpladen. Vi angiver for hvor mange billeder systemet giver et svar, samt procenten af fejl i svarene. Vi undersøger ikke hvor mange tegn der er læst korrekt i de forkerte svar. Vi har afprøvet systemet med og uden syntaksanalyse og raporterer begge resultater.
 
-Systemet er konfigureret så vi opnår de bedste resultater for hvert trin i processen. Til lokalisering bruger vi den samlede metode med en minimal enighed på en, da vi på den måde får flest nummerpladekandidater videre i systemet. Hvis nummerpladekandidaten ikke er en nummerplade, vil segmenteringsprocessen højst sandsynligt ikke kunde finde syv tegnkandidater, og nummerpladekandidaten vil blive afvist. Til segmentering af tegn bruger vi metoden der benytter sig af sammenhængende komponenter. Til gendkendelse af tegn bruger vi egenskabsvektorer med længden 64. Resultaterne er vist i figur \ref{fig:test:samlet_train_kontrol}.
+Systemet er konfigureret så vi opnår de bedste resultater for hvert trin i processen. Til lokalisering bruger vi den samlede metode med en minimal enighed på en, da vi på den måde får flest nummerpladekandidater videre i systemet. Hvis nummerpladekandidaten ikke er en nummerplade, vil segmenteringsprocessen højst sandsynligt ikke kunne finde syv tegnkandidater, og nummerpladekandidaten vil blive afvist. Til separering af tegn bruger vi metoden der benytter sig af sammenhængende komponenter. Til genkendelse af tegn bruger vi egenskabsvektorer med længden 64. Resultaterne er vist i figur \ref{fig:test:samlet_train_kontrol}.
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|l|p{2.5cm}|p{2.5cm}|}\hline
 \rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet system}} \\ \hline
-Sæt         & Svar   & Fejlrate med syntaxanalyse & Fejlrate uden syntaxanalyse \\ \hline
+Sæt         & Svar   & Fejlrate med syntaksanalyse & Fejlrate uden syntaksanalyse \\ \hline
 Træningssæt & 93.0\% & 1.6\%                       & 4.0\%                      \\ \hline
 Kontrolsæt  & 86.6\% & 2.3\%                       & 6.4\%                      \\ \hline
 \end{tabular}
@@ -469,17 +469,16 @@ Kontrolsæt  & 86.6\% & 2.3\%                       & 6.4\%                     
 \end{figure}
 
 \subsubsection{Konklusion}
-Syntaxanalyse er et væsentligt bidrag til systemet. Vores afprøvninger viser, at fejlraten bliver væsentligt lavere når de læste tegn analyseres. For træningsættet eliminerer syntaxanalysen over halvdelen af fejlene mens forbedringen for kontrolsættet er endnu bedre.
+Syntaksanalyse er et væsentligt bidrag til systemet. Vores afprøvninger viser, at fejlraten bliver væsentligt lavere når de læste tegn analyseres. For træningssættet eliminerer syntaksanalysen over halvdelen af fejlene mens forbedringen for kontrolsættet er endnu bedre.
 
 
 \subsection{Billeder uden for afgrænsningerne}
 I dette afsnit viser vi resultaterne for afprøvning af vores software på de to sæt billeder der ikke overholder vores afgrænsninger. Bemærk at de to sæt består af væsentligt færre billeder end vores trænings- og kontrolsæt, og resultaterne derfor er mindre troværdige end resultaterne for de større sæt.
 
 \subsubsection{Lokalisering af nummerplader}
-Resultaterne for afprøvning af de fem metoder til lokalisering af nummerplader på blitzsættet og de gule sæt i forhold til resultaterne for vores træningssæt er vist på figur \vref{fig:test:lokalisering_blitz_gul}.
+Resultaterne for afprøvning af de fem metoder til lokalisering af nummerplader på blitzsættet og de gule sæt i forhold til resultaterne for vores træningssæt er vist i figur \vref{fig:test:lokalisering_blitz_gul}.
 
-Metoden der kigger efter lyse nummerplader er, ikke helt overraskende, ikke i stand til at finde nummerplader i det gule sæt. I blitzsætter er samme metode overraskende ineffektiv med et fald i effektivitet fra 60.5\% i træningsættet til 24.6\%. Blitzlyset oplyser områder omkring nummerpladerne i et sådant omfang, at disse også bliver interesseområder for metoden. Hvis kriteriet for ensartetheden af de pixels der udpeges som interesseområder gøres mere snæver, stiger genkendelsesprocenten til samme niveau som for træningsættet. Det mest overraskende resultat er, at metoden der kigger efter områder med høj kontrast er stort set ubruelig på blitzsættet med et resultat på blot 5.4\%. Blitzlyset er så kraftigt, at det gør tegnene i nummerpladerne meget tynde, og i nogle tilfælde næsten helt udvisker dem. Figur \vref{fig:illu:badgrads} i bilag \ref{sec:illu} viser
-gradienter i et udvalg af billeder fra blitzsættet. En enkelt af metoderne opnår bedre resultater i blitzsættet end i træningssættet. Metoden der sætter antallet af farver i billedet voldsomt ned, kvantifisering, stiger fra 69.8\% i træningsættet til 85.4\% i blitzsættet. De lysende nummerplader adskiller sig nu endnu mere fra det omkringliggende område end før. Selv på hvide biler, hvor metoden er svag, lykkes det i flere tilfælde for metoden at lokalisere nummerpladen i blitzsættet. Metoden der benytter sig af frekvensanalyse fungerer dårligt på blitzsættet men tilfredsstillende på det gule sæt med en tilbagegang i effektivitet på 7.3\% procentpoint. Den metode der fungerer bedst på tværs af de tre sæt er metoden der optimerer lokal kontrast.
+Metoden der kigger efter lyse nummerplader er, ikke helt overraskende, ikke i stand til at finde nummerplader i det gule sæt. I blitzsættet er samme metode overraskende ineffektiv med et fald i effektivitet fra 60.5\% i træningsættet til 24.6\%. Blitzlyset oplyser områder omkring nummerpladerne i et sådant omfang, at disse også bliver interesseområder for metoden. Hvis kriteriet for ensartetheden af de pixels der udpeges som interesseområder gøres mere snæver, stiger genkendelsesprocenten til samme niveau som for træningssættet. Det mest overraskende resultat er, at metoden der kigger efter områder med høj kontrast er stort set ubrugelig på blitzsættet med et resultat på blot 5.4\%. Blitzlyset er så kraftigt, at det gør tegnene i nummerpladerne meget tynde, og i nogle tilfælde næsten helt udvisker dem. Figur \vref{fig:illu:badgrads} i bilag \ref{sec:illu} viser vi gradienter i et udvalg af billeder fra blitzsættet. En enkelt af metoderne opnår bedre resultater i blitzsættet end i træningssættet. Metoden der sætter antallet af farver i billedet voldsomt ned (kvantifisering) stiger fra 69.8\% i træningsættet til 85.4\% i blitzsættet. De lysende nummerplader adskiller sig nu endnu mere fra det omkringliggende område end før. Selv på hvide biler, hvor metoden er svag, lykkes det i flere tilfælde for metoden at lokalisere nummerpladen i blitzsættet. Metoden der benytter sig af frekvensanalyse fungerer dårligt på blitzsættet men tilfredsstillende på det gule sæt med en tilbagegang i effektivitet på 7.3\% procentpoint. Den metode der fungerer bedst på tværs af de tre sæt er metoden der optimerer lokal kontrast.
 
 \begin{figure}[htp]
 \centering
@@ -508,7 +507,7 @@ Resultatet af afprøvning af lokalisering af nummerplader med alle fem metoder s
     \hline
     Sæt      & Fundne nummerplader & Korrekthed\\ \hline
     Blitzsæt &  86.2\%             & 88.2\% \\ \hline
-    Gult sæ  &  84.0\%             & 89.4\% \\ \hline
+    Gult sæt  &  84.0\%             & 89.4\% \\ \hline
   \end{tabular}
 \caption{Resultaterne af afprøvning af hvor effektivt vi kan lokalisere nummerplader i blitzsættet og det gule sæt når alle fem metoder arbejde sammen.}
 \label{fig:test:lokalisering_blitz_gult_samlet}
@@ -516,13 +515,13 @@ Resultatet af afprøvning af lokalisering af nummerplader med alle fem metoder s
 
 
 \subsubsection{Det samlede system}
-Figur \vref{fig:test:samlet_blitz_gul} viser resultaterne af afprøvning af det samlede system på de to sæt der ikke overholder afrgænsningerne for de billeder vi har arbejdet med.
+Figur \vref{fig:test:samlet_blitz_gul} viser resultaterne af afprøvning af det samlede system på de to sæt der ikke overholder afgrænsningerne for de billeder vi har arbejdet med.
 
 \begin{figure}[htp]
 \centering
 \begin{tabular}{|l|l|p{2.5cm}|p{2.5cm}|}\hline
 \rowcolor[gray]{0.9} \multicolumn{4}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Samlet system}} \\ \hline
-Sæt      & Svar   & Fejlrate med syntaxanalyse & Fejlrate uden syntaxanalyse \\ \hline
+Sæt      & Svar   & Fejlrate med syntaksanalyse & Fejlrate uden syntaksanalyse \\ \hline
 Blitzsæt & 81.5\% & 9.4\%                      & 22.6\%                      \\ \hline
 Gult sæt & 80.0\% & -                          & 15.0\%                      \\ \hline
 \end{tabular}
@@ -531,9 +530,9 @@ Gult sæt & 80.0\% & -                          & 15.0\%                      \\
 \end{figure}
 
 \subsubsection{Konklusion}
-Vores system er i stand til at genkende og læse nummerplader i nogle typer af billeder der ligger uden for vores afgrænsniger. Genkendelsesproceten er dog noget lavere og fejlraten væsentligt højere. Vores systeme er altså ikke specialiseret i en sådan grad, at det slet ikke kan anvendes på nogen billeder der overskrider vores afgrænsninger.
+Vores system er i stand til at genkende og læse nummerplader i nogle typer af billeder der ligger uden for vores afgrænsniger. Genkendelsesprocenten er dog noget lavere og fejlraten væsentligt højere. Vores systemer er altså ikke specialiseret i en sådan grad, at det slet ikke kan anvendes på nogen billeder der overskrider vores afgrænsninger.
 
-Blitzbelysning kan både være en fordel og en ulempe. Nummerpladerne er formodentlig nemmer at lokalisere, men det kraftige lys kan også komme til at udviske tegnene i nummerpladerne så de bliver sværere at læse. 
+Blitzbelysning kan både være en fordel og en ulempe. Nummerpladerne er formodentlig nemmere at lokalisere, men det kraftige lys kan også komme til at udviske tegnene i nummerpladerne så de bliver sværere at læse. 
 
 
 %\subsection{Sammenligning med andres resultater}

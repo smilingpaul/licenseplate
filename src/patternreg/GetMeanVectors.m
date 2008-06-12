@@ -20,9 +20,7 @@ function meanVectors = GetMeanVectors (folderFolder, vectorLength)
       ['Creating meanVector for char ' folderList(i).name] 
       
       meanVector = GetMeanVector(imgFolder);
-    
       meanVectors(:,meanVectorNo) = meanVector;
-
       meanVectorNo = meanVectorNo + 1;
       
     end
@@ -65,8 +63,6 @@ function meanVectors = GetMeanVectors (folderFolder, vectorLength)
 
       % sum up image in meanVector
       meanVector = meanVector + reshape(resizedImg,vectorLength,1);
-      %meanVector = meanVector + resizedImg;
-      %pause;
 
     end % noOfImages
 

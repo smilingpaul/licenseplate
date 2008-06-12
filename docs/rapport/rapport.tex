@@ -58,7 +58,7 @@ stepnumber=5,                   % the step between two line-numbers. If it's 1 e
 %frame=single,                   % adds a frame around the code
 %tabsize=2,                      % sets default tabsize to 2 spaces
 %captionpos=b,                   % sets the caption-position to bottom
-%breaklines=true,                % sets automatic line breaking
+breaklines=true,                % sets automatic line breaking
 %breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
 %escapeinside={\%*}{*)}          % if you want to add a comment within your code
 }
@@ -81,7 +81,7 @@ stepnumber=5,                   % the step between two line-numbers. If it's 1 e
 %lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,tabsize=3,basicstyle=\small}
 %\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,stringstyle=\ttfamily, showstringspaces=false, basicstyle=\small, language={python}}
 
-\hyphenation{ar-bej-de psy-ko-lo-gi-ske over-blik brug-en skit-se-re com-pu-ter reg-ning ud-ar-bej-de des-ud-en mu-lig-hed-en fjern-be-tje-ning ved-kom-men-de vur-de-ring ar-bejds-op-ga-ve knap bru-ger-e-va-lu-e-ring-en be-skre-vet vand-ret-te or-ga-ni-se-res hin-an-den pla-ce-ret han-dels-ud-dan-nel-se per-so-nen mang-len-de punkt-er-nes valg-mu-lig-he-der klas-sisk bru-ger-e-va-lu-e-ring op-ret-te ka-te-go-ri-en op-le-ve ge-stalt-psy-ko-lo-gi-ens af-snit knap-pen pro-blem-stil-ling-er pro-ble-mer fi-gu-ren eks-pe-ri-men-talt del-tag-el-se na-tur-vid-en-ska-be-lig med-ar-bej-de-re num-mer-plad-er par-ke-rings-an-læg kend-te sy-ste-met gen-kend-el-se bil-led-er-ne fo-to-gra-fi ma-te-ri-a-le le-ve-rer U-ni-ver-si-tet Der-i-mod mi-ni-mum num-mer-plad-er-ne lang-somt svar-en-de e-le-men-tæ-re a-na-ly-se-re bil-led-be-hand-ling pixels tids-plan eg-en-skabs-vek-tor eg-en-skabs-vek-tor-er bil-led-er-ne bw-label ind-falds-veje re-gi-stre-re lo-ka-li-se-re hvide fi-gur ana-ly-se-re-de ar-bej-der fjer-de-del kil-de-ko-de egen-skabs-vek-tor-er-ne ud-ar-bej-der}
+\hyphenation{ar-bej-de psy-ko-lo-gi-ske over-blik brug-en skit-se-re com-pu-ter reg-ning ud-ar-bej-de des-ud-en mu-lig-hed-en fjern-be-tje-ning ved-kom-men-de vur-de-ring ar-bejds-op-ga-ve knap bru-ger-e-va-lu-e-ring-en be-skre-vet vand-ret-te or-ga-ni-se-res hin-an-den pla-ce-ret han-dels-ud-dan-nel-se per-so-nen mang-len-de punkt-er-nes valg-mu-lig-he-der klas-sisk bru-ger-e-va-lu-e-ring op-ret-te ka-te-go-ri-en op-le-ve ge-stalt-psy-ko-lo-gi-ens af-snit knap-pen pro-blem-stil-ling-er pro-ble-mer fi-gu-ren eks-pe-ri-men-talt del-tag-el-se na-tur-vid-en-ska-be-lig med-ar-bej-de-re num-mer-plad-er par-ke-rings-an-læg kend-te sy-ste-met gen-kend-el-se bil-led-er-ne fo-to-gra-fi ma-te-ri-a-le le-ve-rer U-ni-ver-si-tet Der-i-mod mi-ni-mum num-mer-plad-er-ne lang-somt svar-en-de e-le-men-tæ-re ana-ly-se-re bil-led-be-hand-ling pixels tids-plan eg-en-skabs-vek-tor eg-en-skabs-vek-tor-er bil-led-er-ne bw-label ind-falds-veje re-gi-stre-re lo-ka-li-se-re hvide fi-gur ana-ly-se-re-de ar-bej-der fjer-de-del kil-de-ko-de egen-skabs-vek-tor-er-ne ud-ar-bej-der af-stand-en ens-art-et-hed-en lo-ka-li-se-ring}
 	
 
 \begin{document}
@@ -167,13 +167,13 @@ I dette afsnit har hver af de tre trin sit eget underafsnit. I hvert af disse be
 Som afslutning på opgaven svarer vi her på spørsmålene i vores problemformulering og kommenterer  områder hvor vi kunne have gjort ting bedre. 
 
 \subsubsection*{Findes der etablerede metoder til nummerpladegenkendelse?}
-Der findes ikke en enkelt etableret fremgangsmetode for hele processen, men nogle trin er mere standardiserede end andre. Vi har ikke kunnet identificere de facto metoder til lokalisering af nummerplader, men mange er dog enige om hvilke karakteristika ved nummerpladområder der er interessante at analysere. De mest omtalte er: Forholdet mellem bredde og højde, de stærke kontraster mellem tegn og baggrund og nummerpladens baggrundsfarve. Til separation af tegn, virker de to metoder vi har arbejdet med meget udbredet. Genkendelse af tegn foregår, i alt materiale vi har kendskab til, ved at bruge enten neurale netværk eller egenskabsvektorer som vi blant andet har gjort.    
+Der findes ikke en enkelt etableret fremgangsmetode for hele processen, men nogle trin er mere standardiserede end andre. Vi har ikke kunnet identificere de facto metoder til lokalisering af nummerplader, men mange er dog enige om hvilke karakteristika ved nummerpladeområder der er interessante at analysere. De mest omtalte er: Forholdet mellem bredde og højde, de stærke kontraster mellem tegn og baggrund og nummerpladens baggrundsfarve. Til separation af tegn, virker de to metoder vi har arbejdet med meget udbredte. Genkendelse af tegn foregår, i alt materiale vi har kendskab til, ved at bruge enten neurale netværk eller egenskabsvektorer som vi blandt andet har gjort.    
 
 \subsubsection*{Kan vi selv udvikle teknikker der fungerer tilfredsstillende?}
-Til lokalisering af nummerplader har vi arbejdet med flere metoder vi opfatter som egne. For eksempel \textit{Maksimer lokal kontrast} og \textit{Kvantifisering}. Resultaterne er på højde med veletablerede metoder som \textit{Områder med høj kontrast} som det fremgår af afprøvningsresultaterne på figur \vref{fig:test:lokalisering_traening_kontrol}. Konceptet med at bruge flere metoder sammen til lokalisering af nummerplader opfatter vi også som innovativt. Evnen til at lokalisere nummerplader på denne måde, er væsentlig bedre end når metoderne anvendes individuelt som resultaterne i figurerne \ref{fig:test:lokalisering_traening_samlet} og \vref{fig:test:lokalisering_kontrol_samlet} viser. I arbejdet med genkendelse af tegn, har vi eksperimenteret med to egne metoder. Den ene, \textit{Foreningbilleder} giver utilfredsstillende resultater som vist på figur \vref{fig:test:and_alletegn}, mens den anden, \textit{Sumbilleder} giver ganske gode resultater som vist på figur \vref{fig:test:sum_alletegn}.
+Til lokalisering af nummerplader har vi arbejdet med flere metoder vi opfatter som egne. For eksempel \textit{Maksimer lokal kontrast} og \textit{Kvantifisering}. Resultaterne er på højde med veletablerede metoder som \textit{Områder med høj kontrast} som det fremgår af afprøvningsresultaterne i figur \vref{fig:test:lokalisering_traening_kontrol}. Konceptet med at bruge flere metoder sammen til lokalisering af nummerplader opfatter vi også som innovativt. Evnen til at lokalisere nummerplader på denne måde, er væsentlig bedre end når metoderne anvendes individuelt som resultaterne i figurerne \ref{fig:test:lokalisering_traening_samlet} og \vref{fig:test:lokalisering_kontrol_samlet} viser. I arbejdet med genkendelse af tegn, har vi eksperimenteret med to egne metoder. Den ene, \textit{Forenings-billeder} giver utilfredsstillende resultater som vist i figur \vref{fig:test:and_alletegn}, mens den anden, \textit{Sum-billeder} giver ganske gode resultater som vist i figur \vref{fig:test:sum_alletegn}.
 
 \subsection*{I hvor høj grad vil et system vi selv bygger kunne lokalisere nummerplader og læse deres indhold?}
-På baggrund af resulaterne af afprøvningen af vores system som vist på figur \vref{fig:test:samlet_train_kontrol} mener vi at have opnået tilfredsstillende resultater for en opgave af denne størrelse. Vi har haft svært ved direkte at sammenligne vores resultater med andres, da alle stort set opgiver resultaterne på forskellige måder. For eksempel opgiver nogen kun hvor mange tegn de kan læse ud af det samlede antal tegn i billederne der er blevet arbejdet med.  
+På baggrund af resulaterne af afprøvningen af vores system som vist i figur \vref{fig:test:samlet_train_kontrol} mener vi at have opnået tilfredsstillende resultater for en opgave af denne størrelse. Vi har haft svært ved direkte at sammenligne vores resultater med andres, da alle stort set opgiver resultaterne på forskellige måder. For eksempel opgiver nogen kun hvor mange tegn de kan læse ud af det samlede antal tegn i billederne, der er blevet arbejdet med.  
 
 
 
@@ -364,7 +364,7 @@ Som beskrevet i afslutningen på hvert underafsnit i afsnittet \textit{implement
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{appendix/illu/trainingset.jpg} 
-\caption{Tilfældigt udvalgte billeder fra træningsættet.}
+\caption{Tilfældigt udvalgte billeder fra træningssættet.}
 \label{fig:illu:trainingset}
 \end{figure}
 
@@ -407,7 +407,7 @@ Som beskrevet i afslutningen på hvert underafsnit i afsnittet \textit{implement
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{appendix/illu/badgrads.png} 
-\caption{Gradienter i et udvalg af billeder taget med blitz. Hvor gradienteren omkring tegnene i nummerpladerne på de billeder der er taget uden blitz er store, er de i disse billeder meget små, og nummerpladen bliver ikke lokaliseret af metoden beskrevet i \vref{sec:DetectContrastAvg} der kigger efter store gradienter. Bemærk at mange af nummerpladerne fremstår som sorte huller uden markeringer af tegn.}
+\caption{Gradienter i et udvalg af billeder taget med blitz. Hvor gradienteren omkring tegnene i nummerpladerne på de billeder der er taget uden blitz er store, er de i disse billeder meget små, og nummerpladen bliver ikke lokaliseret af metoden beskrevet i afsnit \vref{sec:DetectContrastAvg} der kigger efter store gradienter. Bemærk at mange af nummerpladerne fremstår som sorte huller uden markeringer af tegn.}
 \label{fig:illu:badgrads}
 \end{figure}
 
@@ -455,7 +455,7 @@ Dette bilag indeholder den kildekode der udgør vores system. Det skal bemærkes
 \lstinputlisting{../../src/detection/BinImgCleanup.m}
 
 \subsubsection{GetBestCandidate2.m}
-\label{code:GetBestCandidate}
+\label{code:GetBestCandidate2}
 %HUSK AT FÅ DEN RIGTIGE VERSION MED!! GetBestCandidate2
 \lstinputlisting{../../src/detection/GetBestCandidate2.m}
 
@@ -483,7 +483,7 @@ Dette bilag indeholder den kildekode der udgør vores system. Det skal bemærkes
 %%%%%%%%%%%%%
 \subsection{Separation af tegn}
 \subsubsection{RotatePlateRadon.m}
-\label{code: RotatePlateRadon}
+\label{code:RotatePlateRadon}
 \lstinputlisting{../../src/segmentation/RotatePlateRadon.m}
 
 \subsubsection{CharSeparationCC.m}
@@ -519,7 +519,9 @@ Dette bilag indeholder den kildekode der udgør vores system. Det skal bemærkes
 \label{code:ReadPlateAND}
 \lstinputlisting{../../src/patternreg/ReadPlateAND.m}
 
-
+\subsubsection{SyntaxAnalysis.m}
+\label{code:SyntaxAnalysis}
+\lstinputlisting{../../src/patternreg/SyntaxAnalysis.m}
 
 
 \newpage
