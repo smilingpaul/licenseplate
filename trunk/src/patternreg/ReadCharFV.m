@@ -1,13 +1,8 @@
-% Read an image of a char an output a string representing the three chars
-% that the image most likely represents.
+% Read an image of a char.
 %
 % Input:
 % - charImg: image of a char
 % - meanVectors: a matrix containing the meanVectors of all possible chars.
-% the length of each meanVector must be height x width and the meanVectors
-% matrix must be on form noOfVectors x height*width
-% - height: the height that each char must be scaled to
-% - width: the width that each char must be scaled to
 %
 % Output:
 % - charsSorted: a string of sorted chars. charsSorted(1) is best guess.

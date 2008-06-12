@@ -72,12 +72,6 @@ function [syntaxAnalysedStr, hits] = SyntaxAnalysis (charHitLists, distances, ma
   digit4CurrentHit = GetNextDigitHit(digit4Hitlist,1);
   digit5CurrentHit = GetNextDigitHit(digit5Hitlist,1);
   
-  % while the value of the first digit is to high/low: iterate
-  %currentValueD1 = str2num(digit1Hitlist(digit1CurrentHit));
-  %while currentValueD1 < minValueD1 || currentValueD1 > maxValueD1
-  %  digit1CurrentHit = GetNextDigitHit(digit1Hitlist,digit1CurrentHit+1);
-  %  currentValueD1 = str2num(digit1Hitlist(digit1CurrentHit));
-  %end
   
   % while the value of the first two digits is to high/low: iterate
   currentValueD1D2 = str2num([digit1Hitlist(digit1CurrentHit) digit2Hitlist(digit2CurrentHit)]);
@@ -97,9 +91,7 @@ function [syntaxAnalysedStr, hits] = SyntaxAnalysis (charHitLists, distances, ma
   %%%%%%%%%%%%%%%%%
   % CREATE STRING %
   %%%%%%%%%%%%%%%%%
-  
-  % TO-DO: Could be done with matrix == less code?
-  
+ 
   if letter1CurrentHit <= maxHitNo
     l1 = letter1Hitlist(letter1CurrentHit);
   else

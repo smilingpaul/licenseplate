@@ -19,14 +19,8 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   % PRE-PROCCESING %
   %%%%%%%%%%%%%%%%%%
   
-  % whether the image should be brigthened
-  %brigthenImg = false;
-  
   % from 0 to 1. if high: less white in bwImg
   threshFactor = 0.8;
-  
-  % from 0 to 1. if low: the image will be downscaled a lot
-  %downScaleFactor = 1;
   
   % blocksize for contrast function
   blockSize = 17;
@@ -41,9 +35,6 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   chars.char7 = zeros(1,1);
   charCoords = zeros(7,4); % contains 4 coordinates for each of the 7 chars
   
-  % down-scale image
-  %plateImg = imresize(plateImg,downScaleFactor);
-  
   % create grayscale image
   grayImg = rgb2gray(plateImg);
   
@@ -56,7 +47,6 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   
   if figuresOn
     figure(2), subplot(9,4,1:4), imshow(plateImg), title('plateImg');
-    %imwrite(plateImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/test/illu/kraftig_skygge.png','png');
     figure(2), subplot(9,4,5:8), imshow(areaConComp), title('areaConComp');
   end
   
@@ -87,33 +77,6 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   % ENHANCE CONTRAST AND CREATE CONNECTED COMPONENTS %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  %%%%%%%%%%%%% TO-DO: Filtering or watersheding? %%%%%%%%%%%%%%%%
-  
-  %% MEDIAN FILTER
-  %medianFilteredImg = grayImg;
-  %windowSize = 5;
-  % 
-  %for i = ceil(windowSize/2):plateImgHeight - floor(windowSize/2)
-  %  for j = ceil(windowSize/2):plateImgWidth - floor(windowSize/2);
-  %    medianWindow = grayImg(i-floor(windowSize/2):i+floor(windowSize/2), ...
-  %      j-floor(windowSize/2):j+floor(windowSize/2));
-  %    medianFilteredImg(i,j) = median(median(medianWindow));
-  %  end
-  %end
-  
-  %medianFilteredImg
-  %figure(2), subplot(2,1,2), imshow(medianFiltered), title('median');
-  
-  %imgContrastEnh = imsubtract(imadd(imgTophat, grayImg), imgBothat);
-  
-  %%%%% BRIGHTNESS / CONTRAST %%%%%%%%
-  
-  % blocksize for contrast function
-  %if plateImgWidth > 200
-  %  blockSize = 11;
-  %else
-  %  blockSize = 17;
-  %end
   
   % function to contrast stretch in blocks
   function result = BlockContrast (block)
@@ -121,37 +84,13 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
     result = contrastedBlock(ceil(blockSize/2),ceil(blockSize/2));
   end
   
-  %if brigthenImg
-  %  %brightImg = uint8((double(grayImg)/180)*256);
-  %  brightImg = uint8((double(grayImg)/mean(mean(grayImg)))*256);
-  %  %contrastImg = ContrastStretch(brightImg,0);
-  %  %contrastImg = nlfilter(grayImg, [5 5],@bla);
-  %  contrastImg = blkproc(grayImg, [5 5],@bla);
-  %else
-    %contrastImg = ContrastStretch(medianFilteredImg,0);
-    %contrastImg = ContrastStretch(grayImg,0);
-    contrastImg = nlfilter(grayImg, [blockSize blockSize],@BlockContrast);
-    %contrastImg = blkproc(grayImg, [13 13],@bla);
-    %contrastImg = ContrastStretch(dilatedGrayImg,0);
-  %end
+  contrastImg = nlfilter(grayImg, [blockSize blockSize],@BlockContrast);
   
   bwPlate = im2bw(contrastImg,graythresh(contrastImg)*threshFactor);  
-  %bwPlate = im2bw(dilatedContrastImg,graythresh(dilatedContrastImg));
-  %bwPlate = im2bw(contrastImg,0.7);
-  %bwPlate = im2bw(brightImg,graythresh(brightImg));
   
   if figuresOn
-    %figure(2), subplot(8,4,5:8), imshow(dilatedGrayImg), title('dilated gray image');
-    %figure(2), subplot(9,4,5:8), imshow(medianFilteredImg), title('median');
-    %figure(2), subplot(9,4,5:8), imshow(grayImg), title('gray image');
     figure(2), subplot(9,4,9:12), imshow(contrastImg), title('contrast image');
-    %if brigthenImg
-    %  figure(2), subplot(9,4,5:8), imshow(brightImg), title('brightness image');
-    %end
     figure(2), subplot(9,4,13:16), imshow(~bwPlate), title('bw image');
-    %imwrite(~bwPlate,['/Users/epb/Documents/datalogi/3aar/bachelor/pics/err_set_separation/' int2str(rand(1)*10000) '.png'],'png','BitDepth',1)
-    %imwrite(grayImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/eksempel_plade_gray.png','png')
-    %imwrite(contrastImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/eksempel_plade_kontrast.png','png')
   end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -220,7 +159,6 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   % REMOVE COMPONENTS THAT CAN'T BE CHAR CANDIDATES %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  % TO-DO: tweak variables
   
   maxCompSize = (plateImgHeight*plateImgWidth)/7;
   %minCompSize = (plateImgHeight*plateImgWidth)/150;
@@ -388,13 +326,10 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
     conComp(:,:) = 0;
   end
   
-  % up-scale image again
-  %conComp = imresize(conComp,downScaleFactor);
   
   % show connected components that haven't been removed
   if figuresOn
     figure(2), subplot(9,4,25:28), imshow(conComp), title('conComp group cleaned');
-    %imwrite(conComp,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/concomp_kun_bogstaver.png','png','BitDepth',1)
   end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -448,7 +383,6 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
       charCoords(charNo,4) = yMax + plateCoords(3) + yShrink;
       if figuresOn
         figure(2), subplot(9,4,plotPos), imshow(chars.(charName)), title(charName);
-        %imwrite(chars.(charName),['/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/' charName '.png'],'png','BitDepth',1)
       end
         
       % increment variables

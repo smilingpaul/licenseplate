@@ -64,8 +64,7 @@ function [percentagesAllChars, percentageDigits, percentageLetters] = ReadCharsF
           end
         end
       end
-      
-      
+
       percentagesAllChars(charNo) = 100*(noOfImgsRead/noOfImgs);
       charNo = charNo + 1;
     end

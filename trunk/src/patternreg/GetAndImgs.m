@@ -22,11 +22,7 @@ function andImgs = GetAndImgs (folderFolder, imSize)
       andImg = GetAndImg(imgFolder);
       andImgs(:,:,andImgNo) = andImg;
       andImgNo = andImgNo + 1;
-      
-      %if folderList(i).name == 'S'
-      %  imwrite(andImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/andimg.png','png','BitDepth',1);
-      %end
-      
+        
     end
     
   end
@@ -56,9 +52,6 @@ function andImgs = GetAndImgs (folderFolder, imSize)
         % read image, make it a gray image and display
         img = imread([imgFolder imgList(j).name]);
 
-        %if figuresOn
-        %  figure(53), subplot(1,3,1), imshow(img), title('input image');
-        %end
 
         % resize image and display. TO-DO: OTHER RESIZE METHOD?
         resizedImg = imresize(img, [imSize imSize]);
@@ -73,16 +66,6 @@ function andImgs = GetAndImgs (folderFolder, imSize)
 
       end % noOfImages 
     end
-    
-    %pause;
-
-    % take mean of summed-up vector
-    %meanVector = meanVector/noOfImages;
-
-    % display meanVector as image
-    %if figuresOn
-    %    figure(53), subplot(1,3,3), imshow(resizedImg), title('meanVector as image');
-    %end
 
   end % GetAndImg
 

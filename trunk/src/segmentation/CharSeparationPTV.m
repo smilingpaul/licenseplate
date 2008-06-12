@@ -85,45 +85,9 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
     result = contrastedBlock(ceil(blockSize/2),ceil(blockSize/2));
     
   end
-  
-  %if brigthenImg
-  %  %brightImg = uint8((double(grayImg)/180)*256);
-  %  brightImg = uint8((double(grayImg)/mean(mean(grayImg)))*256);
-  %  %contrastImg = ContrastStretch(brightImg,0);
-  %  %contrastImg = nlfilter(grayImg, [5 5],@bla);
-  %  contrastImg = blkproc(grayImg, [5 5],@bla);
-  %else
-    %contrastImg = ContrastStretch(medianFilteredImg,0);
-    %contrastImg = ContrastStretch(grayImg,0);
-    contrastImg = nlfilter(grayImg, [blockSize blockSize],@BlockContrast);
-    %contrastImg = blkproc(grayImg, [13 13],@bla);
-    %contrastImg = ContrastStretch(dilatedGrayImg,0);
-  %end
-  
-  %% MEDIAN FILTER
-  %{
-  medianFilteredImg = contrastImg;
-  windowSize = 5;
-   
-  for i = ceil(windowSize/2):plateImgHeight - floor(windowSize/2)
-    for j = ceil(windowSize/2):plateImgWidth - floor(windowSize/2);
-      medianWindow = grayImg(i-floor(windowSize/2):i+floor(windowSize/2), ...
-        j-floor(windowSize/2):j+floor(windowSize/2));
-      medianFilteredImg(i,j) = median(median(medianWindow));
-    end
-  end
-  
-  %medianFilteredImg
-  %figure(2), subplot(2,1,2), imshow(medianFiltered), title('median');
-  %}
-  
-  %se = strel('line',4,90);
-  %dilatedBW = imerode(contrastImg,se);
-  
-  %bwImg = im2bw(dilatedBW,graythresh(dilatedBW)*threshFactor);
-  %bwImg = im2bw(contrastImg,0.2);
-  %bwImg = im2bw(brightImg,graythresh(brightImg));
-  %bwImg = im2bw(grayImg,graythresh(grayImg)*threshFactor);
+ 
+  contrastImg = nlfilter(grayImg, [blockSize blockSize],@BlockContrast);
+ 
   bwImg = im2bw(contrastImg,graythresh(contrastImg)*threshFactor);
   
   
@@ -145,7 +109,6 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   
   % sum up scanlines: entire image
   for i = 1:plateImgHeight
-    %summedScanlines = summedScanlines + double(contrastImg(i,:));
     summedScanlines = summedScanlines + double(bwImg(i,:));
   end
   
@@ -179,11 +142,6 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
     meanSummedScanlines(i) = mean(summedScanlines(first:last));
   end
   
-  % calculate average on summedScanlines
-  %plateSigAvg = mean(summedScanlines);
-  %normPlateSigAvg = (plateSigAvg/max(summedScanlines));
-  
-  %normSummedScanlines = (summedScanlines/max(summedScanlines));
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % FIND PEAKS: WHERE TO CUT %
@@ -251,20 +209,10 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   % plot meanSummedScanlines and found peaks
   if figuresOn
     normSummedScanlines = (meanSummedScanlines/max(meanSummedScanlines))*plateImgHeight;
-    %figure(22), subplot(7,4,9:12), imshow(dilatedBW), title('dilatedBW');
-    %figure(22), subplot(7,4,13:16), imshow(brightImg), title('brightImg');
     figure(22), subplot(7,4,9:12), imshow(contrastImg), title('contrastImg');
     figure(22), subplot(7,4,13:20), imshow(~bwImg), title('bwImg');
-    %figure(65), imshow(contrastImg), title('contrastImg');
     hold on;
     plot(1:plateImgWidth, normSummedScanlines, 'y');
-    %for j = 1:size(allPeaks)
-    %  plot(allPeaks(j), plateMiddle, 'gx');
-    %end
-    %for i = 1:8
-    %  line(maxPeaks(i), 1:plateImgHeight);
-    %  %plot(maxPeaks(i), 1:plateImgHeight, 'b-');
-    %end
     hold off;
   end  
   
@@ -338,8 +286,6 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
     % display char
     if figuresOn
       figure(22), subplot(7,4,plotPos), imshow(chars.(charName)), title(charName);
-      %figure(22), subplot(7,3,plotPos), imshow(chars(:,:,charNo)), title((charNo));
-      imwrite(chars.(charName),['/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/' charName '_ptv.png'],'png','BitDepth',1)
     end
     
     plotPos = plotPos + 1;

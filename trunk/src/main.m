@@ -80,14 +80,6 @@ else
   ['Going to work on ' int2str(noOfImages) ' images.']
 end
 
-% for histogram method
-%olympusFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/detection/freqTableOlympus.mat');
-%canonFile = load('/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/src/detection/freqTableCanon.mat');
-%freqTable = olympusFile.freqTableOlympus;
-%freqTable = canonFile.freqTableCanon;
-%horizontalTable = canonFile.horizontalTable;
-%verticalTable = canonFile.verticalTable;
-
 for i = 1:noOfImages
 %for i = 1:1
 
@@ -103,45 +95,10 @@ for i = 1:noOfImages
   % Real Plate Coordinates = RPC
   RPC = [str2num(fileList(i).name(1,3:6)), str2num(fileList(i).name(1,8:11)), ...
                      str2num(fileList(i).name(1,13:16)), str2num(fileList(i).name(1,18:21))];
- 
-  
-  % Calculate plateness for this plate
-  %image = imresize(rgb2gray(imread([imagesFolder fileList(i).name])),0.25);
-  %RPC = RPC * 0.25;
-  %platenessSum = platenessSum + GetPlateness(GetSignature(image(RPC(3):RPC(4), RPC(1):RPC(2)), 0));
-  %plateWidthSum = plateWidthSum + (RPC(2)-RPC(1)); 
-  %plateCoords = [ 0 0 0 0 ];
-  
-
-  % Show plate
-  % Read image from file
-  %image = rgb2gray(imread([imagesFolder fileList(i).name]));
-  %image = log10(double(image));
-  %image = image(RPC(3)-30:RPC(4)+30, RPC(1)-30:RPC(2)+30);
-  %image = imresize(image, 0.25);
-  %[ below, above ] = GetDistribution(image)
-  
-  % Find shortest white line in plate
-  %linePerc = GetLongestLine(image);
-  %if linePerc < shortestWhiteLine
-  %  shortestWhiteLine = linePerc
-  %  beep;
-  %  pause;
-  %end
 
 
   % For testing:
    plateCoords = [0 0 0 0];
-
-
-  %image = image(1:16,1:16);
-  %figure(100), imshow(image);
-  %figure(101), hist(double(image(:)),256);
-
-  %thisIntDiff = max(max(image)) - min(min(image));  
-  %if thisIntDiff < minIntDiff
-  %  minIntDiff = thisIntDiff;
-  %end
 
 
 
@@ -158,35 +115,27 @@ for i = 1:noOfImages
 
 
   % Filter avg. intensity for neighbourhood 
-  % 62.7/85.0 -> 63.9/90.6
   %plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
 
-  % Besed on sameness 56.8/95.5 -> whiteline 56.6/95.8
+  % Besed on sameness
   %plateCoords = DetectSameness([imagesFolder fileList(i).name])
 
-  
-  % Frequency analysis 50.5/65.5 -> whiteline 52.8/72.0
+  % Frequency analysis
   %plateCoords = DetectPlateness([imagesFolder fileList(i).name]);
 
   % Contrast stretch on blocks
-  % 84.0/92.7 -> whiteline 84.0/92.9 
   %plateCoords = DetectCStretch([imagesFolder fileList(i).name]);
 
   % Distribution of intensities
   % plateCoords = DetectIntDist([imagesFolder fileList(i).name]);
 
   % Cut down number of colors in image
-  % 67.8/75.4 -> whiteline 73.5/85.4
   % plateCoords = SaneCoords(DetectQuant([imagesFolder fileList(i).name]));
-
-
 
   % plateCoords = DetectNAME([imagesFolder fileList(i).name]);
 
 
   % All methods together
-
-  % 96.6/99.24 -> 
   %plateCoords = SaneCoords(DetectMain([imagesFolder fileList(i).name]));
 
   % Determine if plate is within found coordinates 
@@ -199,8 +148,6 @@ for i = 1:noOfImages
     ['Plate not found in ' fileList(i).name]
     plateFound = false;
     
-    %beep 
-    %pause(); % Pause when plate was not found 
 
     % No candidate was found
     if sum(plateCoords) == 0
@@ -217,15 +164,6 @@ for i = 1:noOfImages
   % For testing
   plateFound = true;
 
-  
-  
-  % SAVE ROTATED IMAGE FOR FASTER TESTING
-  %if sum(plateCoords) > 0
-  %  [rotatedPlateImg, newPlateCoords] = plate_rotate_radon([imagesFolder fileList(i).name],plateCoords,false);
-  %  imwrite(rotatedPlateImg, [ 'rotated/final_' int2str(i) '.jpg'], 'JPG', 'Quality', 100);
-  %end
-  % Disable chars
-  %plateFound = false;
   
   % only try to rotate, segment and read plate if candidate was correct
   if plateFound
@@ -258,12 +196,9 @@ for i = 1:noOfImages
     %[chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
     [chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
     %charCoords
-    %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
-    %figure(19), imshow(imread([imagesFolder fileList(i).name]));
     
+    %%%%%% Determine if found chars contains coordinates of real chars.%%%%
     if foundChars == 7
-      
-      % NEW METHOD: CHAR MIDDLES ARE SIMPLY WITHIN PLATE
       
       % calculate newRealPlateCoords
       if plateCoords(1) ~= newPlateCoords(1) || ...
@@ -286,31 +221,12 @@ for i = 1:noOfImages
             charMiddle(2) <= newRealPlateCoords(4)
           charsSegmented = charsSegmented + 1;
           
-          %if c < 7
-          %  round((charCoords(c+1,1)+charCoords(c+1,2))/2) - ...
-          %  charMiddle(1)
-          %end
-          
         end
       end
 
       % determine if the plate is correctly read
       if charsSegmented == 7
         noOfPlatesSegmented = noOfPlatesSegmented + 1;
-        
-        % for pattern recognition: save images
-        %{
-        for n = 1:7
-          charName = strcat('char',int2str(n));
-          %figure(91), imshow(chars.(charName));
-          %folderName = upper(input('char?','s'));
-        %  posFolderName = strcat('pos',int2str(n));
-          imgName = strcat(imagesFolder, ...
-            realChars(n),'/',realChars(n),'_',int2str(charImgNo),'.PNG');
-          imwrite (chars.(charName),imgName,'png','BitDepth',1);
-          charImgNo = charImgNo + 1;
-        end
-        %}
         
       else
         ['Plate not segmented in ' fileList(i).name]
@@ -365,8 +281,6 @@ for i = 1:noOfImages
             correctHits(hits(f)) = correctHits(hits(f)) + 1;
           end
         else
-          %pause;
-          %plateRead = false;
           if strcmp(plateAsString(f),'_')
             noCharCandidate(f) = noCharCandidate(f) + 1;
           end
@@ -439,8 +353,6 @@ end
 noOfPlatesSegmented
 noOfPlatesRead
 
-%noOfChars
-%noOfCharsRead
 legalChars
 percentageOfCharsRead = 100*(noOfCharsRead ./ noOfChars)
 percentageOfCharsReadAllChars = 100*(sum(noOfCharsRead)/sum(noOfChars))
@@ -458,16 +370,8 @@ percentageOf2CharsReadAllImgs = noOf2CharsRead*(100/noOfImages)
 percentageOf1CharsReadAllImgs = noOf1CharsRead*(100/noOfImages)
 percentageOf0CharsReadAllImgs = noOf0CharsRead*(100/noOfImages)
 
+% output separation errors
 sepErrs
-
-% hits stats
-%{
-hitsUsed
-correctHitsPercentage = 100*(correctHits ./ hitsUsed)
-totalNoCharCandidate = sum(noCharCandidate)
-percentageOfAllHitsUsed = hitsUsed*(100/((noOfPlatesSegmented*7)-totalNoCharCandidate))
-noCharCandidatePercentage = 100*(totalNoCharCandidate/sum(noOfChars))
-%}
 
 
 % echo time
