@@ -71,11 +71,6 @@ function [percentagesAllChars, percentageDigits, percentageLetters] = ReadCharsF
     end
   end
   
-  noOfDigitsRead
-  noOfDigits
-  noOfLettersRead
-  noOfLetters
-  
   percentageDigits = 100*(noOfDigitsRead/noOfDigits);
   percentageLetters = 100*(noOfLettersRead/noOfLetters);
 

@@ -56,6 +56,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
   
   if figuresOn
     figure(2), subplot(9,4,1:4), imshow(plateImg), title('plateImg');
+    %imwrite(plateImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/test/illu/kraftig_skygge.png','png');
     figure(2), subplot(9,4,5:8), imshow(areaConComp), title('areaConComp');
   end
   
@@ -148,7 +149,7 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
     %  figure(2), subplot(9,4,5:8), imshow(brightImg), title('brightness image');
     %end
     figure(2), subplot(9,4,13:16), imshow(~bwPlate), title('bw image');
-    %imwrite(~bwPlate,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/skygge.png','png','BitDepth',1)
+    %imwrite(~bwPlate,['/Users/epb/Documents/datalogi/3aar/bachelor/pics/err_set_separation/' int2str(rand(1)*10000) '.png'],'png','BitDepth',1)
     %imwrite(grayImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/eksempel_plade_gray.png','png')
     %imwrite(contrastImg,'/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/eksempel_plade_kontrast.png','png')
   end
@@ -366,16 +367,6 @@ function [chars, charCoords, foundChars] = CharSeparationCC (plateImg, plateCoor
       % component i from list of candidates and reset charGroup
       isCandidate(i) = false;
       charGroup(:,:) = 0;
-      %{
-      for r = 1:groupIndex-1
-        compNo = candidateGroup(r,1);
-        isCandidate(compNo) = false;
-        noOfCandidates = noOfCandidates - 1;
-        
-        % reset charGroup
-        charGroup(:,:) = 0;
-      end
-      %}
      
     end % isCandidate(i)
       

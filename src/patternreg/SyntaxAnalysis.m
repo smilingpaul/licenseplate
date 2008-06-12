@@ -49,7 +49,7 @@ function [syntaxAnalysedStr, hits] = SyntaxAnalysis (charHitLists, distances, ma
   % DIGITS %
   %%%%%%%%%%
   
-  % the value of the digits must be within the range 20000-599999
+  % the value of the digits must be within the range 20000-75999
   maxValueD1D2 = 75;
   minValueD1D2 = 20;
   

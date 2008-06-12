@@ -22,13 +22,14 @@ addpath('patternreg');
 % noOfImages = 0;
 noOfPlatesFound = 0;
 noOfPlatesSegmented = 0;
-noOfPlatesRead = 0;
+noOf7CharsRead = 0;
 noOf6CharsRead = 0;
 noOf5CharsRead = 0;
 noOf4CharsRead = 0;
 noOf3CharsRead = 0;
 noOf2CharsRead = 0;
 noOf1CharsRead = 0;
+noOf0CharsRead = 0;
 
 % for syntax analysis: how far down the hitlist can the syntax analysis
 % go to find the right char?
@@ -130,7 +131,7 @@ for i = 1:noOfImages
 
 
   % For testing:
-  % plateCoords = [0 0 0 0];
+   plateCoords = [0 0 0 0];
 
 
   %image = image(1:16,1:16);
@@ -161,7 +162,7 @@ for i = 1:noOfImages
   %plateCoords = DetectContrastAvg([imagesFolder fileList(i).name])
 
   % Besed on sameness 56.8/95.5 -> whiteline 56.6/95.8
-  plateCoords = DetectSameness([imagesFolder fileList(i).name])
+  %plateCoords = DetectSameness([imagesFolder fileList(i).name])
 
   
   % Frequency analysis 50.5/65.5 -> whiteline 52.8/72.0
@@ -254,8 +255,8 @@ for i = 1:noOfImages
     %%%%%%%%%%%%%%%%%
 
     foundChars = 0;
-    [chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
-    %[chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
+    %[chars, charCoords, foundChars] = CharSeparationCC(rotatedPlateImg,newPlateCoords,true);
+    [chars, charCoords, foundChars] = CharSeparationPTV(rotatedPlateImg,newPlateCoords,true);
     %charCoords
     %%%%%% Determine if found chars contains coordinates of real chars. %%%%%
     %figure(19), imshow(imread([imagesFolder fileList(i).name]));
@@ -330,16 +331,15 @@ for i = 1:noOfImages
     
     plateAsString = '';
     
-    %{
-    if foundChars == 7 && charsSegmented == 7
+    if foundChars == 7
+    %if foundChars == 7 && charsSegmented == 7
       [charHitLists, distances] = ReadPlateFV(chars,25);
       %[charHitLists, sums] = ReadPlateSUM(chars,5);
       plateAsString = [charHitLists(1,1) charHitLists(2,1) ...
         charHitLists(3,1) charHitLists(4,1) charHitLists(5,1) ...
-        charHitLists(6,1) charHitLists(7,1)]
+        charHitLists(6,1) charHitLists(7,1)];
       %plateAsString = ReadPlateAND(chars,10)
     end
-    %}
     
 
     if ~strcmp(plateAsString,'')
@@ -365,7 +365,7 @@ for i = 1:noOfImages
             correctHits(hits(f)) = correctHits(hits(f)) + 1;
           end
         else
-          pause;
+          %pause;
           %plateRead = false;
           if strcmp(plateAsString(f),'_')
             noCharCandidate(f) = noCharCandidate(f) + 1;
@@ -375,7 +375,7 @@ for i = 1:noOfImages
       
       % register if hole plate was read
       if plateCharsRead == 7
-        noOfPlatesRead = noOfPlatesRead + 1;
+        noOf7CharsRead = noOf7CharsRead + 1;
       elseif plateCharsRead == 6
         noOf6CharsRead = noOf6CharsRead + 1;
       elseif plateCharsRead == 5
@@ -388,6 +388,8 @@ for i = 1:noOfImages
         noOf2CharsRead = noOf2CharsRead + 1;
       elseif plateCharsRead == 1
         noOf1CharsRead = noOf1CharsRead + 1;
+      elseif plateCharsRead == 0
+        noOf0CharsRead = noOf0CharsRead + 1;
       end
       
       % register which hits have been used
@@ -447,13 +449,14 @@ percentageOfLettersRead = 100*(sum(noOfCharsRead(11:31))/sum(noOfChars(11:31)))
 
 % plate read stats
 %percentageOfPlatesReadAllPlates = noOfPlatesRead*(100/noOfPlatesFound)
-percentageOfPlatesReadAllImgs = noOfPlatesRead*(100/noOfImages)
+percentageOf7CharsReadAllImgs = noOf7CharsRead*(100/noOfImages)
 percentageOf6CharsReadAllImgs = noOf6CharsRead*(100/noOfImages)
 percentageOf5CharsReadAllImgs = noOf5CharsRead*(100/noOfImages)
 percentageOf4CharsReadAllImgs = noOf4CharsRead*(100/noOfImages)
 percentageOf3CharsReadAllImgs = noOf3CharsRead*(100/noOfImages)
 percentageOf2CharsReadAllImgs = noOf2CharsRead*(100/noOfImages)
 percentageOf1CharsReadAllImgs = noOf1CharsRead*(100/noOfImages)
+percentageOf0CharsReadAllImgs = noOf0CharsRead*(100/noOfImages)
 
 sepErrs
 
