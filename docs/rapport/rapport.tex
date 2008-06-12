@@ -422,10 +422,14 @@ Billederne i vores kontrolsæt er taget på en dag med høj sol i modsætning ti
 \section{Kildekode}
 Dette bilag indeholder den kildekode der udgør vores system. Det skal bemærkes at $y$-aksen i det koordinatsystem der bruges i Matlab er vendt om i forhold til den traditionelle $y$-akse i et koordinatsystem. Desuden angives $y$-koordinaten til et punkt i Matlab først, så en pixel i et billede refereres til med koordinaterne ($y,x$) i modsætning til den traditionelle rækkefølge ($x,y$).
 
-Enkelte 
+%Enkelte 
 %%%%%%%%%%
-\subsection{Identifikation af nummerplade}
+\subsection{Hovedfunktion}
+\subsubsection{main.m}
+\label{code:main}
+\lstinputlisting{../../src/main.m}
 
+\subsection{Identifikation af nummerplade}
 \subsubsection{DetectSameness.m}
 \label{code:DetectSameness}
 \lstinputlisting{../../src/detection/DetectSameness.m}
