@@ -129,15 +129,15 @@ Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 % & 0\% & 0\% \\\hline
 %\end{tabular}
 
-Resultaterne af afprøvningen er generelt bedre ved brug af træningssættet end ved brug af kontrolsættet. Metoden der bruger sammenhængende komponenter giver de bedste resultater af de to præsenterede metoder. Tegnene udskæres desuden tæt og hvis nummerpladeområdet ikke er for stort, men derimod stadig indeholder nummerpladens kanter, sådan at en eventuelt rotation kan foretages korrekt, giver metoden sjældent fejl. Fejlkilderne, når nummerpladeområdet er lille (det vil sige at området er udviddet med 10 eller 20 pixels), er primært skruerne i pladen og skæve plader. Skruerne bevirker enten at tegnene gror sammen med hinanden eller med pladens kant og derfor vælges fra, fordi de sammenhængende komponenter er for store. De skæve plader bevirker, at de komponenter der repræsenterer tegnene ikke står i samme højde og derfor bliver valgt fra.
+Resultaterne af afprøvningen er generelt bedre ved brug af træningssættet end ved brug af kontrolsættet. Metoden der bruger sammenhængende komponenter giver de bedste resultater af de to præsenterede metoder. Tegnene udskæres meget præcist, og metoden er meget effektiv på billeder af vandrette nummerplader. Fejlkilderne, når nummerpladerne er tæt tilskåret, er primært forvrædne plader og urenheder i forbindelse med de skruer der fatsgør numerpladen til køretøjet. Skruerne kan bevirke at tegnene gror sammen med hinanden eller med pladens kant og derfor vælges fra, da de sammenhængende komponenter bliver for store. Forvrædne og skæve plader kan bevirke, at tegnene ikke står på en vandret linie og derfor bliver valgt fra.
 
 %EVT. EKSEMPEL PÅ PROBLEM MED SKRUER SAMT SKÆV PLADE.
 
-Fejlkilderne når nummerpladeområdet er større (det vil sige udviddet med 30 eller 40 pixels) er at en anden komponent end den der indeholder nummerpladen vælges når billedet skal indskrænkes eller at indskrænkningen ikke er stor nok og at der derfor laves komponenter som er udenfor og er tilpas høje oog så videre.
+Fejlkilderne når nummerpladerne er mindre præcist udklippede er, at elementer udenfor nummerpladen kan forveksles med tegn.
 
 %ETV. EKSEMPEL PÅ FORKERT INDSKRÆNKNING OG DÅRLIG INDSKRÆNKNING
 
-I kontrolsættet tillægges fejlkilden hvor nummerpladerne er delvist dækket af skygge. Når dette er tilfældet opstår der nogle gange en komponent som går på tværs af flere tegn.
+I kontrolsættet opstår en del af fejlene i situationer hvor nummerpladerne delvist ligger i skygge. I nogle af disse situationer er skyggen så kraftig, at den forbinder tegnene i nummerpladen som derfor afvises.
 
 Figur \vref{fig:illu:separation_errors} i bilag \ref{sec:illu} viser binære billeder af nummerplader hvor separationen af tegn ved brug af sammenhængende komponenter er fejlet.
 
@@ -153,7 +153,7 @@ Figur \vref{fig:illu:separation_errors} i bilag \ref{sec:illu} viser binære bil
 %\label{fig:kraftig_skygge}
 %\end{figure}
 
-Som tidligere beskrevet er bjerg/dal-metoden meget følsom overfor støj, hvilket også ses i afprøvningsresultaterne. Derudover er afprøvningsmetoden et dårligt skøn på om tegnene udskæres korrekt, da mange af de udklippede elementer enten er halve tegn eller store elementer, hvor tegnet kun er en mindre del af. Et eksempel på syv tegn der er dårligt/forkert udklippet ses i figur \vref{fig:tegn-udklip-daarlig}. Resultaterne er på samme måde som ovenfor ringere ved kontrolsættet, men da afprøvningsmetoden giver en dårlig indikation for resultaterne med denne metode, er det svært at drage konklusioner udfra disse tal.
+Som tidligere beskrevet i implementeringsafsnittet,kræver meget bjerg/dal-metoden meget præcist udklippede nummerplader for at fungere tilfredsstillende. Dette afspejles tydeligt i de utilfredsstillende afprøvningsresultater for metoden. Derudover er afprøvningsmetoden et dårligt skøn på om tegnene udskæres korrekt, da mange af de udklippede elementer enten er halve tegn eller andre områder, hvor tegnet kun er en mindre del af. Et eksempel på tegn der er dårligt/forkert udklippet ses i figur \vref{fig:tegn-udklip-daarlig}. Systemet har identificeret syv områder, men det andet og tredie område er to dele af samme tegn. Endvidere der uønskede områder i over tegnene. Også for denne metode er resultaterne dårligere for kontrolsættet end for træningssættet.
 
 \begin{figure}[htp]
   \centering
@@ -166,15 +166,17 @@ Som tidligere beskrevet er bjerg/dal-metoden meget følsom overfor støj, hvilke
   	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char6_ptv.png}}
 	  \framebox{\includegraphics[height=1cm, width=0.8cm]{test/illu/char7_ptv.png}}
 	\end{minipage}
-  \caption{Et eksempel på syv billeder af syv tegn, som er dårligt udklippede. Eksemplet viser udklipninger hvor området der udklippes er meget stort i forhold til det enkelte tegn. Derudover er det er også vist et eksempel på et tegn der klippes midt over fordi der er få markerede pixels i midten af tegnet.}
+  \caption{Et eksempel på syv billeder der er dårligt udklippede. Eksemplet viser udklipninger hvor området der udklippes er meget stort i forhold til det enkelte tegn. Derudover er det er også vist et eksempel på et tegn der klippes midt over fordi der er få markerede pixels i midten af tegnet.}
   \label{fig:tegn-udklip-daarlig}
 \end{figure}
 
+
 \subsubsection{Konklusion}
+Den bedste separationsmetode er den der bruger sammenhængende komponenter. Begge metoder er dog ret følsomme overfor kraftige slagskygger. Ofte opstår disse på billeder af biler hvor nummerpladerne sidder en smule indsænket i karosseriet. Denne situation opstår oftest på billeder af biler der et taget bagfra. På grund af kraftig sol da kontrolbillederne blev taget, er opstår skyggesituationerne oftere i kontrolsættet end i træningsættet. 
 
-Den bedste separationsmetode er den der bruger sammenhængende komponenter. Ydermere er denne metode bedst på når pladerne er udskåret forholdsvis tæt, sådan at komponenter, der ligger udenfor pladen, ikke vil være forstyrrende elementer. Metoden er dog ret følsom overfor skygger der kastes på pladen, fordi pladen sidder nedsunket i bilen, især bagerst på bilen. Når tynde elementer frasorteres gøres dette kun i den øverste $\frac{1}{3}$ af pladen. For at eliminerer fejlene der opstår på grund af skygger, kunne man eksperimentere med at fjerne tynd elementer i den øverste halvdel af pladen.
+%Når tynde elementer frasorteres gøres dette kun i den øverste $\frac{1}{3}$ af pladen. For at eliminere fejlene der opstår på grund af skygger, kunne man eksperimentere med at fjerne tynd elementer i den øverste halvdel af pladen.
 
-For at afprøve bjerg/dal-metoden ordentlig er det nødvendigt at udvikle en bedre afprøvningsmetode.
+%For at afprøve bjerg/dal-metoden ordentlig er det nødvendigt at udvikle en bedre afprøvningsmetode.
 
 \begin{comment}
 Problemer ved 10: tegn der er smeltet sammen pga. søm skruer: OE26906 og ----290. Godt udskåret: UX33152, skæve plader et problem. go kontrast: YE39734.
@@ -190,16 +192,16 @@ Problemer ve 30: stadig for stort område: giver komponenter udenfor der vælges
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Genkendelse af tegn}
-I dette afsnit afprøves metoderne til genkendelse af tegn. Syntaksanalysen vil blive afprøvet i afprøvningen af det samlede system i afsnit \vref{sec:test:samlet_system}, da denne analyse ikke direkte arbejder med genkendelse men kun arbejder på en tegnfølge.
+I dette afsnit undersøger vi de tre metoder til genkendelse af tegn vi har implementeret.
+Effektiviteten af syntaksanalyse bliver undersøgt som en del af afprøvningen af det samlede system i afsnit \vref{sec:test:samlet_system}. Vi afprøver i hvor høj grad vi kan genkende 3780 individuelle tegn der er hentet fra nummerpladerne i kontrolsættet.
 
-
-Afprøvningen vil blive foretaget på alle tegn fra kontrolsættet, separeret med den bedste metode (sammenhængende komponenter hvor 10 pixels er lagt til). Disse tegn er sorteret så billeder der tydeligvis ikke ligner et tegn (hvor tegnet eksempelvis er blevet halveret under separationen eller hvor en komponent der ikke er et tegn er blevet valgt) er blevet sorteret fra.
-
-I træningssættet er der generelt færre bogstaver end tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Der er for eksempel kun tre billeder af tegnet \textbf{O}. Derudover er der ingen billeder af tegnet \textbf{A} i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for \textbf{A} skulle stå, være udfyldt med "-".
+I tegn-træningssættet er der væsentligt færre forekomster af de enkelte bogstaver end tal. Vi vurderer at dette vil have indflydelse på afprøvningsresultaterne. Der er for eksempel kun tre billeder af tegnet \textbf{O}. Derudover er der ingen billeder af tegnet \textbf{A} i hverken træningssættet eller kontrolsættet. Derfor vil tabelrækker, hvor afprøvningsresultater for \textbf{A} skulle stå, være udfyldt med "-".
 
 %Nedenstående tests er i forhold til manuelt udklippede plader - ikke automtisk lokalisering.
 
-I figurerne \ref{fig:test:middel_tal} til \ref{fig:test:middel_alletegn} ses resultaterne af afprøvningen af genkendelse af tegn ved brug af egenskabsvektorer. Afprøvningen er udført med vektorer som er lavet ud fra billeder med størrelsen 3 $\times$ 3 og opefter. Vektorer der laves ud fra mindre billeder vil ikke være fornuftige at bruge til afprøvning, da flere af disse vektorer ligner hinanden og man derfor ikke kan skelne mellem genkendelse af to tegn med samme vektor. Den øvre grænse sættes ved vektorer der er lavet ud fra ? $\times$ ? billeder, da vi ikke forventer nogle væsentlige forbedringer af resultaterne udover denne grænse. Desuden forventer vi at hastigheden for systemet nedsættes jo større vektorer man arbejder med, hvilket vil være en væsentlig detalje hvis systemet skulle arbejde i realtid. MANGLER 8 x 8!!!
+I figurerne \ref{fig:test:middel_tal} til \ref{fig:test:middel_alletegn} ses resultaterne af afprøvningen af genkendelse af tegn ved brug af egenskabsvektorer. Afprøvningen er udført med vektorer som er lavet ud fra billeder af tegn skaleret til størrelsen 3 $\times$ 3 pixels og opefter. Det giver ingen mening at førsøge at genkende tegn med mindre vektorer da flere af egenskabsvektorerne bliver identiske i de helt lave opløsninger. Desuden forventer vi at hastigheden for systemet nedsættes jo større vektorer man arbejder med
+.
+%, hvilket ville være særligt interesant være en væsentlig detalje hvis systemet skulle arbejde i realtid. MANGLER 8 x 8!!!
 
 \begin{figure}[htp]
 \centering
@@ -264,7 +266,7 @@ Alle bogstaver & 74.5\% & 95.7\% & 97.0\% & 98.0\% & 98.2\% & 98.6\% & 98.4\%\\\
 \label{fig:test:middel_alletegn}
 \end{figure}
 
-Som det ses har metoden sværest ved at genkende tegnene \textbf{0} og \textbf{O} hviket skyldes, at middelvektorerne for disse tegn ligger tæt på hinanden (selv med det menneskelige øje, kan disse to tegn være svære at skelne fra hinanden). Derudover ses det at resultaterne for vektorer der er lavet på baggrund af 3 $\times$ 3 billeder, giver væsentligt dårlige resultater end de restende vektorer. Dette kommer især til udtryk i tabellen i figur \vref{fig:test:middel_alletegn}, hvor alle vektorer giver resultater over 90 \%, bortset fra den første.
+Som det ses har metoden sværest ved at genkende tallet \textbf{0} og bogstavet \textbf{O} hviket skyldes, at middelvektorerne for disse tegn er meget ens. Selv for det menneskelige øje, kan det være svære at skelne disse to tegn fra hinanden. Derudover ses det at resultaterne for vektorer der er lavet på baggrund af 3 $\times$ 3 billeder, giver væsentligt dårlige resultater end de længere vektorer. Dette kommer især til udtryk i tabellen i figur \vref{fig:test:middel_alletegn}, hvor alle vektorer giver resultater over 90 \%, bortset fra den første.
 
 I figurene \ref{fig:test:sum_tal} til \ref{fig:test:sum_alletegn} vises afprøvningsresultaterne for genkendelse af tegn ved brug af sum-billeder. Som ovenfor vil det ikke give nogen mening at teste på sum-billeder lavet ud fra 2 $\times$ 2 billeder.
 
@@ -327,7 +329,7 @@ Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 
 Alle tal & 37.4\% & 61.4\% & 89.6\% & 93.8\% & 97.5\% & 97.6\% & 91.1\%\\\hline
 Alle bogstaver & 47.2\% & 67.6\% & 86.1\% & 89.1\% & 88.3\% & 95.9\% & 91.9\%\\\hline
 \end{tabular}
-\caption{Afprøvningsresultater for genkendelse af tegn ved brug af sum-billeder, hvor tegnene er opdelt i en gruppe af alle cifre og en gruppe af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
+\caption{Afprøvningsresultater for genkendelse af tegn ved brug af sum-billeder, hvor tegnene er opdelt i en gruppe bestående af alle cifre og en anden gruppe bestående af alle bogstaver. For hver gruppe er det angivet hvor mange procent af tegnene i gruppen der er korrekt genkendt.}
 \label{fig:test:sum_alletegn}
 \end{figure}
 
@@ -407,13 +409,11 @@ Generelt viser afprøvningen af metoden med forenings-billeder at metoden er meg
 
 \subsubsection{Konklusion}
 
-Metoden der bruger egenskabsvektorer giver generelt de bedste resultater. De resultater metoden giver er til og med så gode, at det må formodes at den ikke har en negativ indflydelse på det samlede system. Metoden giver de bedste resultater hvor vektorerne er lavet ud fra billeder af størrelsen $8 \times 8$. Man kan synes at disse vektorer indeholder meget information, og det måske vil påvirke systemets hastighed. I følge vores egne observationer lader der dog ikke til at være nogen hastighedsmæssig forskel når man bruger vektorer med denne længde i forhold til hvis man bruger kortere vektorer.
+Metoden der bruger egenskabsvektorer giver generelt de bedste resultater. De resultaterne er så gode, at vi vurderer at gendkendelse af tegn er den mindste fejlkilde i vores system. De bedste resultater opnår vi når vektorerne er lavet ud fra tegnbilleder af størrelsen $8 \times 8$ pixels. Man kan synes at disse vektorer er for stre, og at det vil påvirke systemets hastighed for meget. I følge vores egne observationer lader der dog ikke til at være nogen hastighedsmæssig forskel når man bruger vektorer med denne længde i forhold til hvis man bruger kortere vektorer.
 
-Vi kunne også have testet hvilke tegn der bliver valgt i stedet for, når et forkert tegn vælges. Vælges 8 f.eks. når B burde ha været valgt??
+%Vi kunne også have testet hvilke tegn der bliver valgt i stedet for, når et forkert tegn vælges. Vælges 8 f.eks. når B burde ha været valgt??
 
-Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. Dette giver vores system en væsentlig fordel i forhold til "de andre".
-
-
+%Billederne af tegnene er ret store i forhold til dem der bruges i litteraturen. Dette giver vores system en væsentlig fordel i forhold til "de andre".
 
 
 \begin{comment}
