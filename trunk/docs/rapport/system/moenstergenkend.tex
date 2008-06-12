@@ -3,12 +3,12 @@
 
 Til genkendelse af tegn har vi arbejdet med tre forskellige metoder: Den første bruger informationer fra såkaldte \textit{egenskabsvektorer}, den anden arbejder med såkaldte \textit{sum-billeder} mens den tredje arbejder med såkaldte \textit{forenings-billeder}. I dette afsnit vil vi beskrive disse tre metoder samt en metode til at udføre syntaksanalyse på den tegnfølge der repræsenterer nummerpladens indhold.
 
-Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerer. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt osv. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin3}.
+Metoderne til genkendelse af tegn arbejder på de syv binære billeder som separationsdelen af systemet returnerer. Metoderne returnerer syv hitlister (én for hvert billede) med tegn. Det tegn der optræder øverst på den enkelte hitliste er metodens bedste gæt på det tegn billedet forestiller, nummer to på listen er det næstbedste gæt og så videre. Syntaksanlysen arbejder med disse hitlister som inddata og returnerer en tegnfølge. Arbejdet der udføres i denne del af systemet er illustreret i figur \vref{fig:dia_trin3}.
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=12cm]{system/illu/dia_trin3.png} 
-\caption{Inddata, i form af syv billeder af tegn kommer ind i systemet fra venstre. Systemet konfigureres så en af de tre mulige metoder bruges til at genkender tegnene på billederne. Uddata er de syv tegn som en samlet tegnfølge. Da kun en af de tre metoder bruges af vores færdige system, er to af metoderne tegnet i en grå boks. Dette symboliserer at de er fravalgt.}
+\caption{Inddata, i form af syv billeder af tegn kommer ind i systemet fra venstre. Systemet konfigureres så en af de tre mulige metoder bruges til at genkende tegnene på billederne. Uddata er de syv tegn som en samlet tegnfølge. Af de tre metoder til genkendelse vi har arbejdet med, har vi valgt den bedste til vores endelige konfiguration af systemet. Denne metode er repræsenteret af kassen med teksten \textit{Genkendelse af tegn 1}. De to dårligere, og derfor fravalgte, metoder er repræsenteret af kasserne med teksten \textit{Genkendelse af tegn 2} og \textit{Genkendelse af tegn 3}.}
 \label{fig:dia_trin3}
 \end{figure}
 
@@ -26,20 +26,18 @@ Først oprettes egenskabsvektorerne. Det vil sige at der oprettes en vektor for 
 \end{displaymath}
 
 
-hvor både summen og divisionen er elementvise\footnote{Ved en elementvis operation forstås at operationen udføres på alle elementer i en vektor eller matrix.}. Vektorerne vil nu indeholde middelsværdierne for vektorerne i tegn-træningssættet. For et testbillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges.
-
-I vores system findes afstanden, $D$ fra én vektor, $M = (m_{1},m_{2},...,m_{n})$ til en anden vektor, $P = (p_{1},p_{2},...,p_{n})$ i et $n$-dimensionelt rum ved brug af den euklidiske afstand\cite{wiki_euclid}:
+hvor både summen og divisionen er elementvise\footnote{Ved en elementvis operation forstås at operationen udføres på alle elementer i en vektor eller matrix.}. Vektorerne vil nu indeholde middelværdierne for vektorerne i tegn-træningssættet. For et testbillede af et tegn oprettes der tillige en vektor, som herefter sammenlignes med vektorerne i træningssættet for at finde den vektor der ligger nærmest billedets vektor. Tegnet for den vektor der ligger nærmest vælges. I vores system findes afstanden, $D$ fra én vektor, $M = (m_{1},m_{2},...,m_{n})$ til en anden vektor, $P = (p_{1},p_{2},...,p_{n})$ i et $n$-dimensionelt rum ved brug af den euklidiske afstand\cite{wiki_euclid}:
 
 \begin{displaymath}
 	D = \sqrt{\sum_{i=1}^{n}(m_{i}-p_{i})^{2}}
 \end{displaymath}
 
-Afstande mellem to vektorer i et givent rum er illustreret i figur \vref{fig:middelvektor_afstand}.
+Afstande mellem to vektorer er illustreret i figur \vref{fig:middelvektor_afstand}.
 
 \begin{figure}[htp]
 \centering
 \includegraphics{system/illu/middelvektor_afstand.pdf} 
-\caption{En illustration af konceptet omkring afstande mellem vektorer i et to-dimensionelt rum, hvor mængderne $A$ og $B$ angiver to mængder af billeder fra tegn-træningssættet. Prikkerne i $A$ og $B$ symboliserer vektorerne for hvert billede i de to sæt. $x$ er en vektor der repræsenterer et testbillede. I dette tilfælde er afstanden fra $x$ til $A$ kortere end afstanden fra $x$ til $B$, hvorfor $x$ vil blive klassificeret som det tegn der hører til $A$. I vores system arbejder vi med vektorer der indeholder middelværdier, som ville være placeret i midtpunkterne af de to ellipser.}
+\caption{En illustration af konceptet omkring afstande mellem vektorer i et to-dimensionelt rum, hvor mængderne $A$ og $B$ angiver to mængder af billeder fra tegn-træningssættet. Prikkerne i $A$ og $B$ symboliserer vektorerne for hvert billede i de to sæt. $x$ er en vektor der repræsenterer et tegn der skal genkendes. I dette tilfælde er afstanden fra $x$ til $A$ kortere end afstanden fra $x$ til $B$, hvorfor $x$ vil blive klassificeret som det tegn der hører til $A$. I vores system arbejder vi med vektorer der indeholder middelværdier, som ville være placeret i midtpunkterne af de to ellipser.}
 \label{fig:middelvektor_afstand}
 \end{figure}
 
@@ -47,7 +45,7 @@ Afstande mellem to vektorer i et givent rum er illustreret i figur \vref{fig:mid
 
 Denne metode ligner metoden der bruger egenskabsvektorer. Her er idéen dog, at der oprettes såkaldte \textit{sum-billeder} for hvert tegn i stedet for vektorer med middelværdier. Metoden er lavet ud fra egen idé.
 
-Hvert binære billede i tegn-træningssættet for et givent tegn skaleres til en defineret størrelse, $Z \times V$ og summeres med de andre billeder i sættet. Et eksempel på et sum-billede ses i figur \vref{fig:sumimg}.
+Hvert binære billede i tegn-træningssættet for et givent tegn skaleres til en størrelse, $V \times W$ og summeres med de andre billeder af det tegn. Et eksempel på et sum-billede ses i figur \vref{fig:sumimg}.
 
 \begin{figure}[htp]
 \centering
@@ -65,13 +63,13 @@ Et sum-billede, $S$ konstrueres af billederne $(I_{1},I_{2},...,I_{n})$ således
 hvor summen er en elementvis sum. Efter denne summering normaliseres $S$, så alle værdier i $S$ vil være mellem $0$ og $1$.
 %ved at dividere alle elementer i $S$ med $\max{(S)}$. 
 
-For hvert binære testbillede, $T$, der først skaleres til samme størrelse som $S$, multipliceres alle elementerne i $T$ med de tilsvarende elementer i $S$ og summen, $v$ tages af disse:
+For hvert binære testbillede, $T$, der først skaleres til samme størrelse som $S$, multipliceres alle elementerne i $T$ med de tilsvarende elementer i $S$ og summen, $s$ tages af disse:
 
 \begin{displaymath}
-	v = \sum_{i=1}^Z{\sum_{j=1}^V{T_{ij} \cdot S_{ij}}}
+	s = \sum_{i=1}^V{\sum_{j=1}^W{T_{ij} \cdot S_{ij}}}
 \end{displaymath}
 
-$v$ svarer altså til summen af elementer fra $S$ hvor elementet med samme koordinater i $T$ er markeret. Når $v$ er fundet for alle tegn for et testbillede, vælges tegnet hvor $v$ er maksimal.
+$s$ svarer altså til summen af elementer fra $S$ hvor elementet med samme koordinater i $T$ er markeret. Når $s$ er fundet for alle tegn for et testbillede, vælges tegnet hvor $s$ er maksimal.
 
 \subsubsection*{Metode: Forenings-billeder}
 
@@ -83,7 +81,7 @@ Et forenings-billede, $F$ laves ud fra billederne $(I_{1},I_{2},...,I_{n})$ af e
 F = I_1 \wedge I_2 \wedge ... \wedge I_n
 \end{displaymath}
 
-hvor operatoren $\wedge$ indikerer en logisk, elementvis og-operation FORKLARING?. Et eksempel på et forenings-billede ses i figur \vref{fig:andimg}.
+hvor operatoren $\wedge$ indikerer en logisk, elementvis og-operation (\textit{eng: and}). Et eksempel på et forenings-billede ses i figur \vref{fig:andimg}.
 
 \begin{figure}[htp]
 \centering
@@ -92,28 +90,28 @@ hvor operatoren $\wedge$ indikerer en logisk, elementvis og-operation FORKLARING
 \label{fig:andimg}
 \end{figure}
 
-Når tegnet i et testbillede, $T$ skal genkendes, findes foreningsmængden, $K$ af $T$ og $F$:
+Når tegnet i et testbillede, $T$ skal genkendes, findes foreningsmængden, $G$ af $T$ og $F$:
 
 \begin{displaymath}
-K = T \wedge F
+G = T \wedge F
 \end{displaymath}
 
-og antallet af markerede pixels i $K$ optælles. Det tegn, hvor antallet af markerede pixels i $K$ er maksimalt blandt alle tegnene, vælges som tegnet der repræsenteres af testbilledet.
+og antallet af markerede pixels i $G$ optælles. Det tegn, hvor antallet af markerede pixels i $G$ er maksimalt blandt alle tegnene, vælges som tegnet der repræsenteres af testbilledet.
 
 \subsubsection*{Syntaksanalyse}
 
-Ved syntaksanalyse analyseres tegn-hitlisterne fra de ovenstående metoder. Analysen er relevant da et gæt fra en af metoderne måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{nijhuis} og \cite{kwas}.
+Ved syntaksanalyse analyseres tegn-hitlisterne fra de ovenstående metoder. Analysen er relevant da et gæt fra en af metoderne måske kan udelukkes på baggrund af overtrædelse af syntaktiske regler for hele tegnfølgen. Metoden bruges i \cite{kwas} og \cite{nijhuis}.
 
 Der kan forekomme følgende fejl i en tegnfølge i vores system:
 
 \begin{itemize}
 \item Et ciffer er placeret på en af de første to pladser.
 \item Et bogstav er placeret på en af de sidste fem pladser.
-\item Den fundne bogstavkombination er ikke tilladt\footnote{En oversigt over lovlige og ulovlige bogstavkombinationer er fundet i \cite{bogstav_komb}}.
-\item Den fundne cifferkombination er ikke tilladt (den samlede værdi af cifrene er enten for høj eller for lav)\footnote{En oversigt over tilladte cifferværdier er fundet i \cite{nrpl}}.
+\item Den fundne bogstavkombination er ikke tilladt\footnote{En oversigt over lovlige og ulovlige bogstavkombinationer er fundet i \cite{bogstav_komb}.}.
+\item Den fundne cifferkombination er ikke tilladt (den samlede værdi af cifrene er enten for høj eller for lav)\footnote{En oversigt over tilladte cifferværdier er fundet i \cite{nrpl}.}.
 \end{itemize}
 
-Hvis en eller flere af disse muligheder er gældende gennemser metoden hitlisterne indtil et lovligt valg af en kombination af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et tal. På 2. position itererer metoden ned igennem hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position itereres der indtil et tal findes.
+Hvis en eller flere af disse muligheder er gældende gennemser metoden hitlisterne indtil et lovligt valg af en kombination af tegn er fundet. Dette kan illustreres med følgende eksempel: Tegnfølgen \textbf{DO 45 7B3} er retuneret fra mønstergenkendelse. I denne tegnfølge forekommer der to fejl: bogstavet \textbf{O} bruges ikke på 2. position og bogstavet \textbf{B} i 6. position burde have været et ciffer. På 2. position gennemløber metoden hitlisten til den når et bogstav som sammen med \textbf{D} danner en lovlig bostavkombination og på 6. position gennemløbes hitlisten indtil et ciffer findes.
 
 I systemet sættes en grænse for hvor langt ned ad hitlisten syntaksanalysen kan vælge tegn. Hvis denne grænse ikke fandtes, ville syntaksanalysen kunne vælge tegn som lå langt nede af hitlisten og derfor med større usikkerhed ville være det korrekte tegn.
 
@@ -121,4 +119,4 @@ I systemet sættes en grænse for hvor langt ned ad hitlisten syntaksanalysen ka
 
 \subsubsection*{Metoder fra litteraturen}
 
-I \cite{kwas} arbejder man med et simpelt, kunstigt neuralt netværk. Et kunstigt neuralt netværk er en matematisk model, som er baseret på biologiske neurale netværk\cite{wiki_nn}. I \cite{kwas} sættes antallet af neuroner i inddata-laget lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn. Det neurale netværk vil derved returnerer det genkendte tegn.
+I \cite{kwas} arbejder man med et simpelt, kunstigt neuralt netværk. Et kunstigt neuralt netværk er en matematisk model, som er baseret på biologiske neurale netværk. Et kunstigt neuralt netværk består af et inddata-lag af neuroner, et gemt lag hvor selve beregningerne i netværket foregår samt et uddata-lag af neuroner. I \cite{kwas} sættes antallet af neuroner i inddata-laget lig størrelsen på en matrix der repræsenterer et billede af et tegn. Antallet af neuroner i uddata-laget er lig antallet af tegn. Det neurale netværk vil derved returnere det genkendte tegn.

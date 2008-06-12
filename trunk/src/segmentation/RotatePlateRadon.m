@@ -2,7 +2,7 @@
 % placed horizontal in the image. The function only rotates the image if
 % the rotation degree found during the analysis is >= minRotation. The
 % maximum rotation is set to 10 as it shouldn't be necsseasry to rotate the
-% images more than this (lav dette til en variable også??).
+% images more than this.
 %
 % Input parameters:
 % - imgFile: file containing the image with a plate.
@@ -20,31 +20,22 @@ function [rotatedPlateImg, newPlateCoords] = RotatePlateRadon (imgFile, plateCoo
 
   % read image and make it grayscale
   img = imread(imgFile);
-  %grayImg = rgb2gray(img);
   
   % pick out plate image and show it
   plateImg = img(plateCoords(3):plateCoords(4), plateCoords(1):plateCoords(2),:);
   grayPlateImg = rgb2gray(plateImg);
   if figuresOn
     figure(11), subplot(3,1,1), imshow(plateImg), title('input plate image');
-    %imwrite(plateImg,'/Users/epb/Documents/datalogi/3aar/bachelor/pics/rotate_example_input.jpg','jpg');
   end
   
-  % enhance contrast etc. TO-DO??
   
   % compute binary edge image from grayImg
   bwPlateImg = edge(grayPlateImg,'sobel','horizontal');
-  %bwPlateImg = edge(grayPlateImg,'prewitt','horizontal');
-  %bwPlateImg = edge(grayPlateImg,'roberts'); VERY BAD
-  %bwPlateImg = edge(grayPlateImg,'log');
-  %bwPlateImg = edge(grayPlateImg,'canny');
   if figuresOn
     figure(11), subplot(3,1,2), imshow(bwPlateImg), title('edge image, normal');
-    %imwrite(bwPlateImg,'/Users/epb/Documents/datalogi/3aar/bachelor/pics/rotate_example_edge.jpg','jpg');
   end
 
   % compute radon transform of edge image
-  %theta = [80:100];
   theta = 0:179;
   [radonMatrix,xp] = radon(bwPlateImg,theta);
   
@@ -52,41 +43,28 @@ function [rotatedPlateImg, newPlateCoords] = RotatePlateRadon (imgFile, plateCoo
   % display radon matrix
   if figuresOn
     figure(111), imagesc(theta, xp, radonMatrix); colormap(hot);
-    %imwrite(radonMatrix,'/Users/epb/Documents/datalogi/3aar/bachelor/pics/training/part_canon/bla.jpg','jpg');
-    %xlabel('\theta'); ylabel('x\prime');
-    %title('Radon transformation_{\theta} {x\prime}');
     colorbar
   end
 
   % find degree of which the largest registration in Radon transformation
   % matrix was found
   [x,degree] = max(max(abs(radonMatrix)));
-  %rotateDeg = 90 - (degree + 80 - 1) % plus 80 because of the 80:100 radonmatrix
   rotateDeg = 90 - (degree - 1)
-  
-  %if rotateDeg > 1 || rotateDeg < -1
-  %  pause;
-  %end
 
   % only rotate if rotateDeg is between minRotation and 10
   rotated = false;
-  if abs(rotateDeg) >= minRotation % no need to check for <= 10 because of 80:100
-    %rotatedImg = imrotate(img,rotateDeg,'bilinear','crop');
+  if abs(rotateDeg) >= minRotation
     rotatedPlateImg = imrotate(plateImg,rotateDeg,'bilinear','crop');
     rotated = true;
   else
-    %rotatedImg = img;
     rotatedPlateImg = plateImg;
   end
   
   % set new platecoords using rotation matrix
   newPlateCoords = plateCoords;
   if rotated
-    %imgMiddle = [size(img,1)/2, size(img,2)/2];
     plateImgMiddle = [(plateCoords(1)+plateCoords(2))/2, ...
       (plateCoords(3)+plateCoords(4))/2];
-    %yDif = imgMiddle(1) - 1; % difference from original origo
-    %xDif = imgMiddle(2) - 1;
     yDif = plateImgMiddle(1) - 1; % difference from plate origo
     xDif = plateImgMiddle(2) - 1;
     
@@ -111,10 +89,7 @@ function [rotatedPlateImg, newPlateCoords] = RotatePlateRadon (imgFile, plateCoo
   
   % display rotated image
   if figuresOn
-    %figure(11), subplot(3,1,3), imshow(rotatedImg(newPlateCoords(3):newPlateCoords(4), newPlateCoords(1):newPlateCoords(2), :)), title('rotated plate image');
     figure(11), subplot(3,1,3), imshow(rotatedPlateImg), title('rotated plate image');
-    %imwrite(rotatedPlateImg,'/Users/epb/Documents/datalogi/3aar/bachelor/pics/rotate_example_output.jpg','jpg');
-    %figure(66), imshow(img(newPlateCoords(3):newPlateCoords(4), newPlateCoords(1):newPlateCoords(2), :));
   end
 
 end

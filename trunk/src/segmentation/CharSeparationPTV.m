@@ -117,8 +117,8 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   %figure(2), subplot(2,1,2), imshow(medianFiltered), title('median');
   %}
   
-  se = strel('line',4,90);
-  dilatedBW = imerode(contrastImg,se);
+  %se = strel('line',4,90);
+  %dilatedBW = imerode(contrastImg,se);
   
   %bwImg = im2bw(dilatedBW,graythresh(dilatedBW)*threshFactor);
   %bwImg = im2bw(contrastImg,0.2);
@@ -126,38 +126,6 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   %bwImg = im2bw(grayImg,graythresh(grayImg)*threshFactor);
   bwImg = im2bw(contrastImg,graythresh(contrastImg)*threshFactor);
   
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % REMOVE COMPONENTS THAT MAY BE AREA OUTSIDE PLATE %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
-  %{
-  [negBwImg, noOfComp] = bwlabel(~bwImg);
-  
-  if figuresOn
-    figure(22), subplot(6,3,10:12), imshow(negBwImg), title('negbwimg');
-  end
-  
-  for i = 1:noOfComp
-    [y,x] = find(negBwImg == i);
-    %plateImgWidth + (2*smoothFactor);
-    %max(x) - min(x) + 1;
-    if max(x) - min(x) + 1 == plateImgWidth
-      % set color of pixels in component to black
-      compSize = length(find(negBwImg == i));
-      for j = 1:compSize
-        negBwImg(y(j), x(j)) = 0;
-      end
-      break;
-    end
-  end
-  
-  %}
-  
-  %bwImg = ~negBwImg;
-  %bwImg = bwlabel(bwImg);
-  %if figuresOn
-  %  figure(22), subplot(6,3,13:15), imshow(bwImg), title('bwimg');
-  %end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % GET SIGNATURES ACROSS SCANLINES %
@@ -171,37 +139,15 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   if mod(bufferSize,2) == 1
     bufferSize = bufferSize + 1;
   end
-
-  
-  % collect info on every line
-  %scanlines = zeros(plateImgHeight,plateImgWidth-(2*smoothFactor));
-  %
-  %scanlineAvgs = zeros(plateImgHeight,1);
-  %
-  %for i = 1:plateImgHeight
-  %  %scanlines(i,:) = GetSignature(brightGrayImg(i,:),smoothFactor);
-  %  scanlines(i,:) = GetSignature(bwImg(i,:),smoothFactor);
-  %  scanlineAvgs(i) = mean(scanlines(i,:));
-  %end
-  %size(scanlines)
-  
-  %normScanlines = (scanlines/max(summedScanlines));
   
   % sum up lines
   summedScanlines = zeros(1,plateImgWidth);
-  
-  %summedScanlines = GetSignature(brightGrayImg,smoothFactor);
   
   % sum up scanlines: entire image
   for i = 1:plateImgHeight
     %summedScanlines = summedScanlines + double(contrastImg(i,:));
     summedScanlines = summedScanlines + double(bwImg(i,:));
   end
-  
-  %summedScanlines = GetSignature(brightGrayImg,smoothFactor);
-  %summedScanlines = GetSignature(bwImg,smoothFactor);
-  
-  %figure(33), plot(summedScanlines);
   
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -245,12 +191,8 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
   
   allPeaks = zeros(8,2); % pos. 1 holds index, 2 holds value (of peak)
   peakNo = 1;
-  %goingDown = false;
-  %noOfNexts = 5; % the no. of next spots that have to decrease in order for the current spot to be a peak
-  %noOfPrevious = 5;
   
   % mark spots that are peaks
-  %for i = 1:size(summedScanlines,2)-noOfNexts % MAYBE THIS IS NOT GOOD? :)
   for i = (bufferSize/2)+1:size(meanSummedScanlines,2)-(bufferSize/2)
     
     buffer = meanSummedScanlines(i-(bufferSize/2):i+(bufferSize/2));
@@ -287,45 +229,6 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
       peakNo = peakNo + 1;
     end
     
-
-    %{
-    %current = meanSummedScanlines(i);
-    
-    
-    % initial
-    nexts = zeros(noOfNexts+1,1); % plus 1 to hold current
-    for n = 0:noOfNexts-1
-      nexts(n+1) = meanSummedScanlines(i+n);
-    end
-    
-    % going up: searching for peaks
-    if ~goingDown
-      
-      % determine if the next pixels indicate that the current spot is a
-      % peak
-      for n = 1:noOfNexts-1
-        if nexts(n) > nexts(n+1)
-          peakReached = true;
-        else
-          peakReached = false;
-          break;
-        end
-      end
-      
-      % if theres a peak: register it
-      if peakReached
-        allPeaks(peakNo,1) = i;
-        allPeaks(peakNo,2) = nexts(1);
-        peakNo = peakNo + 1;
-        goingDown = true;
-      end
-    
-    % going down: searching for valley, when valley found: start going up
-    elseif goingDown && nexts(2) > nexts(1)
-      goingDown = false;
-    end
-    %}
-    
   end
   
   % return if not enough peaks has been found
@@ -343,9 +246,6 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
     allPeaks(maxPeakPos,2) = 0;
   end
   
-  % move peaks
-  %allPeaks = allPeaks + smoothFactor;
-  %peaks = peaks + smoothFactor;
   
   % display grayImg, brightImg and contrastImg
   % plot meanSummedScanlines and found peaks
@@ -366,98 +266,15 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
     %  %plot(maxPeaks(i), 1:plateImgHeight, 'b-');
     %end
     hold off;
-  end
- 
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % PEAK TO VALLEY ANALYSING: TOP AND BOTTOM CUT %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
-  lowerCut = 1;
-  upperCut = plateImgHeight;
-  
-  %{
-  
-  % REPLACE WITH GETSIGNATURE
-  
-  summedVertScanlines = zeros(plateImgHeight,1);
-  
-  % sum up scanlines: entire image
-  for i = 1:plateImgWidth
-    summedVertScanlines = summedVertScanlines + double(contrastImg(:,i));
-    %summedVertScanlines = summedVertScanlines + double(bwImg(:,i));
-  end
-  
-  % smoothen with simple average function
-  lagSize = 10;
-  for i = 1:plateImgHeight
-    
-    % determine the low and high for calculating mean
-    low = i-lagSize+1;
-    high = i+(lagSize*2); % we go further forward than backward because of the entering of the plate
-    
-    if low < 1
-      low = 1;
-    end
-    if high > plateImgHeight
-      high = plateImgHeight;
-    end
-    
-    summedVertScanlines(i) = mean(summedVertScanlines(low:high));
-  end
-  
-  meanish = mean(summedVertScanlines);
-  
-  %%%% Find upper and lower cut-line %%%%
-  
-  % use bw img to find upper and lower cut
-  %bwImg = im2bw(grayImg,graythresh(grayImg));
-  %brightBwImg = im2bw(brightGrayImg,graythresh(brightGrayImg));
-  
-  % find bottom and top cut
-  lowerCut = 1;
-  upperCut = 1;
-  for i = 1:plateImgHeight-1
-    if summedVertScanlines(i) < meanish && ...
-        summedVertScanlines(i+1) > meanish
-      lowerCut = i;
-      break;
-    end
-  end
-  
-  for i = lowerCut:plateImgHeight-1
-    if summedVertScanlines(i) > meanish && ...
-        summedVertScanlines(i+1) < meanish
-      upperCut = i+1;
-      break;
-    end
-  end
-  
-  if figuresOn
-    %normSummedScanlines = (summedVertScanlines/max(summedVertScanlines))*plateImgWidth;
-    %figure(21), imshow(contrastImg), title('contrast image');
-    figure(21), plot(summedVertScanlines);
-    hold on;
-    plot(1:plateImgHeight,meanish,'b-');
-    plot(lowerCut,meanish-100,'rx');
-    plot(upperCut,meanish-100,'rx');
-    hold off;
-  end
-
-  % find top- and bottom cuts
-  %scanlineSums = sum(bwImg,2);
-  %scanlineSums = sum(contrastImg,2);
-  %bottomSums = scanlineSums(1:plateMiddle,:);
-  %topSums = scanlineSums(plateMiddle:plateImgHeight,:);
-  %[maxBottom,lowerCut] = max(bottomSums)
-  %[maxTop,upperCut] = max(topSums)
-  %upperCut = upperCut + plateMiddle
-  
-  %}
+  end  
   
     
   %%%%%%%%%%%%%%%%%%%%%%%%%
   % CUT AND RETURN CHARS  %
   %%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  lowerCut = 1;
+  upperCut = plateImgHeight;
   
   foundChars = 7;
 
@@ -510,9 +327,7 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
       return;
     end
     
-    % TO-DO: Remember to return logical image (im2bw at last like in cc)
-    % add image of a char to the struct chars (indexed by 'char1',
-    % 'char2' etc.) display char afterwards
+
     charName = strcat('char',int2str(charNo));
     chars.(charName) = charImg;
     charCoords(charNo,1) = xMin + plateCoords(1) + xShrink;
@@ -524,10 +339,8 @@ function [chars, charCoords, foundChars] = CharSeparationPTV (plateImg, plateCoo
     if figuresOn
       figure(22), subplot(7,4,plotPos), imshow(chars.(charName)), title(charName);
       %figure(22), subplot(7,3,plotPos), imshow(chars(:,:,charNo)), title((charNo));
+      imwrite(chars.(charName),['/Users/epb/Documents/datalogi/3aar/bachelor/licenseplate/docs/rapport/system/illu/' charName '_ptv.png'],'png','BitDepth',1)
     end
-    
-    % save char
-    %imwrite(chars.(charName),'bla.jpg','jpg')
     
     plotPos = plotPos + 1;
     

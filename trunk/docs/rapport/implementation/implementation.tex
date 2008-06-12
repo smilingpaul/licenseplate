@@ -1,9 +1,9 @@
 \section{Implementering}
 \label{sec:implementation}
 
-I dette afsnit gennemgår vi implementeringsdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede funktioner, frem for at skrive egne implementeringer. For eksempel har vi brugt Matlabs funktioner i forbindelse arbejdet med sammenhængende komponenter og filtrering af billeder. I det første underafsnit gennemgår vi nogle egenudviklede hjælpefunktioner som bruges flere steder i systemet. Dernæst gennemgår vi funktionerne til lokalisering af nummerplader, separation af tegn og til sidst funktionerne til genkendelse af tegn.
+I dette afsnit gennemgår vi implementeringsdetaljer i de funktioner som vores system består af. I flere af funktionerne har vi brugt Matlabs indbyggede funktioner, frem for at skrive egne implementeringer. For eksempel har vi brugt Matlabs funktioner i forbindelse med arbejdet med sammenhængende komponenter og filtrering af billeder. I det første underafsnit gennemgår vi nogle egenudviklede hjælpefunktioner som bruges flere steder i systemet. Dernæst gennemgår vi funktionerne til lokalisering af nummerplader, separation af tegn og til sidst funktionerne til genkendelse af tegn.
 
-Det skal bemærkes at $y$-aksen i det koordinatsystem der bruges i Matlab er vendt om i forhold til den tradionelle $y$-akse i et koordinatsystem. Desuden angives $y$-koordinaten til et punkt i Matlab først, så en pixel i et billede refereres til med koordinaterne ($y,x$) i modsætning til den traditionelle rækkefølge ($x,y$).
+%Det skal bemærkes at $y$-aksen i det koordinatsystem der bruges i Matlab er vendt om i forhold til den traditionelle $y$-akse i et koordinatsystem. Desuden angives $y$-koordinaten til et punkt i Matlab først, så en pixel i et billede refereres til med koordinaterne ($y,x$) i modsætning til den traditionelle rækkefølge ($x,y$).
 
 %Derved ligger et billedes origo i øverste venstre hjørne af billedet og er benævnt ved $(y,x) = (1,1)$ (datastrukturer i Matlab er 1-indekserede). FOR LANGT? FORKORT GERNE
 
@@ -21,7 +21,7 @@ De følgende funktioner bruges af flere andre funktioner i systemet hvorfor vi h
 \label{sec:imp:ContrastStrech}
 I funktionen \textit{ContrastStretch} har vi implementeret forstærkelse af kontraster som beskrevet i afsnit \vref{sec:DetectContrastStretch} om metoden der maksimerer lokal kontrast for at lokalisere nummerplader. Funktionen tager et gråtonebillede som input og returnerer en kontrastforstærket version. 
 
-Funktionens kildekode findes i afsnit \vref{code:ContrastStrech}
+Funktionens kildekode findes i afsnit \vref{code:ContrastStretch}
 
 \subsubsection{Find længste lyse linie}
 \label{sec:imp:GetLongestLine}
@@ -37,7 +37,7 @@ Funktionens kildekode findes i afsnit \vref{code:GetSignature}
 
 \subsubsection{Frekvensanalyse}
 \label{sec:imp:GetPlateness}
-Funktionen \textit{GetPlateness} tager en vektor som returneret fra \textit{GetSignature} som inddata og returnerer et heltal. Funktionen udregner en middelværdi for inddatavektoren. Det heltal der returneres er et udtryk for hvor mange gange tallene i vektoren stiger op over og falder ned under middelværdien. Dette er illustreret på figur \vref{fig:DetectPlateness-frekvensanalyse}.
+Funktionen \textit{GetPlateness} tager en vektor som returneret fra \textit{GetSignature} som inddata og returnerer et heltal. Funktionen udregner en middelværdi for inddatavektoren. Det heltal der returneres er et udtryk for hvor mange gange tallene i vektoren stiger op over og falder ned under middelværdien. Dette er illustreret i figur \vref{fig:DetectPlateness-frekvensanalyse}.
 
 Funktionens kildekode findes i afsnit \vref{code:GetPlateness}
 
@@ -66,8 +66,6 @@ Behandlingen af det binære billede foregår i de følgende trin:
 
 \paragraph{1. Udregn sammenhængende komponenter:}
 Med Matlabs funktion \textit{bwlabel} udregner og nummererer vi de sammenhængende komponenter i inddatabilledet. Vi opfatter pixels der ligger direkte ved siden af hinanden eller over hinanden som værende sammenhængende. Øvrige pixels opfatter vi som selvstændige områder. Figur \vref{fig:con_comp-connections} illustrerer disse forhold.
-
-BEDRE ILLU
 
 \begin{figure}[htp]
 \centering
@@ -114,7 +112,7 @@ Billedet indlæses og nedskaleres til en fjerdedel.
 På baggrund af formlen i afsnit \ref{sec:DetectSameness} danner vi et binært billede hvor de områder hvor lysere gråtoner dominerer i originalbilledet er markeret.
 
 \paragraph{3. Manipuler binært billede:}
-For at forsøge at undgår at nummerpladeområdet er forbundet med andre områder, trækker vi alle områder i det binære billede en anelse sammen. Vi bruger Matlabs funktion \textit{imerode} med et kvadrat på $2 \times 2$ pixels som figur. Dette trin kan muligvis have delt nummerpladeområdet op i flere områder. For igen at have et samlet nummerpladeområde, udvidder vi alle områder i det binære billede med Matlabs \textit{imdilate}-funktion. Denne gang bruger vi et liggende rektangel med højden 2 og bredden 4 som figur. Vi bruger denne liggende figur, da vi ønsker at forbinde områder som ligger ved siden af hinanden, dele af nummerpladen, men vil undgå at forbinde områder der ligger over og under hinanden. 
+For at forsøge at undgår at nummerplade-området er forbundet med andre områder, trækker vi alle områder i det binære billede en anelse sammen. Vi bruger Matlabs funktion \textit{imerode} med et kvadrat på $2 \times 2$ pixels som figur. Dette trin kan muligvis have delt nummerpladeområdet op i flere områder. For igen at have et samlet nummerpladeområde, udvider vi alle områder i det binære billede med Matlabs \textit{imdilate}-funktion. Denne gang bruger vi et liggende rektangel med højden 2 og bredden 4 som figur. Vi bruger denne liggende figur, da vi ønsker at forbinde områder som ligger ved siden af hinanden, dele af nummerpladen, men vil undgå at forbinde områder der ligger over og under hinanden. 
 
 
 \paragraph{4. Fjern uinteressante områder fra binært billede:}
@@ -132,7 +130,7 @@ For at forsøge at sikre os at koordinaterne dækker hele nummerpladeområdet, u
 Metoden hvor vi forsøger at finde nummerplader ved at markere områder med høj kontrast er implementeret i funktionen \textit{DetectContrastAvg} hvis kildekode findes i afsnit \vref{code:DetectContrastAvg}. Funktionens eneste argument er stien til et farvebillede i JPEG-format i en opløsning på $1024 \times 768$ pixels. Programmet udfører følgende trin:
 
 \paragraph{1. Klargør originalbillede:}
-Billedet indlæses og konverteres fra \textit{RGB} til 256 gråtoner. Herefter nedskaleres det til en fjerdedel. DER ER LOG I KODEN. VI GØR BILLEDET LYSERE. BESKRIV!
+Billedet indlæses og konverteres fra RGB til 256 gråtoner. Herefter nedskaleres det til en fjerdedel.
 
 \paragraph{2. Udregn gradienter:}
 Vi udregner gradienterne for gråtonebilledet med Matlabs kommando \textit{gradient}. Herefter finder vi gradienternes længder og deres vinkler målt som forskel til vandret. Det vil sige at gradtallet går fra $0^\circ$ til $90^\circ$ og så til $0^\circ$ igen. Vi normaliserer gradienternes længder til $1$ og danner et nyt billede bestående af de gradienter der har en vinkel med det vandrette plan på mellem $0^\circ$ og $30^\circ$. Hvis en gradient har en størrelse på $0.25$ eller mere, fordobler vi den værdi der sættes ind. Vi giver altså de største gradienter, svarende til områder med høj kontrast, mere vægt i billedet. De pixels der svarer til de øvrige gradienter i originalbilledet får værdien $0$ i det nye billede. Et eksempel på dette billede er vist i figur \vref{fig:DetectContrastAvg-hgrads}.
@@ -157,14 +155,12 @@ De nummerpladekandidater der rent faktisk indeholder nummerplader, bliver flader
 Metoden hvor vi forsøger at finde nummerplader ved at markere områder på baggrund af frekvensanalyse er implementeret i funktionen \textit{DetectPlateness}, hvis kildekode findes i afsnit \vref{code:DetectPlateness}. Funktionens eneste argument er stien til et farvebillede i JPEG-format i en opløsning på $1024 \times 768$ pixels. Programmet udfører følgende trin:
 
 \paragraph{1. Klargør originalbillede:}
-Billedet indlæses og konverteres fra \textit{RGB} til 256 gråtoner. Herefter nedskaleres det til en fjerdedel.
+Billedet indlæses og konverteres fra RGB til 256 gråtoner. Herefter nedskaleres det til en fjerdedel.
 
 \paragraph{2. Frekvensanalyse:}
 Vi filtrerer billedet ved at for hver pixel i originalbilledet at kigge på rækken af pixels startende fra 11 pixels før den indeværende pixel til den 11. pixel efter. Vi kigger altså på et udsnit af originalbilledet der er 1 pixel højt og 23 pixels bredt\footnote{Bredden ville have været anderledes hvis man havde valgt en anden nedskalering end $0.25$.}. Med et kald til funktionen \textit{GetPlateness} får vi et tal, der beskriver svingninger mellem lyse og mørke områder i billedudsnittet. Vi udregner forskellen mellem dette tal og den gennemsnitlige frekvens for nummerpladeområder som observeret i vores testsæt. I det filtrerede billede bliver intensiteten på den indeværende pixels position denne forskel. Filteret er implementeret i en dobbelt \textit{for}-løkke.
 
 Da filteret ikke er defineret for de første og sidste 11 pixels i billedets linier\footnote{Der er for eksempel ikke 11 pixels til venstre for den første pixel i billedets linier, ligesom der ikke er 11 pixels til højre for den sidste pixel i en linie i billedet.}, vil denne metode ikke kunne lokalisere nummerplader der er ``i kontakt'' med disse områder.
-
-HVORFOR 11 PIXELS
 
 \paragraph{3. Lav binært billede:}
 Med en grænseværdi udregnet af Matlabs \textit{graythresh}-funktion laver vi et binært billede på baggrund af det filtrerede område. Da de områder vi er interesserede i har værdier der er meget tæt på 0, det vil sige de adskiller sig meget lidt fra den ideelle frekvens, inverterer vi det binære billede så interesseområderne bliver de hvide markerede områder. 
@@ -248,38 +244,34 @@ Vi kigger på omfanget af enighed blandt de udpegede nummerpladekandidater. Nive
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Mulige forbedringer}
-Vi er opmærksomme på flere områder hvor systemet til lokalisering af nummerplader kan forbedres. I dette afsnit identificerer vi disse problemstillinger og forslår hvordan de kan løses.
+Vi er opmærksomme på flere områder hvor systemet til lokalisering af nummerplader kan forbedres. I dette afsnit identificerer vi disse problemstillinger og foreslår hvordan de kan løses.
 
 \paragraph{Mere forarbejde på billeder af interesseområder før de analyseres}
-Systemet ville kunne forbedres ved at arbejde mere på billederne af interesseområder. Ofte er nummerpladeområderne forbundet med omkringliggende områder og bliver derfor slettet når interesseområderne analyseres fordi de f.eks. er for store eller for små. Der bør arbejdes på at få nummerpladeområderne separeret i disse tilfælde.
+Systemet ville kunne forbedres ved at arbejde mere på billederne af interesseområder. Ofte er nummerpladeområderne forbundet med omkringliggende områder og bliver derfor slettet når interesseområderne analyseres fordi de f.eks. er for store eller for små. Der bør arbejdes på at få nummerplade-områderne separeret i disse tilfælde.
 
 \paragraph{Mere fleksibel metode til analyse af interesseområder}
-Et af de parametre der undersøges når interesseområder analyseres er områdernes densitet. I det beskrevne system bliver der ikke taget højde for, at de forskellige metoder markerer nummerpladeområderne med forskellig dentensitet. F.eks. vil nogle metoder ofte markere pladerne med huller der hvor der er tegn, mens nogle metoder, specielt \textit{Kvantifisering}, markerer nummerpladerne som områder uden huller. Hvis man ved at en metode returnerer nummerplader med meget høj densitet, vil man kunne kræve større densitet for dens interesseområder under analysen.
+Et af de parametre der undersøges når interesseområder analyseres er områdernes densitet. I det beskrevne system bliver der ikke taget højde for, at de forskellige metoder markerer nummerpladeområderne med forskellig dentensitet. For eksempel vil nogle metoder ofte markere pladerne med huller, der hvor der er tegn, mens nogle metoder (specielt \textit{Kvantifisering}) markerer nummerpladerne som områder uden huller. Hvis man ved at en metode returnerer nummerplader med meget høj densitet, vil man kunne kræve større densitet for dens interesseområder under analysen.
 
-En anden ting der kunne tages højde for er, at nogle metoder, f.eks. \textit{Frekvensanalyse} markerer nummerpladerne som lavere og bredere end de enligt er. I dette tilfælde er den ideelle nummerpladekandidat ikke et område med et bredde/højde-forhold svarende til en nummerplade.
+En anden ting der kunne tages højde for er, at nogle metoder, for eksempel \textit{Frekvensanalyse} markerer nummerpladerne som lavere og bredere end de enligt er. I dette tilfælde er den ideelle nummerpladekandidat ikke et område med et bredde/højde-forhold svarende til en nummerplade.
 
-\paragraph{}
-
- mere med støjfiltrering etc. altså preprocessing af billederne. Citer folk der gør det. Skriv også hvad de gør.
 
 \paragraph{Pointsystem}
-Der bør arbejdes mere med pointsystemet og de optimale værdier. Kan man virkelig tale om f.eks. en optimal gennemsnits intensitet for en nummerplade? Vi har ofte problemer med at lokalisere mørke nummerplader da de bliver straffet for at være mørke da vi har bestemt at det er optimal for en nummerplade at være lys. Et andet område, er analyse af det indbyrdes forhold mellem de karakteristika vi analyserer. Man kunne forestille sig der findes sammenhænge der er karakteristiske for nummerplader. Der er også plads til forbedringer i forbindelse med vægtning af de forskellige karakteristika samt mere arbejde med hvorvidt pointene i de forskellige kategorier skal udvikle sig lineært eller f.eks. eksponentielt.
+Der bør arbejdes mere med pointsystemet og de optimale værdier. Kan man virkelig tale om for eksempel en optimal gennemsnitsintensitet for en nummerplade? Vi har ofte problemer med at lokalisere mørke nummerplader, da de bliver straffet for at være mørke da vi har bestemt at det er optimal for en nummerplade at være lys. Et andet område er analyse af det indbyrdes forhold mellem de karakteristika vi analyserer. Man kunne forestille sig at der findes sammenhænge der er karakteristiske for nummerplader. Der er også plads til forbedringer i forbindelse med vægtning af de forskellige karakteristika samt mere arbejde med hvorvidt pointene i de forskellige kategorier skal udvikle sig lineært eller for eksempel eksponentielt.
 
-En anden mulighed for forbedring af pointsystemet er, at benytte forbundne komponenter som et værktøj til analyse af nummerpladekandidaterne. Man kunne f.eks. undersøge hvor mange fritstående områder der kunne findes i billedet. Hvis der kun kunne findes 1, ville det være dårligt, men hvis der fandtes 7 ville det være godt. 
+En anden mulighed for forbedring af pointsystemet er, at benytte forbundne komponenter som et værktøj til analyse af nummerpladekandidaterne. Man kunne for eksempel undersøge hvor mange fritstående områder der kunne findes i billedet. Hvis der kun kunne findes et, ville det være dårligt, men hvis der fandtes syv ville det være godt. 
 
 \paragraph{Bedre frekvensanalyse}
-Den primitive metode til frekvensanalyse, er alt for modtagelig for støj. Endvidere bør det overvejes, om det tal vi bruger til at repræsenterer frekvensen for et billede\footnote{Antallet af gange middelværdien overskrides.} er nøjagtigt nok.
+Den primitive metode til frekvensanalyse, er alt for modtagelig for støj. Endvidere bør det overvejes, om det tal vi bruger til at repræsentere frekvensen for et billede\footnote{Antallet af gange middelværdien overskrides.} er nøjagtigt nok.
 
 \paragraph{Lokalisering af nummerplader ved frekvensanalyse}
 Man bør overveje om det giver mening at arbejde med frekvensanalyse på billeder med en opløsning på $256 \times 192$ pixels som vi har gjort. Muligvis kan der opnås væsentligt bedre resultater med metoden ved at benytte billeder af højere opløsning end vi har gjort.
 
 \paragraph{Valg af bedste nummerpladekandidat}
-Når nummerpladekandidaterne for de fem metoder til lokalisering skal evalueres, kan der opstå  problemer i situationer hvor to metoder er enige om et område, og to andre metoder er enige om et andet. Problemet opstår fordi systemet tillader, at f.eks. område \textbf{A} er enig med område \textbf{B}, men at \textbf{B} omvendt ikke er enig med \textbf{A}. Denne situation fører til forkerte værdier for gennemsnitspoint for de to grupper af enige nummerpladekandidater. Systemet bør ændres så 
-enighed altid er gensidig.
+Når nummerpladekandidaterne for de fem metoder til lokalisering skal evalueres, kan der opstå  problemer i situationer hvor to metoder er enige om et område, og to andre metoder er enige om et andet. Problemet opstår fordi systemet tillader, at for eksempel område \textbf{A} er enig med område \textbf{B}, men at \textbf{B} omvendt ikke er enig med \textbf{A}. Denne situation fører til forkerte værdier for gennemsnitspoint for de to grupper af enige nummerpladekandidater. Systemet bør ændres så enighed altid er gensidig.
 
-Det er problematisk at den endelige nummerpladekandidat altid er den med den højeste enighed. F.eks. kan to metoder være enige om et område med mange point, mens en enkelt metode kan have udpeget nummerpladen i et område der har fået meget få point. Det nuværende system vil altid vælge det område som det to metoder er enige om som den endelige nummerpladekandidat. Man bør overveje hvordan pointene kan have indflydelse på afgørelsen.
+Det er problematisk at den endelige nummerpladekandidat altid er den med den højeste enighed. For eksempel kan to metoder være enige om et område med mange point, mens en enkelt metode kan have udpeget nummerpladen i et område der har fået meget få point. Det nuværende system vil altid vælge det område som det to metoder er enige om som den endelige nummerpladekandidat. Man bør overveje hvordan pointene kan have indflydelse på afgørelsen.
 
-Det nuværende system kan vælge ikke ikke sende en nummerpladekandidat videre til separation hvis en tilstrækkelig troværdig nummerpladekandidat ikke eksisterer. Da separationen ikke vil kunne lade sig gøre hvis nummerpladekandidaten ikke er en nummerplade, vil fejlklassificerede nummerplader altså blive afvist i dette trin. Derfor bør lokaliserings-trinnet altid returner den nummerpladekandidat med færrest point.
+Det nuværende system kan vælge ikke ikke sende en nummerpladekandidat videre til separation hvis en tilstrækkelig troværdig nummerpladekandidat ikke eksisterer. Da separationen ikke vil kunne lade sig gøre hvis nummerpladekandidaten ikke er en nummerplade, vil fejlklassificerede nummerplader altså blive afvist i dette trin. Derfor bør lokaliserings-trinnet altid returnere den nummerpladekandidat med færrest point.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% SEPARATION AF TEGN %%%
@@ -302,16 +294,14 @@ Nummerpladen findes ved hjælp af pladekoordinaterne, der er returneret fra loka
 \paragraph{2. Find vandrette kanter i billedet:}
 For at finde pladens rotation er det nødvendigt at finde kanterne i billedet af nummerpladen. Matlab funktionen \textit{edge} bruges til kantdetektion i billedet. Vi vælger at kun markere de vandrette kanter med en forventning om at nummerpladens over- og underkant vil blive markeret.
 
-VIS EKSEMPEL MED AT DEN IKKE KAN ROTERERE HVOR PLADEN ER KLIPPET FOR TÆT. SKAL DETTE VISES?
-
 \paragraph{3. Udfør Radon transformation for kant-billedet:}
-Ved hjælp af Radon-transformation finder vi hældningen af de mest markante linier i billdet så vi kan rotere det så nummerpladen kommer til at ligge vandret. Det er vigtigt at billederne af nummerpladerne indeholder over- og underkanter, da det ellers vil være andre linier i billedet der vil afgøre hvor mange grader pladen roteres. Radon transformation udføres ved brug af Matlabfunktionen \textit{radon}.
+Ved hjælp af Radon transformation finder vi hældningen af de mest markante linier i billdet så vi kan rotere det så nummerpladen kommer til at ligge vandret. Det er vigtigt at billederne af nummerpladerne indeholder over- og underkanter, da det ellers vil være andre linier i billedet der vil afgøre hvor mange grader pladen roteres. Radon transformation udføres ved brug af Matlab-funktionen \textit{radon}. Denne funktion returnerer en (Radon) matrice.
 
 \paragraph{4. Find den maksimale værdi i Radon matricen:} Den maksimale værdi i Radon matricen svarer til det sted i billedet, hvor den tydeligste linie findes. De polære koordinater (afstand samt vinkel) for linien aflæses, men kun vinklen, $\theta$ bruges i den videre analyse. \textit{radon} funktionen angiver vinklerne forskudt med $90^{\circ}$ i forhold til det normale, så rotationsvinklen beregnes som $90^{\circ} - \theta$.
 
 \paragraph{5. Roter billedet af nummerpladen:} Rotationen foretages ved hjælp af funktionen \textit{imrotate} med pladens midte som omdrejningspunkt.
 
-\paragraph{6. Koordinaterne til den roterede plade findes ved brug af en rotationsmatrix:} Vi roterer de to todimensionale koordinatsæt ved hjælp af en rotationsmatrix, \textit{R} der er defineret således:
+\paragraph{6. Koordinaterne til den roterede plade findes ved brug af rotationsmatrix:} Vi roterer de to todimensionale koordinatsæt ved hjælp af en rotationsmatrix, \textit{R} der er defineret således:
 %, $P=\biggl[\begin{array}{c} x\\ y\\ \end{array}\biggr]$
 \begin{displaymath} 
 R = 
@@ -323,7 +313,7 @@ R =
 
 Hvert koordinatsæt der repræsenteres ved en vektor, $\biggl[\begin{array}{c} x\\ y\\ \end{array}\biggr]$ roteres ved at gange vektoren med $R$.
 
-\paragraph{7. Returner det roterede billede og de roterede koordinater:} HVAD KAN STÅ HER?
+\paragraph{7. Returner det roterede billede og de roterede koordinater:} Billedet af den roterede plade og koordinaterne til denne sendes videre til separation.
 
 \subsubsection{Separation}
 
@@ -341,8 +331,6 @@ De billeder der i denne del af systemet modtages fra lokaliseringsmetoderne er i
 \paragraph{3. Forstærk billedets kontraster:}
 For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund kontrastforstærkes billedet. Her bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i mindre blokke i billedet ved hjælp af Matlab funktionen \textit{nlfilter}. Ved at udføre operationen i blokke vil man udover den forstærkede kontrast mellem tegnene og baggrunden også opnå forstærket kontrast mellem støj (for eksempel urenheder i nummerpladen) og baggrunden. Hvis denne støj er tæt på et tegn vil der være chance for at tegnet ``gror'' sammen med støjen og derfor bliver sorteret fra når de sammenhængende komponenter analyseres. Hvis kontrasten forstærkes i blokke, er der dog en mulighed for at støjen og tegnets kant vil blive adskilt. Størrelsen af blokkene der arbejdes med har vi bestemt eksperimentielt.
 
-HER ER BRUG FOR EN ILLUSTRATION. ER DER VIRKELIG? :)
-
 \paragraph{4. Omdan billedet til et binært billede:} Billedet gøres binært ved hjælp af Matlab funktionen \textit{im2bw}.
 
 \paragraph{5. Fjern smalle elementer i toppen og i siderne af billedet:}
@@ -356,8 +344,6 @@ Når det binære billede er dannet, er der igen en mulighed for at minimere anta
 \end{figure}
 
 \paragraph{5. Fjern al markering i meget eller lidt hvide horisontale linier:} En horisontal linie der går igennem tegnene i en nummerplade vil have mellem $\frac{1}{10}$ og $\frac{2}{3}$ af linien markeret. Derfor kan vi slette alle pixels i de rækker af billedet, som har mindre end $\frac{1}{10}$ eller mere end $\frac{2}{3}$ af alle pixels i billedets bredde markeret. Dette vil fjerne flere muligheder for at tegn og pladens kant kan gro sammen. Man kunne overveje at gøre det i den vertikale retning, men vores undersøgelser viste at dette ofte skærer tegnet \textbf{K} over, da det er meget smalt i midten.
-
-VIS SITUATIONEN PÅ EN ILLU?
 
 \paragraph{6. Lav det sort-hvide billede til sammenhængende-komponenter-billede:} Sammenhængende komponenter udregnes og nummereres ved brug af Matlab funktionen \textit{bwlabel}. I modsætning til illustrationen i figur \vref{fig:con_comp-connections} vælger vi her, at sammenhængende komponenter består af pixels der støder op til hinanden vandret og lodret men også diagonalt. På denne måde sikrer vi os, at tegn der har diagonale/skæve sider også bliver en sammenhængende komponent.
 
@@ -378,48 +364,45 @@ Denne metode er implementeret i funktionen \textit{CharSeparationPTV}, hvis kild
 
 \paragraph{2. Indskrænk billedet til den største komponent:} Som i metoden med sammenhængende komponenter indskrænkes billedet til den største komponent. I denne metode er det dog for at nummerpladens signatur ikke skal blive påvirket af ``støj'' udenfor nummerpladen. Ved at indskænke billedet kan man derimod være mere sikker på, at signaturen kun vil repræsentere pladen.
 
-\paragraph{3. Forstærk billedets kontraster:}
-HVORFOR?
+\paragraph{3. Forstærk billedets kontraster og gør billedet binært:} For at få nummerpladens tegn til at adskille sig mest muligt fra pladens hvide baggrund kontrastforstærkes billedet. Her bruges hjælpefunktionen \textit{ContrastStretch}. Denne funktion udføres i mindre blokke i billedet ved hjælp af Matlab funktionen \textit{nlfilter}. Billedet gøres efterfølgende binært ved brug af Matlab funktionen \textit{im2bw}.
 
-\paragraph{4. Udregn nummerpladens signatur:} Nummerpladens signatur findes ved at opsummere intensitetsværdierne i billedets kolonner.
+\paragraph{4. Udregn nummerpladens signatur:} Nummerpladens signatur findes ved at opsummere det binære billedes kolonner.
 
-\paragraph{5. Udglat signaturen:} Hvis man betragter signaturen som en graf vil den være ``hakket'' på grund af støj i billedet. Signaturen skal derfor udglattes, så det er nemmere at finde bjerge og dale i denne. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde. Et eksempel på en ``rå'' graf og samme graf, udglattet ses i figur \vref{fig:smoothSig}.
+\paragraph{5. Udglat signaturen:} Hvis man betragter signaturen som en graf vil den være ``hakket'' på grund af støj i billedet. Signaturen skal derfor udglattes, så det er nemmere at finde bjerge og dale i denne. Dette gøres ved at tildele det indeværende punkt på grafen middelværdien af punktets nærområde.
 
-EKSEMPEL PÅ HAKKET SIGNATUR OG UDGLATTET SIGNATUR?
+\paragraph{6. Find ``dalene'' i signaturen:}
+For at finde de dale hvor der skal skæres, leder vi efter punkter, $x$ i signaturgrafen hvor både de $n$ forrige og de $n$ efterfølgende punkter har højere værdier end $x$.
 
-%\begin{figure}[htp]
-%\centering
-%\framebox{\includegraphics{implementation/illu/cc_remove_thin_line.png}} 
-%\caption{bla}
-%\label{fig:smoothSig}
-%\end{figure}
+\paragraph{7. Find de otte dybeste dale:}
+De otte dybeste dale i signaturen svarer til de otte steder i nummerpladen, hvor hele nummerpladen fra top til bund er lys i originalbilledet. De otte dale som har de otte laveste værdier vælges som de otte skæringspunkter.
 
-\paragraph{6. Find ``bjergene'' i signaturen:}
-For at finde de bjerge hvor der skal skæres, leder vi efter punkter, $x$ i signaturgrafen hvor både de $n$ forrige og de $n$ efterfølgende punkter har lavere værdier end $x$.
-
-\paragraph{7. Find de otte højeste bjerge:}
-De otte højeste bjerge i signaturen svarer til de otte steder i nummerpladen, hvor hele nummerpladen fra top til bund er lys. De otte bjerge som har de otte højeste værdier vælges som de otte skæringspunkter.
-
-\paragraph{8. Find top- og bund-beskæring:} De punkter hvor tegnene skal skæres til foroven og forneden, findes ved at udregne summerne for alle rækkerne i henholdsvis den øvre og den nedre del af det binære billede. Rækkerne med det færrest antal markerede i henholdsvis den øvre og den nedre del, vælges som de punkter hvor tegnene skal skæres til i lodret retning. Disse rækker svarer til de rækker i nummerpladen, som kun består af baggrund, det vil sige uden tegn. Efter at disse punkter er fundet, indskrænkes de indtil hvide pixels nås. Det vil sige at eksempelvis top-beskæringen flyttes ned i billedet af tegnet indtil rækken under dette punkt indeholder hvide pixels. ER VIST SVÆRT AT FORSTÅ.
+\paragraph{8. Find top- og bund-beskæring:} De punkter hvor tegnene skal skæres til foroven og forneden, findes ved at udregne summerne for alle rækkerne i henholdsvis den øvre og den nedre del af det binære billede. Rækkerne med det færrest antal markerede pixels i henholdsvis den øvre og den nedre del, vælges som de punkter hvor tegnene skal skæres til i lodret retning. Disse rækker svarer til de rækker i nummerpladen, som kun består af baggrund, det vil sige uden tegn. Efter at disse punkter er fundet, indskrænkes de indtil hvide pixels nås. Det vil sige at eksempelvis top-beskæringen flyttes ned i billedet af tegnet indtil rækken under dette punkt indeholder hvide pixels.
 
 \paragraph{9. Skær tegnene ud:} Tegnene skæres ud og returneres.
 
 %Nummerpladens signatur fås ved at summere projektionerne af alle rækkerne i billedet. Hvis denne signatur præsenteres som en graf i et koordinatsystem vil der forekomme toppe i de kolonner hvor der høj intensitet. Idéen er så at udvælge de otte højeste toppe som de otte steder i x-planen der skal skæres ved.
 
 \subsubsection{Mulige forbedringer}
-I funktionen der bruger sammenhængende komponenter findes der flere statiske variable, som eksempelvis størrelsen af de blokke der kontrastforstærkes i og komponenternes minimumsbredde. Disse værdier burde være bestemt dynamisk ud fra billedet.
 
-I metoden der bruger sammenhængende komponenter er det et krav at de syv komponenter der vælges som tegnene skal stå i samme højde. Det bevirker at vi ikke kan læse nummerplader som er skæve eller fordrejede. Ved at justere parametrene, kunne man gøre funktionen mindre ``skrap'' og derved muligvis være i stand til at læse flere plader.
+\paragraph{Dynamiske variable}
+I funktionen der bruger sammenhængende komponenter findes der flere variable hvor værdierne af disse er statiske, som eksempelvis størrelsen af de blokke der kontrastforstærkes i og komponenternes minimumsbredde. Disse værdier burde være bestemt dynamisk ud fra billedets størrelse og så videre.
 
+\paragraph{Mere venligt højde-tjek}
+I metoden der bruger sammenhængende komponenter er det et krav at de syv komponenter der vælges som tegnene skal stå i samme højde. Det bevirker at vi ikke kan læse nummerplader som er skæve. Ved at justere parametrene, kunne man gøre funktionen mindre ``skrap'' og derved muligvis være i stand til at læse flere plader.
+
+\paragraph{Lavere opløsning}
 Vi burde have undersøgt, hvor gode resultater vi kunne opnå på billeder af lavere opløsning end $1024 \times 768$. Systemet ville køre væsentligt hurtigere med billeder af lavere opløsning.
 
 %Ved at skalere billederne ned, kunne man forbedre hastigheden for funktionen. Vores undersøgelser viste dog at dette umiddelbart er en dårlig idé, da der går for meget information tabt til at metoderne kan separere tegnene.
 
+\paragraph{Støjfilter}
 I vores arbejde med separationsmetoderne har vi forsøgt at anvende et medianfilter på billederne. Dette havde vi dog ikke held med, men hvis det kunne virke ville det være en faktor, der kunne være med til at fjerne støj.
 
+\paragraph{Mere grundig beskæring af top og bund}
 I bjerg/dal metoden kunne man implementere end mere grundig måde at finde top- og bundbeskæring af tegnene på. Hvis nummerpladebilledet ikke er skåret tæt er der risiko for at disse beskæringspunkter vælges et sted udenfor pladen, i en række hvor der er få markerede pixels.
 
-Vores nuværende system returnerer kun et resultat hvis det kan finde syv områder i nummerpladen det vurderer er et tegn. Man bør overveje muligheden for at lade systemet returnere et resultat, selvom det kun kan finde f.eks. fire tegn i en nummerplade.
+\paragraph{Returnere tegn }
+Vores nuværende system returnerer kun et resultat, hvis det kan finde syv områder i nummerpladen det vurderer er et tegn. Man bør overveje muligheden for at lade systemet returnere et resultat, selvom det kun kan finde for eksempel fire tegn i en nummerplade.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -428,7 +411,7 @@ Vores nuværende system returnerer kun et resultat hvis det kan finde syv områd
 
 \subsection{Genkendelse af tegn}
 
-Noget om at 8 og B samt 0 og O ligner hinanden og ikke må forventes at blive genkendt uden syntaksanalyse.
+I de følgende afsnit gennemgår vi væsentlige implementeringsdetaljer i de funktioner vi bruger til genkendelse af tegn og syntaksanalyse. Vi er opmærksomme på at de tre metoder til genkendelse af tegn er meget ens i opbygningen af funktionerne men mener alligevel at de bør have hver deres afsnit.
 
 \subsubsection{Egenskabsvektorer}
 
@@ -440,7 +423,7 @@ Programmet i \textit{GetMeanVectors.m} udfører følgende trin:
 
 \paragraph{1. Skaler hvert billede af et givent tegn:} Billederne skaleres til en størrelse på $\sqrt{L} \times \sqrt{L}$, hvor $L$ er vektorlængden. På denne måde laves egenskabsvektorerne udfra billeder med samme forudsætninger.
 
-\paragraph{2. Omform de skalerede billeder til en vektor af længden, $L$:} Dette gøres ved hjælp af Matlab funktionen \textit{reshape}. Ved at danne vektoren i to trin sikrer vi os, at den indeholder information fra  BLA BLA
+\paragraph{2. Omform de skalerede billeder til en vektor af længden, $L$:} Dette gøres ved hjælp af Matlab funktionen \textit{reshape}. Ved at danne vektoren i to trin sikrer vi os, at den indeholder information fra et billede i et kvadrat. Hvis vi skalerede direkte ned til en vektor, ville nogle af de rumlige informationer gå tabt.
 
 \paragraph{3. Find egenskabsvektoren for alle vektorerne:} Først summeres alle vektorerne i én vektor hvorefter hvert element i denne divideres med antallet af vektorer. Dette resulterer i en vektor med middelværdier.
 
@@ -448,15 +431,18 @@ Programmet i \textit{GetMeanVectors.m} udfører følgende trin:
 
 %For at disse to funktioner/metoder skal fungere sammen er det nødvendigt at længden, $d$ af middelvektorerne er den samme i begge funktioner. Man bør eksperimentere med størrelsen af $d$.
 
-\subsubsection*{Læsning af nummerplade}
+\subsubsection*{Genkendelse af syv tegn}
 
 Programmet i \textit{ReadPlateFV.m}, der læser tegnene i en plade, forløber som følger:
 
-\paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som det, træningsbillederne blev skaleret til.
+\paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som det, billederne fra tegn-træningssættet først blev skaleret til.
 
-\paragraph{2. Beregn de euklidiske afstande fra testbilledet til alle egenskabsvektorerne:} FLYT NOGET FRA SYSTEM-AFSNIT HERNED?
+\paragraph{2. Lav egenskabsvektorer ud fra de skalerede billeder:} På samme måde som ovenfor bruges Matlab funktionen \textit{reshape}.
 
-\paragraph{3. Sorter listen af alle lovlige tegn efter euklidiske afstande:} Tegnet, der er repræsenteret ved den vektor hvortil der er den korteste afstand, placeres først i tegnfølgen, der indeholder alle tegn. Tegnet med den næstnærmeste vektor placeres som nummer to i tegnfølgen og så videre. Denne tegnfølge fungerer som tegn-hitliste.
+\paragraph{3. Beregn de euklidiske afstande fra testbilledets vektor til alle egenskabsvektorerne:} De euklidiske afstande beregnes ved hjælp af den simple formel fra afsnit \vref{sec_monster}.
+
+
+\paragraph{4. Sorter listen af alle lovlige tegn efter euklidiske afstande:} Tegnet, der er repræsenteret ved den vektor hvortil der er den korteste afstand, placeres først i tegnfølgen, der indeholder alle tegn. Tegnet med den næstnærmeste vektor placeres som nummer to i tegnfølgen og så videre. Denne tegnfølge fungerer som tegn-hitliste.
 
 \subsubsection{Sum-billeder}
 
@@ -465,47 +451,43 @@ Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder finde
 \subsubsection*{Oprettelse af sum-billeder}
 Programmet i \textit{GetSumImgs.m} udfører følgende trin:
 
-\paragraph{1. Skaler hvert billede af et givent tegn:}
+\paragraph{1. Skaler hvert billede af et givent tegn:} Billederne skaleres til en størrelse på $L \times L$. På denne måde laves sum-billederne udfra billeder med samme mængde information.
 
-\paragraph{2. Summer alle billederne for hvert tegn:}
+\paragraph{2. Summer alle billederne for hvert tegn:} De skalerede billeder summeres så der dannes et sum-billede for hvert tegn.
 
-\paragraph{3. Normaliser sum-billederne:} FLYT NOGET HERNED?
+\paragraph{3. Normaliser sum-billederne:} Hvert sum-billede normaliseres ved at dividere alle værdier i billedet med den maksimale værdi i billedet. Dermed vil alle værdier ligge mellem $0$ og $1$. Dermed vil der ikke være forskel i værdierne i sum-billeder som er lavet ud fra mange billeder og sum-billeder der lavet ud fra få billeder.
 
-\paragraph{4. Saml elle sum-billederne i én matrix:} ER DET LIGEGYLDIGT?
-
-\subsubsection*{Læsning af nummerplade}
+\subsubsection*{Genkendelse af syv tegn}
 
 Funktionen \textit{ReadPlateSUM} er opbygget som følger:
 
-\paragraph{1. Skaler billederne af tegnene der skal genkendes:}
+\paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som det, billederne fra tegn-træningssættet blev skaleret til.
 
-\paragraph{2. Udregn den samlede sum for det billede der skal genkendes for hvert tegn:}
+\paragraph{2. Udregn den samlede sum for det billede der skal genkendes for hvert tegn:} For hvert tegn der skal genkendes udregnes summen fra alle sum-billederne ved at opsummere værdierne i de pixels der er markeret i billedet med tegnet der skal genkendes.
 
 \paragraph{3. Sorter listen af alle tegn efter summer:} De tegn hvor den største sum er fundet placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
 \subsubsection{Forenings-billeder}
 
-Implementeringen af metoden til tegngenkendelse ved hjælp af forenings-billeder findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}\footnote{Filnavnene indeholder det engelske ord \textit{and}, da fuktionerne benytter den logiske og-operator, $\wedge$}. Den første funktion udarbejder og-billeder for træningssættet mens den anden behandler testbillederne ved brug af forenings-billederne.
+Implementeringen af metoden til tegngenkendelse ved hjælp af forenings-billeder findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}\footnote{Filnavnene indeholder det engelske ord \textit{and}, da fuktionerne benytter den logiske og-operator, $\wedge$}. Den første funktion udarbejder forenings-billeder for træningssættet mens den anden behandler testbillederne ved brug af forenings-billederne.
 
 \subsubsection*{Oprettelse af forenings-billeder}
 
 Funktionen \textit{GetAndImgs} er opbygget som følger:
 
-\paragraph{1. Skaler hvert billede af et givent tegn:}
+\paragraph{1. Skaler hvert billede af et givent tegn:} Billederne skaleres til en størrelse på $L \times L$. På denne måde laves forenings-billederne udfra billeder med samme mængde information.
 
-\paragraph{2. Find foreningsmængden alle billederne for hvert tegn:}
+\paragraph{2. Summer alle billederne for hvert tegn:} Forenings-mængden findes for de skalerede billeder og der dannes et forenings-billede for hvert tegn. I praksis gøres dette ved at foretage en elementvis og-operation på alle billederne. Kun de pixels der altid er markeret i et billede af et tegn vil være markeret i forenings-billedet for dette tegn.
 
-\paragraph{3. Normaliser forenings-billederne:} FLYT NOGET HERNED?
+%\paragraph{3. Normaliser forenings-billederne:} Hvert forenings-billede normaliseres ved at dividere alle værdier i billedet med den maksimale værdi i billedet. Dermed vil alle værdier ligge mellem $0$ og $1$. Dermed vil der ikke være forskel i værdierne i sum-billeder som er lavet ud fra mange billeder og sum-billeder der lavet ud fra få billeder.
 
-\paragraph{4. Saml alle forenings-billederne i én matrix:} ER DET LIGEGYLDIGT?
-
-\subsubsection*{Læsning af nummerplade}
+\subsubsection*{Genkendelse af syv tegn}
 
 Funktionen \textit{ReadPlateAND} er opbygget som følger:
 
-\paragraph{1. Skaler billederne af tegnene der skal genkendes:}
+\paragraph{1. Skaler billederne af tegnene der skal genkendes:} Billederne skal have samme størrelse som den, billederne fra tegn-træningssættet blev skaleret til.
 
-\paragraph{2. Find foreningsmængden for det billede der skal genkendes for hvert tegn:}
+\paragraph{2. Find foreningsmængden for det billede der skal genkendes for hvert tegn:} På samme måde som ovenfor findes forenings-billedet ved at udføre en elementvis og-operation. Her er de to operanter billedet af tegnet der skal genkendes samt hvert enkelt forenings-billede.
 
 \paragraph{3. Sorter listen af alle tegn efter størrelsen af foreningsmængden:} De tegn hvor den største foreningsmængde er fundet placeres først i tegnfølgen der repræsenterer alle tegn. Denne tegnfølge fungerer som hitliste.
 
@@ -517,7 +499,7 @@ Funktionens forløb er som følger:
 
 \paragraph{1. Gennemløb hitlisterne for tegnene på de to første positioner:} Hvis der ikke står bogstaver på disse to positioner, laves dette gennemløb indtil det er tilfældet.
 \paragraph{2. Analyser tegnene på de første to positioner og udskift dem om nødvendigt:}
-Hvis der i på tegnfølgens to første positioner forekommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to PROTOTYPER: Tegnet der hører til den PROTOTYPE der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud. Denne operation fortsættes indtil en lovlig bogstavkombination er fundet.
+Hvis der i på tegnfølgens to første positioner forekommer en ulovlig bogstavkombination fås et problem: Hvilket tegn skal man forsøge at udskifte så en lovlig kombination forekommer? Dette gøres på baggrund af billedets (af tegnet) afstand til de to vektorer/billeder der repræsenterer de valgte tegn: Tegnet der hører til den vektor/det billede der er længst væk har størst sandsynlighed for at være et forkerte bogstav, hvorfor denne skiftes ud. Denne operation fortsættes indtil en lovlig bogstavkombination er fundet.
 
 \paragraph{3. Gennemløb hitlisterne for tegnene på de fem sidste positioner:} Hvis der ikke står tal på disse fem positioner, laves dette gennemløb indtil det er tilfældet.
 
@@ -528,9 +510,10 @@ Værdien af tallene i en almindelig, dansk nummerplade som dem vi arbejder med s
 
 \subsubsection{Mulige forbedringer}
 
-Vi har for få bogstaver i vores tegn-træningssæt. F.eks. har vi ikke kunnet finde en eneste forekomst af bogstavet \textit{A} i vores billedmateriale på over 1000 billeder. Alle tegn bør være repræsenteret lige mange gange tegn-træningsættet.
+\paragraph{Få bogstaver}
+Vi har for få bogstaver i vores tegn-træningssæt. For eksempel har vi ikke kunnet finde en eneste forekomst af bogstavet \textbf{A} i vores billedmateriale på over 1000 billeder. Alle tegn bør være repræsenteret lige mange gange i tegn-træningsættet.
 
-
+\paragraph{Udskiftning af tegn i syntaksanalyse}
 Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn. Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position. En tredje mulighed ville være at man udskiftede det tegn, hvor den næste vektor i hitlisten lå nærmest. Denne mulighed er illustreret i figur \vref{fig:syntaks_forbedring}.
 
 %Hvis vi betragter samme eksempel: for vektoren for testbilledet der ligger nærmest \textbf{A} aflæses afstanden til vektoren efter \textbf{A), eksempelvis \textbf{D}. På samme måde aflæses afstanden for vektoren for det testbillede der ligger nærmest \textbf{B} til den næste vektor i denne liste, altså \textbf{C}. De
@@ -542,6 +525,8 @@ Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen 
 \label{fig:syntaks_forbedring}
 \end{figure}
 
+\paragraph{Afstandsberegning}
 I metoden der bruger egenskabsvektorer udregnes afstanden mellem to vektorer som den euklidiske afstand. Vi kunne have valgt at udregne Mahalanobis afstand, som er baseret på korelationer mellem variable (i dette tilfælde er ``variable'' billederne i træningssættet), men vi har valgt at holde os til den euklidiske afstand, da denne er mere simpel.
 
+\paragraph{Skalering af billeder}
 Når vi skalerer billederne til genkendelse bruger vi Matlab funktionen \textit{imresize} med dens standardindstillinger. Vi har dog ikke undersøgt om nogle andre indstillinger ville kunne forbedre metoderne.
