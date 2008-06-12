@@ -277,6 +277,9 @@ Man bør overveje om det giver mening at arbejde med frekvensanalyse på billede
 Når nummerpladekandidaterne for de fem metoder til lokalisering skal evalueres, kan der opstå  problemer i situationer hvor to metoder er enige om et område, og to andre metoder er enige om et andet. Problemet opstår fordi systemet tillader, at f.eks. område \textbf{A} er enig med område \textbf{B}, men at \textbf{B} omvendt ikke er enig med \textbf{A}. Denne situation fører til forkerte værdier for gennemsnitspoint for de to grupper af enige nummerpladekandidater. Systemet bør ændres så 
 enighed altid er gensidig.
 
+Det er problematisk at den endelige nummerpladekandidat altid er den med den højeste enighed. F.eks. kan to metoder være enige om et område med mange point, mens en enkelt metode kan have udpeget nummerpladen i et område der har fået meget få point. Det nuværende system vil altid vælge det område som det to metoder er enige om som den endelige nummerpladekandidat. Man bør overveje hvordan pointene kan have indflydelse på afgørelsen.   
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% SEPARATION AF TEGN %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -415,6 +418,8 @@ I vores arbejde med separationsmetoderne har vi forsøgt at anvende et medianfil
 
 I bjerg/dal metoden kunne man implementere end mere grundig måde at finde top- og bundbeskæring af tegnene på. Hvis nummerpladebilledet ikke er skåret tæt er der risiko for at disse beskæringspunkter vælges et sted udenfor pladen, i en række hvor der er få markerede pixels.
 
+Vores nuværende system returnerer kun et resultat hvis det kan finde syv områder i nummerpladen det vurderer er et tegn. Man bør overveje muligheden for at lade systemet returnere et resultat, selvom det kun kan finde f.eks. fire tegn i en nummerplade.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% GEKENDELSE AF TEGN %%%
@@ -521,6 +526,8 @@ Værdien af tallene i en almindelig, dansk nummerplade som dem vi arbejder med s
 \paragraph{5. Analyser de valgte hitnumre:} Hvis et nummer er for højt i forhold til det maksimale, retuner tegnet "\textbf{\_}" på den givne plads. Dette indikerer at syntaks analysen ikke har noget gæt på hvilket tegn der skal stå på den givne position, da den ikke kan gå længere ned ad hitlisten.
 
 \subsubsection{Mulige forbedringer}
+
+Vi har for få bogstaver i vores tegn-træningssæt. F.eks. har vi ikke kunnet finde en eneste forekomst af bogstavet \textit{A} i vores billedmateriale på over 1000 billeder. Alle tegn bør være repræsenteret lige mange gange tegn-træningsættet.
 
 
 Når der eksempelvis forekommer en ulovlig bogstavkombination i syntaksanalysen udskiftes det tegn som har den længste afstand til middelvektoren hver gang. Det vil sige at kun det ene tegn vil blive udskiftet (tegnets vektor er til at starte med den vektor der ligger længest væk og dette vil ikke ændre sig, da man hele tiden vælger vektorer der ligger længere og længere væk). En anden mulighed kunne være at man skifter mellem at udskifte det ene og det andet tegn. Eksempel: tegnfølgen \textbf{AB} er fundet, men denne er ulovlig. Først udskiftes \textbf{B}, da denne ligger længst væk. En ny tegnfølge \textbf{AC} findes, men denne er også ulovlig. I stedet for at udskifte tegnet på 2. position igen (\textbf{C}) udskiftes \textbf{A} og \textbf{B} sættes tilbage på 2. position. En tredje mulighed ville være at man udskiftede det tegn, hvor den næste vektor i hitlisten lå nærmest. Denne mulighed er illustreret i figur \vref{fig:syntaks_forbedring}.
