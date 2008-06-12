@@ -277,8 +277,9 @@ Man bør overveje om det giver mening at arbejde med frekvensanalyse på billede
 Når nummerpladekandidaterne for de fem metoder til lokalisering skal evalueres, kan der opstå  problemer i situationer hvor to metoder er enige om et område, og to andre metoder er enige om et andet. Problemet opstår fordi systemet tillader, at f.eks. område \textbf{A} er enig med område \textbf{B}, men at \textbf{B} omvendt ikke er enig med \textbf{A}. Denne situation fører til forkerte værdier for gennemsnitspoint for de to grupper af enige nummerpladekandidater. Systemet bør ændres så 
 enighed altid er gensidig.
 
-Det er problematisk at den endelige nummerpladekandidat altid er den med den højeste enighed. F.eks. kan to metoder være enige om et område med mange point, mens en enkelt metode kan have udpeget nummerpladen i et område der har fået meget få point. Det nuværende system vil altid vælge det område som det to metoder er enige om som den endelige nummerpladekandidat. Man bør overveje hvordan pointene kan have indflydelse på afgørelsen.   
+Det er problematisk at den endelige nummerpladekandidat altid er den med den højeste enighed. F.eks. kan to metoder være enige om et område med mange point, mens en enkelt metode kan have udpeget nummerpladen i et område der har fået meget få point. Det nuværende system vil altid vælge det område som det to metoder er enige om som den endelige nummerpladekandidat. Man bør overveje hvordan pointene kan have indflydelse på afgørelsen.
 
+Det nuværende system kan vælge ikke ikke sende en nummerpladekandidat videre til separation hvis en tilstrækkelig troværdig nummerpladekandidat ikke eksisterer. Da separationen ikke vil kunne lade sig gøre hvis nummerpladekandidaten ikke er en nummerplade, vil fejlklassificerede nummerplader altså blive afvist i dette trin. Derfor bør lokaliserings-trinnet altid returner den nummerpladekandidat med færrest point.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% SEPARATION AF TEGN %%%
