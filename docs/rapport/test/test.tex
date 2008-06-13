@@ -78,7 +78,7 @@ Selvom fire ud af de fem metoder til lokalisering giver dårligere resultater p�
 \label{fig:test:lokalisering_kontrol_samlet}
 \end{figure}
 
-\subsubsection{Konklussion}
+\subsubsection{Konklusion}
 Ideen med at bruge flere metoder til lokalisering virker god. Vi er i stand til at lokalisere 94.5\% af nummerpladerne i ikke på forhånd observerede billeder. Metoden er forholdsvis robust overfor mindre forringelser i effektiviteten af de underliggende metoder.
 
 Analyse af de billeder hvor vi ikke kan lokalisere nummerplader i træningssættet afslører, at meget mørke nummerplader er et problem. På grund af dette forhold må man overveje om man kan tale om en ideel intensitet for nummerpladeområder sådan som vi har gjort i vores pointsystem.
@@ -129,7 +129,7 @@ Antal pixels lagt til & Sammenhængende komponenter & Bjerg/dal \\\hline
 % & 0\% & 0\% \\\hline
 %\end{tabular}
 
-Resultaterne af afprøvningen er generelt bedre ved brug af træningssættet end ved brug af kontrolsættet. Metoden der bruger sammenhængende komponenter giver de bedste resultater af de to præsenterede metoder. Tegnene udskæres meget præcist, og metoden er meget effektiv på billeder af vandrette nummerplader. Fejlkilderne, når nummerpladerne er tæt tilskåret, er primært forvrædne plader og urenheder i forbindelse med de skruer der fatsgør numerpladen til køretøjet. Skruerne kan bevirke at tegnene gror sammen med hinanden eller med pladens kant og derfor vælges fra, da de sammenhængende komponenter bliver for store. Forvrædne og skæve plader kan bevirke, at tegnene ikke står på en vandret linie og derfor bliver valgt fra.
+Resultaterne af afprøvningen er generelt bedre ved brug af træningssættet end ved brug af kontrolsættet. Metoden der bruger sammenhængende komponenter giver de bedste resultater af de to præsenterede metoder. Tegnene udskæres meget præcist, og metoden er meget effektiv på billeder af vandrette nummerplader. Fejlkilderne, når nummerpladerne er tæt tilskåret, er primært forvrædne plader og urenheder i forbindelse med de skruer der fastgør nummerpladen til køretøjet. Skruerne kan bevirke at tegnene gror sammen med hinanden eller med pladens kant og derfor vælges fra, da de sammenhængende komponenter bliver for store. Forvrædne og skæve plader kan bevirke, at tegnene ikke står på en vandret linie og derfor bliver valgt fra.
 
 %EVT. EKSEMPEL PÅ PROBLEM MED SKRUER SAMT SKÆV PLADE.
 
@@ -153,7 +153,7 @@ Figur \vref{fig:illu:separation_errors} i bilag \ref{sec:illu} viser binære bil
 %\label{fig:kraftig_skygge}
 %\end{figure}
 
-Som tidligere beskrevet i implementeringsafsnittet,kræver meget bjerg/dal-metoden meget præcist udklippede nummerplader for at fungere tilfredsstillende. Dette afspejles tydeligt i de utilfredsstillende afprøvningsresultater for metoden. Derudover er afprøvningsmetoden et dårligt skøn på om tegnene udskæres korrekt, da mange af de udklippede elementer enten er halve tegn eller andre områder, hvor tegnet kun er en mindre del af. Et eksempel på tegn der er dårligt/forkert udklippet ses i figur \vref{fig:tegn-udklip-daarlig}. Systemet har identificeret syv områder, men det andet og tredie område er to dele af samme tegn. Endvidere der uønskede områder i over tegnene. Også for denne metode er resultaterne dårligere for kontrolsættet end for træningssættet.
+Som tidligere beskrevet i implementeringsafsnittet, kræver bjerg/dal-metoden meget præcist udklippede nummerplader for at fungere tilfredsstillende. Dette afspejles tydeligt i de utilfredsstillende afprøvningsresultater for metoden. Derudover er afprøvningsmetoden et dårligt skøn på om tegnene udskæres korrekt, da mange af de udklippede elementer enten er halve tegn eller andre områder, hvor tegnet kun er en mindre del af. Et eksempel på tegn der er dårligt/forkert udklippet ses i figur \vref{fig:tegn-udklip-daarlig}. Systemet har identificeret syv områder, men det andet og tredie område er to dele af samme tegn. Endvidere der uønskede områder i over tegnene. Også for denne metode er resultaterne dårligere for kontrolsættet end for træningssættet.
 
 \begin{figure}[htp]
   \centering
@@ -294,7 +294,7 @@ Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7\
 \centering
 \begin{tabular}{|l|c|c|c|c|c|}\hline
 \rowcolor[gray]{0.9} \multicolumn{6}{|>{\columncolor[gray]{0.9}}c|}{\textbf{Genkendelse af bogstaver - Sum-billeder}} \\ \hline
-Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ \\\hline
+Tegn & 3 $\times$ 3 & 4 $\times$ 4 & 5 $\times$ 5 & 6 $\times$ 6 & 7 $\times$ 7 \\\hline
 A & - & - & - & - & -\\\hline
 B & 27.3\% & 40.9\% & 95.5\% & 100.0\% & 95.5\%\\\hline
 C & 0.0\% & 84.4\% & 28.1\% & 3.1\% & 53.1\%\\\hline

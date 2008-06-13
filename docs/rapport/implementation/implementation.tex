@@ -418,7 +418,7 @@ I de følgende afsnit gennemgår vi væsentlige implementeringsdetaljer i de fun
 
 \subsubsection{Egenskabsvektorer}
 
-Implementeringen af metoden til tegngenkendelse ved hjælp af egenskabsvektorer findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}. Den første funktion udarbejder egenskabsvektorerne på baggrund af tegn-træningssættet mens den anden behandler testbillederne ved brug af egenskabsvektorerne.
+Implementeringen af metoden til tegngenkendelse ved hjælp af egenskabsvektorer findes i filerne \textit{GetMeanVectors.m} og \textit{ReadPlateFV.m}, hvis kildekode findes i afsnit \vref{code:GetMeanVectors} og \vref{code:ReadPlateFV}. Den første funktion udarbejder egenskabsvektorerne på baggrund af tegn-træningssættet mens den anden behandler testbillederne ved brug af egenskabsvektorerne.
 
 \subsubsection*{Oprettelse af egenskabsvektorer}
 
@@ -449,7 +449,7 @@ Programmet i \textit{ReadPlateFV.m}, der læser tegnene i en plade, forløber so
 
 \subsubsection{Sum-billeder}
 
-Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder findes i filerne \textit{GetSumImgs.m} og \textit{ReadPlateSUM.m}. Den første funktion udarbejder sum-billederne for træningssættet mens den anden behandler testbillederne ved brug af sum-billederne.
+Implementationen af metoden til tegngenkendelse ved hjælp af sum-billeder findes i filerne \textit{GetSumImgs.m} og \textit{ReadPlateSUM.m}, hvis kildekode findes i afsnit \vref{code:GetSumImgs} og \vref{code:ReadPlateSUM}. Den første funktion udarbejder sum-billederne for træningssættet mens den anden behandler testbillederne ved brug af sum-billederne.
 
 \subsubsection*{Oprettelse af sum-billeder}
 Programmet i \textit{GetSumImgs.m} udfører følgende trin:
@@ -472,7 +472,7 @@ Funktionen \textit{ReadPlateSUM} er opbygget som følger:
 
 \subsubsection{Forenings-billeder}
 
-Implementeringen af metoden til tegngenkendelse ved hjælp af forenings-billeder findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}\footnote{Filnavnene indeholder det engelske ord ``and'', da fuktionerne benytter den logiske og-operator, $\wedge$}. Den første funktion udarbejder forenings-billeder for træningssættet mens den anden behandler testbillederne ved brug af forenings-billederne.
+Implementeringen af metoden til tegngenkendelse ved hjælp af forenings-billeder findes i filerne \textit{GetAndImgs.m} og \textit{ReadPlateAND.m}\footnote{Filnavnene indeholder det engelske ord ``and'', da fuktionerne benytter den logiske og-operator, $\wedge$}, hvis kildekode findes i afsnit \vref{code:GetAndImgs} og \vref{code:ReadPlateAND}. Den første funktion udarbejder forenings-billeder for træningssættet mens den anden behandler testbillederne ved brug af forenings-billederne.
 
 \subsubsection*{Oprettelse af forenings-billeder}
 
@@ -496,7 +496,7 @@ Funktionen \textit{ReadPlateAND} er opbygget som følger:
 
 \subsubsection{Syntaksanalyse}
 
-Metoden til syntaksanalyse tager tegnhitlisterne for de syv tegn, listerne over de værdier tegnene er blevet tildelt samt et såkaldt ``maksimal-hit-nummer'' som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}.
+Metoden til syntaksanalyse tager tegnhitlisterne for de syv tegn, listerne over de værdier tegnene er blevet tildelt samt et såkaldt ``maksimal-hit-nummer'' som inddata. Uddata er en syntaksanalyseret tegnfølge samt en vektor indeholdende de hits der er blevet brugt til at lave denne tegnfølge. Implementeringen af metoden til syntaksanalyse findes i filen \textit{SyntaxAnalysis.m}, hvis kildekode findes i afsnit \vref{code:SyntaxAnalysis}.
 
 Funktionens forløb er som følger:
 
